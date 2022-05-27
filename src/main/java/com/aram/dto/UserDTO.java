@@ -11,15 +11,15 @@ public class UserDTO {
 	private String addr;
 	private String addr_detail;
 	private String social_login;
-	private boolean email_verify;
+	private Character email_verify;
 	private String join_date;
-	private boolean isAdmin;
+	private Character isAdmin;
 	
 	public UserDTO() {}
 
 	public UserDTO(String user_id, String user_pw, String username, String nickname, String phone, String email,
-			String post_no, String addr, String addr_detail, String social_login, boolean email_verify,
-			String join_date, boolean isAdmin) {
+			String post_no, String addr, String addr_detail, String social_login, Character email_verify,
+			String join_date, Character isAdmin) {
 		super();
 		this.user_id = user_id;
 		this.user_pw = user_pw;
@@ -116,11 +116,11 @@ public class UserDTO {
 		this.social_login = social_login;
 	}
 
-	public boolean isEmail_verify() {
+	public Character isEmail_verify() {
 		return email_verify;
 	}
 
-	public void setEmail_verify(boolean email_verify) {
+	public void setEmail_verify(Character email_verify) {
 		this.email_verify = email_verify;
 	}
 
@@ -132,11 +132,11 @@ public class UserDTO {
 		this.join_date = join_date;
 	}
 
-	public boolean isAdmin() {
+	public Character isAdmin() {
 		return isAdmin;
 	}
 
-	public void setAdmin(boolean isAdmin) {
+	public void setAdmin(Character isAdmin) {
 		this.isAdmin = isAdmin;
 	}
 
