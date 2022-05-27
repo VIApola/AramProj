@@ -142,7 +142,7 @@ public class UserDTO {
 
 	@Override
 	public String toString() {
-		return "UserDTO [user_id=" + user_id + ", user_pw=" + user_pw + ", username=" + username + ", nickname="
+		return user_id + ", user_pw=" + user_pw + ", username=" + username + ", nickname="
 				+ nickname + ", phone=" + phone + ", email=" + email + ", post_no=" + post_no + ", addr=" + addr
 				+ ", addr_detail=" + addr_detail + ", social_login=" + social_login + ", email_verify=" + email_verify
 				+ ", join_date=" + join_date + ", isAdmin=" + isAdmin + "]";
