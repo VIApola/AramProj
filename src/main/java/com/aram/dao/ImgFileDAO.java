@@ -1,9 +1,13 @@
 package com.aram.dao;
 
+import java.util.ArrayList;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
+
+import com.aram.dto.ItemimgDTO;
 
 public class ImgFileDAO {
 	private BasicDataSource bds;
@@ -17,5 +21,10 @@ public class ImgFileDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	public ArrayList<ItemimgDTO> selectAll() throws Exception{
+		String sql ="select * from tbl_item_img";
+	}
+	
 
 }
