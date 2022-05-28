@@ -1,6 +1,7 @@
 package com.aram.controller;
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.aram.dao.UserDAO;
 import com.google.gson.Gson;
+
+@WebServlet("*.user")
+public class UserController extends HttpServlet {
 
 
 @WebServlet("*.user")
@@ -26,8 +30,15 @@ public class UserController extends HttpServlet {
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String uri = request.getRequestURI();
 		System.out.println("요청 uri : " + uri);
+    
 		request.setCharacterEncoding("utf-8");
-		if(uri.equals("/idCheck.user")) { // 아이디 중복체크 요청
+
+		if(uri.equals("/searchToForgotId.user")) { // 아이디 찾기 요청
+			String name = request.getParameter("name");
+			String email = request.getParameter("email");
+			
+			System.out.println(name + " : " + email);
+		} else if(uri.equals("/idCheck.user")) { // 아이디 중복체크 요청
 			String id = request.getParameter("id");
 			System.out.println("아이디 중복확인 : " + id);
 			UserDAO dao = new UserDAO();
@@ -49,9 +60,6 @@ public class UserController extends HttpServlet {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-			
-			
 		}
 	}
-
 }
