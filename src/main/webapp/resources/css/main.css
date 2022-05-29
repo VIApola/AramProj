@@ -116,14 +116,13 @@
 
    }
    .content-text{
-      margin-top: 10px;
       text-align: justify;
       text-align: center;
    }
    .content-extra-box{
      display: grid;
-       grid-template-columns: 90px 90px 90px;
-       grid-template-rows: 90px 90px 90px;
+       grid-template-columns: 150px 150px 150px;
+       grid-template-rows: 150px 150px 150px;
      max-width: 100%;
      height: auto;
      justify-content: center; 

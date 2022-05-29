@@ -2,15 +2,17 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<!--cdn-->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-
- <!--폰트-->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--cdn-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    
+    <!--폰트-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
@@ -20,12 +22,36 @@
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
     <!--style영역-->
-    <link rel="stylesheet" type="text/css" href = "style.css">
-
-    <title>Aram - 메인페이지</title>
+    <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet" type="text/css">
+    
+    <title>Main</title>
+    <script type="text/javascript">
+      //팝업창 스크립트
+      function getCookie(name) {
+          let cookie = document.cookie;
+          
+          if (document.cookie != "") {
+              let cookie_array = cookie.split("; ");
+              for ( var index in cookie_array) {
+                  let cookie_name = cookie_array[index].split("=");
+                  
+                  if (cookie_name[0] == "popupYN") {
+                      return cookie_name[1];
+                  }
+              }
+          }
+          return ;
+      }
+  
+      function openPopup(url) { 
+          let cookieCheck = getCookie("popupYN");
+          if (cookieCheck != "N")
+              window.open(url, '', 'width=430,height=530,left=0,top=0')
+      }
+  </script>
 </head>
-<body>
- <div class="main-container">
+<body onLoad="javascript:pop()">
+    <div class="main-container">
         <!--헤더영역-->
         <div class="row main-header">
         <!-- 상단바 sm크기에서 생기는 네비바-->
@@ -57,8 +83,8 @@
           </div>
           <!--상단바 로고 영역-->
             <div class="header-logo col-9">
-            <a href="/home.jsp"><img src="img/Logo.png" class="d-none d-sm-block" alt="..."></a>
-            <a href="/home.jsp"><img src="img/Logo_반응형.png" class="d-block d-sm-none" style="margin-right: 100px;" alt="..."></a>
+            <a href="/main"><img src="/resources/images/Logo_md.png" class="d-none d-sm-block" alt="..."></a>
+            <a href="/main"><img src="/resources/images/Logo_sm.png" class="d-block d-sm-none" style="margin-right: 100px;" alt="..."></a>
           </div>
           <!-- 상단바 cart 영역-->
           <div class="col-2 d-md-none header-left">
@@ -88,13 +114,13 @@
             <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item active" data-bs-interval="10000">
-                    <img src="img/배너3.png" class="d-block w-100" alt="...">
+                    <img src="/resources/images/banner1.png" class="d-block w-100" alt="...">
                   </div>
                   <div class="carousel-item" data-bs-interval="2000">
-                    <img src="img/배너2.png" class="d-block w-100" alt="...">
+                    <img src="/resources/images/banner2.png" class="d-block w-100" alt="...">
                   </div>
                   <div class="carousel-item">
-                    <img src="img/배너1.png" class="d-block w-100" alt="...">
+                    <img src="/resources/images/banner3.png" class="d-block w-100" alt="...">
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
@@ -109,41 +135,45 @@
           </div>
         </div>
         <!--사이트 대표사진, 설명 영역 시작-->
-        <div class="row main-content " data-aos="fade-up" data-aos-duration="1000">
-            <div class="col-12 col-md-5">
-                <img src="img/쇼핑몰설명사진2.png" alt="..."> 
-            </div>
-            <div class="col-12 col-md-5 content-text">
-                <h2>"반려식물의 가족이 되어주세요."</h2>
+        <div class="row">
+          <div class="col" style="text-align: center; margin-top: 50px;" data-aos="fade-up" data-aos-duration="1000">
+            <h2>"반려식물의 가족이 되어주세요."</h2>
                 <p>식물들은 우리들에게 희망을 주기도하고,<br> 친구가 되어 깊은 교감을 해요.</p>
                 <p><strong>Aram</strong><br> 당신의 삶에 반려식물이라는 행복을 더해줍니다.</p>
+          </div>
+        </div>
+        <div class="row main-content " data-aos="fade-up" data-aos-duration="1000">
+            <div class="col-12 col-md-5">
+                <img src="/resources/images/content-0.png" alt="..."> 
+            </div>
+            <div class="col-12 col-md-5 content-text">
                 <div class="content-extra-box">
                   <div class="item">
-                    <img src="/img/1.png">
+                    <img src="/resources/images/content-3.png">
                   </div>
                   <div class="item">
-                    <img src="/img/2.png">
+                    <img src="/resources/images/content-2.png">
                   </div>
                   <div class="item">
-                    <img src="/img/3.png">
+                    <img src="/resources/images/content-8.png">
                   </div>
                   <div class="item">
-                    <img src="/img/6.png">
+                    <img src="/resources/images/content-6.png">
                   </div>
                   <div class="item">
-                    <img src="/img/5.png">
+                    <img src="/resources/images/content-1.png">
                   </div>
                   <div class="item">
-                    <img src="/img/8.png">
+                    <img src="/resources/images/content-9.png">
                   </div>
                   <div class="item">
-                    <img src="/img/4.png">
+                    <img src="/resources/images/content-5.png">
                   </div>
                   <div class="item">
-                    <img src="/img/9.png">
+                    <img src="/resources/images/content-7.png">
                   </div>
                   <div class="item">
-                    <img src="/img/7.png">
+                    <img src="/resources/images/content-4.png">
                   </div>
                 </div>
             </div>
@@ -152,13 +182,13 @@
         <!--카테고리 영역 시작-->
         <div class="row main-category" data-aos="fade-up" data-aos-duration="1000">
             <div class="col-3 d-none d-lg-block">
-                <a href=""><img src="img/category1-공기 정화 식물.png"alt="..."></a>
+                <a href=""><img src="/resources/images/category_Air.png"alt="..."></a>
             </div>
             <div class="col-3 d-none d-sm-block">
-                <a href=""><img src="img/category2-실내 식물.png" alt="..."></a>
+                <a href=""><img src="/resources/images/category_In.png" alt="..."></a>
             </div>
             <div class="col-3 d-none d-sm-block">
-                <a href=""><img src="img/category3-실외식물.png" alt="..."></a>
+                <a href=""><img src="/resources/images/category_Out.png" alt="..."></a>
               </div>
         </div>
         <!--카테고리 영역 끝-->
@@ -298,6 +328,12 @@
                 </div>
       </div>
       <script>
+        //팝업창
+        function pop()
+        {
+        	window.open("popup.jsp", "EVENT", "width=430,height=530,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
+          }
+
         //AOS
         AOS.init();
 
