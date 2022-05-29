@@ -46,7 +46,7 @@
       function openPopup(url) { 
           let cookieCheck = getCookie("popupYN");
           if (cookieCheck != "N")
-              window.open(url, '', 'width=430,height=530,left=0,top=0')
+              window.open(url,'', 'width=430,height=530,left=0,top=0')
       }
   </script>
 </head>
@@ -61,8 +61,8 @@
                 <nav class="navbar">
                 <!--네비 검색창-->
                 <div class="search">
-                    <input type="text" placeholder="검색어 입력">
-                    <a href=""><img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></a>
+                    <input type="text" placeholder="상품명을 입력하세요" id="searchKeyword">
+                    <a href=""><img id="searchBtn" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></a>
                   </div>
                 </nav>
                 <!--네비 메뉴-->
@@ -203,8 +203,8 @@
         <!-- 상품 사진 영역-->
         <div class="row row-cols-2 row-cols-md-4 g-4">
             <div class="col ">
-              <div class="card border-0"><!--card 클래스에 border-0을 주면 테두리가 사라져욤-->
-                <a href=""><img src="img/몬스테라.png" class="card-img-top" alt="..."></a>
+              <div class="card toSpecific border-0"><!--card 클래스에 border-0을 주면 테두리가 사라져욤-->
+                <a href=""><img src="" class="card-img-top" alt="..."></a>
                 <div class="card-body">
                   <h5 class="card-title">상품명</h5>
                   <p class="card-text">가격</p>
@@ -212,8 +212,8 @@
               </div>
             </div>
             <div class="col">
-              <div class="card border-0">
-                <a href=""><img src="img/무화과 나무.png" class="card-img-top" alt="..."></a>
+              <div class="card toSpecific border-0">
+                <a href=""><img src="" class="card-img-top" alt="..."></a>
                 <div class="card-body">
                   <h5 class="card-title">상품명</h5>
                   <p class="card-text">가격</p>
@@ -221,8 +221,8 @@
               </div>
             </div>
             <div class="col">
-              <div class="card border-0">
-                <a href=""><img src="img/베고니아 화이트 아이스.png" class="card-img-top" alt="..."></a>
+              <div class="card toSpecific border-0">
+                <a href=""><img src="" class="card-img-top" alt="..."></a>
                 <div class="card-body">
                   <h5 class="card-title">상품명</h5>
                   <p class="card-text">가격</p>
@@ -230,8 +230,8 @@
               </div>
             </div>
             <div class="col">
-              <div class="card border-0">
-                <a href=""><img src="img/애플콩고.png" class="card-img-top" alt="..."></a>
+              <div class="card toSpecific border-0">
+                <a href=""><img src="" class="card-img-top" alt="..."></a>
                 <div class="card-body">
                   <h5 class="card-title">상품명</h5>
                   <p class="card-text">가격</p>
@@ -239,7 +239,7 @@
               </div>
             </div>
             <div class="col">
-                <div class="card border-0">
+                <div class="card toSpecific border-0">
                   <a href=""><img src="img/토피어리.png" class="card-img-top" alt="..."></a>
                   <div class="card-body">
                     <h5 class="card-title">상품명</h5>
@@ -247,9 +247,9 @@
                   </div>
                 </div>
               </div>
-              <div class="col border-0">
+              <div class="col">
                 <div class="card border-0">
-                  <a href=""><img src="img/제브리나.png" class="card-img-top" alt="..."></a>
+                  <a href=""><img src="" class="card-img-top" alt="..."></a>
                   <div class="card-body">
                     <h5 class="card-title">상품명</h5>
                     <p class="card-text">가격</p>
@@ -257,8 +257,8 @@
                 </div>
               </div>
               <div class="col">
-                <div class="card border-0">
-                  <a href=""><img src="img/유칼립투스.png" class="card-img-top" alt="..."></a>
+                <div class="card toSpecific border-0">
+                  <a href=""><img src="" class="card-img-top" alt="..."></a>
                   <div class="card-body">
                     <h5 class="card-title">상품명</h5>
                     <p class="card-text">가격</p>
@@ -266,8 +266,8 @@
                 </div>
               </div>
               <div class="col">
-                <div class="card border-0">
-                  <a href=""><img src="img/오렌지자스민.png" class="card-img-top" alt="..."></a>
+                <div class="card toSpecific border-0">
+                  <a href=""><img src="" class="card-img-top" alt="..."></a>
                   <div class="card-body">
                     <h5 class="card-title">상품명</h5>
                     <p class="card-text">가격</p>
@@ -279,7 +279,7 @@
           <!-- 상품 검색 페이지 이동 버튼-->
           <div class="row main-BtnProduct">
             <div class="col d-flex justify-content-center">
-                <button type="button" class="btn btn-light">더 많은 상품 보러가기</button>
+                <button type="button" id="toSerchItemBtn" class="btn btn-light">더 많은 상품 보러가기</button>
             </div>
         </div>
         <!--footer영역-->
@@ -328,6 +328,22 @@
                 </div>
       </div>
       <script>
+      	//상품이미지 클릭했을때
+      	$(".toSpecific").on("click",function(){
+      		
+      	})
+      	//네비바 검색창
+      	$("#searchBtn").on("click",function(){
+      		let searchKeyword = $("#searchKeyword").val();
+      		console.log(searchKeyword);
+      		
+      	})
+      
+      	//더많은 상품 보러가기 버튼 클릭했을때
+      	$("#toSerchItemBtn").on("click",function(){
+      		location.href="상품검색페이지";
+      	})
+      	
         //팝업창
         function pop()
         {
