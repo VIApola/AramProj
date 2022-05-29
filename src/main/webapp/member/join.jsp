@@ -9,34 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <title>회원가입</title>
-<style>
-        .container{
-            margin: 5%;
-        }
-        #btnPostcode{
-            width: 100%;
-        }
-        .textarea{
-            width: 100%;
-            height: 200px;
-            resize: none;
-        }
-        .row{
-            margin-top: 20px;
-        }
-        .star{
-            color: red;
-        }
-        .signupTitleBox{
-            border-bottom: 1px solid grey;
-        }
-        .signupInputBox{
-            margin-bottom: 50px;
-        }
-        .agreementContentBox{
-            margin-bottom: 50px;
-        }
-    </style>
+<link rel="stylesheet" type="text/css" href="../resources/css/join.css">
 </head>
 <body>
     <div class="container"> <!-- 컨테이너 -->

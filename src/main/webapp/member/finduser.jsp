@@ -9,31 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <title>아이디 비밀번호 찾기</title>
-    <style>
-        .findIdInput [class*=col]{
-            border: 1px solid lightgrey;
-            border-left: none;
-            border-right: none;
-        }
-        .form-control{
-            width: 250px;
-        }
-        .findPwInput [class*=col]{
-            border: 1px solid lightgrey;
-            border-left: none;
-            border-right: none;
-        }
-        button{
-            margin: 15px;
-            width: 200px;
-        }
-        .id{
-            margin-top: 30px;
-        }
-        .pw{
-            margin-top: 30px;
-        }
-    </style>
+<link rel="stylesheet" type="text/css" href="../resources/css/finduser.css">
 </head>
 <body>
     <div class="container">
