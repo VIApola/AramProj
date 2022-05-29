@@ -26,7 +26,7 @@ public class ImgFileDAO {
 	}
 	
 	//파일 목록 전체 불러오기
-	public ArrayList<ItemimgDTO> selectAll_img() throws Exception{
+	public ArrayList<ItemimgDTO> selectAll_img() throws Exception {
 		String sql ="select * from tbl_item_img";
 			try(Connection con = bds.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)
@@ -113,12 +113,5 @@ public class ImgFileDAO {
 			return rs;
 		}
 	}
-			
-			
-			
-			
-			
-			
-			
 			
 }

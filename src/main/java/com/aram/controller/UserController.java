@@ -2,8 +2,6 @@ package com.aram.controller;
 
 import java.io.IOException;
 
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,10 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.aram.dao.UserDAO;
 import com.google.gson.Gson;
-
-@WebServlet("*.user")
-public class UserController extends HttpServlet {
-
 
 @WebServlet("*.user")
 public class UserController extends HttpServlet {
