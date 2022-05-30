@@ -75,7 +75,7 @@
                     margin-bottom: 50px;
                 }
 				
-				/* 체크박스 */
+				/* 체크박스 색상 */
 				input {
 					accent-color: grey;
 				}
