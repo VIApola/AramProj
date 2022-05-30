@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+* {
+  border: 0px solid black;
+  font-size: 12px;
+}
+
+.imgBox {
+  height: 400px;
+  border: 1px solid black;
+}
+
+.imgDesc {
+  font-size: 15px;
+}
+
+.item-detail {
+  margin-top: 20px;
+}
+
+.item-title h2 {
+  font-size: 25px;
+}
+
+.item-price {
+  font-size: 20px;
+}
+
+#result {
+  text-align: center;
+  width: 30px;
+}
+
+.review-inputBox .row {
+  margin: 10px;
+}
