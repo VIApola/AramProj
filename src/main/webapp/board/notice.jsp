@@ -142,25 +142,36 @@
                 <div class="boardBox">
                     <div class="row">
                         <div class="col-1 d-none d-md-block">No.</div>
-                        <div class="col-3 d-none d-md-block">Product</div>
+                        <div class="col-3 d-none d-md-block">title</div>
                         <div class="col-5 d-none d-md-block">content</div>
                         <div class="col-2 d-none d-md-block">name</div>
                         <div class="col-1 d-none d-md-block">date</div>
                     </div>
-                    <div class="row">
-                        <div class="col-1 d-none d-md-block">1</div>
-                        <div class="col-3 d-none d-md-block">다육이</div>
-                        <div class="col-12 col-md-5">배송 관련</div>
-                        <div class="col-12 col-md-2">Aram</div>
-                        <div class="col-1 d-none d-md-block">date</div>
-                    </div>
+                    <c:choose>
+                    	<c:when test="${list.size() == 0}">
+                    		<div class="row">
+                    			<div class="col-5">등록된 게시글이 없습니다.</div>
+                    		</div>
+                    	</c:when>
+                    	<c:otherwise>
+                    		<c:forEach items="${list}" var="dto">
+ 								<div class="row">
+ 									 <div class="col-1 d-none d-md-block">${dto.notice_no}</div>
+				                     <div class="col-3 d-none d-md-block">${dto.title}</div>
+				                     <div class="col-12 col-md-5"><a href="">${dto.content}</a></div>
+				                     <div class="col-12 col-md-2">${dto.author}</div>
+				                     <div class="col-1 d-none d-md-block">${dto.write_date}</div>
+ 								</div>
+                    		</c:forEach>
+                    	</c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="writeBtnBox d-flex justify-content-end align-items-start pt-1">
-                    <button type="button" class="btn btn-secondary">글쓰기</button>
+                    <button type="button" id="writeBtn" class="btn btn-secondary">글쓰기</button>
                 </div>
             </div>
         </div>
@@ -191,6 +202,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
+    <script>
+    	const writeBtn = document.getElementById("writeBtn");
+    	
+    	writeBtn.addEventListener("click", function(e){
+    		console.log("click");
+    		location.href = "/write.bo";
+    	})
+    </script>
 </body>
 
 </html>
