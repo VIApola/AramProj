@@ -745,7 +745,7 @@
     <script>
     	// 이름 조건 밑에 뜨게
     	$("#name").focus(function(){
-    		$("#checkName").html("한글 및 영문으로 2~10자 이내로 작성해주세요.");
+    		$("#checkName").html("한글 및 영문으로 2~6자 이내로 작성해주세요.");
     		$("#checkName").css("color", "green");
     	});
     	$("#name").blur(function(){
@@ -795,7 +795,7 @@
     	});
     	// 닉네임 조건 밑에 뜨게
     	$("#nickname").focus(function(){
-    		$("#nicknameCheck").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~ 10자 이내로 작성해 주세요.");
+    		$("#nicknameCheck").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~6자 이내로 작성해 주세요.");
     		$("#nicknameCheck").css("color", "green");
     	});
     	$("#nickname").blur(function(){
@@ -828,9 +828,9 @@
     	});
     	// 회원가입 버튼을 눌렀을때
     	$("#joinBtn").on("click", function(){
-    		let regexName = /[a-zA-Z가-힣]{2,10}$/;
+    		let regexName = /[a-zA-Z가-힣]{2,6}$/;
     		let regexId = /^[a-z0-9]{5,12}$/;
-    		let regexNickname = /^[a-zA-z0-9ㄱ-흫]{3,10}$/;
+    		let regexNickname = /^[a-zA-z0-9ㄱ-흫]{3,6}$/;
     		let regexPw = /^[a-zA-z0-9~!@#$]{6,12}$/;
     		let regexEmail = /^[a-zA-z][\w]+@[a-zA-z]+\.(com|net|co\.kr|or\.kr)$/;
 			let regexPhone = /^[0-9]{11}$/;

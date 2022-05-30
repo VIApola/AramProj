@@ -25,7 +25,49 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	// 특정 회원의 이메일값 반환
+	public String getUserEmail(String id) throws Exception{
+		String sql = "select email from tbl_user where user_id=?";
+		try(Connection con = bds.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);){
+					
+				pstmt.setString(1, id);
+					
+				ResultSet rs = pstmt.executeQuery();
+				if(rs.next()) {
+					return rs.getString(1);
+				}
+				return null; // 데이터 베이스 오류
+					
+				}
+	}
+	// 이메일 인증 된 사람
+	public boolean setUserEmailChecked(String id) throws Exception {
+		String sql = "update tbl_user set email_verify='y' where user_id=?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);){
+				
+			pstmt.setString(1, id);				
+			pstmt.executeUpdate();
+			return true;	
+			}
+	}
+	// 이메일 인증 확인
+	public boolean getUserEmailChecked(String id) throws Exception {
+		String sql = "select email_verify from tbl_user where user_id=?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);){
+				
+			pstmt.setString(1, id);
+				
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getBoolean(1);
+			}
+			return false; // 데이터 베이스 오류
+				
+			}
+	}
 	// 카카오 회원가입
 	public int kakaoJoin(UserDTO dto) throws Exception{
 		String sql = "insert into tbl_user values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,sysdate, ?)";
