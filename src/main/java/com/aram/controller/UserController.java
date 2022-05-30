@@ -29,13 +29,9 @@ public class UserController extends HttpServlet {
 		System.out.println("요청 uri : " + uri);
     
 		request.setCharacterEncoding("utf-8");
-
-		if(uri.equals("/searchToForgotId.user")) { // 아이디 찾기 요청
-			String name = request.getParameter("name");
-			String email = request.getParameter("email");
-			
-			System.out.println(name + " : " + email);
-		} else if(uri.equals("/idCheck.user")) { // 아이디 중복체크 요청
+		
+		
+		if(uri.equals("/idCheck.user")) { // 아이디 중복체크 요청
 			String id = request.getParameter("id");
 			System.out.println("아이디 중복확인 : " + id);
 			UserDAO dao = new UserDAO();
@@ -163,7 +159,84 @@ public class UserController extends HttpServlet {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
+
+		}else if(uri.equals("/toFinduser.user")) { // 아이디/비밀번호 찾기 페이지로 이동 요청
+			response.sendRedirect("/member/finduser.jsp");			
+		}else if(uri.equals("/searchToForgotId.user")) { // 아이디 찾기 요청
+			String name = request.getParameter("name");
+			String email = request.getParameter("email");
 			
+			System.out.println(name + " : " + email);
+			UserDAO userDao = new UserDAO();
+			try {
+				String id = userDao.findId(name, email);
+				
+				if(id == null) { // 해당 정보의 아이디가 존재하지 않음
+					System.out.println("해당 정보의 아이디가 존재하지 않음");
+					request.setAttribute("rsFindId", "n");
+				} else { // 아이디 찾기 성공
+					System.out.println("아이디 찾기 성공 : " + id);
+					request.setAttribute("rsFindId", id);
+				}
+				request.getRequestDispatcher("/member/finduser.jsp").forward(request, response);
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		} else if (uri.equals("/searchToForgotPw.user")) { // 비밀번호찾기
+			String id = request.getParameter("id");
+			String email = request.getParameter("email");
+			
+			System.out.println(id + " : " + email);
+			
+			UserDAO userDao = new UserDAO();
+			try {
+				String rsId = userDao.toChangePw(id, email);
+				System.out.println("rsId : " + rsId);
+				
+				if(rsId == null) {
+					request.setAttribute("rsChangePw", "n");
+				} else {
+					request.setAttribute("rsChangePw", "y");
+					request.setAttribute("rsChangePwIdValue", rsId);
+				}
+				request.getRequestDispatcher("/member/finduser.jsp").forward(request, response);
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		} else if (uri.equals("/toChange_pw.user")) { // 분실시 비밀변호 변경 페이지 요청
+			String rsId = request.getParameter("rsId");
+			System.out.println("비밀번호 찾기에서 가져온 id : " + rsId);
+			request.setAttribute("idFromFindPw", rsId);
+			request.getRequestDispatcher("/member/change_pw.jsp").forward(request, response);
+			
+
+		} else if (uri.equals("/completeChangePw.user")) { // 분실시 비밀번호 변경
+			String userId = request.getParameter("userId");
+			String password = request.getParameter("password");
+			System.out.println("아이디 : " + userId + "/ 변경된 비밀번호 : " + password);
+			
+			try {
+				password = EncryptionUtils.getSHA512(password);
+				System.out.println("암호화된 데이터 : " + password);
+				UserDAO userDao = new UserDAO();
+				int rs = userDao.changePw(userId, password);
+				if(rs>0) { // 변경 성공
+					request.setAttribute("rsChangePw", "y");
+				} else { // 변경 실패
+					request.setAttribute("rsChangePw", "n");
+				}
+				request.getRequestDispatcher("/member/change_pw.jsp").forward(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
+		
+		
+		
+		
+		
 	}
 }
