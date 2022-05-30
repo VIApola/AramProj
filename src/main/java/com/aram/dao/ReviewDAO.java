@@ -29,17 +29,16 @@ private BasicDataSource bds;
 	
 	//리뷰 등록
 	public int insertReview(ReviewDTO dto)throws Exception{
-		String sql = "insert into tbl_review values(seq_review_no.nextval,?,?,?,?,?,?,?)";
+		String sql = "insert into tbl_review values(seq_review_no.nextval,?,?,sysdate,?,?,?,?)";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
 			pstmt.setString(1, dto.getTitle());
 			pstmt.setString(2, dto.getContent());
-			pstmt.setString(3, dto.getWrite_date());
-			pstmt.setInt(4, dto.getScore());
-			pstmt.setString(5, dto.getUser_id());
-			pstmt.setInt(6, dto.getItem_id());
-			pstmt.setInt(7, dto.getImg_no());
+			pstmt.setInt(3, dto.getScore());
+			pstmt.setString(4, dto.getUser_id());
+			pstmt.setInt(5, dto.getItem_id());
+			pstmt.setInt(6, dto.getImg_no());
 			
 			int rs = pstmt.executeUpdate();
 			return rs;
@@ -48,7 +47,7 @@ private BasicDataSource bds;
 		
 	}
 	
-	//전체 상품 조회
+	//전체 리뷰 조회
 	public ArrayList<ReviewDTO> selectAllReview()throws Exception{
 		String sql = "select * from tbl_review";
 		try(Connection con = bds.getConnection();
@@ -80,7 +79,7 @@ private BasicDataSource bds;
 		return sdf.format(date);
 		}
 	
-	//개별 상품 조회
+	//개별 리뷰 조회
 	public ReviewDTO selectReviewByNo(int review_no)throws Exception{
 		String sql = "select * from tbl_review where review_no = ?";
 		try(Connection con = bds.getConnection();
@@ -101,6 +100,36 @@ private BasicDataSource bds;
 				return new ReviewDTO(review_no, title, content, write_date, score, user_id, item_id, img_no);
 			}
 			return null;
+		}
+	}
+	
+	//리뷰 수정
+	public int modifyReview(ReviewDTO dto)throws Exception{
+		String sql = "update tbl_review set title=?,content=?,score=?, item_id=?, img_no=? where review_no=?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)	
+				){
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setInt(3, dto.getScore());
+			pstmt.setInt(4, dto.getItem_id());
+			pstmt.setInt(5, dto.getImg_no());
+			pstmt.setInt(6, dto.getReview_no());
+			
+			int rs = pstmt.executeUpdate();
+			return rs;
+		}
+	}
+	
+	// 리뷰 삭제
+	public int deleteReview(int review_no)throws Exception{
+		String sql = "delete from tbl_review where review_no=?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)	
+				){
+			pstmt.setInt(1, review_no);
+			
+			return pstmt.executeUpdate();
 		}
 	}
 

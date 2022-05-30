@@ -5,6 +5,8 @@ import javax.naming.InitialContext;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
+import com.aram.dto.OrderDTO;
+
 public class OrderDAO {
 	private BasicDataSource bds;
 	
@@ -17,5 +19,24 @@ public class OrderDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	// 생성
+	public int insert(OrderDTO dto)throws Exception{
+		
+		String sql = "insert into ";
+		
+	}
+	
+	
+	
+	
+	// 전체목록 
+	
+	// 개별목록
+	
+	// 수정
+	
+	// 삭제
+	
 
 }
