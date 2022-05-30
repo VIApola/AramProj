@@ -23,8 +23,6 @@ import com.google.gson.Gson;
 public class UserController extends HttpServlet {
 
 
-@WebServlet("*.user")
-public class UserController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doAction(request, response);

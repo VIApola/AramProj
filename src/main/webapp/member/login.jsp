@@ -51,7 +51,7 @@
 
                 /* 버튼 */
                 button {
-                    width: 300px;
+                    width: 200px;
                     margin: 10px;
                 }
 
@@ -116,16 +116,16 @@
                     </div>
                     <form id="loginForm" action="/loginProc.user" method="post">
                         <div class="row idInput d-flex justify-content-center">
-                            <div class="col-2 col-md-2">
-                                <span>ID</span>
+                            <div class="col-2 col-md-2 align-self-center">
+                            	<label for="id">ID</label>
                             </div>
                             <div class="col-5 md-5 d-flex justify-content-center">
                                 <input type="text" id="id" name="id" class="form-control" placeholder="ID">
                             </div>
                         </div>
                         <div class="row pwInput d-flex justify-content-center">
-                            <div class="col-2 col-md-2">
-                                <span>PW</span>
+                            <div class="col-2 col-md-2 align-self-center">
+                                <label for="pw">PW</label>
                             </div>
                             <div class="col-5 col-md-5">
                                 <input type="password" id="pw" name="pw" class="form-control" placeholder="password">
