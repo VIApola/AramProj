@@ -105,61 +105,9 @@
    .fromLeft:after{  transform-origin:  0% 50%; }
    .search-menu .bottom{
        margin-top: 20px;
-   }
-
-   /*콘텐츠 영역*/
-   .main-content{
-       padding: 50px;
-       
-   }
-   .main-content img{
-       max-width: 100%;
-       height: auto;
-
-   }
-   .content-text{
-      text-align: justify;
-      text-align: center;
-   }
-   .content-extra-box{
-     display: grid;
-       grid-template-columns: 150px 150px 150px;
-       grid-template-rows: 150px 150px 150px;
-     max-width: 100%;
-     height: auto;
-     justify-content: center; 
-   }
-   .content-extra-box  img{
-     -webkit-filter: grayscale(100%);
-     -webkit-transition: .5s ease-in-out;
-     -moz-filter: grayscale(100%); 
-     -moz-transition: .5s ease-in-out;
-     -o-filter: grayscale(100%); 
-     -o-transition: .5s ease-in-out;
-   }
-   .content-extra-box img:hover{
-     -webkit-filter: grayscale(0%);
-     -webkit-transition: .5s ease-in-out;
-     -moz-filter: grayscale(0%);
-     -moz-transition: .5s ease-in-out;
-     -o-filter: grayscale(0%);
-     -o-transition: .5s ease-in-out;
-   }
-
-   
-   /*설명 부분*/
-   .main-descript{
-       text-align: center;
-       padding: 5%;
-   }
-
-   /*상품페이지 이동 버튼*/
-   .main-BtnProduct{
-       padding: 10px;
-       margin-bottom: 5%;
-   }
-
-   /*footer 영역*/
+   }  
+     
+ /*footer 영역*/
    .footer{   
      border-top: 2px solid #7cc09c;
        overflow: hidden;
