@@ -14,10 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
 
-<title>회원가입</title>
-<<<<<<< HEAD
-<link rel="stylesheet" type="text/css" href="../resources/css/join.css">
-=======
+<title>카카오 회원가입</title>
 <style>
 /* 폰트 스타일 */
 @font-face {
@@ -63,7 +60,6 @@
         	margin:10px;
         }
     </style>
->>>>>>> 613603883491a66521bf0d3e5f8cea2cfecf9016
 </head>
 <body>
     <div class="container"> <!-- 컨테이너 -->
@@ -71,7 +67,7 @@
 
         </div><!-- 헤더부분 끝 -->
         <div class="row body"> <!-- 바디부분 -->
-        <form id="signupForm" action="/signup.user" method="post">
+        <form id="signupForm" action="/kakaoSignupProc.user" method="post">
             <div class="row signupTitleBox">
                 <div class="col-12 col-md-12">
                     <h2>회원가입</h2>
@@ -86,8 +82,7 @@
                         <label for="name">이름</label>
                     </div>
                     <div class="col-7 col-md-9 ">
-                        <input type="text" class="form-control" id="name" name="name">
-                        <span id="checkName"></span>   
+                        <input type="text" class="form-control" id="name" name="name" value="${kakaoname}" readonly>
                     </div>
                 </div>
                 <div class="row">
@@ -95,12 +90,8 @@
                         <span class="star">*</span>
                         <label for="id">아이디</label>
                     </div>
-                    <div class="col-5 col-md-6 ">
-                        <input type="text" class="form-control" id="id" name="id">
-                        <span id="checkId"></span>   
-                    </div>
-                    <div class="col-3 col-md-3">
-                        <button type="button" id="idCheckBtn" class="btn btn-outline-warning">중복확인</button>
+                    <div class="col-7 col-md-9">
+                        <input type="text" class="form-control" id="id" name="id" value="${kakaoid}" readonly>
                     </div>
                 </div>
                 <div class="row">
@@ -111,25 +102,6 @@
                     <div class="col-7 col-md-9 ">
                         <input type="text" class="form-control" id="nickname" name="nickname">
                         <span id="nicknameCheck"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
-                        <span class="star">*</span>
-                        <label for="password">비밀번호</label>
-                    </div>
-                    <div class="col-7 col-md-9 ">
-                        <input type="password" class="form-control" id="password" name="password">
-                        <span id="pwCheck"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
-                        <span class="star">*</span>
-                        <label for="password2">비밀번호 확인</label>
-                    </div>
-                    <div class="col-7 col-md-9 ">
-                        <input type="password" class="form-control" id="password2">
                     </div>
                 </div>
                 <div class="row">
@@ -747,56 +719,7 @@
         </div><!-- 풋터부분 끝 -->
     </div><!-- 컨테이너 끝 -->
     <script>
-    	// 이름 조건 밑에 뜨게
-    	$("#name").focus(function(){
-    		$("#checkName").html("한글 및 영문으로 2~10자 이내로 작성해주세요.");
-    		$("#checkName").css("color", "green");
-    	});
-    	$("#name").blur(function(){
-    		$("#checkName").html("");
-    	});
-    	// 아이디 조건 밑에 뜨게
-    	$("#id").focus(function(){
-    		if($("#checkId").html() !== "사용가능한 아이디 입니다."){
-    			$("#checkId").html("아이디는 영어소문자와 숫자로 5~12자 이내로 작성해주세요.");
-        		$("#checkId").css("color", "green");
-        		$("#id").blur(function(){
-    	    		$("#checkId").html("");
-    	    	});
-    		}
-    	});
-    	// 아이디 중복 검사
-    	$("#idCheckBtn").on("click", function(){
-			// 아이디 유효성 검사
-    		let regexId = /^[a-z0-9]{5,12}$/;
-    		if(!regexId.test($("#id").val())){
-    			$("#checkId").html("형식에 맞지않는 아이디 입니다. 다시 입력해주세요.");
-    			$("#checkId").css("color", "red");
-    			$("#id").val("");
-    			return;
-    		}
-    		// ajax로 중복값 검사
-    		$.ajax({
-    			url: "/idCheck.user"
-    			, type: "post"
-    			, data: {id: $("#id").val()}
-    			, dataType: "text"
-    			, success: function(data){
-    				console.log(data);
-    				if(data === "nope"){
-    					$("#checkId").html("이미 사용중인 아이디 입니다.");
-    					$("#checkId").css("color", "red");
-    					$("#id").val("");
-    				}else if(data === "ok"){
-    					$("#checkId").html("사용가능한 아이디 입니다.");
-    					$("#checkId").css("color", "green");
-    				}
-    			}
-    			, error: function(e){
-    				console.log(e);
-    			}
-    		})
-    	});
+
     	// 닉네임 조건 밑에 뜨게
     	$("#nickname").focus(function(){
     		$("#nicknameCheck").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~ 10자 이내로 작성해 주세요.");
@@ -805,15 +728,7 @@
     	$("#nickname").blur(function(){
     		$("#nicknameCheck").html("");
     	});
-    	// 비밀번호 조건 밑에 뜨게
-    	$("#password").focus(function(){
-    		$("#pwCheck").html("비밀번호는 영어 대소문자 숫자 특수문자(~!@#$)를 이용해서 6~12자 이내로 작성해 주세요.");
-    		$("#pwCheck").css("color", "green");
-    		
-    	});
-    	$("#password").blur(function(){
-    		$("#pwCheck").html("");
-    	});
+  
     	// 약관 동의
     	$("#agreeAll").change(function(){
     		if($("#agreeAll").is(":checked")){
@@ -832,10 +747,7 @@
     	});
     	// 회원가입 버튼을 눌렀을때
     	$("#joinBtn").on("click", function(){
-    		let regexName = /[a-zA-Z가-힣]{2,10}$/;
-    		let regexId = /^[a-z0-9]{5,12}$/;
     		let regexNickname = /^[a-zA-z0-9ㄱ-흫]{3,10}$/;
-    		let regexPw = /^[a-zA-z0-9~!@#$]{6,12}$/;
     		let regexEmail = /^[a-zA-z][\w]+@[a-zA-z]+\.(com|net|co\.kr|or\.kr)$/;
 			let regexPhone = /^[0-9]{11}$/;
 			
@@ -846,33 +758,10 @@
 			console.log(phone);
 			$("#phone").val(phone);
 			
-    		if($("#name").val() === ""){
-    			alert("이름을 입력해주세요.");
-    			$("#name").focus();
-    			return;
-    		}else if(!regexName.test($("#name").val())){
-    			alert("이름은 한글 및 영문으로 2~10자 이내로 작성해주세요.");
-    			$("#name").focus();
-    			return;
-    		}else if(!regexId.test($("#id").val())){
-    			alert("아이디는 영어소문자와 숫자로 5~12자 이내로 작성해주세요.");
-    			$("#id").focus();
-    			return;
-    		}else if($("#checkId").html() !== "사용가능한 아이디 입니다."){
-    			alert("아이디 중복확인을 해주세요.");
-    			$("#id").focus();
-    			return;
-    		}else if(!regexNickname.test($("#nickname").val())){
+    		if(!regexNickname.test($("#nickname").val())){
     			alert("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~ 10자 이내로 작성해 주세요.");
     			$("#nickname").focus();
     			return;
-    		}else if(!regexPw.test($("#password").val())){
-    			alert("비밀번호는 영어 대소문자 숫자 특수문자(~!@#$)를 이용해서 6~12자 이내로 작성해 주세요.");
-    			$("#password").focus();
-    			return;
-    		}else if($("#password").val() !== $("#password2").val()){
-    			alert("비밀번호와 비밀번호 확인창에 있는 값이 일치하지 않습니다.");
-				return;
     		}else if(!regexPhone.test(phone)){ // 숫자 데이터에 대한 별도의 형변환이 필요없음
 				alert("휴대폰번호는 각각 4자리의 숫자로 입력해주세요.");
 				return;
