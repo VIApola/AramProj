@@ -2,6 +2,7 @@ package com.aram.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,7 +35,7 @@ public class ItemController extends HttpServlet {
 			
 			ItemDAO dao = new ItemDAO();
 			try {
-				ArrayList<ItemDTO> itemList = dao.selectAllItems();
+				ArrayList<Object> itemList = dao.selectAllItems().get("list");
 				request.setAttribute("itemList", itemList);
 				request.getRequestDispatcher("/shop/detial.jsp");
 				
@@ -56,6 +57,62 @@ public class ItemController extends HttpServlet {
 		} else if(uri.equals("")) {
 			
 		}
+		
+		
+		
+		
+		
+		
+		if(uri.equals("/air.item")) { //카테고리별 페이지 로드 (공기청정)
+			
+				ItemDAO dao = new ItemDAO();
+			
+	            try {
+					ArrayList<Object> list = dao.selectAllItems().get("list");
+					System.out.println("list 값 : " + list);
+					request.setAttribute("list", list);
+					
+					int count = dao.countItems("P100"); // 카테고리별 물품 갯수
+					request.setAttribute("count", count);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			
+			request.getRequestDispatcher("/shop/category/air.jsp").forward(request, response);
+			
+		}else if(uri.equals("/interior.item")) {//카테고리별 페이지 로드 (내부)
+			
+			 ItemDAO dao = new ItemDAO();
+	            try {
+					ArrayList<Object> list = dao.selectAllItems().get("list");
+					request.setAttribute("list", list);
+					int count = dao.countItems("P200"); // 카테고리별 물품 갯수
+					request.setAttribute("count", count);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			
+			request.getRequestDispatcher("/shop/category/interior.jsp").forward(request, response);
+		
+		}else if(uri.equals("/outside.item")) { //카테고리별 페이지 로드 (외부)
+			ItemDAO dao = new ItemDAO();
+            try {
+				ArrayList<Object> list = dao.selectAllItems().get("list");
+				request.setAttribute("list", list);
+				int count = dao.countItems("P300"); // 카테고리별 물품 갯수
+				request.setAttribute("count", count);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+            request.getRequestDispatcher("/shop/category/outside.jsp").forward(request, response);
+		}
+		
+		
+		
+		
 		
 	}
 

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.aram.dao.ItemDAO" %>
+<%@page import="com.aram.dto.ItemDTO" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -8,8 +12,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-<title>실외 식물</title>
-<  <style>
+<title>공기 정화 식물</title>
+ <style>
     
      #category img{
          margin: 10px;
@@ -21,6 +25,7 @@
          border: none;
         text-align: center;
         margin-left: auto;
+        margin-bottom: 50px;
      }
 
     #category{
@@ -51,11 +56,14 @@
         justify-content: center;
     }
     #count{
-        font-size: x-small;
+        font-size: small;
         
     }
     .countBox{
         text-align: left;
+    }
+    .item{
+        margin-right: 100px;
     }
 
     </style>
@@ -67,21 +75,21 @@
         <div class="row" id="category">
             
             <div class="col-4">
-                <a href="/"> <img src="images/category2-실내 식물.png"></a>
+                <a href="/air.item"> <img src="/resources/images/category_Air.png"></a>
             </div>
             <div class="col-4">
-                <a href="/"><img src="images/category1-공기 정화 식물.png"></a>
+                <a href="/interior.item"><img src="/resources/images/category_In.png"></a>
                 
             </div>
             <div class="col-4">
-                <a href="/"><img src="images/category3-실외식물.png"></a>
+                <a href="/outside.item"><img src="/resources/images/category_Out.png"></a>
             </div>
         </div>
 
         <div class="row" id="links">
           
             <div class="col-9 countBox">
-                <span id="count">총 @@개의 상품이 검색되었습니다.</span>
+                <span id="count">총 ${count}개의 상품이 검색되었습니다.</span>
             </div>
 
             <div class="col-1 search">
@@ -98,117 +106,32 @@
         </div>
 
        
-            
             <div class="row">
             
-                <div class="col-3 item">
-                    <a href="/">
-                        <div class="card" style="width: 10rem; height: 20rem;">
-                            <img src="images/공기정화/개운죽.png" class="card-img-top">
-                    </a>        
-                            <div class="card-body">
-                              <p class="card-text">No.1</p>
-                              <p class="price">Price : xx</p>
-                            </div>
-                        </div>
-                </div>
-
-                <div class="col-3 item">
-                    <a href="/">
-                        <div class="card" style="width: 10rem; height: 20rem;">
-                            <img src="images/공기정화/개운죽.png" class="card-img-top">
-                    </a>        
-                            <div class="card-body">
-                              <p class="card-text">No.1</p>
-                              <p class="price">Price : xx</p>
-                            </div>
-                        </div>
-                </div>
-
-                <div class="col-3 item">
-                    <a href="/">
-                        <div class="card" style="width: 10rem; height: 20rem;">
-                            <img src="images/공기정화/개운죽.png" class="card-img-top">
-                    </a>        
-                            <div class="card-body">
-                              <p class="card-text">No.1</p>
-                              <p class="price">Price : xx</p>
-                            </div>
-                        </div>
-                </div>
-
-                <div class="col-3 item">
-                    <a href="/">
-                        <div class="card" style="width: 10rem; height: 20rem;">
-                            <img src="images/공기정화/개운죽.png" class="card-img-top">
-                    </a>        
-                            <div class="card-body">
-                              <p class="card-text">No.1</p>
-                              <p class="price">Price : xx</p>
-                            </div>
-                        </div>
-                </div>
             
-   
-            </div>
-
+            
+            <c:forEach items="${list}" var="dto">
+            	 <c:if test="${dto.category_id eq 'P300' }">
+              <div class="col-2 item">
                    
-                
-
-            <div class="row">
-            
-                <div class="col-3 item">
-                    <a href="/">
                         <div class="card" style="width: 10rem; height: 20rem;">
-                            <img src="images/공기정화/개운죽.png" class="card-img-top">
-                    </a>        
+                            <a href="/">       
+                            <img src="/resources/images/category/outdoor/${dto.item_name}.png" class="card-img-top">
+                            </a>        
                             <div class="card-body">
-                              <p class="card-text">No.1</p>
-                              <p class="price">Price : xx</p>
+                              <p class="card-text">${dto.item_name}</p>
+                              <p class="price">Price :${dto.price}</p>
                             </div>
                         </div>
                 </div>
-
-                <div class="col-3 item">
-                    <a href="/">
-                        <div class="card" style="width: 10rem; height: 20rem;">
-                            <img src="images/공기정화/개운죽.png" class="card-img-top">
-                    </a>        
-                            <div class="card-body">
-                              <p class="card-text">No.1</p>
-                              <p class="price">Price : xx</p>
-                            </div>
-                        </div>
+                 <div class="d-none" id="item_id">
+                		${dto.item_id}
                 </div>
+            		 </c:if>
+            </c:forEach>
+          
 
-                <div class="col-3 item">
-                    <a href="/">
-                        <div class="card" style="width: 10rem; height: 20rem;">
-                            <img src="images/공기정화/개운죽.png" class="card-img-top">
-                    </a>        
-                            <div class="card-body">
-                              <p class="card-text">No.1</p>
-                              <p class="price">Price : xx</p>
-                            </div>
-                        </div>
-                </div>
-
-                <div class="col-3 item">
-                    <a href="/">
-                        <div class="card" style="width: 10rem; height: 20rem;">
-                            <img src="images/공기정화/개운죽.png" class="card-img-top">
-                    </a>        
-                            <div class="card-body">
-                              <p class="card-text">No.1</p>
-                              <p class="price">Price : xx</p>
-                            </div>
-                        </div>
-                </div>
-            
-   
-            </div>
-
-
+			</div>
 
 
         <div class="row" id="pacing"></div>
