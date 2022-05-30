@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,7 @@
     }
     .row{
         margin: 0;
-        border: 1px solid black;
+        
     }
     div[class*=col]{
         margin: 0;
@@ -33,14 +34,17 @@
     .input > input{
         width: 80%;
     }
+    .item-admin-contents{
+    	border:1px solid black;
+    }
 </style>
 <body>
     <!--헤드 부분-->
     <div class="item-container">
         <div class="item-admin-header"></div>
         <div class="row adminItem-logo"><!--로고-->
-            <div class="col">
-                로고
+            <div class="col d-flex justify-content-center">
+                <a href="/main"><img src="/resources/images/Logo_md.png" alt="..."></a>
             </div>
         </div>
         <!--상단 네비바-->
@@ -66,38 +70,40 @@
         <div class="item-admin-contents">
         <div class="row"><!--타이틀 -->
             <div class="col">
-                <h2>상품등록 / 수정</h2>
+                <h3>상품등록 / 수정</h3>
             </div>
         </div>
-        <form><!-- form태그 시작 -->
+        <!-- form태그 시작 -->
+        <form id="itemUploadForm" action="/itemUpload.admin" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-12">기본정보</div>
             <div class="col-3">상품명</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 이름을 입력하세요." name=""></div>
+            <div class="col-8 input"><input type="text" placeholder="상품 이름을 입력하세요." id="item_name" name="item_name"></div>
         </div>
         <div class="row">
             <div class="col-12">상품분류</div>
             <div class="col-3">카테고리</div>
-            <div class="col-8" ><select name="">
-              <option value="카테고리번호">공기정화식물</option>
-            <option value="카테고리번호">실내식물</option>
-              <option value="카테고리번호">실외식물</option>
+            <div class="col-8" ><select id="category_name">
+              <option value="공기정화식물" selected>공기정화식물</option>
+            <option value="실내식물">실내식물</option>
+              <option value="실외식물">실외식물</option>
             </select></div>
+            <input type="text" id="category_select" name="category_name" style="display:none;">
         </div>
         <div class="row">
             <div class="col-12">상품 가격</div>
             <div class="col-3">판매가격</div>
-            <div class="col-8 input"><input type="text" placeholder="상품의 가격을 입력하세요." name=""></div>
+            <div class="col-8 input"><input type="text" placeholder="상품의 가격을 입력하세요." id="price" name="price"></div>
         </div>
         <div class="row">
             <div class="col-12">상품 재고</div>
             <div class="col-3">재고 개수</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 재고 개수를 입력하세요." name=""></div>
+            <div class="col-8 input"><input type="text" placeholder="상품 재고 개수를 입력하세요." id="item_stock" name="item_stock"></div>
         </div>
         <div class="row">
             <div class="col-12">상품 설명/이미지 설정</div>
             <div class="col-3">설명 정보 입력</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 설명을 입력하세요." name=""></div>
+            <div class="col-8 input"><input type="text" placeholder="상품 설명을 입력하세요." id="item_comment" name="item_comment"></div>
         </div>
         <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">이미지 정보</div>
@@ -107,12 +113,13 @@
           </div>
           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px">
             <div class="short-div">이미지 선택</div>
-            <div class="short-div"><input type="file"></div>
+            <div class="short-div"><input type="file" id="img_title" name=img_title></div>
           </div>
         </div>
+        </form>
         <div class="row">
             <div class="col" style="text-align: end;">
-                <button id="InsertComplete">등록</button>
+                <button type="button" id="insertComplete">등록</button>
             </div>
         </div>
         </div>
@@ -126,5 +133,32 @@
         </div>
     </form>
     </div><!--item-container 끝-->
+    <script>
+    
+    //등록버튼 눌렀을때
+    $("#insertComplete").on("click",function(){
+    $("#category_select").val($("#category_name option:selected").val());	
+    	console.log($("#category_select").val());
+    	console.log($("#img_title").val());
+    	
+    if($("#item_name").val() == ""){
+    	alert("상품 이름을 입력하세요")
+    	return;
+    }else if($("#price").val() == ""){
+    	alert("상품 가격을 입력하세요.")
+    	return;
+    }else if($("#item_stock").val() == ""){
+    	alert("상품 재고 개수를 입력하세요.")
+    	return;
+    }else if($("#item_comment").val() == ""){
+    	alert("상품 설명을 입력하세요.")
+    	return;
+    }
+	$("#itemUploadForm").submit();
+    
+    })
+    
+    
+    </script>
 </body>
 </html>
