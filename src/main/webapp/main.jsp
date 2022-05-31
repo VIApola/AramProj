@@ -151,7 +151,7 @@
                 </c:otherwise>
                 </c:choose>
                 <li class="nav-item">
-                  <a class="nav-link" style="color: black;" href="/toSearchPage.item">Search</a>
+                  <a class="nav-link" style="color: black;" href="/toSearchPage.item?curPage=1">Search</a>
                 </li>
                 <li class="nav-item">
                 <c:choose>

@@ -10,11 +10,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.aram.dao.ImgFileDAO;
 import com.aram.dao.ItemDAO;
 import com.aram.dto.ItemDTO;
+import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -217,27 +217,89 @@ public class ItemController extends HttpServlet {
 			
 			ItemDAO dao = new ItemDAO();
 			
+			int curPage = Integer.parseInt(request.getParameter("curPage"));
 			
 			try {
-			
-				ArrayList<ItemDTO> allItemsList = dao.selectAllTblItems();
+				HashMap map = dao.getPageNavi(curPage);
+				
+				System.out.println("현재 페이지 : " + curPage);
+				System.out.println("startNavi : "+ map.get("startNavi"));
+				System.out.println("endNavi : " + map.get("endNavi"));
+				System.out.println("needPrev 필요합니까? : "+ map.get("needPrev"));
+				System.out.println("needNext 필요합니까? : "+ map.get("needNext"));
+				
+				
+				//페이징
+				ArrayList<ItemDTO> pageList = dao.selectPagingAll(curPage*8-7, curPage*8);
+				
+				
+				//상품 조회 개수
 				int allItemsCount = dao.countAllItems();
 				
-				request.setAttribute("allItemsList", allItemsList);
+				request.setAttribute("pageList",pageList);
+				request.setAttribute("naviMap", map);
+						
 				request.setAttribute("allItemsCount", allItemsCount);
 				
-				System.out.println(allItemsList);
+
 				System.out.println(allItemsCount);
+				System.out.println(pageList);
 				
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-			request.getRequestDispatcher("/shop/searchitem.jsp").forward(request, response);
+			request.getRequestDispatcher("/shop/searchitem.jsp").forward(request, response);	
 		
 			
+		//낮은가격순으로
+		}else if(uri.equals("/searchRowPrice.item")) {
+			
+			ItemDAO dao = new ItemDAO();
+			
+			try {
+				ArrayList<ItemDTO> rowPriceList = dao.selectRowPrice();				
+				Gson gson = new Gson();
+				String rs = gson.toJson(rowPriceList);
+				System.out.println(rs);
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().append(rs);
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		
+		//높은가격순으로
+		}else if(uri.equals("/searchHighPrice.item")) {
+			
+			ItemDAO dao = new ItemDAO();
+			
+			try {
+				ArrayList<ItemDTO> highPriceList = dao.selectHignPrice();
+				
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+		//이름순으로
+		}else if(uri.equals("/searchName.item")) {
+			
+			ItemDAO dao = new ItemDAO();
+			
+			try {
+				ArrayList<ItemDTO> nameList = dao.selectItemName();
+				
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
 		}
-		
-		
+
 	 }
 
 }
