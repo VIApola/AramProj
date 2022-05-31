@@ -9,7 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
-<title>Insert title here</title>
+<title>상품 검색페이지</title>
 
  <style>
         /* div {
@@ -94,9 +94,11 @@
         text-align: right;
     }
     .search a{
-    margin-right:10px;
+    margin-left:5px;
+    margin-right:5px;
     color:black;
     text-decoration:none;
+    cursor:pointer;
     }
     #count{
         font-size: small;
@@ -107,6 +109,7 @@
     </style>
 </head>
 <body>
+
 <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -138,17 +141,20 @@
             </div>
 
             <div class="col-6 search">
-                <a href="/">낮은 가격</a>
-          
-                <a href="/">높은 가격</a>
-           
-                <a href="/">제품명</a>
+                <a id="rowPrice">낮은 가격</a>
+          		<span>|</span>
+                <a id="highPrice">높은 가격</a>
+           		<span>|</span>
+                <a id="">제품명</a>
             </div>
         </div>
+        <!-- 상품 보이는 페이지 -->
         <div class="contentBox">
             <div class="row">
             <c:choose>
+
             <c:when test="${empty itemList}">
+
             <div class="row">
         	<div class="col d-flex justify-content-center">
         		<h2>등록된 제품이 없습니다.</h2>
@@ -156,6 +162,7 @@
             </div>
             </c:when>
             <c:otherwise>
+
             <c:forEach items="${itemList}" var="dto">
        		  <div class="col-6 col-lg-3 d-flex justify-content-center">
                     <div class="card" style="width: 16rem;">
@@ -174,10 +181,73 @@
             </c:choose> 
             </div>
         </div>
+        <!-- 페이징 -->
+        <nav aria-label="Page navigation example">
+  		<ul class="pagination justify-content-center">
+  
+  			<c:if test="${naviMap.needPrev eq true}">
+    	<li class="page-item"><a class="page-link" href="/toSearchPage.item?curPage=${naviMap.startNavi-1}"></a></li>  	
+  			</c:if>
+  		<%-- 현재  --%>
+    		<c:forEach var="pageNum" begin="${naviMap.startNavi}" end="${naviMap.endNavi}" step="1">
+    	<li class="page-item"><a class="page-link" href="/toSearchPage.item?curPage=${pageNum}">${pageNum}</a></li>
+    		</c:forEach>
+    
+    		<c:if test="${naviMap.needNext eq true}">
+    	<li class="page-item"><a class="page-link" href="/toSearchPage.item?curPage=${naviMap.endNavi+1}">>></a></li>    
+    		</c:if>
+    
+  		</ul>
+		</nav>
         </div>
 <script>
-//검색 버튼을 클릭했을 때
-$("#searchBtn").on("click",function (){
+
+	
+	//낮은가격순
+	$("#rowPrice").on("click",function(){
+	  $.ajax({
+		url:"/searchRowPrice.item"
+	   ,type:"get"
+	   ,success:function(){
+		   console.log(data);
+	   }
+	   ,error:function(){
+		   console.log(e);
+	   }
+	  })
+	})
+	
+	//높은가격순
+	$("#highPrice").on("click",function(){
+	  $.ajax({
+		url:"/searchHighPrice.item"
+	   ,type:"get"
+	   ,success:function(){
+		   console.log(data);
+	   }
+	   ,error:function(){
+		   console.log(e);
+	   }
+	  })
+	})
+	
+	//이름순으로
+	$("#highPrice").on("click",function(){
+	  $.ajax({
+		url:"/searchName.item"
+	   ,type:"get"
+	   ,success:function(){
+		   console.log(data);
+	   }
+	   ,error:function(){
+		   console.log(e);
+	   }
+	  })
+	})
+
+	
+    //검색 버튼을 클릭했을 때
+	$("#searchBtn").on("click",function (){
 	
 	//가격대에서 숫자만 입력하도록 유효성 검사
 	let regexPrice =/[0-9]/;
@@ -206,8 +276,6 @@ $("#searchBtn").on("click",function (){
 				console.log(e);
 			}
 		})
-		
-		
 		
 	
 	//키워드만 입력
@@ -256,9 +324,6 @@ $("#searchBtn").on("click",function (){
 	}
 
 })
-
-		
-
 
 </script>
 </body>

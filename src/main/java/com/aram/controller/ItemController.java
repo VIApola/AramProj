@@ -9,14 +9,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.aram.dao.ImgFileDAO;
 import com.aram.dao.ItemDAO;
 import com.aram.dao.ReviewDAO;
 import com.aram.dto.ItemDTO;
+import com.google.gson.Gson;
+
 import com.aram.dto.ItemViewDTO;
 import com.aram.dto.ItemimgDTO;
+
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -247,16 +249,63 @@ public class ItemController extends HttpServlet {
 				
 				System.out.println(itemList);
 				System.out.println(allItemsCount);
+				System.out.println(pageList);
 				
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-			request.getRequestDispatcher("/shop/searchitem.jsp").forward(request, response);
+			request.getRequestDispatcher("/shop/searchitem.jsp").forward(request, response);	
 		
 			
+		//낮은가격순으로
+		}else if(uri.equals("/searchRowPrice.item")) {
+			
+			ItemDAO dao = new ItemDAO();
+			
+			try {
+				ArrayList<ItemDTO> rowPriceList = dao.selectRowPrice();				
+				Gson gson = new Gson();
+				String rs = gson.toJson(rowPriceList);
+				System.out.println(rs);
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().append(rs);
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		
+		//높은가격순으로
+		}else if(uri.equals("/searchHighPrice.item")) {
+			
+			ItemDAO dao = new ItemDAO();
+			
+			try {
+				ArrayList<ItemDTO> highPriceList = dao.selectHignPrice();
+				
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+		//이름순으로
+		}else if(uri.equals("/searchName.item")) {
+			
+			ItemDAO dao = new ItemDAO();
+			
+			try {
+				ArrayList<ItemDTO> nameList = dao.selectItemName();
+				
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
 		}
-		
-		
+
 	 }
 
 }
