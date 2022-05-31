@@ -36,12 +36,12 @@ public class ImgFileDAO {
 				ArrayList<ItemimgDTO> list = new ArrayList<>();
 				while(rs.next()) {
 					int img_no = rs.getInt("img_no");
-					String img_title = rs.getString("img_title");
+					int item_no = rs.getInt("item_no");
 					String img_type = rs.getString("img_type");
 					String ori_name = rs.getString("ori_name");
 					String sys_name = rs.getString("sys_name");
 					
-					list.add(new ItemimgDTO(img_no, img_title, img_type, ori_name,sys_name));
+					list.add(new ItemimgDTO(img_no, item_no, img_type, ori_name,sys_name));
 				}
 				return list;
 			}
@@ -57,12 +57,12 @@ public class ImgFileDAO {
 					
 					ResultSet rs = pstmt.executeQuery();
 				if(rs.next()) {
-					String img_title = rs.getString("img_title");
+					int item_no = rs.getInt("item_no");
 					String img_type = rs.getString("img_type");
 					String ori_name = rs.getString("ori_name");
 					String sys_name = rs.getString("sys_name");
 					
-					return new ItemimgDTO(img_no,img_title,img_type,ori_name,sys_name);			
+					return new ItemimgDTO(img_no,item_no,img_type,ori_name,sys_name);			
 				}
 				return null;
 			}
@@ -74,7 +74,7 @@ public class ImgFileDAO {
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
-			pstmt.setString(1, dto.getImg_title());
+			pstmt.setInt(1, dto.getItem_no());
 			pstmt.setString(2, dto.getImg_type());
 			pstmt.setString(3, dto.getOri_name());
 			pstmt.setString(4, dto.getSys_name());
@@ -90,7 +90,7 @@ public class ImgFileDAO {
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
-			pstmt.setString(1, dto.getImg_title());
+			pstmt.setInt(1, dto.getItem_no());
 			pstmt.setString(2, dto.getImg_type());
 			pstmt.setString(3, dto.getOri_name());
 			pstmt.setString(4, dto.getSys_name());
@@ -113,5 +113,27 @@ public class ImgFileDAO {
 			return rs;
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 			
 }

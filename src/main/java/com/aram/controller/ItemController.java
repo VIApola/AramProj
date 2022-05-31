@@ -97,7 +97,7 @@ public class ItemController extends HttpServlet {
 			ImgFileDAO imgDao = new ImgFileDAO();
 			
 			try {
-				int item_no = 22;
+				int item_no = dao.select_Item_id(sys_name);
 				int rs = dao.insertItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, "P200", 0));
 				int rsFile = imgDao.insert_img(new ItemimgDTO(0, item_no, null, ori_name, sys_name));
 				if(rs > 0 && rsFile > 0) {

@@ -69,11 +69,11 @@
                 <h2>상품등록 / 수정</h2>
             </div>
         </div>
-        <form><!-- form태그 시작 -->
+        <form action="/insert.item" method="post" encType="multipart/form-data"><!-- form태그 시작 -->
         <div class="row">
             <div class="col-12">기본정보</div>
             <div class="col-3">상품명</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 이름을 입력하세요." name=""></div>
+            <div class="col-8 input"><input type="text" placeholder="상품 이름을 입력하세요." name="itemName"></div>
         </div>
         <div class="row">
             <div class="col-12">상품분류</div>
@@ -87,17 +87,17 @@
         <div class="row">
             <div class="col-12">상품 가격</div>
             <div class="col-3">판매가격</div>
-            <div class="col-8 input"><input type="text" placeholder="상품의 가격을 입력하세요." name=""></div>
+            <div class="col-8 input"><input type="text" placeholder="상품의 가격을 입력하세요." name="itemPrice"></div>
         </div>
         <div class="row">
             <div class="col-12">상품 재고</div>
             <div class="col-3">재고 개수</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 재고 개수를 입력하세요." name=""></div>
+            <div class="col-8 input"><input type="text" placeholder="상품 재고 개수를 입력하세요." name="itemStock"></div>
         </div>
         <div class="row">
             <div class="col-12">상품 설명/이미지 설정</div>
             <div class="col-3">설명 정보 입력</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 설명을 입력하세요." name=""></div>
+            <div class="col-8 input"><input type="text" placeholder="상품 설명을 입력하세요." name="itemDetail"></div>
         </div>
         <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">이미지 정보</div>

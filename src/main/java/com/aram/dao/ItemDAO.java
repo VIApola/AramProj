@@ -67,7 +67,7 @@ public class ItemDAO {
 				String category_id = rs.getString("category_id");
 				int img_no = rs.getInt("img_no");
 				
-				String img_title = rs.getString("img_title");
+				int item_no = rs.getInt("item_no");
 				String img_type = rs.getString("img_type");
 				String ori_name = rs.getString("ori_name");
 				String sys_name = rs.getString("sys_name");
@@ -75,7 +75,7 @@ public class ItemDAO {
 				
 				list.add(new ItemDTO(item_id, item_name, price, item_comment,item_regdate, item_stock, category_id, img_no));
 				
-				Imglist.add(new ItemimgDTO(img_no, img_title, img_type, ori_name, sys_name));
+				Imglist.add(new ItemimgDTO(img_no, item_no, img_type, ori_name, sys_name));
 				
 			}
 			System.out.println(" 보내기 전 list (ItemDTO) : " + list);
@@ -161,6 +161,22 @@ public class ItemDAO {
 
 		}
 	}
+	
+	public int select_Item_id(String sys_name)throws Exception{
+		String sql = "select item_id from tbl_items a join tbl_item_img b on a.img_no=b.img_no where sys_name = ?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)	
+				){
+			pstmt.setString(1, sys_name);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			
+			return rs.getInt(1);	
+		}
+		
+	}
+	
+
 	
 	
 	
