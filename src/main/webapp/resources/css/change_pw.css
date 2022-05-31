@@ -1,0 +1,57 @@
+@charset "UTF-8";
+
+            *{
+                box-sizing: border-box;
+            }
+
+        /* 폰트 스타일 */
+        @font-face {
+            font-family: 'GowunBatang-Bold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'Roboto Mono', monospace;
+            font-family: 'GowunBatang-Bold';
+        }
+
+
+
+        /* input창 길이설정 */
+        .form-control {
+            width: 300px;
+        }
+
+        /* 버튼 크기 및 마진설정 */
+        button {
+            margin: 15px;
+            width: 200px;
+        }
+
+        /* 비밀번호 변경 마진 설정 */
+        .boxChangePwAction {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* 서버로부터 받아오는 정보 input */
+        .fromServer {
+            display: none;
+        }
+
+        /* 구분선 */
+        .clsLabel {
+            border-right: 1px solid lightgray;
+        }
+
+        .clsInputRow {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border-top: 1px solid lightgray;
+        }
+
+        .clsInputRow:nth-child(2) {
+            border-bottom: 1px solid lightgray;
+        }

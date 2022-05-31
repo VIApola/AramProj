@@ -73,7 +73,7 @@ public class UserController extends HttpServlet {
 				
 				int rs = dao.signup(new UserDTO(id, password, name, nickname, phone, email, postcode, roadAddr, detailAddr, null, "n", null, "n"));
 				if(rs > 0) {
-					response.sendRedirect("/main.jsp");
+					response.sendRedirect("/login.user");
 				}
 			}catch(Exception e) {
 				e.printStackTrace();

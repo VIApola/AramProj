@@ -8,10 +8,10 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-<title>Insert title here</title>
+<title>Q&A 관리</title>
 <style>
         *{
-            margin: auto;
+            /*margin: auto;*/
             box-sizing: border-box;
         }
         div{
@@ -38,6 +38,8 @@
         right: 12px;
         margin: 0;
        }
+       
+       
         </style>
 </head>
 <body>
@@ -49,7 +51,7 @@
         </div>
         <!--상단 네비바-->
     <div class="row adminItem-nav justify-content-center">
-        <div class="col-5">
+        <div class="col-12 col-xl-5">
             <ul class="nav">
                 <li class="nav-item">
                   <a class="nav-link active" style="color: black;" href="#">로그아웃</a>
@@ -77,14 +79,16 @@
             <div class="col-1">리뷰관리</div>
             <div class="col-1"><strong>Q&A관리</strong></div>
             <div class="col-1">계정관리</div>
-            <div class="col-3" style="display:block; text-align: justify;">
-                <select name="">
-                  <option value="상품평">아이디</option>
-                <option value="상품번호">카테고리</option>
-                  <option value="카테고리">내용</option>
-                </select></div>
             <div class="col">
             <nav class="navbar">
+                        <div class="col-3" id="selectSc" style="display:block;">
+                <select name="">
+                  <option value="아이디">아이디</option>
+                <option value="카테고리">카테고리</option>
+                  <option value="내용">내용</option>
+                </select>
+            </div>
+            
                 <div class="search">
                     <input style="height:30px;" type="text" placeholder="검색어 입력">
                     <a href=""><img style="width: 20px;" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></a>
