@@ -69,12 +69,13 @@ public class UserController extends HttpServlet {
 			UserDAO dao = new UserDAO();
 			try {
 				password = EncryptionUtils.getSHA512(password);
-				System.out.println("암호회된 데이터 : " + password);
+				System.out.println("암호화된 데이터 : " + password);
 				
 				int rs = dao.signup(new UserDTO(id, password, name, nickname, phone, email, postcode, roadAddr, detailAddr, null, "n", null, "n"));
 				if(rs > 0) {
 					response.sendRedirect("/login.user"); 
-					//response.sendRedirect("/member/emailSendAction.jsp");이메일 인증때문에..잠시
+					//response.sendRedirect("/member/emailSendAction.jsp");
+					//이메일 인증때문에..잠시
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -96,6 +97,7 @@ public class UserController extends HttpServlet {
 					request.setAttribute("rs", true);
 					HttpSession session = request.getSession();
 					session.setAttribute("loginSession", dto);
+
 				}else {
 					System.out.println("로그인 실패");
 					request.setAttribute("rs", false);
@@ -124,7 +126,6 @@ public class UserController extends HttpServlet {
 				}else {
 					System.out.println("로그인 실패");
 					response.getWriter().append("fail");
-					
 				}
 				
 			}catch(Exception e) {

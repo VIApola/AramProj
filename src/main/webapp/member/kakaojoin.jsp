@@ -722,7 +722,7 @@
 
     	// 닉네임 조건 밑에 뜨게
     	$("#nickname").focus(function(){
-    		$("#nicknameCheck").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~ 10자 이내로 작성해 주세요.");
+    		$("#nicknameCheck").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 2~6자 이내로 작성해 주세요.");
     		$("#nicknameCheck").css("color", "green");
     	});
     	$("#nickname").blur(function(){
@@ -747,7 +747,7 @@
     	});
     	// 회원가입 버튼을 눌렀을때
     	$("#joinBtn").on("click", function(){
-    		let regexNickname = /^[a-zA-z0-9ㄱ-흫]{3,10}$/;
+    		let regexNickname = /^[a-zA-z0-9ㄱ-흫]{2,6}$/;
     		let regexEmail = /^[a-zA-z][\w]+@[a-zA-z]+\.(com|net|co\.kr|or\.kr)$/;
 			let regexPhone = /^[0-9]{11}$/;
 			
@@ -759,7 +759,7 @@
 			$("#phone").val(phone);
 			
     		if(!regexNickname.test($("#nickname").val())){
-    			alert("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~ 10자 이내로 작성해 주세요.");
+    			alert("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 2~6자 이내로 작성해 주세요.");
     			$("#nickname").focus();
     			return;
     		}else if(!regexPhone.test(phone)){ // 숫자 데이터에 대한 별도의 형변환이 필요없음
