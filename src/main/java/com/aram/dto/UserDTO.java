@@ -11,15 +11,16 @@ public class UserDTO {
 	private String addr;
 	private String addr_detail;
 	private String social_login;
-	private boolean email_verify;
+	private String email_verify;
 	private String join_date;
-	private boolean isAdmin;
-	
-	public UserDTO() {}
+	private String isAdmin;
+
+	public UserDTO() {
+	}
 
 	public UserDTO(String user_id, String user_pw, String username, String nickname, String phone, String email,
-			String post_no, String addr, String addr_detail, String social_login, boolean email_verify,
-			String join_date, boolean isAdmin) {
+			String post_no, String addr, String addr_detail, String social_login, String email_verify, String join_date,
+			String isAdmin) {
 		super();
 		this.user_id = user_id;
 		this.user_pw = user_pw;
@@ -116,11 +117,11 @@ public class UserDTO {
 		this.social_login = social_login;
 	}
 
-	public boolean isEmail_verify() {
+	public String getEmail_verify() {
 		return email_verify;
 	}
 
-	public void setEmail_verify(boolean email_verify) {
+	public void setEmail_verify(String email_verify) {
 		this.email_verify = email_verify;
 	}
 
@@ -132,22 +133,20 @@ public class UserDTO {
 		this.join_date = join_date;
 	}
 
-	public boolean isAdmin() {
+	public String getIsAdmin() {
 		return isAdmin;
 	}
 
-	public void setAdmin(boolean isAdmin) {
+	public void setIsAdmin(String isAdmin) {
 		this.isAdmin = isAdmin;
 	}
 
 	@Override
 	public String toString() {
-		return "UserDTO [user_id=" + user_id + ", user_pw=" + user_pw + ", username=" + username + ", nickname="
-				+ nickname + ", phone=" + phone + ", email=" + email + ", post_no=" + post_no + ", addr=" + addr
-				+ ", addr_detail=" + addr_detail + ", social_login=" + social_login + ", email_verify=" + email_verify
-				+ ", join_date=" + join_date + ", isAdmin=" + isAdmin + "]";
+		return user_id + ", user_pw=" + user_pw + ", username=" + username + ", nickname=" + nickname + ", phone="
+				+ phone + ", email=" + email + ", post_no=" + post_no + ", addr=" + addr + ", addr_detail="
+				+ addr_detail + ", social_login=" + social_login + ", email_verify=" + email_verify + ", join_date="
+				+ join_date + ", isAdmin=" + isAdmin + "]";
 	}
-	
-	
 
 }

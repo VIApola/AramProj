@@ -76,27 +76,27 @@
                 <!--네비 메뉴-->
                 <div class="row search-menu">
                 <span>Shop</span>
-                <a href="#" class="fromLeft"><span>공기 정화 (Air Purifying)</span></a>
-                <a href="#" class="fromLeft"><span>실내 식물 (Indoor Plants)</span></a>
-                <a href="#" class="fromLeft"><span>실외 식물(Outdoor Plants)</span></a>    
+                <a href="/air.item" class="fromLeft"><span>공기 정화 (Air Purifying)</span></a>
+                <a href="/interior.item" class="fromLeft"><span>실내 식물 (Indoor Plants)</span></a>
+                <a href="/outside.item" class="fromLeft"><span>실외 식물(Outdoor Plants)</span></a>    
                 <span>Community</span>
-                <a href="/toQnA.main" class="fromLeft" ><span>Q & A</span></a>
-                <a href="/toNotice.main" class="fromLeft" id="noticeNav"><span>Notice</span></a>
+                <a href="" class="fromLeft" ><span>Q & A</span></a>
+                <a href="" class="fromLeft" id="noticeNav"><span>Notice</span></a>
                 <c:choose>
                 <c:when test="${not empty loginSession}">
-                <a href="/toLogout.main" class="fromLeft bottom" id="logoutNav"><span>로그아웃</span></a>             
+                <a href="/toLogout.user" class="fromLeft bottom" id="logoutNav"><span>로그아웃</span></a>             
                 </c:when>
                 <c:otherwise>
-                <a href="/toLogin.main" class="fromLeft bottom" id="loginNav"><span>로그인</span></a> 
+                <a href="/login.user" class="fromLeft bottom" id="loginNav"><span>로그인</span></a> 
                 </c:otherwise>
                 </c:choose>
-                <a href="/toJoin.main" class="fromLeft bottom"><span>회원가입</span></a>
+                <a href="/join.user" class="fromLeft bottom"><span>회원가입</span></a>
                 <c:choose>
                 <c:when test="${not empty loginSession}">
-                <a href="/toMypage.main" class="fromLeft bottom"><span>마이페이지</span></a>
+                <a href="" class="fromLeft bottom"><span>마이페이지</span></a>
                 </c:when>
                 <c:otherwise>
-                <a href="/toLogin.main" 
+                <a href="/login.user" 
                 onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" class="fromLeft bottom" id="toMypage" ><span>마이페이지</span></a>
                 </c:otherwise>
                 </c:choose>
@@ -131,18 +131,17 @@
                 <li class="nav-item">
                 <c:choose>
                 <c:when test="${not empty loginSession}">
-                  <a class="nav-link active" style="color: black;" href="/toLogout.main">Logout</a>
+                  <a class="nav-link active" style="color: black;" href="/toLogout.user">Logout</a>
                 </c:when>
                 <c:otherwise>
-                <a class="nav-link active" style="color: black;" href="/toLogin.main">Login</a>
+                <a class="nav-link active" style="color: black;" href="/login.user">Login</a>
                 </c:otherwise>
                 </c:choose>
                 </li>
                 <c:choose>
                 <c:when test="${not empty loginSession}">
                 <li class="nav-item">
-                <a href="/toLogin.main" 
-                onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" class="nav-link" style="color: black;" href="/toMypage.main">Mypage</a>
+                <a href="" class="nav-link" style="color: black;" >Mypage</a>
                  </li>
                 </c:when>
                 <c:otherwise>
@@ -152,15 +151,15 @@
                 </c:otherwise>
                 </c:choose>
                 <li class="nav-item">
-                  <a class="nav-link" style="color: black;" href="/toSearchPage.main">Search</a>
+                  <a class="nav-link" style="color: black;" href="/toSearchPage.item">Search</a>
                 </li>
                 <li class="nav-item">
                 <c:choose>
                 <c:when test="${not empty loginSession}">
-                  <a href="/toMycart.main" class="nav-link" style="color: black;">Cart (0)</a>
+                  <a href="" class="nav-link" style="color: black;">Cart (0)</a>
                 </c:when>
                 <c:otherwise>
-                <a href="/toLogin.main" 
+                <a href="/login.user" 
                 onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" 
                 class="nav-link" style="color: black;">Cart (0)</a>
                 </c:otherwise>
@@ -313,8 +312,8 @@
                 <div class="col-2 d-none d-sm-block">
                     <ul class="ft-ul">
                         <li><strong>사이트맵</strong></li>
-                        <a href="/toNotice.main"><li>공지사항</li></a>
-                        <a href="/toQnA.main"><li>Q&A</li></a>
+                        <a href=""><li>공지사항</li></a>
+                        <a href=""><li>Q&A</li></a>
                     </ul>
                 </div>
                 <div class="col-3 d-none d-sm-block">
@@ -332,11 +331,12 @@
  	   
       <script>
       //팝업창
+      /*
       function pop()
     	{
     	window.open("popup.jsp", "EVENT", "width=430,height=530,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
       }
-	
+	  */
       	//상품이미지 클릭했을때 -> 
       	$(".toSpecific").on("click",function(){
       		
@@ -348,14 +348,14 @@
       			alert("검색어를 입력해 주세요");
       			return;
       		}else{
-      			location.href ="/searchProc.main?searchKeyword="+searchKeyword;
+      			location.href ="/searchProc.item?searchKeyword="+searchKeyword;
       		}
       		
       	})
       
       	//더많은 상품 보러가기 버튼 클릭했을때
       	$("#toSerchItemBtn").on("click",function(){
-      		location.href="/toSearchPage.main";
+      		location.href="//toSearchPage.item";
       	})
       	
 

@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+.container {
+	margin: 5%;
+}
+#btnPostcode {
+	width: 100%;
+}
+.textarea {
+    width: 100%;
+    height: 200px;
+    resize: none;
+}
+.row {
+    margin-top: 20px;
+}
+.star {
+    color: red;
+}
+.signupTitleBox {
+    border-bottom: 1px solid grey;
+}
+.signupInputBox {
+    margin-bottom: 50px;
+}
+.agreementContentBox {
+    margin-bottom: 50px;
+}

@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+.findIdInput [class*=col] {
+    border: 1px solid lightgrey;
+    border-left: none;
+    border-right: none;
+}
+.form-control {
+    width: 250px;
+}
+.findPwInput [class*=col] {
+    border: 1px solid lightgrey;
+    border-left: none;
+    border-right: none;
+}
+button {
+    margin: 15px;
+    width: 200px;
+}
+.id {
+    margin-top: 30px;
+}
+.pw {
+    margin-top: 30px;
+}
