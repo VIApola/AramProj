@@ -32,10 +32,10 @@ public class HomeController extends HttpServlet {
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		ItemDAO ItemDAO = new ItemDAO();
+		ItemDAO itemDao = new ItemDAO();
 		
 		try {
-			ArrayList<ItemDTO> list = ItemDAO.selectByStock();
+			ArrayList<ItemViewDTO> list = itemDao.selectByStock();
 			request.setAttribute("itemList", list);
 			
 		}catch(Exception e) {

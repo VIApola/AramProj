@@ -30,19 +30,20 @@ public class ItemDAO {
 			e.printStackTrace();
 		}
 	}
-	
 
 	//메인에서 뿌려줄 재고 적은 순으로 1~8위
-	public ArrayList<ItemDTO> selectByStock ()throws Exception {
+	public ArrayList<ItemViewDTO> selectByStock() throws Exception {
 		String sql ="select * from (select * from tbl_items order by item_stock) where rownum <=8";
 		
 		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
 			
 			ResultSet rs = pstmt.executeQuery();
 			
-			ArrayList<ItemDTO> list = new ArrayList<>();
+			ImgFileDAO dao = new ImgFileDAO();
+			
+			ArrayList<ItemViewDTO> list = new ArrayList<>();
 			while(rs.next()) {
-				int item_id = rs.getInt("item_id");
+				int item_no = rs.getInt("item_no");
 				String item_name = rs.getString("item_name");
 				int price = rs.getInt("price");
 				String item_comment = rs.getString("item_comment");
@@ -50,18 +51,16 @@ public class ItemDAO {
 				int item_stock = rs.getInt("item_stock");
 				String category_id = rs.getString("category_id");
 				int img_no = rs.getInt("img_no");
-				list.add(new ItemDTO (item_id,item_name,price,item_comment,item_regdate,item_stock,category_id, img_no));
+				ItemimgDTO itemImgDto = dao.select_img(img_no);
+				
+				list.add(new ItemViewDTO(item_no, item_name, price, item_comment, item_regdate, item_stock, category_id, itemImgDto));
 				
 			}
 			return list;
 			
 		}
 	}
-		//date형 String형으로
-		public String getStringDate(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		return sdf.format(date);
-	}
+		
 		
 	//제품이름 검색 요청
 	public ArrayList<ItemDTO> searchByTitle(String searchKeyword) throws Exception{
@@ -75,7 +74,7 @@ public class ItemDAO {
 			ArrayList<ItemDTO> list = new ArrayList<>();
 			
 			while(rs.next()) {
-				int item_id = rs.getInt("item_id");
+				int item_no = rs.getInt("item_no");
 				String item_name = rs.getString("item_name");
 				int price = rs.getInt("price");
 				String item_comment = rs.getString("item_comment");
@@ -83,7 +82,7 @@ public class ItemDAO {
 				int item_stock = rs.getInt("item_stock");
 				String category_id = rs.getString("category_id");
 				int img_no = rs.getInt("img_no");
-				list.add(new ItemDTO (item_id,item_name,price,item_comment,item_regdate,item_stock,category_id, img_no));	
+				list.add(new ItemDTO (item_no,item_name,price,item_comment,item_regdate,item_stock,category_id, img_no));	
 			}
 			return list;
 		}
@@ -102,7 +101,7 @@ public class ItemDAO {
 			ArrayList<ItemDTO> list = new ArrayList<>();
 			
 			while(rs.next()) {
-				int item_id = rs.getInt("item_id");
+				int item_no = rs.getInt("item_no");
 				String item_name = rs.getString("item_name");
 				int price = rs.getInt("price");
 				String item_comment = rs.getString("item_comment");
@@ -110,7 +109,7 @@ public class ItemDAO {
 				int item_stock = rs.getInt("item_stock");
 				String category_id = rs.getString("category_id");
 				int img_no = rs.getInt("img_no");
-				list.add(new ItemDTO (item_id,item_name,price,item_comment,item_regdate,item_stock,category_id, img_no));	
+				list.add(new ItemDTO (item_no,item_name,price,item_comment,item_regdate,item_stock,category_id, img_no));	
 			}
 			return list;
 			
@@ -178,7 +177,7 @@ public class ItemDAO {
 			ResultSet rs = pst.executeQuery();
 			
 			if(rs.next()) {
-				// String item_id = rs.getString("item_id");
+				// String item_no = rs.getString("item_no");
 				String item_name = rs.getString("item_name");
 				int price = rs.getInt("price");
 				String item_comment = rs.getString("item_comment");
@@ -210,7 +209,7 @@ public class ItemDAO {
 
 	// 등록된 제품 삭제
 	public int deleteItem(int item_no) throws Exception {
-		String sql = "delete from tbl_items where item_id = ?";
+		String sql = "delete from tbl_items where item_no = ?";
 		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
 			pst.setInt(1, item_no);	
 			
@@ -252,7 +251,7 @@ public class ItemDAO {
 			
 			ArrayList<ItemDTO> list = new ArrayList<>();
 			while(rs.next()) {
-				int item_id = rs.getInt("item_id");
+				int item_no = rs.getInt("item_no");
 				String item_name = rs.getString("item_name");
 				int price = rs.getInt("price");
 				String item_comment = rs.getString("item_comment");
@@ -260,7 +259,7 @@ public class ItemDAO {
 				int item_stock = rs.getInt("item_stock");
 				String category_id = rs.getString("category_id");
 				int img_no = rs.getInt("img_no");
-				list.add(new ItemDTO (item_id,item_name,price,item_comment,item_regdate,item_stock,category_id, img_no));
+				list.add(new ItemDTO (item_no,item_name,price,item_comment,item_regdate,item_stock,category_id, img_no));
 				
 			}
 			return list;
@@ -287,5 +286,13 @@ public class ItemDAO {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		return sdf.format(date);
 	}
+	
+	/**
+	//date형 String형으로
+			public String getStringDate(Date date) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			return sdf.format(date);
+		}
+	**/
 	
 }

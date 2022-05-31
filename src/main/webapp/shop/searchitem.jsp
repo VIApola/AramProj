@@ -134,7 +134,7 @@
          <div class="row" id="links">
           
             <div class="col-6 countBox">
-                <span id="count">총 ${allItemsCount}개의 상품이 검색되었습니다.</span>
+                <span id="count">총 ${itemCount}개의 상품이 검색되었습니다.</span>
             </div>
 
             <div class="col-6 search">
@@ -148,7 +148,7 @@
         <div class="contentBox">
             <div class="row">
             <c:choose>
-            <c:when test="${empty allItemsList}">
+            <c:when test="${empty itemList}">
             <div class="row">
         	<div class="col d-flex justify-content-center">
         		<h2>등록된 제품이 없습니다.</h2>
@@ -156,13 +156,16 @@
             </div>
             </c:when>
             <c:otherwise>
-            <c:forEach items="${allItemsList}" var="dto">
+            <c:forEach items="${itemList}" var="dto">
        		  <div class="col-6 col-lg-3 d-flex justify-content-center">
                     <div class="card" style="width: 16rem;">
-                        <img src="" class="card-img-top">
+                    	<a href="/detail.item?item_no=${dto.item_no}">
+                        <img src="/resources/images/items/${dto.itemImgDTO.sys_name}" class="card-img-top">
+                        </a>
                         <div class="card-body">
                             <h5 class="card-text">${dto.item_name}</h5>
-                            <p class="card-text col-12 d-lg-none">${dto.price}</p>
+                            <p class="card-text col-12 ">${dto.price}</p>
+                       
                         </div>
                     </div>
                 </div>

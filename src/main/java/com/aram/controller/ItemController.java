@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.aram.dao.ImgFileDAO;
 import com.aram.dao.ItemDAO;
+import com.aram.dao.ReviewDAO;
 import com.aram.dto.ItemDTO;
 import com.aram.dto.ItemViewDTO;
 import com.aram.dto.ItemimgDTO;
@@ -56,6 +57,7 @@ public class ItemController extends HttpServlet {
 			System.out.println("상품번호 : " + item_no);
 			ItemDAO dao = new ItemDAO();
 			ImgFileDAO imgDao = new ImgFileDAO();
+			ReviewDAO reviewDAO = new ReviewDAO();
 			
 			try {
 				ItemDTO itemDto = dao.selectItemByNo(item_no);
@@ -63,6 +65,8 @@ public class ItemController extends HttpServlet {
 				// 이미지 번호를 통해 이미지 경로값 가져오기
 				int img_no = itemDto.getImg_no();
 				ItemimgDTO imgDto = imgDao.select_img(img_no);
+				
+				reviewDAO.
 				
 				request.setAttribute("item", itemDto);
 				request.setAttribute("itemImg", imgDto);
@@ -231,16 +235,15 @@ public class ItemController extends HttpServlet {
 			
 			ItemDAO dao = new ItemDAO();
 			
-			
 			try {
 			
-				ArrayList<ItemDTO> allItemsList = dao.selectAllTblItems();
+				ArrayList<ItemViewDTO> itemList = dao.selectAllItems();
 				int allItemsCount = dao.countAllItems();
 				
-				request.setAttribute("allItemsList", allItemsList);
-				request.setAttribute("allItemsCount", allItemsCount);
+				request.setAttribute("itemList", itemList);
+				request.setAttribute("itemCount", allItemsCount);
 				
-				System.out.println(allItemsList);
+				System.out.println(itemList);
 				System.out.println(allItemsCount);
 				
 			}catch(Exception e) {
