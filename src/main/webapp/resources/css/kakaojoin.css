@@ -1,18 +1,16 @@
 @charset "UTF-8";
 
-                /* 폰트 스타일 */
-                @font-face {
-                    font-family: 'GowunBatang-Bold';
-                    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff') format('woff');
-                    font-weight: normal;
-                    font-style: normal;
-                }
-
-                * {
-                    font-family: 'Roboto Mono', monospace;
-                    font-family: 'GowunBatang-Bold';
-                }
-
+/* 폰트 스타일 */
+@font-face {
+    font-family: 'GowunBatang-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+	*{
+	font-family: 'Roboto Mono', monospace;
+	font-family: 'GowunBatang-Bold';}
+	
                 /* 회원가입 타이틀 */
                 .titleSignup {
                     display: inline;
