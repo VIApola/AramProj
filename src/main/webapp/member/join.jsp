@@ -61,8 +61,6 @@
                                     <span id="checkName"></span>
                                 </div>
                             </div>
-
-
                             <div class="row clsInputRow">
                                 <div class="col-4 col-md-3 align-self-center">
                                     <span class="star">*</span>
@@ -81,8 +79,6 @@
                                     <span id="checkId"></span>
                                 </div>
                             </div>
-
-
                             <div class="row clsInputRow">
                                 <div class="col-4 col-md-3 align-self-center">
                                     <span class="star">*</span>
