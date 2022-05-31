@@ -58,7 +58,7 @@ public class BoardController extends HttpServlet {
 			NoticeDAO dao = new NoticeDAO();
 			try {
 				
-				if(!searchAuthor.equals(null)) {
+				if(searchAuthor != null) {
 					ArrayList<NoticeDTO> list = dao.searchByAuthor(searchAuthor);
 					Gson gson = new Gson();
 					String rs = gson.toJson(list);
@@ -67,7 +67,7 @@ public class BoardController extends HttpServlet {
 					response.getWriter().append(rs);
 					
 				
-				}else if(!searchTitle.equals(null)){
+				}else if(searchTitle != null){
 					ArrayList<NoticeDTO> list = dao.searchByTitle(searchTitle);
 					Gson gson = new Gson();
 					String rs = gson.toJson(list);
@@ -76,7 +76,7 @@ public class BoardController extends HttpServlet {
 					response.getWriter().append(rs);
 					
 					
-				}else if(!searchContent.equals(null)) {
+				}else if(searchContent != null) {
 					ArrayList<NoticeDTO> list = dao.searchByContent(searchContent);
 					Gson gson = new Gson();
 					String rs = gson.toJson(list);
@@ -90,6 +90,16 @@ public class BoardController extends HttpServlet {
 				e.printStackTrace();
 			}
 			
+		}else if(uri.equals("/detailView.bo")) {
+			int notice_no = Integer.parseInt(request.getParameter("notice_no"));
+			System.out.println("notice_no : " + notice_no);
+			NoticeDAO noticeDAO = new NoticeDAO();
+			try{
+				noticeDAO.updateView_count(notice_no);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
+
 	}
 }
