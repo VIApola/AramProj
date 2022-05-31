@@ -53,7 +53,9 @@ public class ItemController extends HttpServlet {
 			}
 			
 		} else if(uri.equals("/detail.item")) { // 상품 상세페이지 로딩
-			int item_no = Integer.parseInt(request.getParameter("item_no"));
+			
+			int item_no = 104;
+//			int item_no = Integer.parseInt(request.getParameter("item_no"));
 			System.out.println("상품번호 : " + item_no);
 			ItemDAO dao = new ItemDAO();
 			ImgFileDAO imgDao = new ImgFileDAO();

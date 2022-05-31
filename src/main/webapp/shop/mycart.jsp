@@ -81,7 +81,11 @@
         </div>
 
         
-        <div class="row list-row">
+        <c:forEach items="${list}" var="dto">
+        
+        
+        
+         <div class="row list-row">
             <div class="col-3">
                 <input class="form-check-input" type="checkbox" checked="checked" id="selectBox" value="">
                 <img src="/resources/images/category/air/개운죽.png">
@@ -89,21 +93,27 @@
               
 
             <div class="col-5" style="margin-top: 25px; text-align: left;">
-                Text - Double click to edit
+                ${dto.item_name}
             </div>
 
             <div class="col-2" style="text-align: center; margin-top: 25px;">
-                    <input type="text" size="1" maxlength="4" class="p_num" value="2">
+                    <input type="text" size="1" maxlength="4" class="p_num" value="${dto.quantity}">
             </div>
 
            
-            <div class="col-2" style="margin-top:25px; text-align: center;">00,000
+            <div class="col-2" style="margin-top:25px; text-align: center;">${dto.price}
             </div>
         </div>
+        
+        
+        
+        </c:forEach>
+        
+       
 
 
         <div class="row price-row">
-            <div class="col">총 가격 : XXXX</div>
+            <div class="col">총 가격 : XXXX 원</div>
         </div>
 
             

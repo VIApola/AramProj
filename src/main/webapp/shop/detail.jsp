@@ -44,6 +44,7 @@
 <body>
 
   <div class="container">
+  ${item}
     <div class="row itemInfoBox">
       <div class="col-12 col-md-6">
         <div class="imgBox m-3">
@@ -81,7 +82,15 @@
           </div>
         </div>
         <div class="btnBox d-flex justify-content-center">
-          <button class="m-2" type="">장바구니</button>
+        
+     <form action="/cartProc.cart" method="post" id = "cartForm">
+     
+		<input type="text" name = "item_no" id = "item_no" class="d-none" value="${item.item_no}">       
+      
+        <button class="m-2" id="btnCart" type="button">장바구니</button>
+      
+    </form>
+
           <button class="m-2" type="">구매하기</button>
         </div>
       </div>
@@ -176,6 +185,22 @@
       // 결과 출력
       //resultElement.innerText = number;
     }
+    
+    $("#btnCart").on("click", function(){
+    	
+   <%--//장바구니 데이터에 같은 물품이 있을 때 추가 불가능
+   	if($("#item_no").val() ===  ){
+    		alert("장바구니에 같은 물품이 존재합니다.");
+    		return false;
+    	}
+    	$("#cartForm").submit();
+    	--%>
+    	console.log($("#item_no").val());
+    });
+    
+    
+    
+    
   </script>
   
 </body>
