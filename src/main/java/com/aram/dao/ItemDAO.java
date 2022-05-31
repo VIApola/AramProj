@@ -34,7 +34,7 @@ public class ItemDAO {
 	public int insertItem(ItemDTO dto) throws Exception {
 		String sql = "insert into tbl_items values (?, ?, ?, ?, sysdate, ?, ?, ?)";
 		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
-			pst.setInt(1, dto.getItem_id());
+			pst.setInt(1, dto.getItem_no());
 			pst.setString(2, dto.getItem_name());
 			pst.setInt(3, dto.getPrice());
 			pst.setString(4, dto.getItem_comment());
@@ -101,10 +101,10 @@ public class ItemDAO {
 	
 	
 	// 제품번호별 세부 상품 조회
-	public ItemDTO selectItemByNo(int item_id) throws Exception {
-		String sql = "select * from tbl_items where item_id = ?";
+	public ItemDTO selectItemByNo(int item_no) throws Exception {
+		String sql = "select * from tbl_items where item_no = ?";
 		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
-			pst.setInt(1, item_id);
+			pst.setInt(1, item_no);
 			ResultSet rs = pst.executeQuery();
 			
 			if(rs.next()) {
@@ -117,7 +117,7 @@ public class ItemDAO {
 				String category_id = rs.getString("category_id");
 				int img_no = rs.getInt("img_no");
 				
-				return new ItemDTO(item_id, item_name, price, item_comment, null, item_stock, category_id, img_no);
+				return new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no);
 			}
 			return null;
 		}
