@@ -15,11 +15,6 @@
       font-size: 12px;
     }
 
-    .imgBox {
-      height: 400px;
-      border: 1px solid black;
-    }
-
     .imgDesc {
       font-size: 15px;
     }
@@ -52,19 +47,20 @@
     <div class="row itemInfoBox">
       <div class="col-12 col-md-6">
         <div class="imgBox m-3">
-          d</div>
-        <div class="imgDesc p-2 m-3">이미지 설명</div>
+         <img src="/resources/images/items/${itemImg.sys_name}"> 
+         </div>
+        <div class="imgDesc p-2 m-3">${item.item_comment}</div>
       </div>
       <div class="col-12 col-md-6 d-flex flex-column justify-content-center">
         <div class="item-title text-center">
-          <h2>멋쟁이 토마토 </h2>
+          <h2>${item.item_name}</h2>
         </div>
         <div class="item-detail d-flex flex-column justify-content-center p-3">
           <table>
             <tr>
               <td colspan="2"><span>판매가격</span></td>
               <td><span class="item-price">
-                  000,000 원
+                  ${item.price} 원
                 </span>
               </td>
             </tr>

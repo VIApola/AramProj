@@ -22,5 +22,6 @@ public class MainController extends HttpServlet {
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String uri = request.getRequestURI();
 		System.out.println("uri" + uri);
+		
 	}
 }

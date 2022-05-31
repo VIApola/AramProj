@@ -69,35 +69,35 @@
                 <h2>상품등록 / 수정</h2>
             </div>
         </div>
-        <form><!-- form태그 시작 -->
+        <form action="/insert.item" method="post" encType="multipart/form-data"><!-- form태그 시작 -->
         <div class="row">
             <div class="col-12">기본정보</div>
             <div class="col-3">상품명</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 이름을 입력하세요." name=""></div>
+            <div class="col-8 input"><input type="text" placeholder="상품 이름을 입력하세요." name="itemName"></div>
         </div>
         <div class="row">
             <div class="col-12">상품분류</div>
             <div class="col-3">카테고리</div>
-            <div class="col-8" ><select name="">
-              <option value="카테고리번호">공기정화식물</option>
-            <option value="카테고리번호">실내식물</option>
-              <option value="카테고리번호">실외식물</option>
+            <div class="col-8" ><select name="itemCategory">
+              <option value="P100">공기정화식물</option>
+            <option value="P200">실내식물</option>
+              <option value="P300">실외식물</option>
             </select></div>
         </div>
         <div class="row">
             <div class="col-12">상품 가격</div>
             <div class="col-3">판매가격</div>
-            <div class="col-8 input"><input type="text" placeholder="상품의 가격을 입력하세요." name=""></div>
+            <div class="col-8 input"><input type="text" placeholder="상품의 가격을 입력하세요." name="itemPrice"></div>
         </div>
         <div class="row">
             <div class="col-12">상품 재고</div>
             <div class="col-3">재고 개수</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 재고 개수를 입력하세요." name=""></div>
+            <div class="col-8 input"><input type="text" placeholder="상품 재고 개수를 입력하세요." name="itemStock"></div>
         </div>
         <div class="row">
             <div class="col-12">상품 설명/이미지 설정</div>
             <div class="col-3">설명 정보 입력</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 설명을 입력하세요." name=""></div>
+            <div class="col-8 input"><input type="text" placeholder="상품 설명을 입력하세요." name="itemDetail"></div>
         </div>
         <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">이미지 정보</div>
@@ -107,7 +107,7 @@
           </div>
           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px">
             <div class="short-div">이미지 선택</div>
-            <div class="short-div"><input type="file"></div>
+            <div class="short-div"><input type="file" name="imgFile"></div>
           </div>
         </div>
         <div class="row">
