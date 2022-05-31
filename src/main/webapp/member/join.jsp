@@ -62,7 +62,7 @@
         	margin:10px;
         }
     </style>
->>>>>>> 613603883491a66521bf0d3e5f8cea2cfecf9016
+
 </head>
 <body>
     <div class="container"> <!-- 컨테이너 -->
