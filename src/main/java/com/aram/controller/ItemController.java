@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.aram.dao.ImgFileDAO;
 import com.aram.dao.ItemDAO;
@@ -70,8 +71,10 @@ public class ItemController extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if(uri.equals("/toItemInput.item")) { // 상품 입력 페이지 이동
-			response.sendRedirect("/admin/itemInsertModify.jsp");	
+		} else if(uri.equals("/toItemInput.item")) { // 상품 입력 페이지 이동 
+			response.sendRedirect("/admin/itemInsertModify.jsp");
+			
+			
 			
 		} else if(uri.equals("/insert.item")) { // 상품등록 요청 (관리자)
 			
@@ -206,9 +209,49 @@ public class ItemController extends HttpServlet {
 			}
 		
             request.getRequestDispatcher("/shop/category/outside.jsp").forward(request, response);
-		}	
+		
+		}
 		
 		
-	}
+		if(uri.equals("/searchProc.item")) {//메인페이지에서 검색 요청
+			String searchKeyword = request.getParameter("searchKeyword");
+
+			ItemDAO dao = new ItemDAO(); 
+			
+			try {
+				ArrayList<ItemDTO> list = dao.searchByTitle(searchKeyword);
+				request.setAttribute("searchList", list);
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}	
+			request.getRequestDispatcher("/shop/searchitem.jsp").forward(request, response);
+		
+		}else if(uri.equals("/toSearchPage.item")) { //검색페이지 요청
+			
+			ItemDAO dao = new ItemDAO();
+			
+			
+			try {
+			
+				ArrayList<ItemDTO> allItemsList = dao.selectAllTblItems();
+				int allItemsCount = dao.countAllItems();
+				
+				request.setAttribute("allItemsList", allItemsList);
+				request.setAttribute("allItemsCount", allItemsCount);
+				
+				System.out.println(allItemsList);
+				System.out.println(allItemsCount);
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			request.getRequestDispatcher("/shop/searchitem.jsp").forward(request, response);
+		
+			
+		}
+		
+		
+	 }
 
 }
