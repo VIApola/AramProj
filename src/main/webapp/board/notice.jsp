@@ -17,74 +17,11 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
+	
+	<%-- Style영역 --%>
+    <link href="${pageContext.request.contextPath}/resources/css/notice.css" rel="stylesheet" type="text/css">
 <title>Notice</title>
-<style>
-html, body {
-	width: 100%;
-	height: 100%;
-}
 
-* {
-	font-size: small;
-}
-
-/* div {
-            border: 1px solid black;
-        } */
-
-/*imgBox_Q&A*/
-.imgBox {
-	height: 120px;
-	background-color: gray;
-	/* background-image: url('이미지주소'); */
-}
-
-/*noticeBox*/
-.noticeBox {
-	height: 50px;
-	border-bottom: 1px solid lightgray;
-}
-
-.noticeBox h5 {
-	margin: 0;
-}
-
-.resSearchBox * {
-	height: 36px;
-}
-
-/*searchBox*/
-.searchBox {
-	height: 100px;
-	border-bottom: 1px solid lightgray;
-}
-
-.searchBox>* {
-	height: 40px;
-	margin: 5px;
-}
-
-/*boardBox*/
-.boardBox {
-	height: 300px;
-}
-
-.boardBox>.row {
-	padding-top: 2px;
-	padding-bottom: 2px;
-	border-bottom: 1px solid lightgray;
-}
-
-/*writeBtnBox*/
-.writeBtnBox {
-	height: 80px;
-}
-
-/*paginBox*/
-.paginBox {
-	height: 80px;
-}
-</style>
 </head>
 
 <body>
@@ -146,10 +83,10 @@ html, body {
 				<div class="boardBox">
 					<div class="row">
 						<div class="col-1 d-none d-md-block">No.</div>
-						<div class="col-3 d-none d-md-block">title</div>
-						<div class="col-5 d-none d-md-block">content</div>
-						<div class="col-2 d-none d-md-block">name</div>
-						<div class="col-1 d-none d-md-block">date</div>
+						<div class="col-3 d-none d-md-block">name</div>
+						<div class="col-5 d-none d-md-block">title</div>
+						<div class="col-2 d-none d-md-block">date</div>
+						<div class="col-1 d-none d-md-block">hits</div>
 					</div>
 					<div class="body_board">
 						<c:choose>
@@ -163,12 +100,12 @@ html, body {
 								<c:forEach items="${list}" var="dto">
 									<div class="row">
 										<div class="col-1 d-none d-md-block">${dto.notice_no}</div>
-										<div class="col-3 d-none d-md-block">${dto.title}</div>
+										<div class="col-3 d-none d-md-block">${dto.author}</div>
 										<div class="col-12 col-md-5">
-											<a href="">${dto.content}</a>
+											<a href="">${dto.title}</a>
 										</div>
-										<div class="col-12 col-md-2">${dto.author}</div>
-										<div class="col-1 d-none d-md-block">${dto.write_date}</div>
+										<div class="col-12 col-md-2">${dto.write_date}</div>
+										<div class="col-1 d-none d-md-block">${dto.board_views}</div>
 									</div>
 								</c:forEach>
 							</c:otherwise>
@@ -189,32 +126,25 @@ html, body {
 			<div class="col-md-12">
 				<div
 					class="paginBox d-flex justify-content-center align-items-center">
-					<%--  우선적으로 페이징 작업중입니다.
-					<nav>
-						<ul class="pagination">
-							<c:if test=""${naviMap.needPrev eq true}">
-								<li class="page-item"><a class="page-link" href="/board.bo?curPage=${naviMap.startNavi-1}"
-									aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
-							</c:if>
-							<c:forEach var="pageNum" begin="${naviMap.startNavi}" end="${naviMap.endNavi}" step="1">
-								<li class="page-item"><a class="page-link" href="/board.bo?curPage=${pageNum}">${pageNum}</a></li>
-							</c:forEach>
-							
-							<c:if test="${naviMap.needNext eq true}">
-								<li class="page-item"><a class="page-link" href="/board.bo?curPage=${naviMap.endNavi+1}"
-								aria-label="Next"> <span aria-hidden="true">&raquo;</span></a></li>
-							</c:if>
-							
-						
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Next"><span aria-hidden="true">&raquo;</span>
-							</a></li>
-						</ul>
-					</nav>
-					--%>
+					
+					<nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+				
 				</div>
 			</div>
 		</div>
