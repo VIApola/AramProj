@@ -1,22 +1,29 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <!DOCTYPE html>
-        <html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
 
-        <head>
-            <meta charset="UTF-8">
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-                integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-                crossorigin="anonymous">
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-                crossorigin="anonymous"></script>
-            <script src="https://code.jquery.com/jquery-3.6.0.js"
-                integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-            <!-- 폰트 -->
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+<head>
+<meta charset="UTF-8">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+	crossorigin="anonymous"></script>
+<!-- 폰트 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap"
+	rel="stylesheet">
 
             <title>로그인</title>
             <!--style영역-->
@@ -81,30 +88,30 @@
                     </div>
                     <!--카카오 로그인-->
 
-                    <div class="row">
-                        <div class="col-12 col-md-12">
-                            <ul>
-                                <a class="btn btnkakao" id="kakao-login-btn" href="javascript:kakaoLogin()">
-                                    <img src="//k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
-                                        width="222" alt="카카오 로그인 버튼" />
-                                </a>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="row footer">
-                    <div class="col">여기는 Footer</div>
-                </div>
-            </div>
-            <script>
+			<div class="row">
+				<div class="col-12 col-md-12">
+					<ul>
+						<a class="btn btnkakao" id="kakao-login-btn"
+							href="javascript:kakaoLogin()"> <img
+							src="//k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
+							width="222" alt="카카오 로그인 버튼" />
+						</a>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="row footer">
+			<div class="col">여기는 Footer</div>
+		</div>
+	</div>
+	<script>
                 $("#loginBtn").on("click", function () {
                     if ($("#id").val() === "" || $("#pw").val() === "") {
                         alert("아이디 혹은 비밀번호를 입력하세요.");
                         return;
                     }
                     $("#loginForm").submit();
-                })
-                
+                })                
                 
                 //쿠키 가져오기
                $(document).ready(function(){
@@ -165,8 +172,8 @@
                }
                 
             </script>
-            <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-            <script>
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script>
                 window.Kakao.init('00ff75810173b90025a2b65babb862d9'); //발급받은 키 중 javascript키를 사용해준다.
                 console.log(Kakao.isInitialized()); // sdk초기화여부판단
 
@@ -186,7 +193,6 @@
                                         success: function (data) {
                                             console.log(data);
                                             if (data === "ok") {
-
                                                 location.href = '/main';
                                             } else if (data === "fail") {// 회원가입
                                                 location.href = '/kakaoSignup.user?userid=' + kakaoid + '&name=' + response.properties.nickname + '&email=' + response.kakao_account.email;
@@ -208,6 +214,6 @@
 
 
             </script>
-        </body>
+</body>
 
-        </html>
+</html>

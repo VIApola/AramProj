@@ -6,19 +6,19 @@
 <%@ page import="java.io.PrintWriter" %>
 <%
 	request.setCharacterEncoding("UTF-8");
-	String userID = null;
-	String userPassword = null;
-	String userEmail = null;
-	if(request.getParameter("userID") != null){
-		userID = request.getParameter("userId");
+	String user_id = null;
+	String user_pw = null;
+	String email = null;
+	if(request.getParameter("user_id") != null){
+		user_id = request.getParameter("user_id");
 	}
-	if(request.getParameter("userPassword") != null) {
-		userPassword = request.getParameter("userPassword");
+	if(request.getParameter("user_pw") != null) {
+		user_pw = request.getParameter("user_pw");
 	}
-	if(request.getParameter("userEmail") != null) {
-		userEmail = request.getParameter("userEmail");
+	if(request.getParameter("email") != null) {
+		email = request.getParameter("email");
 	}
-	if(userID == null || userPassword == null || userEmail == null){
+	if(user_id == null || user_pw == null || email == null){
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('회원가입을 해주세요.');");
@@ -28,6 +28,10 @@
 		return;
 	}
 	// 회원가입 안했을경우..?
-	//UserDAO userDAO = new UserDAO();
-	//int result = userDAO.
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("location.href='/join.user';");
+		script.println("</script>");
+	
+	
 %>
