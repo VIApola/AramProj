@@ -2,15 +2,15 @@ package com.aram.dto;
 
 public class CartDTO {
 	private String user_id;
-	private String item_id;
+	private int item_no;
 	private int quantity;
 	
 	public CartDTO() {}
 
-	public CartDTO(String user_id, String item_id, int quantity) {
+	public CartDTO(String user_id, int item_no, int quantity) {
 		super();
 		this.user_id = user_id;
-		this.item_id = item_id;
+		this.item_no = item_no;
 		this.quantity = quantity;
 	}
 
@@ -22,12 +22,12 @@ public class CartDTO {
 		this.user_id = user_id;
 	}
 
-	public String getItem_id() {
-		return item_id;
+	public int getItem_no() {
+		return item_no;
 	}
 
-	public void setItem_id(String item_id) {
-		this.item_id = item_id;
+	public void setItem_no(int item_no) {
+		this.item_no = item_no;
 	}
 
 	public int getQuantity() {
@@ -40,7 +40,7 @@ public class CartDTO {
 
 	@Override
 	public String toString() {
-		return "CartDTO [user_id=" + user_id + ", item_id=" + item_id + ", quantity=" + quantity + "]";
+		return "CartDTO [user_id=" + user_id + ", item_id=" + item_no + ", quantity=" + quantity + "]";
 	}
 
 }
