@@ -1,7 +1,7 @@
 package com.aram.utils;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 
 public class Gmail extends Authenticator {
 	
