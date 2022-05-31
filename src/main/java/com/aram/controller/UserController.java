@@ -2,8 +2,6 @@ package com.aram.controller;
 
 import java.io.IOException;
 
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,15 +12,10 @@ import javax.servlet.http.HttpSession;
 import com.aram.dao.UserDAO;
 import com.aram.dto.UserDTO;
 import com.aram.utils.EncryptionUtils;
-
-
-import com.aram.dao.UserDAO;
 import com.google.gson.Gson;
 
 @WebServlet("*.user")
 public class UserController extends HttpServlet {
-
-
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doAction(request, response);
@@ -80,7 +73,7 @@ public class UserController extends HttpServlet {
 				
 				int rs = dao.signup(new UserDTO(id, password, name, nickname, phone, email, postcode, roadAddr, detailAddr, null, "n", null, "n"));
 				if(rs > 0) {
-					response.sendRedirect("/main.jsp");
+					response.sendRedirect("/login.user");
 				}
 			}catch(Exception e) {
 				e.printStackTrace();

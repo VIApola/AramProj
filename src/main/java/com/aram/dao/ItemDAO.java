@@ -1,8 +1,13 @@
 package com.aram.dao;
 
+import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -10,6 +15,7 @@ import javax.naming.InitialContext;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import com.aram.dto.ItemDTO;
+import com.aram.dto.ItemimgDTO;
 
 public class ItemDAO {
 	private BasicDataSource bds;
@@ -41,28 +47,58 @@ public class ItemDAO {
 	}
 	
 	// 전체 상품 조회
-	public ArrayList<ItemDTO> selectAllItems() throws Exception {
-		String sql = "select * from tbl_items";
+	public HashMap<String, ArrayList<Object>> selectAllItems() throws Exception {
+		String sql = "select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no";
 		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
 			ResultSet rs = pst.executeQuery();
 			
-			ArrayList<ItemDTO> list = new ArrayList<>();
+			ArrayList<Object> list = new ArrayList<>();
+			ArrayList<Object> Imglist = new ArrayList<>();
+			HashMap<String, ArrayList<Object>> map = new HashMap<>();
+
 			while(rs.next()) {
+				
 				int item_id = rs.getInt("item_id");
 				String item_name = rs.getString("item_name");
 				int price = rs.getInt("price");
 				String item_comment = rs.getString("item_comment");
-				//String item_regdate = (String)rs.getDate("item_regdate");
+				String item_regdate = getStringDate(rs.getDate("item_regdate"));
 				int item_stock = rs.getInt("item_stock");
 				String category_id = rs.getString("category_id");
 				int img_no = rs.getInt("img_no");
 				
-				list.add(new ItemDTO(item_id, item_name, price, item_comment, null, item_stock, category_id, img_no));
+				String img_title = rs.getString("img_title");
+				String img_type = rs.getString("img_type");
+				String ori_name = rs.getString("ori_name");
+				String sys_name = rs.getString("sys_name");
+				
+				
+				list.add(new ItemDTO(item_id, item_name, price, item_comment,item_regdate, item_stock, category_id, img_no));
+				
+				Imglist.add(new ItemimgDTO(img_no, img_title, img_type, ori_name, sys_name));
+				
 			}
-			return list;
+			System.out.println(" 보내기 전 list (ItemDTO) : " + list);
+			map.put("list", list);
+			map.put("Imglist", Imglist);
+			
+			System.out.println("map : " + map);
+			return map;
 			
 		}
 	}
+	
+	// Date형을 String형으로
+	public String getStringDate(Date date) {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		return sdf.format(date);
+		
+	}
+	
+	
+	
+	
 	
 	// 제품번호별 세부 상품 조회
 	public ItemDTO selectItemByNo(int item_id) throws Exception {
@@ -111,5 +147,26 @@ public class ItemDAO {
 			return pst.executeUpdate();
 		}
 	}
+	
+	// 카테고리별 상품 갯수
+	public int countItems(String category_id) throws Exception{
+		String sql = "select count(*) from tbl_items where category_id=?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)	
+				){
+			pstmt.setString(1, category_id);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			return rs.getInt(1);
+
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 }
