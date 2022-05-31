@@ -1,6 +1,6 @@
 package com.aram.dto;
 
-public class ItemDTO {
+public class ItemViewDTO {
 	private int item_no;
 	private String item_name;
 	private int price;
@@ -8,12 +8,13 @@ public class ItemDTO {
 	private String item_regdate;
 	private int item_stock;
 	private String category_id;
-	private int img_no;
 	
-	public ItemDTO() {}
+	private ItemimgDTO itemImgDTO;
+	
+	public ItemViewDTO() {}
 
-	public ItemDTO(int item_no, String item_name, int price, String item_comment, String item_regdate, int item_stock,
-			String category_id, int img_no) {
+	public ItemViewDTO(int item_no, String item_name, int price, String item_comment, String item_regdate,
+			int item_stock, String category_id, ItemimgDTO itemImgDTO) {
 		super();
 		this.item_no = item_no;
 		this.item_name = item_name;
@@ -22,7 +23,7 @@ public class ItemDTO {
 		this.item_regdate = item_regdate;
 		this.item_stock = item_stock;
 		this.category_id = category_id;
-		this.img_no = img_no;
+		this.itemImgDTO = itemImgDTO;
 	}
 
 	public int getItem_no() {
@@ -81,19 +82,19 @@ public class ItemDTO {
 		this.category_id = category_id;
 	}
 
-	public int getImg_no() {
-		return img_no;
+	public ItemimgDTO getItemImgDTO() {
+		return itemImgDTO;
 	}
 
-	public void setImg_no(int img_no) {
-		this.img_no = img_no;
+	public void setItemImgDTO(ItemimgDTO itemImgDTO) {
+		this.itemImgDTO = itemImgDTO;
 	}
 
 	@Override
 	public String toString() {
-		return "ItemDTO [item_no=" + item_no + ", item_name=" + item_name + ", price=" + price + ", item_comment="
+		return "ItemViewDTO [item_no=" + item_no + ", item_name=" + item_name + ", price=" + price + ", item_comment="
 				+ item_comment + ", item_regdate=" + item_regdate + ", item_stock=" + item_stock + ", category_id="
-				+ category_id + ", img_no=" + img_no + "]";
+				+ category_id + ", itemImgDTO=" + itemImgDTO + "]";
 	}
 
 }

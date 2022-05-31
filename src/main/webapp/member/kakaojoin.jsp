@@ -15,69 +15,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
 
 <title>카카오 회원가입</title>
-<style>
-/* 폰트 스타일 */
-@font-face {
-    font-family: 'GowunBatang-Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-	*{
-	font-family: 'Roboto Mono', monospace;
-	font-family: 'GowunBatang-Bold';}
-	
-        .container{
-            margin: 5%;
-        }
-        #btnPostcode{
-            width: 100%;
-        }
-        .textarea{
-            width: 100%;
-            height: 200px;
-            resize: none;
-        }
-        .row{
-            margin-top: 20px;
-        }
-        .star{
-            color: red;
-        }
-        .signupTitleBox{
-            border-bottom: 1px solid grey;
-        }
-        .signupInputBox{
-            margin-bottom: 50px;
-        }
-        .agreementContentBox{
-            margin-bottom: 50px;
-        }
-        #name, #id, #nickname, #password{
-        	margin-bottom:10px;
-        }
-        .col-12 button{
-        	margin:10px;
-        }
-    </style>
+            <!--style영역-->
+    		<link href="${pageContext.request.contextPath}/resources/css/kakaojoin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <div class="container"> <!-- 컨테이너 -->
-        <div class="row header"> <!-- 헤더부분 -->
-
-        </div><!-- 헤더부분 끝 -->
-        <div class="row body"> <!-- 바디부분 -->
+            <div class="container">
+                <!-- 컨테이너 -->
+                <div class="row header">
+                    <!-- 헤더부분 -->
+                    <div class="col">여기는 Header</div>
+                </div><!-- 헤더부분 끝 -->
+                <div class="row body">
+                                    <!-- 바디부분 -->
         <form id="signupForm" action="/kakaoSignupProc.user" method="post">
-            <div class="row signupTitleBox">
-                <div class="col-12 col-md-12">
-                    <h2>회원가입</h2>
-                    <span class="star">*</span>
-                    <span>표시는 필수로 작성해주세요.</span>
-                </div>
-            </div>
+                        <div class="row signupTitleBox">
+                            <div class="col-12 col-md-12">
+                                <h2 class="titleSignup">회원가입</h2>
+                                <span class="star">*</span>
+                                <span>표시는 필수로 작성해주세요.</span>
+                            </div>
+                        </div>
+
+
+
             <div class="signupInputBox"> <!-- 사용자 입력 박스-->
-                <div class="row">
-                    <div class="col-4 col-md-3">
+            
+                <div class="row clsInputRow">
+                    <div class="col-4 col-md-3 align-self-center">
                         <span class="star">*</span>
                         <label for="name">이름</label>
                     </div>
@@ -85,8 +49,8 @@
                         <input type="text" class="form-control" id="name" name="name" value="${kakaoname}" readonly>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
+                <div class="row clsInputRow">
+                    <div class="col-4 col-md-3 align-self-center">
                         <span class="star">*</span>
                         <label for="id">아이디</label>
                     </div>
@@ -94,18 +58,24 @@
                         <input type="text" class="form-control" id="id" name="id" value="${kakaoid}" readonly>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
+                <div class="row clsInputRow">
+                    <div class="col-4 col-md-3 align-self-center">
                         <span class="star">*</span>
                         <label for="nickname">닉네임</label>
                     </div>
                     <div class="col-7 col-md-9 ">
                         <input type="text" class="form-control" id="nickname" name="nickname">
-                        <span id="nicknameCheck"></span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
+                            <div class="row clsCheckInfo">
+                                <div class="col-4 col-md-3"></div>
+                                <div class="col-8 col-md-9 ">
+                                    <span id="checkNickname"></span>
+                                </div>
+                            </div>
+                
+                <div class="row clsInputRow">
+                    <div class="col-4 col-md-3 align-self-center">
                         <span class="star">*</span>
                         <label for="phone1">휴대폰번호</label>
                     </div>
@@ -120,17 +90,17 @@
                         </select>    
                     </div>
                     <div class="col-2 col-md-3">
-                        <input type="text" class="form-control" id="phone2" maxlength ="4">
+                        <input type="number" class="form-control" id="phone2" maxlength ="4">
                     </div>
                     <div class="col-2 col-md-3">
-                        <input type="text" class="form-control" id="phone3" maxlength ="4">
+                        <input type="number" class="form-control" id="phone3" maxlength ="4">
                     </div>
                     <div class="col d-none">
 						<input type="text" id="phone" name="phone">
 					</div>
                 </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
+                <div class="row clsInputRow">
+                    <div class="col-4 col-md-3 align-self-center">
                         <span class="star">*</span>
                         <label for="email">이메일</label>
                     </div>
@@ -138,8 +108,8 @@
                         <input type="text" class="form-control" id="email" name="email">
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
+                <div class="row clsInputRow">
+                    <div class="col-4 col-md-3 align-self-center">
                         <span class="star">*</span>
                         <label for="postcode">우편번호</label>
                     </div>
@@ -150,8 +120,8 @@
                         <button type="button" id="btnPostcode" class="btn btn-outline-success">우편번호 검색</button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
+                <div class="row clsInputRow">
+                    <div class="col-4 col-md-3 align-self-center">
                         <span class="star">*</span>
                         <label for="roadAddr">주소</label>
                     </div>
@@ -159,8 +129,8 @@
                         <input type="text" class="form-control" name="roadAddr" id="roadAddr" placeholder="도로명주소" readonly>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
+                <div class="row clsInputRow">
+                    <div class="col-4 col-md-3 align-self-center">
                         <label for="detailAddr">상세주소</label>
                     </div>
                     <div class="col-7 col-md-9 ">
@@ -688,22 +658,22 @@
             <div class="row signupTitleBox"> <!-- 약관 동의 박스 -->
                 <div class="col-12">
                     <h5>
-                        <input type="checkbox" class="form-check-input" id="agreeAll">
+                        <input type="checkbox" id="agreeAll">
                         <label for="agreeAll" class="form-check-label">전체동의</label>
                     </h5>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12  col-md-4 order-1">
-                    <input type="checkbox" class="form-check-input" id="termsOfUse">
+                    <input type="checkbox" id="termsOfUse">
                     <label for="termsOfUse" class="form-check-label">이용약관(필수)</label>
                 </div>
                 <div class="col-12  col-md-5 order-2">
-                    <input type="checkbox" class="form-check-input" id="personalDataAgree">
+                    <input type="checkbox" id="personalDataAgree">
                     <label for="personalDataAgree" class="form-check-label">개인정보 수집 및 이용 안내(필수)</label>
                 </div>
                 <div class="col-12 col-md-3 order-3">
-                    <input type="checkbox" class="form-check-input" id="marketingAgree">
+                    <input type="checkbox" id="marketingAgree">
                     <label for="marketingAgree" class="form-check-label">마케팅 수신동의</label>
                 </div>
             </div> <!-- 약관 동의 박스 끝 -->
@@ -715,18 +685,20 @@
             </div>
             </form>
         </div><!-- 바디부분 끝 -->
-	  	<div class="row footer"> <!-- 풋터부분 -->
-        </div><!-- 풋터부분 끝 -->
+                <div class="row footer">
+                    <!-- 풋터부분 -->
+                    <div class="col">여기는 Footer</div>
+                </div><!-- 풋터부분 끝 -->
     </div><!-- 컨테이너 끝 -->
     <script>
 
     	// 닉네임 조건 밑에 뜨게
     	$("#nickname").focus(function(){
-    		$("#nicknameCheck").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~ 10자 이내로 작성해 주세요.");
-    		$("#nicknameCheck").css("color", "green");
+    		$("#checkNickname").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 2~6자 이내로 작성해 주세요.");
+    		$("#checkNickname").css("color", "green");
     	});
     	$("#nickname").blur(function(){
-    		$("#nicknameCheck").html("");
+    		$("#checkNickname").html("");
     	});
   
     	// 약관 동의
@@ -743,11 +715,11 @@
     	});
     	// 취소 버튼을 눌렀을때
     	$("#backBtn").on("click", function(){
-    		location.href="";
+    		location.href="/login.user";
     	});
     	// 회원가입 버튼을 눌렀을때
     	$("#joinBtn").on("click", function(){
-    		let regexNickname = /^[a-zA-z0-9ㄱ-흫]{3,10}$/;
+    		let regexNickname = /^[a-zA-z0-9ㄱ-흫]{2,6}$/;
     		let regexEmail = /^[a-zA-z][\w]+@[a-zA-z]+\.(com|net|co\.kr|or\.kr)$/;
 			let regexPhone = /^[0-9]{11}$/;
 			
@@ -759,7 +731,7 @@
 			$("#phone").val(phone);
 			
     		if(!regexNickname.test($("#nickname").val())){
-    			alert("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~ 10자 이내로 작성해 주세요.");
+    			alert("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 2~6자 이내로 작성해 주세요.");
     			$("#nickname").focus();
     			return;
     		}else if(!regexPhone.test(phone)){ // 숫자 데이터에 대한 별도의 형변환이 필요없음

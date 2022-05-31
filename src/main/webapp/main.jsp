@@ -265,7 +265,7 @@
         <c:forEach items="${itemList}" var="itemList">
             <div class="col-3">
               <div class="card toSpecific border-0">
-                <a href=""><img src="" class="card-img-top" alt="..."></a>
+                <a href="/detail.item?item_no=${itemList.item_no}"><img src="/resources/images/items/${itemList.itemImgDTO.sys_name}" class="card-img-top" alt="..."></a>
                 <div class="card-body">
                   <h5 class="card-title">${itemList.item_name}</h5>
                   <p class="card-text">${itemList.price}</p>
@@ -354,8 +354,8 @@
       	})
       
       	//더많은 상품 보러가기 버튼 클릭했을때
-      	$("#toSerchItemBtn").on("click",function(){
-      		location.href="//toSearchPage.item";
+      	$("#toSerchItemBtn").on("click", function() {
+      		location.href = "/toSearchPage.item";
       	})
       	
 

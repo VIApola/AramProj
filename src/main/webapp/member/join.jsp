@@ -1,210 +1,200 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<!-- 폰트 -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <!DOCTYPE html>
+        <html>
 
-<title>회원가입</title>
+        <head>
+            <meta charset="UTF-8">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+                integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+                crossorigin="anonymous">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+                crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.6.0.js"
+                integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+            <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+            <!-- 폰트 -->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" type="text/css" href="../resources/css/join.css">
-<style>
-/* 폰트 스타일 */
-@font-face {
-    font-family: 'GowunBatang-Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-	*{
-	font-family: 'Roboto Mono', monospace;
-	font-family: 'GowunBatang-Bold';}
-	
-        .container{
-            margin: 5%;
-        }
-        #btnPostcode{
-            width: 100%;
-        }
-        .textarea{
-            width: 100%;
-            height: 200px;
-            resize: none;
-        }
-        .row{
-            margin-top: 20px;
-        }
-        .star{
-            color: red;
-        }
-        .signupTitleBox{
-            border-bottom: 1px solid grey;
-        }
-        .signupInputBox{
-            margin-bottom: 50px;
-        }
-        .agreementContentBox{
-            margin-bottom: 50px;
-        }
-        #name, #id, #nickname, #password{
-        	margin-bottom:10px;
-        }
-        .col-12 button{
-        	margin:10px;
-        }
-    </style>
->>>>>>> 613603883491a66521bf0d3e5f8cea2cfecf9016
-</head>
-<body>
-    <div class="container"> <!-- 컨테이너 -->
-        <div class="row header"> <!-- 헤더부분 -->
+            <title>회원가입</title>
+            <!--style영역-->
+    		<link href="${pageContext.request.contextPath}/resources/css/join.css" rel="stylesheet" type="text/css">
+        </head>
 
-        </div><!-- 헤더부분 끝 -->
-        <div class="row body"> <!-- 바디부분 -->
-        <form id="signupForm" action="/signup.user" method="post">
-            <div class="row signupTitleBox">
-                <div class="col-12 col-md-12">
-                    <h2>회원가입</h2>
-                    <span class="star">*</span>
-                    <span>표시는 필수로 작성해주세요.</span>
-                </div>
-            </div>
-            <div class="signupInputBox"> <!-- 사용자 입력 박스-->
-                <div class="row">
-                    <div class="col-4 col-md-3">
-                        <span class="star">*</span>
-                        <label for="name">이름</label>
-                    </div>
-                    <div class="col-7 col-md-9 ">
-                        <input type="text" class="form-control" id="name" name="name">
-                        <span id="checkName"></span>   
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
-                        <span class="star">*</span>
-                        <label for="id">아이디</label>
-                    </div>
-                    <div class="col-5 col-md-6 ">
-                        <input type="text" class="form-control" id="id" name="id">
-                        <span id="checkId"></span>   
-                    </div>
-                    <div class="col-3 col-md-3">
-                        <button type="button" id="idCheckBtn" class="btn btn-outline-warning">중복확인</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
-                        <span class="star">*</span>
-                        <label for="nickname">닉네임</label>
-                    </div>
-                    <div class="col-7 col-md-9 ">
-                        <input type="text" class="form-control" id="nickname" name="nickname">
-                        <span id="nicknameCheck"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
-                        <span class="star">*</span>
-                        <label for="password">비밀번호</label>
-                    </div>
-                    <div class="col-7 col-md-9 ">
-                        <input type="password" class="form-control" id="password" name="password">
-                        <span id="pwCheck"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
-                        <span class="star">*</span>
-                        <label for="password2">비밀번호 확인</label>
-                    </div>
-                    <div class="col-7 col-md-9 ">
-                        <input type="password" class="form-control" id="password2">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
-                        <span class="star">*</span>
-                        <label for="phone1">휴대폰번호</label>
-                    </div>
-                    <div class="col-3 col-md-3">
-                        <select class="form-select" id="phone1">
-                            <option value="010">010</option>
-                            <option value="011">011</option>
-                            <option value="016">016</option>
-                            <option value="017">017</option>
-                            <option value="018">018</option>
-                            <option value="019">019</option>
-                        </select>    
-                    </div>
-                    <div class="col-2 col-md-3">
-                        <input type="text" class="form-control" id="phone2" maxlength ="4">
-                    </div>
-                    <div class="col-2 col-md-3">
-                        <input type="text" class="form-control" id="phone3" maxlength ="4">
-                    </div>
-                    <div class="col d-none">
-						<input type="text" id="phone" name="phone">
-					</div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
-                        <span class="star">*</span>
-                        <label for="email">이메일</label>
-                    </div>
-                    <div class="col-7 col-md-9 ">
-                        <input type="text" class="form-control" id="email" name="email">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
-                        <span class="star">*</span>
-                        <label for="postcode">우편번호</label>
-                    </div>
-                    <div class="col-3 col-md-3">
-                        <input type="text" class="form-control" id="postcode" name="postcode" readonly>
-                    </div>
-                    <div class="col-4 col-md-3">
-                        <button type="button" id="btnPostcode" class="btn btn-outline-success">우편번호 검색</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
-                        <span class="star">*</span>
-                        <label for="roadAddr">주소</label>
-                    </div>
-                    <div class="col-7 col-md-9 ">
-                        <input type="text" class="form-control" name="roadAddr" id="roadAddr" placeholder="도로명주소" readonly>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-md-3">
-                        <label for="detailAddr">상세주소</label>
-                    </div>
-                    <div class="col-7 col-md-9 ">
-                        <input type="text" class="form-control" id="detailAddr" placeholder="상세주소">
-                    </div>
-                </div>
-            </div> <!-- 사용자 입력 박스 끝-->
+        <body>
+            <div class="container">
+                <!-- 컨테이너 -->
+                <div class="row header">
+                    <!-- 헤더부분 -->
+                    <div class="col">여기는 Header</div>
+                </div><!-- 헤더부분 끝 -->
+                <div class="row body">
+                    <!-- 바디부분 -->
+                    <form id="signupForm" action="/signup.user" method="post">
+                        <div class="row signupTitleBox">
+                            <div class="col-12 col-md-12">
+                                <h2 class="titleSignup">회원가입</h2>
+                                <span class="star">*</span>
+                                <span>표시는 필수로 작성해주세요.</span>
+                            </div>
+                        </div>
 
-            <div class="agreementContentBox"> <!-- 이용약관내용-->
-                <div class="row signupTitleBox">
-                    <div class="col-12">
-                        <h5>이용약관</h5>
-                    </div>
-                </div>
-                <div class="row "> <!-- 이용약관 -->
-                    <div class="col-11 col-md-12 d-flex justify-content-center">
-                        <textarea class="textarea"  cols="30" rows="10" readonly>
+
+                        <div class="signupInputBox">
+                            <!-- 사용자 입력 박스-->
+
+                            <div class="row clsInputRow">
+                                <div class="col-4 col-md-3 align-self-center">
+                                    <span class="star">*</span>
+                                    <label for="name">이름</label>
+                                </div>
+                                <div class="col-7 col-md-9">
+                                    <input type="text" class="form-control" id="name" name="name">
+                                </div>
+                            </div>
+                            <div class="row clsCheckInfo">
+                                <div class="col-4 col-md-3"></div>
+                                <div class="col-7 col-md-9 ">
+                                    <span id="checkName"></span>
+                                </div>
+                            </div>
+                            <div class="row clsInputRow">
+                                <div class="col-4 col-md-3 align-self-center">
+                                    <span class="star">*</span>
+                                    <label for="id">아이디</label>
+                                </div>
+                                <div class="col-5 col-md-7">
+                                    <input type="text" class="form-control" id="id" name="id">
+                                </div>
+                                <div class="col-3 col-md-2">
+                                    <button type="button" id="idCheckBtn" class="btn btn-outline-success">중복확인</button>
+                                </div>
+                            </div>
+                            <div class="row clsCheckInfo">
+                                <div class="col-4 col-md-3"></div>
+                                <div class="col-8 col-md-9 ">
+                                    <span id="checkId"></span>
+                                </div>
+                            </div>
+                            <div class="row clsInputRow">
+                                <div class="col-4 col-md-3 align-self-center">
+                                    <span class="star">*</span>
+                                    <label for="nickname">닉네임</label>
+                                </div>
+                                <div class="col-7 col-md-9 ">
+                                    <input type="text" class="form-control" id="nickname" name="nickname">
+                                </div>
+                            </div>
+                            <div class="row clsCheckInfo">
+                                <div class="col-4 col-md-3"></div>
+                                <div class="col-8 col-md-9 ">
+                                    <span id="checkNickname"></span>
+                                </div>
+                            </div>
+                            <div class="row clsInputRow">
+                                <div class="col-4 col-md-3 align-self-center">
+                                    <span class="star">*</span>
+                                    <label for="password">비밀번호</label>
+                                </div>
+                                <div class="col-7 col-md-9 ">
+                                    <input type="password" class="form-control" id="password" name="password">
+                                </div>
+                            </div>
+                            <div class="row clsCheckInfo">
+                                <div class="col-4 col-md-3"></div>
+                                <div class="col-8 col-md-9 ">
+                                    <span id="checkPw"></span>
+                                </div>
+                            </div>
+
+                            <div class="row clsInputRow">
+                                <div class="col-4 col-md-3 align-self-center">
+                                    <span class="star">*</span>
+                                    <label for="password2">비밀번호 확인</label>
+                                </div>
+                                <div class="col-7 col-md-9 ">
+                                    <input type="password" class="form-control" id="password2">
+                                </div>
+                            </div>
+                            <div class="row clsInputRow">
+                                <div class="col-4 col-md-3 align-self-center">
+                                    <span class="star">*</span>
+                                    <label for="phone1">휴대폰번호</label>
+                                </div>
+                                <div class="col-3 col-md-3">
+                                    <select class="form-select" id="phone1">
+                                        <option value="010">010</option>
+                                        <option value="011">011</option>
+                                        <option value="016">016</option>
+                                        <option value="017">017</option>
+                                        <option value="018">018</option>
+                                        <option value="019">019</option>
+                                    </select>
+                                </div>
+                                <div class="col-2 col-md-3">
+                                    <input type="number" class="form-control" id="phone2" maxlength="4">
+                                </div>
+                                <div class="col-2 col-md-3">
+                                    <input type="number" class="form-control" id="phone3" maxlength="4">
+                                </div>
+                                <div class="col d-none">
+                                    <input type="text" id="phone" name="phone">
+                                </div>
+                            </div>
+                            <div class="row clsInputRow">
+                                <div class="col-4 col-md-3 align-self-center">
+                                    <span class="star">*</span>
+                                    <label for="email">이메일</label>
+                                </div>
+                                <div class="col-7 col-md-9 ">
+                                    <input type="text" class="form-control" id="email" name="email">
+                                </div>
+                            </div>
+                            <div class="row clsInputRow">
+                                <div class="col-4 col-md-3 align-self-center">
+                                    <span class="star">*</span>
+                                    <label for="postcode">우편번호</label>
+                                </div>
+                                <div class="col-3 col-md-3">
+                                    <input type="text" class="form-control" id="postcode" name="postcode" readonly>
+                                </div>
+                                <div class="col-4 col-md-3">
+                                    <button type="button" id="btnPostcode" class="btn btn-outline-success">우편번호 검색</button>
+                                </div>
+                            </div>
+                            <div class="row clsInputRow">
+                                <div class="col-4 col-md-3 align-self-center">
+                                    <span class="star">*</span>
+                                    <label for="roadAddr">주소</label>
+                                </div>
+                                <div class="col-7 col-md-9 ">
+                                    <input type="text" class="form-control" name="roadAddr" id="roadAddr" placeholder="도로명주소" readonly>
+                                </div>
+                            </div>
+                            <div class="row clsInputRow">
+                                <div class="col-4 col-md-3 align-self-center">
+                                    <label for="detailAddr">상세주소</label>
+                                </div>
+                                <div class="col-7 col-md-9 ">
+                                    <input type="text" class="form-control" id="detailAddr" placeholder="상세주소">
+                                </div>
+                            </div>
+                        </div> <!-- 사용자 입력 박스 끝-->
+
+                        <div class="agreementContentBox">
+                            <!-- 이용약관내용-->
+                            <div class="row signupTitleBox">
+                                <div class="col-12">
+                                    <h5>이용약관</h5>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <!-- 이용약관 -->
+                                <div class="col-11 col-md-12 d-flex justify-content-center">
+                                    <textarea class="textarea" cols="30" rows="10" readonly>
     전자상거래(인터넷사이버몰) 표준약관
         
     표준약관 제10023호
@@ -449,25 +439,25 @@
       ① “몰”과 이용자 간에 발생한 전자상거래 분쟁에 관한 소송은 제소 당시의 이용자의 주소에 의하고, 주소가 없는 경우에는 거소를 관할하는 지방법원의 전속관할로 합니다. 다만, 제소 당시 이용자의 주소 또는 거소가 분명하지 않거나 외국 거주자의 경우에는 민사소송법상의 관할법원에 제기합니다.
     
       ② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
-    
                         </textarea>
-                    </div>
-                </div>  <!-- 이용약관 끝-->
-    
-                <div class="row signupTitleBox">
-                    <div class="col-12">
-                        <h5>개인정보 수집 및 이용 안내</h5>
-                    </div>
-                </div>
-                <div class="row "> <!-- 개인정보수집 -->
-                    <div class="col-11 col-md-12 d-flex justify-content-center">
-                        <textarea class="textarea"  cols="30" rows="10" readonly>
+                                </div>
+                            </div> <!-- 이용약관 끝-->
+
+                            <div class="row signupTitleBox">
+                                <div class="col-12">
+                                    <h5>개인정보 수집 및 이용 안내</h5>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <!-- 개인정보수집 -->
+                                <div class="col-11 col-md-12 d-flex justify-content-center">
+                                    <textarea class="textarea" cols="30" rows="10" readonly>
     전자상거래(인터넷사이버몰) 표준약관
-    
+        
     표준약관 제10023호
     (2015. 6. 26. 개정)
     
-    제1조(목적) 이 약관은 OO 회사(전자상거래 사업자)가 운영하는 OO 사이버 몰(이하 “몰”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
+    제1조(목적) 이 약관은 OO 회사(전자상거래 사업자)가 운영하는 OO 사이버 Aram(이하 “몰”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
     
       ※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」
     
@@ -706,6 +696,8 @@
       ① “몰”과 이용자 간에 발생한 전자상거래 분쟁에 관한 소송은 제소 당시의 이용자의 주소에 의하고, 주소가 없는 경우에는 거소를 관할하는 지방법원의 전속관할로 합니다. 다만, 제소 당시 이용자의 주소 또는 거소가 분명하지 않거나 외국 거주자의 경우에는 민사소송법상의 관할법원에 제기합니다.
     
       ② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
+<<<<<<< HEAD
+=======
     
     
                         </textarea>
@@ -748,7 +740,7 @@
     <script>
     	// 이름 조건 밑에 뜨게
     	$("#name").focus(function(){
-    		$("#checkName").html("한글 및 영문으로 2~10자 이내로 작성해주세요.");
+    		$("#checkName").html("한글 및 영문으로 2~6자 이내로 작성해주세요.");
     		$("#checkName").css("color", "green");
     	});
     	$("#name").blur(function(){
@@ -798,7 +790,7 @@
     	});
     	// 닉네임 조건 밑에 뜨게
     	$("#nickname").focus(function(){
-    		$("#nicknameCheck").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~ 10자 이내로 작성해 주세요.");
+    		$("#nicknameCheck").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~6자 이내로 작성해 주세요.");
     		$("#nicknameCheck").css("color", "green");
     	});
     	$("#nickname").blur(function(){
@@ -831,9 +823,9 @@
     	});
     	// 회원가입 버튼을 눌렀을때
     	$("#joinBtn").on("click", function(){
-    		let regexName = /[a-zA-Z가-힣]{2,10}$/;
+    		let regexName = /[a-zA-Z가-힣]{2,6}$/;
     		let regexId = /^[a-z0-9]{5,12}$/;
-    		let regexNickname = /^[a-zA-z0-9ㄱ-흫]{3,10}$/;
+    		let regexNickname = /^[a-zA-z0-9ㄱ-흫]{3,6}$/;
     		let regexPw = /^[a-zA-z0-9~!@#$]{6,12}$/;
     		let regexEmail = /^[a-zA-z][\w]+@[a-zA-z]+\.(com|net|co\.kr|or\.kr)$/;
 			let regexPhone = /^[0-9]{11}$/;
@@ -1235,6 +1227,7 @@
                                 <div class="col-11 col-md-12 d-flex justify-content-center">
                                     <textarea class="textarea" cols="30" rows="10" readonly>
     전자상거래(인터넷사이버몰) 표준약관
+>>>>>>> jukyoung-main
                         </textarea>
                                 </div>
                             </div> <!-- 개인정보수집 끝-->
@@ -1272,12 +1265,13 @@
                 </div><!-- 바디부분 끝 -->
                 <div class="row footer">
                     <!-- 풋터부분 -->
+                    <div class="col">여기는 Footer</div>
                 </div><!-- 풋터부분 끝 -->
             </div><!-- 컨테이너 끝 -->
             <script>
                 // 이름 조건 밑에 뜨게
                 $("#name").focus(function () {
-                    $("#checkName").html("한글 및 영문으로 2~10자 이내로 작성해주세요.");
+                    $("#checkName").html("한글 및 영문으로 2~6자 이내로 작성해주세요.");
                     $("#checkName").css("color", "green");
                 });
                 $("#name").blur(function () {
@@ -1327,7 +1321,7 @@
                 });
                 // 닉네임 조건 밑에 뜨게
                 $("#nickname").focus(function () {
-                    $("#checkNickname").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~ 10자 이내로 작성해 주세요.");
+                    $("#checkNickname").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 2~6자 이내로 작성해 주세요.");
                     $("#checkNickname").css("color", "green");
                 });
                 $("#nickname").blur(function () {
@@ -1356,13 +1350,13 @@
                 });
                 // 취소 버튼을 눌렀을때
                 $("#backBtn").on("click", function () {
-                    location.href = "";
+                    location.href = "/login.user";
                 });
                 // 회원가입 버튼을 눌렀을때
                 $("#joinBtn").on("click", function () {
-                    let regexName = /[a-zA-Z가-힣]{2,10}$/;
+                    let regexName = /[a-zA-Z가-힣]{2,6}$/;
                     let regexId = /^[a-z0-9]{5,12}$/;
-                    let regexNickname = /^[a-zA-z0-9ㄱ-흫]{3,10}$/;
+                    let regexNickname = /^[a-zA-z0-9ㄱ-흫]{2,6}$/;
                     let regexPw = /^[a-zA-z0-9~!@#$]{6,12}$/;
                     let regexEmail = /^[a-zA-z][\w]+@[a-zA-z]+\.(com|net|co\.kr|or\.kr)$/;
                     let regexPhone = /^[0-9]{11}$/;
@@ -1379,7 +1373,7 @@
                         $("#name").focus();
                         return;
                     } else if (!regexName.test($("#name").val())) {
-                        alert("이름은 한글 및 영문으로 2~10자 이내로 작성해주세요.");
+                        alert("이름은 한글 및 영문으로 2~6자 이내로 작성해주세요.");
                         $("#name").focus();
                         return;
                     } else if (!regexId.test($("#id").val())) {
@@ -1391,7 +1385,7 @@
                         $("#id").focus();
                         return;
                     } else if (!regexNickname.test($("#nickname").val())) {
-                        alert("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~ 10자 이내로 작성해 주세요.");
+                        alert("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 2~6자 이내로 작성해 주세요.");
                         $("#nickname").focus();
                         return;
                     } else if (!regexPw.test($("#password").val())) {

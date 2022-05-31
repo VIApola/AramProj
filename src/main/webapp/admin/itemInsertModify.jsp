@@ -83,27 +83,27 @@
         <div class="row">
             <div class="col-12">상품분류</div>
             <div class="col-3">카테고리</div>
-            <div class="col-8" ><select id="category_name">
-              <option value="공기정화식물" selected>공기정화식물</option>
-            <option value="실내식물">실내식물</option>
-              <option value="실외식물">실외식물</option>
+            <div class="col-8" ><select name="itemCategory">
+              <option value="P100">공기정화식물</option>
+            <option value="P200">실내식물</option>
+              <option value="P300">실외식물</option>
             </select></div>
             <input type="text" id="category_select" name="category_name" style="display:none;">
         </div>
         <div class="row">
             <div class="col-12">상품 가격</div>
             <div class="col-3">판매가격</div>
-            <div class="col-8 input"><input type="text" placeholder="상품의 가격을 입력하세요." id="price" name="price"></div>
+            <div class="col-8 input"><input type="text" placeholder="상품의 가격을 입력하세요." name="itemPrice"></div>
         </div>
         <div class="row">
             <div class="col-12">상품 재고</div>
             <div class="col-3">재고 개수</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 재고 개수를 입력하세요." id="item_stock" name="item_stock"></div>
+            <div class="col-8 input"><input type="text" placeholder="상품 재고 개수를 입력하세요." id="item_stock" name="itemStock"></div>
         </div>
         <div class="row">
             <div class="col-12">상품 설명/이미지 설정</div>
             <div class="col-3">설명 정보 입력</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 설명을 입력하세요." id="item_comment" name="item_comment"></div>
+            <div class="col-8 input"><input type="text" placeholder="상품 설명을 입력하세요." id="item_comment" name="itemDetail"></div>
         </div>
         <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">이미지 정보</div>
@@ -113,7 +113,7 @@
           </div>
           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px">
             <div class="short-div">이미지 선택</div>
-            <div class="short-div"><input type="file" id="img_title" name=img_title></div>
+            <div class="short-div"><input type="file" id="img_title" name="imgFile"></div>
           </div>
         </div>
         </form>
