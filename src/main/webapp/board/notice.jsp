@@ -84,8 +84,8 @@
 					<div class="row">
 						<div class="col-1 d-none d-md-block">No.</div>
 						<div class="col-3 d-none d-md-block">name</div>
-						<div class="col-5 d-none d-md-block">title</div>
-						<div class="col-2 d-none d-md-block">date</div>
+						<div class="col-4 d-none d-md-block">title</div>
+						<div class="col-3 d-none d-md-block">date</div>
 						<div class="col-1 d-none d-md-block">hits</div>
 					</div>
 					<div class="body_board">
@@ -101,10 +101,10 @@
 									<div class="row">
 										<div class="col-1 d-none d-md-block">${dto.notice_no}</div>
 										<div class="col-3 d-none d-md-block">${dto.author}</div>
-										<div class="col-12 col-md-5">
+										<div class="col-12 col-md-4">
 											<a href="">${dto.title}</a>
 										</div>
-										<div class="col-12 col-md-2">${dto.write_date}</div>
+										<div class="col-12 col-md-3">${dto.write_date}</div>
 										<div class="col-1 d-none d-md-block">${dto.board_views}</div>
 									</div>
 								</c:forEach>
@@ -124,9 +124,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<div
-					class="paginBox d-flex justify-content-center align-items-center">
-					
+				<div class="paginBox d-flex justify-content-center align-items-center">
 					<nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item">
@@ -173,9 +171,9 @@
     						let row = $("<div class='row'>");
     						let col1 = $("<div class='col-1 d-none d-md-block'>").html(dto.notice_no);
     						let col2 = $("<div class='col-3 d-none d-md-block'>").html(dto.title);
-    						let col3 = $("<div class='col-12 col-md-5'>");
+    						let col3 = $("<div class='col-12 col-md-4'>");
     						let a = $("<a href=''>").html(dto.content);
-    						let col4 = $("<div class='col-12 col-md-2'>").html(dto.author);
+    						let col4 = $("<div class='col-12 col-md-3'>").html(dto.author);
     						let col5 = $("<div class='col-1 d-none d-md-block'>").html(dto.write_date);
     						
     						col3.append(a);

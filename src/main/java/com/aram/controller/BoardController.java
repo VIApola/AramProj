@@ -99,6 +99,7 @@ public class BoardController extends HttpServlet {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
+			request.getRequestDispatcher("/board/detailView.jsp").forward(request, response);
 		}
 
 	}
