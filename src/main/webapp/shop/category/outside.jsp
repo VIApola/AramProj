@@ -71,27 +71,21 @@
 </head>
 <body>
     <div class="container">
-
         <div class="row" id="category">
-            
             <div class="col-4">
                 <a href="/air.item"> <img src="/resources/images/category_Air.png"></a>
             </div>
             <div class="col-4">
-                <a href="/interior.item"><img src="/resources/images/category_In.png"></a>
-                
+                <a href="/interior.item"><img src="/resources/images/category_In.png"></a> 
             </div>
             <div class="col-4">
                 <a href="/outside.item"><img src="/resources/images/category_Out.png"></a>
             </div>
         </div>
-
         <div class="row" id="links">
-          
             <div class="col-9 countBox">
                 <span id="count">총 ${count}개의 상품이 검색되었습니다.</span>
             </div>
-
             <div class="col-1 search">
                 <a href="/">낮은 가격</a>
             </div>
@@ -101,66 +95,43 @@
             <div class="col-1 search">
                 <a href="/">제품명</a>
             </div>
-
-
-        </div>
-
-       
-            <div class="row">
-            
-            
-            
-            <c:forEach items="${list}" var="dto">
-            	 <c:if test="${dto.category_id eq 'P300' }">
-              <div class="col-2 item">
-                   
-                        <div class="card" style="width: 10rem; height: 20rem;">
-                            <a href="/">       
-                            <img src="/resources/images/category/outdoor/${dto.item_name}.png" class="card-img-top">
-                            </a>        
-                            <div class="card-body">
-                              <p class="card-text">${dto.item_name}</p>
-                              <p class="price">Price :${dto.price}</p>
-                            </div>
-                        </div>
-                </div>
-                 <div class="d-none" id="item_id">
-                		${dto.item_id}
-                </div>
-            		 </c:if>
-            </c:forEach>
-          
-
+        </div>     
+		<div class="row">
+			<c:forEach items="${itemList}" var="dto">
+			<c:if test="${dto.category_id eq 'P300' }">
+			<div class="col-2 item">
+				<div class="card" style="width: 10rem; height: 20rem;">
+					<a href="/detail.item?item_id=${dto.item_no}">      
+						<img src="/resources/images/items/${dto.itemImgDTO.sys_name}" class="card-img-top">
+					</a>        
+					<div class="card-body">
+						<p class="card-text">${dto.item_name}</p>
+						<p class="price">Price :${dto.price}</p>
+					</div>
+				</div>
 			</div>
-
-
+			<div class="d-none" id="item_no">${dto.item_no}</div>
+			</c:if>
+            </c:forEach>
+		</div>
         <div class="row" id="pacing"></div>
-            
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                     
-                      <li class="page-item">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item">
                         <a class="page-link" href="/" aria-label="Previous">
                           <span aria-hidden="true">&laquo;</span>
                         </a>
-                      </li>
-     
-                      
-                      
-                       <li class="page-item"><a class="page-link" href="/">1</a></li>
-                       <li class="page-item"><a class="page-link" href="/">2</a></li>
-                       <li class="page-item"><a class="page-link" href="/">3</a></li>
-            
-                      <li class="page-item">
-                        <a class="page-link" href="/" aria-label="Next">
+					</li>
+					<li class="page-item"><a class="page-link" href="/">1</a></li>
+					<li class="page-item"><a class="page-link" href="/">2</a></li>
+					<li class="page-item"><a class="page-link" href="/">3</a></li>
+					<li class="page-item">
+						<a class="page-link" href="/" aria-label="Next">
                           <span aria-hidden="true">&raquo;</span>
                         </a>
                       </li>
-                     
-                   
-                    </ul>
-                  </nav>
-         
+				</ul>
+			</nav>
     </div>
 </body>
 </html>

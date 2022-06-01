@@ -110,13 +110,13 @@
             
             
             
-            <c:forEach items="${list}" var="dto">
+            <c:forEach items="${itemList}" var="dto">
             	 <c:if test="${dto.category_id eq 'P200' }">
               <div class="col-2 item">
                    
                         <div class="card" style="width: 10rem; height: 20rem;">
-                            <a href="/">       
-                            <img src="/resources/images/category/indoor/${dto.item_name}.png" class="card-img-top">
+                            <a href="/detail.item?item_id=${dto.item_no}">       
+                            <img src="/resources/images/items/${dto.itemImgDTO.sys_name}" class="card-img-top">
                             </a>        
                             <div class="card-body">
                               <p class="card-text">${dto.item_name}</p>
@@ -124,8 +124,8 @@
                             </div>
                         </div>
                 </div>
-                 <div class="d-none" id="item_id">
-                		${dto.item_id}
+                 <div class="d-none" id="item_no">
+                		${dto.item_no}
                 </div>
             		 </c:if>
             </c:forEach>

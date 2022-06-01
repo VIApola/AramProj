@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 	<script language="JavaScript">
-    function setCookie(name, value, expiredays) {
+	function setCookie(name, value, expiredays) {
         let date = new Date();
         date.setDate(date.getDate() + expiredays);
         document.cookie = escape(name) + "=" + escape(value) + "; expires=" + date.toUTCString();

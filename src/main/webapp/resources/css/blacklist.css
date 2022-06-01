@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+    /* 폰트 스타일 */
+    @font-face {
+        font-family: 'GowunBatang-Bold';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    * {
+        font-family: 'Roboto Mono', monospace;
+        font-family: 'GowunBatang-Bold';
+    }
+
+
+
+    /* 전체설정 */
+    * {
+        box-sizing: border-box;
+    }
+
+    div {
+        /* border: 1px solid black; */
+    }
+
+    /* 타이틀 */
+    .box-title {
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+
+    /*상단 네비바의 검색창*/
+    .nav {
+        position: relative;
+    }
+    .search {
+        position: relative;
+        right: 0px;
+        width: 100%;
+    }
+
+    .search input {
+        width: 100%;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .search img {
+        position: absolute;
+        width: 17px;
+        top: 5px;
+        right: 12px;
+        margin: 0;
+    }
+
+    /* 고객관리 메뉴 */
+    .header-menu {
+        text-decoration: none;
+        color: black;
+    }
+    .header-menu:hover{
+        color: green;
+    }
+    .header { /*고객관리 메뉴 백그라운드*/
+        background-color: lightgray;
+    }
+
+    /* 체크박스 색상 */
+    input {
+        accent-color: green;
+    }
+
+    /* 콘텐츠 헤더 */
+    .contents-header {
+        margin-top: 30px;
+        background-color: lightgray;
+    }
+
+    /* 콘텐츠 */
+    .contents {
+        margin-top: 10px;
+    }
+
+    
+    /* 블랙리스트 버튼 */
+    .box-btn-blacklist {
+        margin-top: 30px;
+    }
+    #btn-delBlack {
+        margin-right: 10px;
+    }
+    
+    /* 페이징 */
+    .box-paging {
+        margin-top: 30px;
+    }

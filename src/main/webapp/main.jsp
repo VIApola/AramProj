@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     
     <!--폰트-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +27,10 @@
     
     <title>Main</title>
     <script type="text/javascript">
+    
+
       //팝업창 스크립트
+      /*
       function getCookie(name) {
           let cookie = document.cookie;
           
@@ -42,15 +46,19 @@
           }
           return ;
       }
+      
+      
+      
   
       function openPopup(url) { 
           let cookieCheck = getCookie("popupYN");
           if (cookieCheck != "N")
-              window.open(url,'', 'width=430,height=530,left=0,top=0')
+              window.open("popup.jsp", "EVENT", 'width=430,height=530,left=0,top=0')
       }
+      */
   </script>
 </head>
-<body onLoad="javascript:pop()">
+<body><!--  onLoad="javascript:pop()" -->
     <div class="main-container">
         <!--헤더영역-->
         <div class="row main-header">
@@ -62,21 +70,39 @@
                 <!--네비 검색창-->
                 <div class="search">
                     <input type="text" placeholder="상품명을 입력하세요" id="searchKeyword">
-                    <a href=""><img id="searchBtn" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></a>
+                    <a><img id="searchBtn" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></a>
                   </div>
                 </nav>
                 <!--네비 메뉴-->
                 <div class="row search-menu">
                 <span>Shop</span>
-                <a href="#" class="fromLeft"><span>공기정화 (Air Purifying)</span></a>
-                <a href="#" class="fromLeft"><span>실내 식물 (Indoor Plants)</span></a>
-                <a href="#" class="fromLeft"><span>실외 식물(Outdoor Palnts)</span></a>    
+                <a href="/air.item" class="fromLeft"><span>공기 정화 (Air Purifying)</span></a>
+                <a href="/interior.item" class="fromLeft"><span>실내 식물 (Indoor Plants)</span></a>
+                <a href="/outside.item" class="fromLeft"><span>실외 식물(Outdoor Plants)</span></a>    
                 <span>Community</span>
-                <a href="#" class="fromLeft"><span>Q&A</span></a>
-                <a href="#" class="fromLeft"><span>Notice</span></a>
-                <a href="#" class="fromLeft bottom"><span>로그인</span></a>
-                <a href="#" class="fromLeft bottom"><span>회원가입</span></a>
-                <a href="#" class="fromLeft bottom"><span>마이페이지</span></a>
+                <a href="" class="fromLeft" ><span>Q & A</span></a>
+                <a href="" class="fromLeft" id="noticeNav"><span>Notice</span></a>
+                <c:choose>
+                <c:when test="${not empty loginSession}">
+                <a href="/toLogout.user" class="fromLeft bottom" id="logoutNav"><span>로그아웃</span></a>             
+                </c:when>
+                <c:otherwise>
+                <a href="/login.user" class="fromLeft bottom" id="loginNav"><span>로그인</span></a> 
+                </c:otherwise>
+                </c:choose>
+                <a href="/join.user" class="fromLeft bottom"><span>회원가입</span></a>
+                <c:choose>
+                <c:when test="${not empty loginSession}">
+                <a href="" class="fromLeft bottom"><span>마이페이지</span></a>
+                </c:when>
+                <c:otherwise>
+                <a href="/login.user" 
+                onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" class="fromLeft bottom" id="toMypage" ><span>마이페이지</span></a>
+                </c:otherwise>
+                </c:choose>
+                
+                
+                
                 </div>
               </div>
               <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776;</span>     
@@ -88,22 +114,56 @@
           </div>
           <!-- 상단바 cart 영역-->
           <div class="col-2 d-md-none header-left">
-            <span>cart(0)</span>
+            <c:choose>
+                <c:when test="${not empty loginSession}">
+                  <a href="/toMycart.main" class="nav-link" style="color: black;">Cart(0)</a>
+                </c:when>
+                <c:otherwise>
+                <a href="/toLogin.main" 
+                onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" 
+                class="nav-link" style="color: black;">Cart(0)</a>
+                </c:otherwise>
+                </c:choose>
           </div>
           <!--네비게이션-->
           <div class="col-4 d-none d-md-block">
             <ul class="nav">
                 <li class="nav-item">
-                  <a class="nav-link active" style="color: black;" href="#">Login</a>
+                <c:choose>
+                <c:when test="${not empty loginSession}">
+                  <a class="nav-link active" style="color: black;" href="/toLogout.user">Logout</a>
+                </c:when>
+                <c:otherwise>
+                <a class="nav-link active" style="color: black;" href="/login.user">Login</a>
+                </c:otherwise>
+                </c:choose>
+                </li>
+                <c:choose>
+                <c:when test="${not empty loginSession}">
+                <li class="nav-item">
+                <a href="" class="nav-link" style="color: black;" >Mypage</a>
+                 </li>
+                </c:when>
+                <c:otherwise>
+                <li class="nav-item">
+                  <a href="/toLogin.main" onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" class="nav-link" id="toMypage" style="color: black;">Mypage</a>
+                </li>
+                </c:otherwise>
+                </c:choose>
+                <li class="nav-item">
+                  <a class="nav-link" style="color: black;" href="/toSearchPage.item?curPage=1">Search</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" style="color: black;" href="#">Mypage</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" style="color: black;" href="#">Search</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" style="color: black;" href="#">Cart ( 0 )</a>
+                <c:choose>
+                <c:when test="${not empty loginSession}">
+                  <a href="" class="nav-link" style="color: black;">Cart (0)</a>
+                </c:when>
+                <c:otherwise>
+                <a href="/login.user" 
+                onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" 
+                class="nav-link" style="color: black;">Cart (0)</a>
+                </c:otherwise>
+                </c:choose>
                 </li>
               </ul>      
           </div>
@@ -199,90 +259,29 @@
                 <p>식물에게 자신의 공간 한편을 내어주는 사람들,<br>식물과함께 하는 사람들, 식물을 사랑하는 사람들에게</p> 
             </div>
         </div>
-        <!--전체 상품 설명 영역 끝-->
-        <!-- 상품 사진 영역-->
+        <%--전체 상품 설명 영역 끝--%>
+       <%--상품 재고별 1~8위 --%>
         <div class="row row-cols-2 row-cols-md-4 g-4">
-            <div class="col ">
-              <div class="card toSpecific border-0"><!--card 클래스에 border-0을 주면 테두리가 사라져욤-->
-                <a href=""><img src="" class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                  <h5 class="card-title">상품명</h5>
-                  <p class="card-text">가격</p>
-                </div>
-              </div>
-            </div>
-            <div class="col">
+        <c:forEach items="${itemList}" var="itemList">
+            <div class="col-3">
               <div class="card toSpecific border-0">
-                <a href=""><img src="" class="card-img-top" alt="..."></a>
+                <a href="/detail.item?item_no=${itemList.item_no}"><img src="/resources/images/items/${itemList.itemImgDTO.sys_name}" class="card-img-top" alt="..."></a>
                 <div class="card-body">
-                  <h5 class="card-title">상품명</h5>
-                  <p class="card-text">가격</p>
+                  <h5 class="card-title">${itemList.item_name}</h5>
+                  <p class="card-text">${itemList.price}</p>
                 </div>
               </div>
             </div>
-            <div class="col">
-              <div class="card toSpecific border-0">
-                <a href=""><img src="" class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                  <h5 class="card-title">상품명</h5>
-                  <p class="card-text">가격</p>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card toSpecific border-0">
-                <a href=""><img src="" class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                  <h5 class="card-title">상품명</h5>
-                  <p class="card-text">가격</p>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-                <div class="card toSpecific border-0">
-                  <a href=""><img src="img/토피어리.png" class="card-img-top" alt="..."></a>
-                  <div class="card-body">
-                    <h5 class="card-title">상품명</h5>
-                    <p class="card-text">가격</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card border-0">
-                  <a href=""><img src="" class="card-img-top" alt="..."></a>
-                  <div class="card-body">
-                    <h5 class="card-title">상품명</h5>
-                    <p class="card-text">가격</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card toSpecific border-0">
-                  <a href=""><img src="" class="card-img-top" alt="..."></a>
-                  <div class="card-body">
-                    <h5 class="card-title">상품명</h5>
-                    <p class="card-text">가격</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card toSpecific border-0">
-                  <a href=""><img src="" class="card-img-top" alt="..."></a>
-                  <div class="card-body">
-                    <h5 class="card-title">상품명</h5>
-                    <p class="card-text">가격</p>
-                  </div>
-                </div>
-              </div>
+          </c:forEach>              
           </div>
-          <!--상품 사진 영역 끝-->
-          <!-- 상품 검색 페이지 이동 버튼-->
+          <%--상품 사진 영역 끝--%>
+          <%--상품 검색 페이지 이동 버튼 --%>
           <div class="row main-BtnProduct">
             <div class="col d-flex justify-content-center">
                 <button type="button" id="toSerchItemBtn" class="btn btn-light">더 많은 상품 보러가기</button>
             </div>
         </div>
-        <!--footer영역-->
+        <%--풋터영역 --%>
             <div class="row footer">
                 <div class="col-12 d-sm-none footer-small" >
                     <ul class="ft-ul">
@@ -313,9 +312,8 @@
                 <div class="col-2 d-none d-sm-block">
                     <ul class="ft-ul">
                         <li><strong>사이트맵</strong></li>
-                        <a href="#"><li>회사소개</li></a>
-                        <a href="#"><li>공지사항</li></a>
-                        <a href="#"><li>Q&A</li></a>
+                        <a href=""><li>공지사항</li></a>
+                        <a href=""><li>Q&A</li></a>
                     </ul>
                 </div>
                 <div class="col-3 d-none d-sm-block">
@@ -326,29 +324,41 @@
                         <li>점심시간:PM 12시~PM 01시</li>
                     </ul>
                 </div>
-      </div>
+     		 </div>
+     		 </div>
+    
+
+ 	   
       <script>
-      	//상품이미지 클릭했을때
+      //팝업창
+      /*
+      function pop()
+    	{
+    	window.open("popup.jsp", "EVENT", "width=430,height=530,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
+      }
+	  */
+      	//상품이미지 클릭했을때 -> 
       	$(".toSpecific").on("click",function(){
       		
       	})
-      	//네비바 검색창
+      	//네비바 검색창 -> 상품검색페이지
       	$("#searchBtn").on("click",function(){
       		let searchKeyword = $("#searchKeyword").val();
-      		console.log(searchKeyword);
+      		if($("#searchKeyword").val()==""){
+      			alert("검색어를 입력해 주세요");
+      			return;
+      		}else{
+      			location.href ="/searchProc.item?searchKeyword="+searchKeyword;
+      		}
       		
       	})
       
       	//더많은 상품 보러가기 버튼 클릭했을때
-      	$("#toSerchItemBtn").on("click",function(){
-      		location.href="상품검색페이지";
+      	$("#toSerchItemBtn").on("click", function() {
+      		location.href = "/toSearchPage.item";
       	})
       	
-        //팝업창
-        function pop()
-        {
-        	window.open("popup.jsp", "EVENT", "width=430,height=530,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
-          }
+
 
         //AOS
         AOS.init();
