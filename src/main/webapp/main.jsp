@@ -70,7 +70,7 @@
                 <!--네비 검색창-->
                 <div class="search">
                     <input type="text" placeholder="상품명을 입력하세요" id="searchKeyword">
-                    <a><img id="searchBtn" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></a>
+                    <a><img style="cursor:pointer;" id="searchBtn" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></a>
                   </div>
                 </nav>
                 <!--네비 메뉴-->
@@ -146,7 +146,7 @@
                 </c:when>
                 <c:otherwise>
                 <li class="nav-item">
-                  <a href="/toLogin.main" onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" class="nav-link" id="toMypage" style="color: black;">Mypage</a>
+                  <a href="/login.user" onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" class="nav-link" id="toMypage" style="color: black;">Mypage</a>
                 </li>
                 </c:otherwise>
                 </c:choose>
@@ -337,10 +337,7 @@
     	window.open("popup.jsp", "EVENT", "width=430,height=530,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
       }
 	  */
-      	//상품이미지 클릭했을때 -> 
-      	$(".toSpecific").on("click",function(){
-      		
-      	})
+      	
       	//네비바 검색창 -> 상품검색페이지
       	$("#searchBtn").on("click",function(){
       		let searchKeyword = $("#searchKeyword").val();
@@ -348,14 +345,14 @@
       			alert("검색어를 입력해 주세요");
       			return;
       		}else{
-      			location.href ="/searchProc.item?searchKeyword="+searchKeyword;
+      			location.href ="/searchItem.item?searchKeyword="+searchKeyword;
       		}
       		
       	})
       
       	//더많은 상품 보러가기 버튼 클릭했을때
       	$("#toSerchItemBtn").on("click", function() {
-      		location.href = "/toSearchPage.item";
+      		location.href = "/toSearchPage.item?curPage=1";
       	})
       	
 

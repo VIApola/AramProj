@@ -65,9 +65,9 @@
         }
 
         /*contentBox*/
-        /* .contentBox {
-            height: 800px;
-        } */
+        .contentBox {
+            margin-top:10px;
+        } 
 
         .contentBox .card {
             margin-bottom: 15px;
@@ -106,6 +106,8 @@
     }
     .countBox{
         text-align: left;
+     
+    }
     </style>
 </head>
 <body>
@@ -145,16 +147,14 @@
           		<span>|</span>
                 <a id="highPrice">높은 가격</a>
            		<span>|</span>
-                <a id="">제품명</a>
+                <a id="itemName">제품명</a>
             </div>
         </div>
         <!-- 상품 보이는 페이지 -->
         <div class="contentBox">
-            <div class="row">
+            <div class="row content-body">
             <c:choose>
-
             <c:when test="${empty itemList}">
-
             <div class="row">
         	<div class="col d-flex justify-content-center">
         		<h2>등록된 제품이 없습니다.</h2>
@@ -162,7 +162,6 @@
             </div>
             </c:when>
             <c:otherwise>
-
             <c:forEach items="${itemList}" var="dto">
        		  <div class="col-6 col-lg-3 d-flex justify-content-center">
                     <div class="card" style="width: 16rem;">
@@ -199,6 +198,7 @@
     
   		</ul>
 		</nav>
+		<!-- 페이징끝 -->
         </div>
 <script>
 
@@ -208,38 +208,39 @@
 	  $.ajax({
 		url:"/searchRowPrice.item"
 	   ,type:"get"
-	   ,success:function(){
-		   console.log(data);
+	   ,success:function(data){
+		   selectPriceAndName(data);
 	   }
-	   ,error:function(){
+	   ,error:function(e){
 		   console.log(e);
 	   }
 	  })
 	})
+	
 	
 	//높은가격순
 	$("#highPrice").on("click",function(){
 	  $.ajax({
 		url:"/searchHighPrice.item"
 	   ,type:"get"
-	   ,success:function(){
-		   console.log(data);
+	   ,success:function(data){
+		   selectPriceAndName(data);
 	   }
-	   ,error:function(){
+	   ,error:function(e){
 		   console.log(e);
 	   }
 	  })
 	})
 	
 	//이름순으로
-	$("#highPrice").on("click",function(){
+	$("#itemName").on("click",function(){
 	  $.ajax({
 		url:"/searchName.item"
 	   ,type:"get"
-	   ,success:function(){
-		   console.log(data);
+	   ,success:function(data){
+		   selectPriceAndName(data);
 	   }
-	   ,error:function(){
+	   ,error:function(e){
 		   console.log(e);
 	   }
 	  })
@@ -266,36 +267,17 @@
 		let maxPrice = $("#maxPrice").val();
 		console.log(minPrice+" : "+maxPrice);
 		
-		$.ajax({
-			url:"/searchItemPrice.item?minPrice="+minPrice+"&maxPrice="+maxPrice
-			,type:"get"
-			,success:function(data){
-				//console.log(data);
-			}
-			,error:function(e){
-				console.log(e);
-			}
-		})
+		location.href = "/searchItemPrice.item?minPrice="+minPrice+"&maxPrice="+maxPrice;
 		
-	
+
 	//키워드만 입력
 	}else if($("#minPrice").val()===""&&$("#maxPrice").val()===""&&$("#searchKeyword").val()!==""){
 		console.log("키워드만 입력");
 		let searchKeyword = $("#searchKeyword").val();
 		console.log(searchKeyword);
 		
-		$.ajax({
-			url:"/searchItem.item?searchKeyword="+searchKeyword
-			,type:"get"
-			,success:function(data){
-				//console.log(data);
-			}
-			,error:function(e){
-				console.log(e);
-			}
-		})
-		
-		
+		location.href = "/searchItem.item?searchKeyword="+searchKeyword;
+				
 	//가격범위와 키워드 입력
 	}else if($("#minPrice").val()!==""&&$("#maxPrice").val()!==""&&$("#searchKeyword").val()!==""){
 		 
@@ -310,20 +292,59 @@
 		
 		console.log(minPrice+" : "+maxPrice+" : "+searchKeyword); 
 		
-		$.ajax({
-			url:"/searchItem.item?searchKeyword="+searchKeyword+"&maxPrice="+maxPrice+"$searchKeyword"+searchKeyword
-			,type:"get"
-			,success:function(data){
-				//console.log(data);
-			}
-			,error:function(e){
-				console.log(e);
-			}
-		})
-				
+		location.href = "/searchItem.item?searchKeyword="+searchKeyword+"&maxPrice="+maxPrice+"$searchKeyword"+searchKeyword;
+			
 	}
 
 })
+
+	
+	
+	
+	function selectPriceAndName(data){
+		
+	
+		let list = JSON.parse(data);
+		console.log(list);
+		
+		$(".content-body").empty();
+		
+		  if(list.length == 0){ //등록된 게시물이 없을때
+			  let row2 = $("<div>").addClass('row');
+			  let col = $("<div>").addClass('col d-flex justify-content-center');
+			  let h2 = $("<h2>").html("등록된 제품이 없습니다.");
+			  
+			  col.append(h2);
+			  row2.append(col);
+			  $(".content-body").append(row2);
+			  $(".contentBox").append($(".content-body"));
+			  
+			  
+		  }else{ //등록된 게시물이 있을때
+			  for(let dto of list){
+					 let col = $("<div>").addClass('col-6 col-lg-3 d-flex justify-content-center');
+					 let card = $("<div>").addClass('card').css({"width":"16rem"}); 
+					 let a = $("<a>").attr("href","/detail.item?item_no="+dto.item_no);
+					 let img = $("<img>").attr("src","/resources/images/items/"+dto.itemImgDTO.sys_name).addClass('card-img-top');
+					 
+					 let card2 = $("<div>").addClass('card-body');
+					 let h5 = $("<h5>").addClass('card-text').html(dto.item_name);
+					 let p = $("<p>").addClass('card-text col-12').html(dto.price);
+					 
+					 card2.append(h5,p);
+					 a.append(img);
+					 
+					 card.append(a,card2);
+					 col.append(card);
+					 
+					 $(".content-body").append(col);
+					 $(".contentBox").append($(".content-body"));
+					 
+			}
+		  }
+		
+	}
+	
 
 </script>
 </body>
