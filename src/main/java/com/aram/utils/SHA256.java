@@ -3,7 +3,6 @@ package com.aram.utils;
 import java.security.MessageDigest;
 
 public class SHA256 {
-	
 	public static String getSHA256(String input) {
 		StringBuffer result = new StringBuffer();
 		try {
