@@ -56,8 +56,8 @@ public class ItemController extends HttpServlet {
 			
 		} else if(uri.equals("/detail.item")) { // 상품 상세페이지 로딩
 			
-			int item_no = 104;
-//			int item_no = Integer.parseInt(request.getParameter("item_no"));
+			int item_no = 105;
+		//int item_no = Integer.parseInt(request.getParameter("item_no"));
 			System.out.println("상품번호 : " + item_no);
 			ItemDAO dao = new ItemDAO();
 			ImgFileDAO imgDao = new ImgFileDAO();
@@ -70,7 +70,7 @@ public class ItemController extends HttpServlet {
 				int img_no = itemDto.getImg_no();
 				ItemimgDTO imgDto = imgDao.select_img(img_no);
 				
-				reviewDAO.
+			
 				
 				request.setAttribute("item", itemDto);
 				request.setAttribute("itemImg", imgDto);
@@ -249,7 +249,7 @@ public class ItemController extends HttpServlet {
 				
 				System.out.println(itemList);
 				System.out.println(allItemsCount);
-				System.out.println(pageList);
+				
 				
 			}catch(Exception e) {
 				e.printStackTrace();
