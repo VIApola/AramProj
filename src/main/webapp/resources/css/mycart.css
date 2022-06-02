@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+.title-row{
+	border-top: 1px solid gray;
+	border-bottom: 1px solid gray;
+	margin-bottom: 100px;
+}
+p {
+    text-align: center;
+}
+#btnDelete {
+    width: 70%;
+    float: right;
+}
+
+img {
+    height: 80px;
+    width: 110px;
+}
+#selectBox {
+    margin-top: 25px;
+    margin-right: 50px;
+}
+.list-row {
+    margin-top: 20px;
+    margin-bottom: 20px;
+   
+}
+.price-row {
+    border-top: 1px solid gray;
+    margin-top: 50px;
+    text-align: right;
+}
+.button-row {
+    margin-top: 50px;
+    text-align: center;
+}
+
+/* div{
+     border: 1px solid black;
+ } */
