@@ -1,0 +1,94 @@
+@charset "UTF-8";
+        /* div {
+            border: 1px solid black;
+        } */
+*{
+    font-size: small;
+}
+/*searchBox*/
+.searchBox {
+    width: auto;
+    height: 250px;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+}
+
+.searchBox>* {
+    margin: 1px;
+}
+
+.searchBox button {
+    width: 120px;
+    height: 55px;
+}
+
+.searchPart>* {
+    margin-right: 3px;
+    padding: 5px;
+}
+
+.searchPart .priceInput input {
+    width: 100px;
+    height: 25px;
+}
+
+.searchPart .keywordInput input {
+
+    width: 200px;
+    height: 25px;
+}
+
+/*classifyBox*/
+.classifyBox {
+    height: 100px;
+}
+
+.classifyBox a {
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+/*contentBox*/
+/* .contentBox {
+    height: 800px;
+} */
+
+.contentBox .card {
+    margin-bottom: 15px;
+    border: none;
+}
+
+.contentBox .card-body {
+    text-align: center;
+}
+
+
+/*paginBox*/
+
+    .paginBox {
+        height: 100px;
+    }
+    .search{
+    text-align: right;
+}
+
+.search{
+    display: flex;
+    justify-content: end;
+    text-align: right;
+}
+.search a{
+margin-left:5px;
+margin-right:5px;
+color:black;
+text-decoration:none;
+cursor:pointer;
+}
+#count{
+    font-size: small;
+    
+}
+.countBox{
+    text-align: left;
+}

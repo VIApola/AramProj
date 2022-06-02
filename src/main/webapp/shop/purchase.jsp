@@ -11,6 +11,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<div class="container">
+	<jsp:include page="/frame/header.jsp"></jsp:include>
+	
+	<jsp:include page="/frame/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

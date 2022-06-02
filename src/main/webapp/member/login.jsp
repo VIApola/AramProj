@@ -33,8 +33,9 @@
 
         <body>
             <div class="container">
+            
                 <div class="row header">
-                    <div class="col">여기는 Header</div>
+                    <jsp:include page="/frame/header.jsp"></jsp:include>
                 </div>
                 <!-- 로그인 박스 부분-->
                 <div class="row body">

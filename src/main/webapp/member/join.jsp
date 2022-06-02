@@ -26,6 +26,7 @@
 
         <body>
             <div class="container">
+            <jsp:include page="/frame/header.jsp"></jsp:include>
                 <!-- 컨테이너 -->
                 <div class="row header">
                     <!-- 헤더부분 -->
@@ -696,10 +697,7 @@
       ① “몰”과 이용자 간에 발생한 전자상거래 분쟁에 관한 소송은 제소 당시의 이용자의 주소에 의하고, 주소가 없는 경우에는 거소를 관할하는 지방법원의 전속관할로 합니다. 다만, 제소 당시 이용자의 주소 또는 거소가 분명하지 않거나 외국 거주자의 경우에는 민사소송법상의 관할법원에 제기합니다.
     
       ② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
-<<<<<<< HEAD
-=======
-    
-    
+
                         </textarea>
                     </div>
                 </div>  <!-- 개인정보수집 끝-->    
@@ -918,8 +916,8 @@
                 document.getElementById("roadAddr").value = roadAddr;
             }
         }).open();
-    });
-            </script>
-        </body>
-
-        </html>
+    });    	
+    	
+    </script>
+	</body>
+</html>
