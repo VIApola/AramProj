@@ -43,6 +43,8 @@
 </head>
 <body>
 
+<form action="/cartProc.cart" method="post" id = "cartForm">  
+
   <div class="container">
   ${item}
     <div class="row itemInfoBox">
@@ -57,6 +59,9 @@
           <h2>${item.item_name}</h2>
         </div>
         <div class="item-detail d-flex flex-column justify-content-center p-3">
+          
+    
+          
           <table>
             <tr>
               <td colspan="2"><span>판매가격</span></td>
@@ -70,12 +75,15 @@
                 <span>상품수</span>
               </td>
               <td>
+          
                 <input type='button' onclick='count("plus")' value='+' />
-                <input type="text" id='result' value="0">
+                <input type="text" id='result' value="1" name="result">
                 <input type='button' onclick='count("minus")' value='-' />
               </td>
             </tr>
           </table>
+          
+          
           <div class="totalAmout text-end p-3">
             <span>총 상품금액</span>
             <span>000,000원</span>
@@ -83,13 +91,13 @@
         </div>
         <div class="btnBox d-flex justify-content-center">
         
-     <form action="/cartProc.cart" method="post" id = "cartForm">
+   
      
 		<input type="text" name = "item_no" id = "item_no" class="d-none" value="${item.item_no}">       
       
         <button class="m-2" id="btnCart" type="button">장바구니</button>
       
-    </form>
+
 
           <button class="m-2" type="">구매하기</button>
         </div>
@@ -166,6 +174,8 @@
       </table>
     </div>
   </div>
+  
+ </form>
 
   <script>
     function count(type) {
@@ -188,14 +198,18 @@
     
     $("#btnCart").on("click", function(){
     	
-   <%--//장바구니 데이터에 같은 물품이 있을 때 추가 불가능
-   	if($("#item_no").val() ===  ){
-    		alert("장바구니에 같은 물품이 존재합니다.");
-    		return false;
+    	
+    	
+    	let con = confirm("장바구니에 담으시겠습니까?");
+    	
+    	if(con){
+    		console.log($("#item_no").val());
+    		console.log($("#result").val());
+        	$("#cartForm").submit();
+        	alert("장바구니에 추가되었습니다.");
     	}
-    	$("#cartForm").submit();
-    	--%>
-    	console.log($("#item_no").val());
+ 
+    
     });
     
     

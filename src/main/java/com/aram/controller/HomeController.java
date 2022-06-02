@@ -30,7 +30,10 @@ public class HomeController extends HttpServlet {
 	}
 	
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String uri = request.getRequestURI();
+		System.out.println("요청 uri : " + uri);
 		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
 		
 		ItemDAO itemDao = new ItemDAO();
 		
@@ -42,6 +45,16 @@ public class HomeController extends HttpServlet {
 			e.printStackTrace();
 		}
 		request.getRequestDispatcher("/main.jsp").forward(request, response);
+	
+	
+		
+		
+		
+		
+		
+	
+	
+	
 	}
 
 }
