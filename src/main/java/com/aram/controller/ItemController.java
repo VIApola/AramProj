@@ -3,6 +3,8 @@ package com.aram.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +20,8 @@ import com.google.gson.Gson;
 
 import com.aram.dto.ItemViewDTO;
 import com.aram.dto.ItemimgDTO;
-
+import com.aram.dto.ReviewDTO;
+import com.aram.utils.Pagination;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -56,12 +59,11 @@ public class ItemController extends HttpServlet {
 			
 		} else if(uri.equals("/detail.item")) { // 상품 상세페이지 로딩
 			
-			int item_no = 104;
-//			int item_no = Integer.parseInt(request.getParameter("item_no"));
+			int item_no = Integer.parseInt(request.getParameter("item_no"));
 			System.out.println("상품번호 : " + item_no);
 			ItemDAO dao = new ItemDAO();
 			ImgFileDAO imgDao = new ImgFileDAO();
-			ReviewDAO reviewDAO = new ReviewDAO();
+			ReviewDAO reviewDao = new ReviewDAO();
 			
 			try {
 				ItemDTO itemDto = dao.selectItemByNo(item_no);
@@ -69,11 +71,12 @@ public class ItemController extends HttpServlet {
 				// 이미지 번호를 통해 이미지 경로값 가져오기
 				int img_no = itemDto.getImg_no();
 				ItemimgDTO imgDto = imgDao.select_img(img_no);
-				
-				reviewDAO.
+				ArrayList<ReviewDTO> reviewList = reviewDao.selectAllReviewByItem(item_no);
+				System.out.println(reviewList);
 				
 				request.setAttribute("item", itemDto);
 				request.setAttribute("itemImg", imgDto);
+				request.setAttribute("reviewList", reviewList);
 				
 				request.getRequestDispatcher("/shop/detail.jsp").forward(request, response);
 			} catch (Exception e) {
@@ -236,20 +239,22 @@ public class ItemController extends HttpServlet {
 			request.getRequestDispatcher("/shop/searchitem.jsp").forward(request, response);
 		
 		}else if(uri.equals("/toSearchPage.item")) { //검색페이지 요청
-			
+			int curPage = Integer.parseInt(request.getParameter("curPage"));
 			ItemDAO dao = new ItemDAO();
+			Pagination pageNavi = new Pagination();
 			
 			try {
-			
-				ArrayList<ItemViewDTO> itemList = dao.selectAllItems();
-				int allItemsCount = dao.countAllItems();
+				int totalItemsCnt = dao.countAllItems();
+				HashMap<String, Object> naviMap = pageNavi.getPageNavi(totalItemsCnt, curPage, 8);
+				curPage = (Integer)naviMap.get("curPage");
+				ArrayList<ItemViewDTO> itemList = dao.selectRecentPagingAll(curPage*8-7,curPage*8);
 				
 				request.setAttribute("itemList", itemList);
-				request.setAttribute("itemCount", allItemsCount);
+				request.setAttribute("itemCount", totalItemsCnt);
+				request.setAttribute("naviMap", naviMap);
 				
 				System.out.println(itemList);
-				System.out.println(allItemsCount);
-				System.out.println(pageList);
+				System.out.println(totalItemsCnt);
 				
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -305,6 +310,32 @@ public class ItemController extends HttpServlet {
 			
 			
 		}
+		/*
+		if(uri.equals("/dummy.item")) {
+			ItemDAO dao = new ItemDAO();
+			ImgFileDAO imgDao = new ImgFileDAO();
+			
+			for(int i=0; i<100; i++) {
+				String item_name = "111";
+				int price = 100;
+				String item_comment = "111";
+				int item_stock = 10;
+				String category_id = "200";
+				
+				try {
+					
+					int item_no = dao.getItemNo();
+					int img_no = imgDao.getImgFileNo();
+					
+					int rs = dao.insertItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no));
+					int rsFile = imgDao.insert_img(new ItemimgDTO(img_no, item_no, null, "111", "323"));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		*/
 
 	 }
 

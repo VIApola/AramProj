@@ -74,7 +74,7 @@ public class UserController extends HttpServlet {
 				int rs = dao.signup(new UserDTO(id, password, name, nickname, phone, email, postcode, roadAddr, detailAddr, null, "n", null, "n"));
 				if(rs > 0) {
 					response.sendRedirect("/login.user"); 
-					//response.sendRedirect("/member/emailSendAction.jsp");이메일 인증때문에..잠시
+					// response.sendRedirect("/member/emailSendAction.jsp"); // 이메일 인증때문에..잠시
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -235,12 +235,11 @@ public class UserController extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}else if(uri.equals("/toLogout.user")) {//로그아웃  요청
+		}else if(uri.equals("/toLogout.user")) { //로그아웃  요청
 			HttpSession session = request.getSession();
 			session.getAttribute("loginSession");
 			session.invalidate();
 			response.sendRedirect("/main"); //로그아웃하면 main으로
 		}
-		
 	}
 }
