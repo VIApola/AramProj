@@ -186,10 +186,7 @@
     	window.open("popup.jsp", "EVENT", "width=430,height=530,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
       }
 	  */
-      	//상품이미지 클릭했을때 -> 
-      	$(".toSpecific").on("click",function(){
-      		
-      	})
+      	
       	//네비바 검색창 -> 상품검색페이지
       	$("#searchBtn").on("click",function(){
       		let searchKeyword = $("#searchKeyword").val();
@@ -197,7 +194,7 @@
       			alert("검색어를 입력해 주세요");
       			return;
       		}else{
-      			location.href ="/searchProc.item?searchKeyword="+searchKeyword;
+      			location.href ="/searchItem.item?searchKeyword="+searchKeyword;
       		}
       		
       	})
