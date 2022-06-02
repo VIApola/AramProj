@@ -41,6 +41,8 @@ public class HomeController extends HttpServlet {
 			ArrayList<ItemViewDTO> list = itemDao.selectByStock();
 			request.setAttribute("itemList", list);
 			
+			
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
