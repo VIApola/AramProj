@@ -347,9 +347,9 @@ public class ItemController extends HttpServlet {
 				System.out.println(count);
 				
 				request.setAttribute("itemList", searchItemList);
+				request.setAttribute("searchKeyword", searchKeyword);
 				request.setAttribute("minPrice", minPrice);
 				request.setAttribute("maxPrice", maxPrice);
-				request.setAttribute("searchKeyword", searchKeyword);
 				request.setAttribute("count", count);
 				
 				
@@ -493,9 +493,9 @@ public class ItemController extends HttpServlet {
 			int maxPrice =Integer.parseInt(request.getParameter("maxPrice"));
 			
 			ItemSearchDAO dao = new ItemSearchDAO();
-			
+													
 			try {
-				ArrayList<ItemViewDTO> rowPriceList = dao.searchByPriceName(minPrice,maxPrice);	
+				ArrayList<ItemViewDTO> rowPriceList = dao.searchByPriceTitle(minPrice,maxPrice);	
 				System.out.println(rowPriceList);
 				
 				Gson gson = new Gson();
@@ -509,7 +509,9 @@ public class ItemController extends HttpServlet {
 			}
 		//가격 + 키워드 + 낮은가격	
 		}else if(uri.equals("/namePriceRowPrice.item")) {
-		
+			System.out.println("요청 url : "+uri);
+			
+			
 			String searchKeyword = request.getParameter("searchKeyword");
 			int minPrice =Integer.parseInt(request.getParameter("minPrice"));
 			int maxPrice =Integer.parseInt(request.getParameter("maxPrice"));
@@ -533,6 +535,8 @@ public class ItemController extends HttpServlet {
 		//가격 + 키워드 + 높은가격	
 		}else if(uri.equals("/namePriceHighPrice.item")) {
 			
+			System.out.println("요청 url : "+uri);
+			
 			String searchKeyword = request.getParameter("searchKeyword");
 			int minPrice =Integer.parseInt(request.getParameter("minPrice"));
 			int maxPrice =Integer.parseInt(request.getParameter("maxPrice"));
@@ -554,6 +558,8 @@ public class ItemController extends HttpServlet {
 			}
 		//가격 + 키워드 + 이름순	
 		}else if(uri.equals("/namePriceName.item")) {
+			
+			System.out.println("요청 url : "+uri);
 			
 			String searchKeyword = request.getParameter("searchKeyword");
 			int minPrice =Integer.parseInt(request.getParameter("minPrice"));

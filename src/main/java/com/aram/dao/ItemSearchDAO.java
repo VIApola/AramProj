@@ -296,7 +296,7 @@ private BasicDataSource bds;
 		}
 		
 		//가격대 범위 입력 + 이름순 정렬 
-		public ArrayList<ItemViewDTO> searchByPriceName (int minPrice, int maxPrice) throws Exception{
+		public ArrayList<ItemViewDTO> searchByPriceTitle (int minPrice, int maxPrice) throws Exception{
 			String sql = "select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no where price between ? and ? order by item_name";
 			
 			try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
@@ -333,7 +333,7 @@ private BasicDataSource bds;
 		//가격 + 키워드 검색 조회
 		public ArrayList<ItemViewDTO> searchByPriceName (String searchKeyword, int minPrice, int maxPrice) throws Exception{
 			String sql = "select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no"
-					+ "where  item_name like '%'||?||'%' and  price between ? and ? order by 1 desc";
+					+ " where  item_name like '%'||?||'%' and  price between ? and ? order by 1 desc";
 			
 			try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
 				
@@ -387,7 +387,7 @@ private BasicDataSource bds;
 		//가격 + 키워드 + 높은가격순
 		public ArrayList<ItemViewDTO> searchByPriceNameHP (String searchKeyword, int minPrice, int maxPrice) throws Exception{
 			String sql = "select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no"
-					+ "where  item_name like '%'||?||'%' and  price between ? and ? order by price desc";
+					+ " where  item_name like '%'||?||'%' and  price between ? and ? order by price desc";
 			
 			try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
 				
@@ -424,7 +424,7 @@ private BasicDataSource bds;
 		//가격 + 키워드 + 낮은 가격정렬 
 		public ArrayList<ItemViewDTO> searchByPriceNameRP (String searchKeyword, int minPrice, int maxPrice) throws Exception{
 			String sql = "select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no"
-					+ "where  item_name like '%'||?||'%' and  price between ? and ? order by price";
+					+ " where  item_name like '%'||?||'%' and  price between ? and ? order by price";
 			
 			try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
 				
@@ -460,7 +460,7 @@ private BasicDataSource bds;
 		//가격 + 키워드 + 이름 정렬 
 		public ArrayList<ItemViewDTO> searchByPriceNameName (String searchKeyword, int minPrice, int maxPrice) throws Exception{
 			String sql = "select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no"
-					+ "where  item_name like '%'||?||'%' and  price between ? and ? order by item_name";
+					+ " where  item_name like '%'||?||'%' and  price between ? and ? order by item_name";
 			
 			try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
 				
@@ -602,18 +602,6 @@ private BasicDataSource bds;
 					}  
 			   }
 	
-	
-			   
-			   
-			   
-			   
-			   
-			   
-			   
-			   
-			   
-			   
-			   
 			   
 			// Date형을 String형으로
 				public String getStringDate(Date date) {

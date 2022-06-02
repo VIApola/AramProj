@@ -139,7 +139,14 @@
          <div class="row" id="links">
           
             <div class="col-6 countBox">
-                <span id="count">총 ${count}개의 상품이 검색되었습니다.</span>
+           <c:choose>
+           <c:when test="${empty itemList}">
+           	<span id="count">총 0개의 상품이 검색되었습니다.</span>
+           </c:when>
+           <c:otherwise>
+                <span id="count">총 ${count}개의 상품이 검색되었습니다.</span>           
+           </c:otherwise>
+           </c:choose>
             </div>
 
             <div class="col-6 search">
@@ -250,6 +257,10 @@
     //검색 버튼을 클릭했을 때
 	$("#searchBtn").on("click",function (){
 	
+	if($("#minPrice").val()===""&&$("#maxPrice").val()===""&&$("#searchKeyword").val()===""){
+		location.href = "/toSearchPage.item";
+	}
+		
 	//가격대에서 숫자만 입력하도록 유효성 검사
 	let regexPrice =/[0-9]/;
 
@@ -292,7 +303,7 @@
 		
 		console.log(minPrice+" : "+maxPrice+" : "+searchKeyword); 
 		
-		location.href = "/searchItem.item?searchKeyword="+searchKeyword+"&maxPrice="+maxPrice+"$searchKeyword"+searchKeyword;
+		location.href = "/searchPriceItem.item?searchKeyword="+searchKeyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice;
 			
 	}
 
@@ -309,7 +320,10 @@
 		
 		$(".content-body").empty();
 		
+		
 		  if(list.length == 0){ //등록된 게시물이 없을때
+	
+			  
 			  let row2 = $("<div>").addClass('row');
 			  let col = $("<div>").addClass('col d-flex justify-content-center');
 			  let h2 = $("<h2>").html("등록된 제품이 없습니다.");

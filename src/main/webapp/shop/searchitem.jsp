@@ -9,6 +9,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
+
+
 <title>상품 검색페이지</title>
 
  <style>
@@ -120,7 +122,7 @@
                         <div class="row priceInput">
                             <div class="col-lg-12 d-flex justify-content-between">
                                 <span>가격대</span>
-                                <input id="minPrice" type="text" class="form-control" placeholder=""> ~
+                                <input id="minPrice" type="text" class="form-control" placeholder=""> -
                                 <input id="maxPrice" type="text" class="form-control" placeholder="">
                             </div>
                         </div>
@@ -139,7 +141,14 @@
          <div class="row" id="links">
           
             <div class="col-6 countBox">
-                <span id="count">총 ${itemCount}개의 상품이 검색되었습니다.</span>
+                <c:choose>
+           <c:when test="${empty itemList}">
+           	<span id="count">총 0개의 상품이 검색되었습니다.</span>
+           </c:when>
+           <c:otherwise>
+                <span id="count">총 ${itemCount}개의 상품이 검색되었습니다.</span>           
+           </c:otherwise>
+           </c:choose>
             </div>
 
             <div class="col-6 search">
@@ -250,6 +259,11 @@
     //검색 버튼을 클릭했을 때
 	$("#searchBtn").on("click",function (){
 	
+		if($("#minPrice").val()===""&&$("#maxPrice").val()===""&&$("#searchKeyword").val()===""){
+			location.href = "/toSearchPage.item";
+		}	
+		
+		
 	//가격대에서 숫자만 입력하도록 유효성 검사
 	let regexPrice =/[0-9]/;
 
@@ -292,7 +306,7 @@
 		
 		console.log(minPrice+" : "+maxPrice+" : "+searchKeyword); 
 		
-		location.href = "/searchItem.item?searchKeyword="+searchKeyword+"&maxPrice="+maxPrice+"$searchKeyword"+searchKeyword;
+		location.href = "/searchPriceItem.item?searchKeyword="+searchKeyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice;
 			
 	}
 
