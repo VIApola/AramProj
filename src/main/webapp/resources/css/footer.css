@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+.footer {   
+	border-top: 2px solid #7cc09c;
+    overflow: hidden;
+}
+.ft-ul {
+    float: left;
+    list-style: none;
+    
+}
+.ft-ul a {
+    color: black;
+    text-decoration: none;
+}
+.footer-small {
+    border-top: 2px solid #7cc09c;
+    padding: 30px;
+}
+.footer-small .ft-ul {
+    text-align: center;
+    margin-left: 50px;
+}

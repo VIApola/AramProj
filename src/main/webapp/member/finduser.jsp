@@ -22,9 +22,7 @@
 		
         <body>
             <div class="container">
-                <div class="row header">
-                    <div class="col">여기는 Header</div>
-                </div>
+                <jsp:include page="/frame/header.jsp"></jsp:include>
                 <div class="row body">
                     <form id="searchToForgotIdForm" action="/searchToForgotId.user" method="post">
                         <div class="row boxFindAction">

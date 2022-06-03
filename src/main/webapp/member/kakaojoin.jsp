@@ -694,8 +694,13 @@
 
     	// 닉네임 조건 밑에 뜨게
     	$("#nickname").focus(function(){
+
+    		$("#nicknameCheck").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 2~6자 이내로 작성해 주세요.");
+    		$("#nicknameCheck").css("color", "green");
+
     		$("#checkNickname").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 2~6자 이내로 작성해 주세요.");
     		$("#checkNickname").css("color", "green");
+
     	});
     	$("#nickname").blur(function(){
     		$("#checkNickname").html("");
