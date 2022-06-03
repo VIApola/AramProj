@@ -80,8 +80,8 @@
                 <a href="/interior.item" class="fromLeft"><span>실내 식물 (Indoor Plants)</span></a>
                 <a href="/outside.item" class="fromLeft"><span>실외 식물(Outdoor Plants)</span></a>    
                 <span>Community</span>
-                <a href="" class="fromLeft" ><span>Q & A</span></a>
-                <a href="" class="fromLeft" id="noticeNav"><span>Notice</span></a>
+                <a href="/qna.bo" class="fromLeft" ><span>Q & A</span></a>
+                <a href="/notice.bo" class="fromLeft" id="noticeNav"><span>Notice</span></a>
                 <c:choose>
                 <c:when test="${not empty loginSession}">
                 <a href="/toLogout.user" class="fromLeft bottom" id="logoutNav"><span>로그아웃</span></a>             
@@ -312,8 +312,8 @@
                 <div class="col-2 d-none d-sm-block">
                     <ul class="ft-ul">
                         <li><strong>사이트맵</strong></li>
-                        <a href=""><li>공지사항</li></a>
-                        <a href=""><li>Q&A</li></a>
+                        <a href="/notice.bo"><li>공지사항</li></a>
+                        <a href="/qna.bo"><li>Q&A</li></a>
                     </ul>
                 </div>
                 <div class="col-3 d-none d-sm-block">
