@@ -100,9 +100,6 @@
                 onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" class="fromLeft bottom" id="toMypage" ><span>마이페이지</span></a>
                 </c:otherwise>
                 </c:choose>
-                
-                
-                
                 </div>
               </div>
               <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776;</span>     
@@ -116,10 +113,10 @@
           <div class="col-2 d-md-none header-left">
             <c:choose>
                 <c:when test="${not empty loginSession}">
-                  <a href="/toMycart.main" class="nav-link" style="color: black;">Cart(0)</a>
+                  <a href="#" class="nav-link" style="color: black;">Cart(${quantity})</a>
                 </c:when>
                 <c:otherwise>
-                <a href="/toLogin.main" 
+                <a href="/login.user" 
                 onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" 
                 class="nav-link" style="color: black;">Cart(0)</a>
                 </c:otherwise>
@@ -141,8 +138,8 @@
                 <c:choose>
                 <c:when test="${not empty loginSession}">
                 <li class="nav-item">
-                <a href="" class="nav-link" style="color: black;" >Mypage</a>
-                 </li>
+                <a href="/toMypage.main" class="nav-link" style="color: black;" >Mypage</a>
+                </li>
                 </c:when>
                 <c:otherwise>
                 <li class="nav-item">
@@ -156,7 +153,7 @@
                 <li class="nav-item">
                 <c:choose>
                 <c:when test="${not empty loginSession}">
-                  <a href="" class="nav-link" style="color: black;">Cart (0)</a>
+                  <a href="#" class="nav-link" style="color: black;">Cart (${quantity})</a>
                 </c:when>
                 <c:otherwise>
                 <a href="/login.user" 
@@ -242,13 +239,13 @@
         <!--카테고리 영역 시작-->
         <div class="row main-category" data-aos="fade-up" data-aos-duration="1000">
             <div class="col-3 d-none d-lg-block">
-                <a href=""><img src="/resources/images/category_Air.png"alt="..."></a>
+                <a href="/air.item"><img src="/resources/images/category_Air.png"alt="..."></a>
             </div>
             <div class="col-3 d-none d-sm-block">
-                <a href=""><img src="/resources/images/category_In.png" alt="..."></a>
+                <a href="/interior.item"><img src="/resources/images/category_In.png" alt="..."></a>
             </div>
             <div class="col-3 d-none d-sm-block">
-                <a href=""><img src="/resources/images/category_Out.png" alt="..."></a>
+                <a href="/outside.item"><img src="/resources/images/category_Out.png" alt="..."></a>
               </div>
         </div>
         <!--카테고리 영역 끝-->
