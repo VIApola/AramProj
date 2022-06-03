@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
         <html>
 
@@ -26,6 +26,7 @@
 
         <body>
             <div class="container">
+            <jsp:include page="/frame/header.jsp"></jsp:include>
                 <!-- 컨테이너 -->
                 <div class="row header">
                     <!-- 헤더부분 -->
@@ -696,10 +697,7 @@
       ① “몰”과 이용자 간에 발생한 전자상거래 분쟁에 관한 소송은 제소 당시의 이용자의 주소에 의하고, 주소가 없는 경우에는 거소를 관할하는 지방법원의 전속관할로 합니다. 다만, 제소 당시 이용자의 주소 또는 거소가 분명하지 않거나 외국 거주자의 경우에는 민사소송법상의 관할법원에 제기합니다.
     
       ② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
-<<<<<<< HEAD
-=======
-    
-    
+
                         </textarea>
                     </div>
                 </div>  <!-- 개인정보수집 끝-->    
@@ -790,20 +788,20 @@
     	});
     	// 닉네임 조건 밑에 뜨게
     	$("#nickname").focus(function(){
-    		$("#nicknameCheck").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~6자 이내로 작성해 주세요.");
-    		$("#nicknameCheck").css("color", "green");
+    		$("#checkNickname").html("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~6자 이내로 작성해 주세요.");
+    		$("#checkNickname").css("color", "green");
     	});
     	$("#nickname").blur(function(){
-    		$("#nicknameCheck").html("");
+    		$("#checkNickname").html("");
     	});
     	// 비밀번호 조건 밑에 뜨게
     	$("#password").focus(function(){
-    		$("#pwCheck").html("비밀번호는 영어 대소문자 숫자 특수문자(~!@#$)를 이용해서 6~12자 이내로 작성해 주세요.");
-    		$("#pwCheck").css("color", "green");
+    		$("#checkPw").html("비밀번호는 영어 대소문자 숫자 특수문자(~!@#$)를 이용해서 6~12자 이내로 작성해 주세요.");
+    		$("#checkPw").css("color", "green");
     		
     	});
     	$("#password").blur(function(){
-    		$("#pwCheck").html("");
+    		$("#checkPw").html("");
     	});
     	// 약관 동의
     	$("#agreeAll").change(function(){
@@ -918,12 +916,8 @@
                 document.getElementById("roadAddr").value = roadAddr;
             }
         }).open();
-    });
-    	
+    });    	
     	
     </script>
-</body>
-
-
-
-  </html>
+	</body>
+</html>

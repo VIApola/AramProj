@@ -18,10 +18,11 @@
         <div class="row main-header">
             <!--상단바 로고 영역-->
             <div class="row d-flex justify-content-center">
-                <div class="col header-logo d-flex justify-content-center">
-                    <a href="/main" class="d-none d-sm-block"><img src="/resources/images/Logo_md.png" alt="..."></a>
-                    <a href="/main" class="d-block d-sm-none"><img src="/resources/images/Logo_sm.png" style="margin-right: 100px;" alt="..."></a>
-                </div>    
+                <div class="header-logo d-flex justify-content-center">
+                    <a href="/main"><img src="/resources/images/Logo_md.png" class="imgLogo d-none d-sm-block" alt="..."></a>
+                    <a href="/main"><img src="/resources/images/Logo_sm.png" class="imgLogo d-block d-sm-none"
+                            style="" alt="..."></a>
+                </div>
             </div>
             <!--네비게이션-->
             <div class="row d-flex justify-content-center">
@@ -68,9 +69,9 @@
                 <div class="d-none d-xl-block col-xl-5 d-flex align-self-center"></div>
                 <div class="col-2 col-xl-1 d-flex align-self-center justify-content-end" style="display:block; text-align: justify;">
                     <select name="">
-                        <option value="상품평">아이디</option>
-                        <option value="상품번호">이름</option>
-                        <option value="카테고리">이메일</option>
+                        <option value="아이디">아이디</option>
+                        <option value="이름">이름</option>
+                        <option value="이메일">이메일</option>
                     </select>
                 </div>
                 <div class="col-4 col-xl-3">

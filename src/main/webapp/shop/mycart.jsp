@@ -1,242 +1,100 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    
-    <title>장바구니</title>
-<style>
-    .title-row{
-        border-top: 1px solid gray;
-        border-bottom: 1px solid gray;
-        margin-bottom: 100px;
-        padding-top:20px;
-    }
-    p{
-        text-align: center;
-    }
-    #btnDelete{
-        width: 70%;
-        float: right;
-    }
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+	crossorigin="anonymous"></script>
+<link href="${pageContext.request.contextPath}/resources/css/mycart.css"
+	rel="stylesheet" type="text/css">
+<title>장바구니</title>
 
-    img{
-        height: 80px;
-        width: 110px;
-    }
-    #selectBox{
-        margin-top: 25px;
-        margin-right: 50px;
-    }
-    .list-row{
-        margin-top: 20px;
-        margin-bottom: 20px;
-       
-    }
-    .price-row{
-        border-top: 1px solid gray;
-        margin-top: 50px;
-        text-align: right;
-    }
-    .button-row{
-        margin-top: 50px;
-        text-align: center;
-    }
-     .itemName{
-        margin-top: 25px;
-         text-align: left;
-    }
-  
-    .quantityBox{
-       text-align: center;
-        margin-top: 25px;
-    }
-    .priceName{
-        margin-top:25px; 
-        text-align: center;
-    }
-     .p_num{
-
-        size: 20px;
-        text-align : center;
-        max-width: 50px;
-    }
-  	.form-check-input{
-       margin-right: 20px;
-       
-    }
-  
-
-    /* div{
-        border: 1px solid black;
-    } */
-</style>
 </head>
 <body>
-    <div class="container">
-
-        <div class="row" style="margin-bottom: 20px;">
-            <div class="col-10">
-                <h3>SHOPPING CART</h3>
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-secondary" id="btnDelete">삭제</button>
-            </div>
-
-        </div>
-
-        
-        <div class="row title-row">
-   	
-        	
-            <div class="col-8">
-                <p>product</p>
-            </div>
-            <div class="col-2">
-                <p>Quantity</p>
-            </div>
-            <div class="col-2">
-                <p>Price</p>
-            </div>
-        </div>
-
-
-<div class="body-list">
-        
-        <c:forEach items="${list}" var="dto">
-      
-        <c:if test="${loginSession eq dto.user_id}">
-        
-			<div class="cart_info">
-				 <input type="hidden" class="price_input" value="${dto.price}">
-      			 <input type="hidden" class="quantity_input" value="${dto.quantity}">
-       			 <input type="hidden" class="totalPrice_input" value="${dto.price * dto.quantity}">
-			
+<div class="container">
+<jsp:include page="/frame/header.jsp"></jsp:include>
+	<div class="row" style="margin-bottom: 20px;">
+		<div class="col-10">
+			<h3>SHOPPING CART</h3>
+		</div>
+		<div class="col-2">
+			<button type="button" class="btn btn-secondary" id="btnDelete">삭제</button>
+		</div>
+	</div>
+	<div class="row title-row">
+		<div class="col-8 d-flex align-items-center justify-content-center">
+			<span>product</span>
+		</div>
+		<div class="col-2 d-flex align-items-center justify-content-center">
+			<span>Quantity</span>
+		</div>
+		<div class="col-2 d-flex align-items-center justify-content-center">
+			<span>Price</span>
+		</div>
+	</div>
+	<div class="body-list">
+		<c:forEach items="${list}" var="dto">
+			<c:if test="${loginSession eq dto.user_id}">
+			<div class="row list-row">
+				<div class="col-1 d-flex align-items-center justify-content-center">
+					<input class="form-check-input" type="checkbox" checked="checked"
+							id="${dto.price}" name="checkBox" value="${dto.item_no}">
+				</div>
+				<div class="col-2">
+					<img src="/resources/images/items/${dto.item_name}.png">
+				</div>
+				<div class="col-5 itemName d-flex align-items-center">
+					<span>${dto.item_name}</span>
+				</div>
+				<div class="col-2 quantityBox d-flex align-items-center justify-content-center">
+					<input type='button' class="btnPlus" value='+' />
+					<input type="text" class="p_num" value="${dto.quantity}" style="width: 20px;text-align:center;">
+					<input type='button' class="btnMinus" value='-' />
+				</div>
+				<div class="col-2 priceName d-flex align-items-center justify-content-center">
+					<span>${dto.price}</span>
+				</div>
 			</div>
-         <div class="row list-row">
-             
-             
-             <div class="col-3">
-                <input class="form-check-input checkBox" type="checkbox" checked="checked" id="${dto.price}" name ="checkBox"  value="${dto.item_no}">
-                <img src="/resources/images/items/${dto.item_name}.png">
-            </div>
-              
-
-            <div class="col-5 itemName">
-                <span>${dto.item_name}</span>
-            </div>
-
-            <div class="col-2 quantityBox">
-             <input type='button' class="btnPlus" value='+' />
-                    <input type="text" class="p_num" id ="${dto.item_no}" value="${dto.quantity}" readonly>
-             <input type='button' class="btnMinus" value='-' />
-          <%--  <input type="hidden" id="checkBoxId" value="${dto.item_no}">   --%>
-            </div>
-
-           
-            <div class="col-2 priceName" >
-            <span>${dto.price}</span>
-           
-           </div>
-        
-        
-        </div>
-         
-        
-        </c:if>
-
-        </c:forEach>
-        
+			</c:if>
+		</c:forEach>
+	</div>
+	<div class="row price-row">
+		<div class="col">총 가격 : ${total} 원</div>
+	</div>
+	<div class="row button-row">
+		<div class="col">
+			<button type="button" class="btn btn-secondary btn-lg"
+				id="btnShopping">쇼핑 계속하기</button>
+			<button type="button" class="btn btn-secondary btn-lg" id="btnOrder">
+				&nbsp&nbsp&nbsp주문하기&nbsp&nbsp&nbsp</button>
+		</div>
+	</div>
+	<jsp:include page="/frame/footer.jsp"></jsp:include>
 </div>
 
-				
-				
-				<div class="row price-row">
-     
-            <div class="col">총 가격 :<span class="totalPrice_span"> </span> </div>
-        		</div>
-				
-	
-	
-        <div class="row button-row">
-           
-            <div class="col">
-                <button type="button" class="btn btn-secondary btn-lg" id="btnShopping">쇼핑 계속하기</button>
-                <button type="button" class="btn btn-secondary btn-lg" id="btnOrder"> &nbsp&nbsp&nbsp주문하기&nbsp&nbsp&nbsp </button>
-            </div>
-        </div>
-
-    </div>
+	<script>
+	$("#btnOrder").on("click", function(){
+		let ans = confirm("장바구니에 담긴 상품을 주문하시겠습니까?");
+		if(ans) {
+			location.href = "/purchase.order";
+		}
+	})
     
-    <script>
-    $(".checkBox").on("change",function(){
-    	
-    	setTotalInfo($(".cart_info"));
-    });
-    
-    
-    
-    $(document).ready(function(){
-    	setTotalInfo();
-    });
-    
-    function setTotalInfo(){
-    	let totalPrice = 0;  // 총 가격
-    	let totalCount = 0;	 // 총 갯수
-    	let totalKind = 0;   // 총 종류
-    	
-    	$(".cart_info").each(function(index, element){
-    		
-    		if($(element).find(".checkBox").is(":checked") === true){
-    				
-    			totalPrice += parseInt( $(".totalPrice_input").val() );
-        		totalCount += parseInt($(element).find(".quantity_input").val());
-        		totalKind +=1;
-    		}
-    			
-    	});
-    	
-    	$(".totalPrice_span").text(totalPrice.toLocaleString());
-    	console.log(totalPrice);
-    	console.log( $(".totalPrice_input").val() );
-    }  --%>
-    
-  
     <%--
-    
-    $(".checkBox").click(function(){
-    	
-    	var sum = 0;
-    	
-    	$(".checkBox").each(function(){
-    		
-    		if( $(this).is(":checked") == true){
-    			
-    			var price_goods = parseInt( $(".checkBoxPrice").val() );
-    				
-    					sum = sum + price_goods;
-    		}
-    		
-    	});
-    	
-    	$(".totalPrice_span").html(sum);
-    				
-    console.log(sum);
-    	
-    });
-    
-    --%>
-    
- 
-    <%--
-    
     $("input:checkbox:checked").each(function(){
 		
 		checkVals.push( $(this).val() );
@@ -244,9 +102,10 @@
 	
 		console.log(checkVals);
 	});
+    --%>
     
     
-    
+    <%--
     
     function count(type) {
         // 결과를 표시할 element
@@ -351,6 +210,7 @@
     	
     		let checkval = "";
     		let checkVals = [];
+    		
         	$("input:checkbox:checked").each(function(){
         		
         		checkVals.push( $(this).val() );

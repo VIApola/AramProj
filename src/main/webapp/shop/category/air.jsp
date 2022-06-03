@@ -74,7 +74,7 @@
 </head>
 <body>
     <div class="container">
-
+		<jsp:include page="/frame/header.jsp"></jsp:include>
         <div class="row" id="category">
             
             <div class="col-4">

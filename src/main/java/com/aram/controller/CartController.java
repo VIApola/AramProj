@@ -48,8 +48,9 @@ public class CartController extends HttpServlet {
 				request.setAttribute("loginSession", loginSession);
 			
 			CartDAO dao = new CartDAO();
+			
 			try {
-				ArrayList<Cart_ItemDTO> list = dao.selectAll();
+				ArrayList<Cart_ItemDTO> list = dao.selectByUserId(loginSession);
 				
 				request.setAttribute("list", list);
 				

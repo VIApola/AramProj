@@ -59,115 +59,9 @@
   </script>
 </head>
 <body><!--  onLoad="javascript:pop()" -->
-    <div class="main-container">
+    <div class="container main-container">
         <!--헤더영역-->
-        <div class="row main-header">
-        <!-- 상단바 sm크기에서 생기는 네비바-->
-          <div class="col-1 d-md-none header-side">
-            <div id="mySidenav" class="sidenav">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <nav class="navbar">
-                <!--네비 검색창-->
-                <div class="search">
-                    <input type="text" placeholder="상품명을 입력하세요" id="searchKeyword">
-                    <a><img id="searchBtn" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></a>
-                  </div>
-                </nav>
-                <!--네비 메뉴-->
-                <div class="row search-menu">
-                <span>Shop</span>
-                <a href="/air.item" class="fromLeft"><span>공기 정화 (Air Purifying)</span></a>
-                <a href="/interior.item" class="fromLeft"><span>실내 식물 (Indoor Plants)</span></a>
-                <a href="/outside.item" class="fromLeft"><span>실외 식물(Outdoor Plants)</span></a>    
-                <span>Community</span>
-                <a href="" class="fromLeft" ><span>Q & A</span></a>
-                <a href="" class="fromLeft" id="noticeNav"><span>Notice</span></a>
-                <c:choose>
-                <c:when test="${not empty loginSession}">
-                <a href="/toLogout.user" class="fromLeft bottom" id="logoutNav"><span>로그아웃</span></a>             
-                </c:when>
-                <c:otherwise>
-                <a href="/login.user" class="fromLeft bottom" id="loginNav"><span>로그인</span></a> 
-                </c:otherwise>
-                </c:choose>
-                <a href="/join.user" class="fromLeft bottom"><span>회원가입</span></a>
-                <c:choose>
-                <c:when test="${not empty loginSession}">
-                <a href="" class="fromLeft bottom"><span>마이페이지</span></a>
-                </c:when>
-                <c:otherwise>
-                <a href="/login.user" 
-                onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" class="fromLeft bottom" id="toMypage" ><span>마이페이지</span></a>
-                </c:otherwise>
-                </c:choose>
-                
-                
-                
-                </div>
-              </div>
-              <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776;</span>     
-          </div>
-          <!--상단바 로고 영역-->
-            <div class="header-logo col-9">
-            <a href="/main"><img src="/resources/images/Logo_md.png" class="d-none d-sm-block" alt="..."></a>
-            <a href="/main"><img src="/resources/images/Logo_sm.png" class="d-block d-sm-none" style="margin-right: 100px;" alt="..."></a>
-          </div>
-          <!-- 상단바 cart 영역-->
-          <div class="col-2 d-md-none header-left">
-            <c:choose>
-                <c:when test="${not empty loginSession}">
-                  <a href="/toMycart.main" class="nav-link" style="color: black;">Cart(0)</a>
-                </c:when>
-                <c:otherwise>
-                <a href="/toLogin.main" 
-                onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" 
-                class="nav-link" style="color: black;">Cart(0)</a>
-                </c:otherwise>
-                </c:choose>
-          </div>
-          <!--네비게이션-->
-          <div class="col-4 d-none d-md-block">
-            <ul class="nav">
-                <li class="nav-item">
-                <c:choose>
-                <c:when test="${not empty loginSession}">
-                  <a class="nav-link active" style="color: black;" href="/toLogout.user">Logout</a>
-                </c:when>
-                <c:otherwise>
-                <a class="nav-link active" style="color: black;" href="/login.user">Login</a>
-                </c:otherwise>
-                </c:choose>
-                </li>
-                <c:choose>
-                <c:when test="${not empty loginSession}">
-                <li class="nav-item">
-                <a href="" class="nav-link" style="color: black;" >Mypage</a>
-                 </li>
-                </c:when>
-                <c:otherwise>
-                <li class="nav-item">
-                  <a href="/toLogin.main" onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" class="nav-link" id="toMypage" style="color: black;">Mypage</a>
-                </li>
-                </c:otherwise>
-                </c:choose>
-                <li class="nav-item">
-                  <a class="nav-link" style="color: black;" href="/toSearchPage.item?curPage=1">Search</a>
-                </li>
-                <li class="nav-item">
-                <c:choose>
-                <c:when test="${not empty loginSession}">
-                  <a href="/mycart.cart" class="nav-link" style="color: black;">Cart</a>
-                </c:when>
-                <c:otherwise>
-                <a href="/login.user" 
-                onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')" 
-                class="nav-link" style="color: black;">Cart (0)</a>
-                </c:otherwise>
-                </c:choose>
-                </li>
-              </ul>      
-          </div>
-        </div>
+        <jsp:include page="/frame/header.jsp"></jsp:include>
         <!-- 케로셀 영역 시작-->
         <div class="row">
           <div class="col">
@@ -282,53 +176,7 @@
             </div>
         </div>
         <%--풋터영역 --%>
-            <div class="row footer">
-                <div class="col-12 d-sm-none footer-small" >
-                    <ul class="ft-ul">
-                        <li>Aram 대표자 : 김당산</li>
-                        <li>주소 : 서울특별시 영등포구 선유동2로 57 <br>이레빌딩(구관) 19F, 20F</li>
-                        <li>FAX : 02-1234-5678</li>
-                        <li>E-MAIL : aram@aram.co.kr</li>
-                    </ul>
-                </div>
-                <div class="col-2 d-none d-sm-block">
-                    <ul class="ft-ul">
-                        <li><strong>상호명</strong></li>
-                        <li><strong>대표</strong></li>
-                        <li><strong>주소</strong></li>
-                        <li><strong>FAX</strong></li>
-                        <li><strong>E-MAIL</strong></li>
-                    </ul>
-                </div>
-                <div class="col-4 d-none d-sm-block" >
-                    <ul class="ft-ul">
-                        <li>Aram[아람]</li>
-                        <li>김당산</li>
-                        <li>서울특별시 영등포구 선유동2로 57 이레빌딩(구관) 19F, 20F</li>
-                        <li>02-1234-5678</li>
-                        <li>aram@aram.co.kr</li>
-                    </ul>
-                </div>
-                <div class="col-2 d-none d-sm-block">
-                    <ul class="ft-ul">
-                        <li><strong>사이트맵</strong></li>
-                        <a href=""><li>공지사항</li></a>
-                        <a href=""><li>Q&A</li></a>
-                    </ul>
-                </div>
-                <div class="col-3 d-none d-sm-block">
-                    <ul class="ft-ul">
-                        <li><strong>C/S</strong></li>
-                        <li>1234-5678</li>
-                        <li>상담시간:AM 10시~PM 05시</li>
-                        <li>점심시간:PM 12시~PM 01시</li>
-                    </ul>
-                </div>
-     		 </div>
-     		 </div>
-    
-
- 	   
+        <jsp:include page="/frame/footer.jsp"></jsp:include>
       <script>
       //팝업창
       /*
@@ -337,10 +185,7 @@
     	window.open("popup.jsp", "EVENT", "width=430,height=530,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
       }
 	  */
-      	//상품이미지 클릭했을때 -> 
-      	$(".toSpecific").on("click",function(){
-      		
-      	})
+      	
       	//네비바 검색창 -> 상품검색페이지
       	$("#searchBtn").on("click",function(){
       		let searchKeyword = $("#searchKeyword").val();
@@ -348,14 +193,14 @@
       			alert("검색어를 입력해 주세요");
       			return;
       		}else{
-      			location.href ="/searchProc.item?searchKeyword="+searchKeyword;
+      			location.href ="/searchItem.item?searchKeyword="+searchKeyword;
       		}
       		
       	})
       
       	//더많은 상품 보러가기 버튼 클릭했을때
       	$("#toSerchItemBtn").on("click", function() {
-      		location.href = "/toSearchPage.item";
+      		location.href = "/toSearchPage.item?curPage=1";
       	})
       	
 

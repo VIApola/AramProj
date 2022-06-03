@@ -5,8 +5,7 @@ public class OrderDTO {
 	private String user_id;
 	private String order_name;
 	private String order_date;
-	private int quantity;
-	private String order_amount; 
+	private String order_amount;
 	private String delivery_addr;
 	private String delivery_name;
 	private String order_msg;
@@ -14,14 +13,13 @@ public class OrderDTO {
 	
 	public OrderDTO() {}
 
-	public OrderDTO(int order_no, String user_id, String order_name, String order_date, int quantity,
-			String order_amount, String delivery_addr, String delivery_name, String order_msg, String delivery_msg) {
+	public OrderDTO(int order_no, String user_id, String order_name, String order_date, String order_amount,
+			String delivery_addr, String delivery_name, String order_msg, String delivery_msg) {
 		super();
 		this.order_no = order_no;
 		this.user_id = user_id;
 		this.order_name = order_name;
 		this.order_date = order_date;
-		this.quantity = quantity;
 		this.order_amount = order_amount;
 		this.delivery_addr = delivery_addr;
 		this.delivery_name = delivery_name;
@@ -59,14 +57,6 @@ public class OrderDTO {
 
 	public void setOrder_date(String order_date) {
 		this.order_date = order_date;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 
 	public String getOrder_amount() {
@@ -112,9 +102,9 @@ public class OrderDTO {
 	@Override
 	public String toString() {
 		return "OrderDTO [order_no=" + order_no + ", user_id=" + user_id + ", order_name=" + order_name
-				+ ", order_date=" + order_date + ", quantity=" + quantity + ", order_amount=" + order_amount
-				+ ", delivery_addr=" + delivery_addr + ", delivery_name=" + delivery_name + ", order_msg=" + order_msg
-				+ ", delivery_msg=" + delivery_msg + "]";
+				+ ", order_date=" + order_date + ", order_amount=" + order_amount + ", delivery_addr=" + delivery_addr
+				+ ", delivery_name=" + delivery_name + ", order_msg=" + order_msg + ", delivery_msg=" + delivery_msg
+				+ "]";
 	}
 	
 }

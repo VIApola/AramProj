@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+* {
+	border: 0px solid black;
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+		'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+	font-size: 14px;
+}
+
+.tbl_list {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+hr {
+	margin: 5px;
+}
+.content row {
+	padding: 10px;
+}
+.page-content {
+	padding: 10px;
+}
+
+.page-content>div {
+	margin-bottom: 50px;
+}
+
+.title-label {
+	padding: 5px;
+	font-size: 30px;
+}
+
+.btnBox button {
+	width: 140px;
+	margin: 15px;
+}
+
+.label_wrap {
+	float: left;
+	width: 120px;
+}
+
+.item_wrap {
+	float: left;
+	width: 200px;
+}
+
+.orderInfo-content span {
+	margin: 10px;
+}

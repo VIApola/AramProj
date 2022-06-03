@@ -71,6 +71,8 @@ public class AdminController extends HttpServlet {
 		
 		
 		
+		} else if (uri.equals("/toItemPage.admin")) { // 관리자 페이지(상품관리) 이동 요청
+			response.sendRedirect("/admin/itemManagePage.jsp");
 		}
 	}
 }
