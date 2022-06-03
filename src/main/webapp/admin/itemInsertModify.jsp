@@ -12,153 +12,273 @@
     <title>Admin 상품등록 / 수정</title>
 </head>
 <style>
-    *{
-        margin: auto;
+
+    /* 폰트 스타일 */
+    @font-face {
+        font-family: 'GowunBatang-Bold';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    * {
+        font-family: 'Roboto Mono', monospace;
+        font-family: 'GowunBatang-Bold';
+    }
+
+
+    /* 전체설정 */
+    * {
         box-sizing: border-box;
+        /* border: 1px solid gray; */
     }
-    .item-admin-contents{
-        width: 70%;
+
+    form{
+        overflow: hidden;
     }
-    .row{
-        margin: 0;
-        
+    
+    
+    /* 바디 타이틀 */
+    .box-title {
+        margin-top: 30px;
+        margin-bottom: 20px;
+        background-color: lightgray;
     }
-    div[class*=col]{
-        margin: 0;
-        border: 1px solid black;
+    .box-title h2 {
+        margin-top: 5px;
     }
-    div[class*=input]{
+
+
+    /* 인풋창 */
+
+    div[class*=input] {
         width: 75%;
         padding: 0px;
     }
-    .input > input{
-        width: 80%;
+
+    .clsInputRow { /* 인풋 위아래 라인 */
+        border-top: 1px solid lightgray;
+        border-bottom: 1px solid lightgray;
+        margin-top: 5px;
+        margin-bottom: 25px;
     }
-    .item-admin-contents{
-    	border:1px solid black;
+
+    .item-admin-contents .row .col-3 {
+        padding-left: 0px;
+        padding-right: 0px;
     }
+
+    .clsInput { 
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+
+
+    /* 라벨 배경 */
+    .clsLabelCol {
+        background-color: lightgray;
+    }
+
+    label {
+        margin-top: 9px;
+    }
+
+
+
+    /* 이미지 정보 */
+    .clsImgInfo {
+        background-color: lightgray;
+    }
+
+    .clsImgTitle {
+        background-color: #bbbbbb;
+    }
+
+    .clsImgContent {
+        background-color: white;
+    }
+
+    #btn-deleteItem{ /* 삭제버튼 */
+        border: none;
+        border-radius: 5px;
+        background-color: lightgray;
+    }
+
+    
 </style>
+
 <body>
-    <!--헤드 부분-->
-    <div class="item-container">
-        <div class="item-admin-header"></div>
-        <div class="row adminItem-logo"><!--로고-->
-            <div class="col d-flex justify-content-center">
-                <a href="/main"><img src="/resources/images/Logo_md.png" alt="..."></a>
+    <div class="container">
+        <!--헤더영역-->
+        <div class="row main-header d-flex justify-content-center align-self-center">
+            <!--상단바 로고 영역-->
+            <div class="row d-flex justify-content-center">
+                <div class="header-logo d-flex justify-content-center">
+                    <a href="/main"><img src="/resources/images/Logo_md.png" class="imgLogo d-none d-sm-block" alt="..."></a>
+                    <a href="/main"><img src="/resources/images/Logo_sm.png" class="imgLogo d-block d-sm-none"
+                            style="" alt="..."></a>
+                </div>
             </div>
-        </div>
-        <!--상단 네비바-->
-        <div class="row adminItem-nav justify-content-center">
-            <div class="col-5">
-                <ul class="nav">
-                    <li class="nav-item">
-                      <a class="nav-link active" style="color: black;" href="#">로그아웃</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" style="color: black;" href="#">고객 관리</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" style="color: black;" href="#">상품 관리</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" style="color: black;" href="#">공지사항 관리</a>
-                    </li>
-                  </ul>      
-              </div>
-        </div>
+            <!--네비게이션-->
+            <div class="row d-flex justify-content-center">
+                <div class="col-12 col-md-8 col-xl-6 d-flex justify-content-center">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" style="color: black;" href="#">로그아웃</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: black;" href="#">고객관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: black;" href="#">상품관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: black;" href="#">공지사항 관리</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div> <!-- 헤더 끝 -->
+
+
+
+
+
         <!--콘텐츠 영역-->
         <div class="item-admin-contents">
-        <div class="row"><!--타이틀 -->
-            <div class="col">
-                <h3>상품등록 / 수정</h3>
+            <!-- 바디타이틀 -->
+            <div class="row box-title">
+                <div class="col-12">
+                    <h2>상품등록 / 수정</h2>
+                </div>
             </div>
-        </div>
-        <!-- form태그 시작 -->
-        <form id="itemUploadForm" action="/itemUpload.admin" method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-12">기본정보</div>
-            <div class="col-3">상품명</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 이름을 입력하세요." id="item_name" name="item_name"></div>
-        </div>
-        <div class="row">
-            <div class="col-12">상품분류</div>
-            <div class="col-3">카테고리</div>
-            <div class="col-8" ><select name="itemCategory">
-              <option value="P100">공기정화식물</option>
-            <option value="P200">실내식물</option>
-              <option value="P300">실외식물</option>
-            </select></div>
-            <input type="text" id="category_select" name="category_name" style="display:none;">
-        </div>
-        <div class="row">
-            <div class="col-12">상품 가격</div>
-            <div class="col-3">판매가격</div>
-            <div class="col-8 input"><input type="text" placeholder="상품의 가격을 입력하세요." name="itemPrice"></div>
-        </div>
-        <div class="row">
-            <div class="col-12">상품 재고</div>
-            <div class="col-3">재고 개수</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 재고 개수를 입력하세요." id="item_stock" name="itemStock"></div>
-        </div>
-        <div class="row">
-            <div class="col-12">상품 설명/이미지 설정</div>
-            <div class="col-3">설명 정보 입력</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 설명을 입력하세요." id="item_comment" name="itemDetail"></div>
-        </div>
-        <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">이미지 정보</div>
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding:0px">
-            <div class="short-div">이미지명</div>
-            <div class="short-div">메인 이미지</div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px">
-            <div class="short-div">이미지 선택</div>
-            <div class="short-div"><input type="file" id="img_title" name="imgFile"></div>
-          </div>
-        </div>
-        </form>
-        <div class="row">
-            <div class="col" style="text-align: end;">
-                <button type="button" id="insertComplete">등록</button>
-            </div>
-        </div>
+
+            <!-- form태그 시작 -->
+            <form id="itemUploadForm" action="/insert.item" method="post" enctype="multipart/form-data">
+                <div class="row clsBlockRow">
+                    <div class="row">
+                        <div class="col-12">기본정보</div>
+                    </div>
+                    <div class="row clsInputRow">
+                        <div class="col-3 clsLabelCol d-flex justify-content-center">
+                            <label for="itemName">상품명</label>
+                        </div>
+                        <div class="col-8 clsInput">
+                        	<input type="text" class="form-control" name="itemName" id="itemName" placeholder="상품 이름을 입력하세요.">
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="row clsBlockRow">
+                    <div class="row">
+                        <div class="col-12">상품분류</div>
+                    </div>
+                    <div class="row clsInputRow">
+                        <div class="col-3 clsLabelCol d-flex justify-content-center">
+                            <label for="category">카테고리</label>
+                        </div>
+                        <div class="col-8 clsInput">
+                            <select class="form-select" id="category">
+                                <option value="카테고리번호">공기정화식물</option>
+                                <option value="카테고리번호">실내식물</option>
+                                <option value="카테고리번호">실외식물</option>
+                            </select>
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="row clsBlockRow ">
+                    <div class="row">
+                        <div class="col-12">상품 가격 설정</div>
+                    </div>
+                    <div class="row clsInputRow">
+                        <div class="col-3 clsLabelCol d-flex justify-content-center">
+                            <label for="price">판매가격</label>
+                        </div>
+                        <div class="col-8 clsInput"><input type="number" class="form-control" id="price" placeholder="상품 가격을 입력하세요."></div>    
+                    </div>
+                </div>
+
+                <div class="row clsBlockRow ">
+                    <div class="row">
+                        <div class="col-12">상품 재고</div>
+                    </div>
+                    <div class="row clsInputRow">
+                        <div class="col-3 clsLabelCol d-flex justify-content-center">
+                            <label for="stock">상품 개수</label>
+                        </div>
+                        <div class="col-8 clsInput"><input type="number" class="form-control" id="stock" placeholder="상품 개수를 입력하세요."></div>    
+                    </div>
+                </div>
+
+                <div class="row clsBlockRow ">
+                    <div class="row">
+                        <div class="col-12">상품 설명 / 이미지 설정</div>
+                    </div>
+                    <div class="row clsInputRow">
+                        <div class="col-3 clsLabelCol d-flex justify-content-center">
+                            <label for="itemInfo">간단 설명 정보</label>
+                        </div>
+                        <div class="col-8 clsInput"><input type="text" class="form-control" id="itemInfo" placeholder="상품 설명을 입력하세요."></div>    
+                    </div>
+                </div>
+
+                <div class="row clsInputRow clsImgInfo">
+                    <div class="clsLabelCol col-lg-3 col-md-3 col-sm-3 col-xs-3 d-flex justify-content-center align-self-center">이미지 정보</div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" style="padding:0px">
+                        <div class="row clsImgTitle">
+                            <div class="col-5 d-flex justify-content-center align-self-center">이미지명</div>
+                            <div class="col-5 d-flex justify-content-center align-self-center">이미지 선택</div>
+                            <div class="col-2 d-flex justify-content-center align-self-center">삭제</div>
+                        </div>
+                        <div class="row clsImgContent">
+                            <div class="col-5 d-flex justify-content-center align-self-center">메인이미지</div>
+                            <div class="col-5 d-flex justify-content-center align-self-center"><input type="file" name="imgFile"></div>
+                            <div class="col-2 d-flex justify-content-center align-self-center"><button type="button" id="btn-deleteItem">삭제</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12" style="text-align: end;">
+                        <button type="button" class="btn btn-outline-success" id="InsertComplete">등록</button>
+                    </div>
+                </div>
         </div>
         <!--footer 영역-->
         <div class="row">
             <div class="col">
-              
-                    풋터
-                
+
+                풋터
+
             </div>
         </div>
     </form>
-    </div><!--item-container 끝-->
+    </div>
+    <!--item-container 끝-->
     <script>
-    
-    //등록버튼 눌렀을때
+  //등록버튼 눌렀을때
     $("#insertComplete").on("click",function(){
-    $("#category_select").val($("#category_name option:selected").val());	
-    	console.log($("#category_select").val());
-    	console.log($("#img_title").val());
-    	
+    $("#category_select").val($("#category_name option:selected").val());   
+       console.log($("#category_select").val());
+       console.log($("#img_title").val());
+       
     if($("#item_name").val() == ""){
-    	alert("상품 이름을 입력하세요")
-    	return;
+       alert("상품 이름을 입력하세요")
+       return;
     }else if($("#price").val() == ""){
-    	alert("상품 가격을 입력하세요.")
-    	return;
+       alert("상품 가격을 입력하세요.")
+       return;
     }else if($("#item_stock").val() == ""){
-    	alert("상품 재고 개수를 입력하세요.")
-    	return;
+       alert("상품 재고 개수를 입력하세요.")
+       return;
     }else if($("#item_comment").val() == ""){
-    	alert("상품 설명을 입력하세요.")
-    	return;
+       alert("상품 설명을 입력하세요.")
+       return;
     }
-	$("#itemUploadForm").submit();
+   $("#itemUploadForm").submit();
     
     })
-    
-    
     </script>
 </body>
+
 </html>
