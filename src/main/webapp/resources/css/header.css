@@ -1,0 +1,115 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: 'GowunDodum-Regular';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.main-header {
+	box-sizing: border-box;
+	margin: auto;
+	font-family: 'Roboto Mono', monospace;
+	font-family: 'GowunDodum-Regular';
+}
+  
+/*
+/* 상단바 cart 영역 */  
+.header-left {
+    margin: 0px;
+    padding: 0px;
+}
+/*상단바 sm에서 생기는 navbar*/
+.sidenav {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: white;
+	overflow-x: hidden;
+	transition: 0.5s;
+	padding-top: 60px;
+	text-align:center;
+}
+   
+
+.sidenav a {
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	color: #111;
+	display: block;
+	transition: 0.3s;
+}
+
+.sidenav .closebtn {
+	position: absolute;
+	top: 0;
+	right: 25px;
+ 	font-size: 36px;
+ 	margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+	.sidenav {padding-top: 15px;}
+	.sidenav a {font-size: 18px;}
+}
+
+
+/* 상단 네비바의 검색창 */
+/*
+.search {
+	position: relative;
+ 	width: 250px;
+}
+
+.search input {
+ 	width: 100%;
+ 	border: 1px solid #bbb;
+	border-radius: 8px;
+	padding: 10px 12px;
+ 	font-size: 14px;
+}
+
+.search img {
+position : absolute;
+ width: 17px;
+ top: 13px;
+ right: 12px;
+ margin: 0;
+}
+
+.search-menu a {
+    padding: 0px;
+    margin-top: 15px;
+}
+
+.search-menu > span {
+    padding: 0px;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.search-menu a span {
+	color: #000;
+	display:inline-block; 
+	margin:0;
+ 	text-transform:uppercase;
+}
+
+.search-menu a span:after {
+	display:block;
+	content: '';
+	border-bottom: solid 2px #7cc09c;  
+	transform: scaleX(0);  
+	transition: transform 250ms ease-in-out;
+}
+
+.search-menu a span:hover:after { transform: scaleX(1); }
+.fromLeft:after{  transform-origin:  0% 50%; }
+.search-menu .bottom{
+    margin-top: 20px;
+}*/  

@@ -32,9 +32,25 @@
         </head>
 
         <body>
+        <c:choose>
+		<c:when test="${not empty loginSession}"> <%-- 로그인 성공 : 세션이 만들어짐 --%>
+			<script>
+					alert("${loginSession.nickname}님 환영합니다.");
+					location.href="/main";
+			</script>	
+  		</c:when>
+		<c:otherwise> <%-- 로그인 실패  --%>
+			<c:if test="${rs eq false}"> 
+				<script>
+					alert("아이디 혹은 비밀번호가 틀렸습니다.");
+				</script>
+			</c:if>
+		</c:otherwise>
+		</c:choose>
             <div class="container">
+            
                 <div class="row header">
-                    <div class="col">여기는 Header</div>
+                    <jsp:include page="/frame/header.jsp"></jsp:include>
                 </div>
                 <!-- 로그인 박스 부분-->
                 <div class="row body">
@@ -87,7 +103,6 @@
                         </div>
                     </div>
                     <!--카카오 로그인-->
-
 			<div class="row">
 				<div class="col-12 col-md-12">
 					<ul>
@@ -111,6 +126,8 @@
                         return;
                     }
                     $("#loginForm").submit();
+                    
+                  
                 })                
                 
                 //쿠키 가져오기
