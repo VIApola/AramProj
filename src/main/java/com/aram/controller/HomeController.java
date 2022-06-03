@@ -47,15 +47,7 @@ public class HomeController extends HttpServlet {
 			e.printStackTrace();
 		}
 		request.getRequestDispatcher("/main.jsp").forward(request, response);
-	
-	
-		
-		
-		
-		
-		
-	
-	
+
 	
 	}
 

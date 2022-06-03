@@ -70,7 +70,7 @@
       <h1>Review</h1>
     </div>
   </div>
-  <div class="review-inputBox">
+  <div class="review-inputBox border-bottom">
   	<form id="reviewForm" action="/write.re" method="post">
      <div class="row">
        <div class="col-lg-1 col-2">닉네임</div>

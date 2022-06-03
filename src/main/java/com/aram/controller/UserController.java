@@ -89,8 +89,16 @@ public class UserController extends HttpServlet {
 			UserDAO dao = new UserDAO();
 			try {
 				pw = EncryptionUtils.getSHA512(pw);
-				System.out.println("암호회된 비번 : " + pw);
+				System.out.println("암호화된 비번 : " + pw);
 				UserDTO dto = dao.isLoginOk(id, pw);
+				// 이메일 인증은 했는지 확인
+				String checked = dao.getUserEmailChecked(id);
+				System.out.println(checked);
+				/*
+				if(checked.equals("n")) {
+					System.out.println("이메일 인증이 완료되지 않았습니다. 가입시 입력한 이메일을 확인해주세요.");
+				}
+				*/
 				if(dto != null) {
 					System.out.println("로그인 성공");
 					request.setAttribute("rs", true);
@@ -99,7 +107,6 @@ public class UserController extends HttpServlet {
 				}else {
 					System.out.println("로그인 실패");
 					request.setAttribute("rs", false);
-					
 				}
 				request.getRequestDispatcher("/main").forward(request, response);
 				//request.getRequestDispatcher("/member/emailSendAction.jsp").forward(request, response);

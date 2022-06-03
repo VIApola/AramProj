@@ -123,11 +123,11 @@ private BasicDataSource bds;
 			}	
 		}
 	
-	 //date형 String형으로
-	 		public String getStringDate(Date date) {
-	 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-	 		return sdf.format(date);
-	 	}
+	 // date형 String형으로
+	 public String getStringDate(Date date) {
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+	 	return sdf.format(date);
+	 }
 	
 	
 	

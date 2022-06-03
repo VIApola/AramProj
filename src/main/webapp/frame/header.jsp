@@ -70,10 +70,10 @@
 		<div class="col-2 d-md-none header-left">
 			<c:choose>
 				<c:when test="${not empty loginSession}">
-					<a href="/toMycart.main" class="nav-link" style="color: black;">Cart(0)</a>
+					<a href="/mycart.cart" class="nav-link" style="color: black;">Cart(0)</a>
 				</c:when>
 				<c:otherwise>
-					<a href="/toLogin.main"
+					<a href="/login.user"
 						onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')"
 						class="nav-link" style="color: black;">Cart(0)</a>
 				</c:otherwise>
@@ -107,7 +107,7 @@
 					href="/toSearchPage.item?curPage=1">Search</a></li>
 				<li class="nav-item"><c:choose>
 						<c:when test="${not empty loginSession}">
-							<a href="" class="nav-link" style="color: black;">Cart (0)</a>
+							<a href="/mycart.cart" class="nav-link" style="color: black;">Cart (0)</a>
 						</c:when>
 						<c:otherwise>
 							<a href="/login.user"

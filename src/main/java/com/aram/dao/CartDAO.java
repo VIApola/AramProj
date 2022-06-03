@@ -33,32 +33,57 @@ public class CartDAO {
 	
 	
 	// 장바구니에 item 전체 데이터 출력
-		public ArrayList<Cart_ItemDTO> selectAll()throws Exception{
-			String sql = "select * from tbl_cart join tbl_items on tbl_cart.item_no = tbl_items.item_no";
-			try(Connection con = bds.getConnection();
-				PreparedStatement pstmt = con.prepareStatement(sql)	
-					){
-				ResultSet rs = pstmt.executeQuery();
+	public ArrayList<Cart_ItemDTO> selectAll()throws Exception{
+		String sql = "select * from tbl_cart join tbl_items on tbl_cart.item_no = tbl_items.item_no";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)	
+				){
+			ResultSet rs = pstmt.executeQuery();
+			
+			ArrayList<Cart_ItemDTO> list = new ArrayList<>();
+			while(rs.next()) {
+				String user_id = rs.getString("user_id");
+				int item_no = rs.getInt("item_no");
+				int quantity = rs.getInt("quantity");
+				String item_name = rs.getString("item_name");
+				int price = rs.getInt("price");
+				String item_comment = rs.getString("item_comment");
+				String item_regdate = rs.getString("item_regdate");
+				int item_stock = rs.getInt("item_stock");
+				String category_id = rs.getString("category_id");
+				int img_no = rs.getInt("img_no");
 				
-				ArrayList<Cart_ItemDTO> list = new ArrayList<>();
-				while(rs.next()) {
-					String user_id = rs.getString("user_id");
-					int item_no = rs.getInt("item_no");
-					int quantity = rs.getInt("quantity");
-					String item_name = rs.getString("item_name");
-					int price = rs.getInt("price");
-					String item_comment = rs.getString("item_comment");
-					String item_regdate = rs.getString("item_regdate");
-					int item_stock = rs.getInt("item_stock");
-					String category_id = rs.getString("category_id");
-					int img_no = rs.getInt("img_no");
-					
-					list.add(new Cart_ItemDTO(user_id,item_no,quantity,item_name,price,item_comment,item_regdate,item_stock,category_id,img_no));
-				}
-				return list;
+				list.add(new Cart_ItemDTO(user_id,item_no,quantity,item_name,price,item_comment,item_regdate,item_stock,category_id,img_no));
 			}
+			return list;
 		}
-		
+	}
+	
+	// 회원에 따라 장바구니 조회
+	public ArrayList<Cart_ItemDTO> selectByUserId(String user_id) throws Exception{
+		String sql = "select * from tbl_cart join tbl_items on tbl_cart.item_no = tbl_items.item_no where user_id=?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			pstmt.setString(1, user_id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			ArrayList<Cart_ItemDTO> list = new ArrayList<>();
+			while(rs.next()) {
+				// String user_id = rs.getString("user_id");
+				int item_no = rs.getInt("item_no");
+				int quantity = rs.getInt("quantity");
+				String item_name = rs.getString("item_name");
+				int price = rs.getInt("price");
+				int item_stock = rs.getInt("item_stock");
+				int img_no = rs.getInt("img_no");
+				
+				list.add(new Cart_ItemDTO(user_id, item_no, quantity, item_name, price, null, null, item_stock, null, img_no));
+			}
+			return list;
+		}
+	}
+	
 		
 	// 장바구니에 제품 담기
 	public int addCart(CartDTO dto) throws Exception {
