@@ -177,7 +177,6 @@
         </div>
         <%--풋터영역 --%>
         <jsp:include page="/frame/footer.jsp"></jsp:include>
-
       <script>
       //팝업창
       /*

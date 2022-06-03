@@ -32,6 +32,21 @@
         </head>
 
         <body>
+        <c:choose>
+		<c:when test="${not empty loginSession}"> <%-- 로그인 성공 : 세션이 만들어짐 --%>
+			<script>
+					alert("${loginSession.nickname}님 환영합니다.");
+					location.href="/main";
+			</script>	
+  		</c:when>
+		<c:otherwise> <%-- 로그인 실패  --%>
+			<c:if test="${rs eq false}"> 
+				<script>
+					alert("아이디 혹은 비밀번호가 틀렸습니다.");
+				</script>
+			</c:if>
+		</c:otherwise>
+		</c:choose>
             <div class="container">
             
                 <div class="row header">
@@ -88,7 +103,6 @@
                         </div>
                     </div>
                     <!--카카오 로그인-->
-
 			<div class="row">
 				<div class="col-12 col-md-12">
 					<ul>
@@ -112,6 +126,8 @@
                         return;
                     }
                     $("#loginForm").submit();
+                    
+                  
                 })                
                 
                 //쿠키 가져오기
@@ -173,8 +189,10 @@
                }
                 
             </script>
+            
+            
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<script>
+	<script> // 카카오 로그인
                 window.Kakao.init('00ff75810173b90025a2b65babb862d9'); //발급받은 키 중 javascript키를 사용해준다.
                 console.log(Kakao.isInitialized()); // sdk초기화여부판단
 

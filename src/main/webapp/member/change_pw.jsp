@@ -43,6 +43,12 @@
                     <input type="password" id="password" name="password" class="form-control" placeholder="변경할 비밀번호 입력">
                 </div>
             </div>
+                                        <div class="row clsCheckInfo">
+                                <div class="col-4 col-md-3"></div>
+                                <div class="col-8 col-md-9 ">
+                                    <span id="checkPw"></span>
+                                </div>
+                            </div>
                         <div class="row clsInputRow">
                             <div class="col-4 col-md-3 clsLabel d-flex justify-content-center align-self-center">
                                 <label for="password2">비밀번호 확인</label>
@@ -62,6 +68,18 @@
         </div>
         <script>
         
+    	// 비밀번호 조건 밑에 뜨게
+    	$("#password").focus(function(){
+    		$("#checkPw").html("비밀번호는 영어 대소문자 숫자 특수문자(~!@#$)를 이용해서 6~12자 이내로 작성해 주세요.");
+    		$("#checkPw").css("color", "green");
+    		
+    	});
+    	$("#password").blur(function(){
+    		$("#checkPw").html("");
+    	});
+    	
+    	
+        // 비밀변호 변경버튼 눌렀을 때
         $("#btnChangePw").on("click", function(){
         	let userId = $("#userId").val();
         	let regexPw = /^[a-zA-z0-9~!@#$]{6,12}$/;
@@ -77,7 +95,7 @@
         	}
         	document.getElementById("completeChangePw").submit();        	        	
         });
-        
+        // 비밀변호 변경이 잘 됐는지
         if("${rsChangePw}" == "y"){
         	alert("비밀번호 변경이 완료되었습니다. 로그인해주세요.");
         	location.href = "/member/login.jsp";
