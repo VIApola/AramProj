@@ -17,14 +17,16 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
-	
-	<%-- Style영역 --%>
-    <link href="${pageContext.request.contextPath}/resources/css/notice.css" rel="stylesheet" type="text/css">
+
+<%-- Style영역 --%>
+<link href="${pageContext.request.contextPath}/resources/css/notice.css"
+	rel="stylesheet" type="text/css">
 <title>Notice</title>
 
 </head>
 
 <body>
+${loginSession}
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -42,16 +44,16 @@
 					<div
 						class="resSearchBox d-flex align-items-center justify-content-end">
 						<div class="selectBox" style="margin-right: 10px;">
-							<select class="form-select" id="resSearchInput" name="resSearchInput" >
-								<option value="author">아이디</option>
+							<select class="form-select" id="resSearchInput"
+								name="resSearchInput">
+								<option value="author">글쓴이</option>
 								<option value="title">제목</option>
-								<option value="content">내용</option>
 							</select>
 						</div>
 						<div class="inputPart">
 							<div class="input-group mb-3">
 								<input type="text" class="form-control" id="resSearchText">
-								<span class="btn btn-secondary" id="basic-addon1">검색</span>
+								<span class="btn btn-secondary" id="resSearchBtn">검색</span>
 							</div>
 						</div>
 					</div>
@@ -66,7 +68,6 @@
 						<select class="form-select" id="searchInput" name="searchInput">
 							<option value="author">글쓴이</option>
 							<option value="title">제목</option>
-							<option value="content">내용</option>
 						</select>
 					</div>
 					<div class="inputPart">
@@ -102,7 +103,7 @@
 										<div class="col-1 d-none d-md-block">${dto.notice_no}</div>
 										<div class="col-3 d-none d-md-block">${dto.author}</div>
 										<div class="col-12 col-md-4">
-											<a href="">${dto.title}</a>
+											<a href="/detailViewNotice.bo?notice_no=${dto.notice_no}">${dto.title}</a>
 										</div>
 										<div class="col-12 col-md-3">${dto.write_date}</div>
 										<div class="col-1 d-none d-md-block">${dto.board_views}</div>
@@ -114,49 +115,84 @@
 				</div>
 			</div>
 		</div>
+		<c:if test="${loginSession.user_id eq dto.user_id}">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="writeBtnBox d-flex justify-content-end align-items-start pt-1">
+						<button type="button" id="writeBtn" class="btn btn-secondary">글쓰기</button>
+					</div>
+				</div>
+			</div>
+			<script>
+		    	const writeBtn = document.getElementById("writeBtn");
+		    	
+		    	writeBtn.addEventListener("click", function(e){
+		    		console.log("click");
+		    		location.href = "/writeNotice.bo";
+		    	})
+			</script>
+		</c:if>
+		<%-- <c:if test="${loginSession.id eq dto.writer_id}">
+				<div class="col-2">
+					<button type="button" class="btn btn-warning" id="btnModify">수정</button>
+				</div>
+				<div class="col-2">
+					<button type="button" class="btn btn-danger" id="btnDelete">삭제</button>
+				</div>
+				<script>
+                    $("#btnModify").on("click", function() { // 수정 페이지 요청
+                        location.href = "/modify.bo?seq_board=${dto.seq_board}";
+                    });
+                    $("#btnDelete").on("click",function() { // 삭제 요청
+                        let answer = confirm("지금 삭제하시면 복구가 불가합니다. 정말 삭제하시겠습니까?");
+                        console.log(answer);
+                        if (answer) {
+                            location.href = "/deleteProc.bo?seq_board=${dto.seq_board}";
+                        }
+                    })
+                </script>
+			</c:if> --%>
 		<div class="row">
 			<div class="col-md-12">
 				<div
-					class="writeBtnBox d-flex justify-content-end align-items-start pt-1">
-					<button type="button" id="writeBtn" class="btn btn-secondary">글쓰기</button>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="paginBox d-flex justify-content-center align-items-center">
+					class="paginBox d-flex justify-content-center align-items-center">
+					<!-- 페이징 -->
 					<nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-				
+						<ul class="pagination justify-content-center">
+
+							<c:if test="${naviMap.needPrev eq true}">
+								<li class="page-item"><a class="page-link"
+									href="/noice.bo?curPage=${naviMap.startNavi-1}"></a></li>
+							</c:if>
+							<%-- 현재  --%>
+							<c:forEach var="pageNum" begin="${naviMap.startNavi}"
+								end="${naviMap.endNavi}" step="1">
+								<li class="page-item"><a class="page-link"
+									href="/notice.bo?curPage=${pageNum}">${pageNum}</a></li>
+							</c:forEach>
+
+							<c:if test="${naviMap.needNext eq true}">
+								<li class="page-item"><a class="page-link"
+									href="/notice.bo?curPage=${naviMap.endNavi+1}">>></a></li>
+							</c:if>
+
+						</ul>
+					</nav>
+
 				</div>
 			</div>
 		</div>
 	</div>
 	<script>
-    	// 검색 기능
-    	$("#searchBtn").on("click", function(){
-    		let searchInput = $("#searchInput option:selected").val();
-    		let searchText = $("#searchText").val();
+		// 반응형 검색 기능
+		$("#resSearchBtn").on("click", function(){
+    		let searchInput = $("#resSearchInput option:selected").val();
+    		let searchText = $("#resSearchText").val();
     		console.log(searchInput);
     		console.log(searchText);
     		
     		$.ajax({
-    			url: "/searchProc.bo?search" + searchInput + "=" + searchText
+    			url: "/noticeSearchProc.bo?search" + searchInput + "=" + searchText
     			, type: "get"
     			, dataType: "json"
     			, success: function(data){
@@ -170,15 +206,60 @@
     					for(let dto of data){
     						let row = $("<div class='row'>");
     						let col1 = $("<div class='col-1 d-none d-md-block'>").html(dto.notice_no);
-    						let col2 = $("<div class='col-3 d-none d-md-block'>").html(dto.title);
-    						let col3 = $("<div class='col-12 col-md-4'>");
-    						let a = $("<a href=''>").html(dto.content);
-    						let col4 = $("<div class='col-12 col-md-3'>").html(dto.author);
-    						let col5 = $("<div class='col-1 d-none d-md-block'>").html(dto.write_date);
+    						let col2 = $("<div class='col-3 d-none d-md-block'>").html(dto.author);
+    						let anchor = $("<a>").attr("href", "/detailViewNotice.bo?notice_no=" + dto.notice_no).html(dto.title);
+    						let col3 = $("<div class='col-12 col-md-4'>").append(anchor);
+    						let col4 = $("<div class='col-12 col-md-3'>").html(dto.write_date);
+    						let col5 = $("<div class='col-1 d-none d-md-block'>").html(dto.board_views);
     						
-    						col3.append(a);
     						row.append(col1, col2, col3, col4, col5);
     						$(".body_board").append(row);
+ 
+    						
+    						
+    					}
+    				}
+    			}, error: function(e){
+    				console.log(e);
+    			}
+    		
+    		});
+    		
+    	})
+	
+    	// 비반응형 검색 기능
+    	$("#searchBtn").on("click", function(){
+    		let searchInput = $("#searchInput option:selected").val();
+    		let searchText = $("#searchText").val();
+    		console.log(searchInput);
+    		console.log(searchText);
+    		
+    		$.ajax({
+    			url: "/noticeSearchProc.bo?search" + searchInput + "=" + searchText
+    			, type: "get"
+    			, dataType: "json"
+    			, success: function(data){
+    				$(".body_board").empty();
+    				if(data.length == 0){
+    					let row = $("<div class='row'>");
+    					let col = $("<div class='col-12 d-flex justify-content-center'>").html("검색된 게시글이 없습니다.");
+    					row.append(col);
+    					$(".body_board").append(row);
+    				}else{
+    					for(let dto of data){
+    						let row = $("<div class='row'>");
+    						let col1 = $("<div class='col-1 d-none d-md-block'>").html(dto.notice_no);
+    						let col2 = $("<div class='col-3 d-none d-md-block'>").html(dto.author);
+    						let anchor = $("<a>").attr("href", "/detailViewNotice.bo?notice_no=" + dto.notice_no).html(dto.title);
+    						let col3 = $("<div class='col-12 col-md-4'>").append(anchor);
+    						let col4 = $("<div class='col-12 col-md-3'>").html(dto.write_date);
+    						let col5 = $("<div class='col-1 d-none d-md-block'>").html(dto.board_views);
+    						
+
+    						row.append(col1, col2, col3, col4, col5);
+    						$(".body_board").append(row);
+ 
+    						
     						
     					}
     				}
@@ -190,12 +271,14 @@
     		
     	})
     	
+    	/*
     	const writeBtn = document.getElementById("writeBtn");
     	
     	writeBtn.addEventListener("click", function(e){
     		console.log("click");
-    		location.href = "/write.bo";
+    		location.href = "/writeNotice.bo";
     	})
+    	*/
     </script>
 </body>
 

@@ -31,7 +31,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap"
 	rel="stylesheet">
-<title>Q&A 상세보기</title>
+<title>Notice 상세보기</title>
 <style>
 /* 폰트 스타일 */
 @font-face {
@@ -90,7 +90,7 @@ textarea {
 		<div class="row">여기는 Header</div>
 		<div class="row">
 			<div class="col title">
-				<h2>Q&A</h2>
+				<h2>Notice</h2>
 			</div>
 		</div>
 		<div class="row content">
@@ -99,7 +99,7 @@ textarea {
 					<p>제목</p>
 				</div>
 				<div class="col-9">
-					<input type="text" name="title" value="" id="title"
+					<input type="text" name="title" value="${dto.title}" id="title"
 						class="form-control" readonly>
 				</div>
 			</div>
@@ -108,13 +108,13 @@ textarea {
 					<p>글쓴이</p>
 				</div>
 				<div class="col-3">
-					<p></p>
+					<p>${dto.author }</p>
 				</div>
 				<div class="col-3 align-self-center">
 					<p>작성일</p>
 				</div>
 				<div class="col-3">
-					<p></p>
+					<p>${dto.write_date }</p>
 				</div>
 			</div>
 			<div class="row header-board">
@@ -135,16 +135,23 @@ textarea {
 					<p>내용</p>
 				</div>
 				<div class="col-9">
-					<textarea id="content" name="content" class="form-control" readonly></textarea>
+					<textarea id="content" name="content" class="form-control" readonly>${dto.content}</textarea>
 				</div>
 			</div>
 		</div>
+		<div class="boxBtn">
+       		<button type="button" class="btn btn-secondary" id="btnBack">뒤로가기</button>
+	        <button type="button" id="btnModify" class="btn btn-warning">수정</button>
+	        <button type="button" id="btnDelete" class="btn btn-danger">삭제</button>
+    	</div>
+		<%-- 
 		<div class="row comment">
 			<div class="row">
 				<div class="col align-self-center">
 					<p>댓글</p>
 				</div>
 			</div>
+		--%>
 			<%-- <c:if test="${loginSession.isAdmin eq 'y'}
             <div class="row">
                 <div class="col">
@@ -179,8 +186,16 @@ textarea {
 	</div>
 	</div>
 	<script>
-	$("#backBtn").on("click", function(){ // 뒤로가기 버튼을 눌렀을때
-		location.href = "";
+	$("#btnBack").on("click", function(){ // 뒤로가기 버튼을 눌렀을때
+		location.href = "/notice.bo";
+	});
+	
+	$("#btnModify").on("click", function(){ // 수정버튼을 눌렀을 때
+		location.href ="/modifyNotice.bo?notice_no=${dto.notice_no}";
+	});
+	
+	$("#btnDelete").on("click", function(){ // 삭제 버튼을 눌렀을 때
+		location.href ="/deleteNotice.bo?notice_no=${dto.notice_no}";
 	});
 	
 </script>
