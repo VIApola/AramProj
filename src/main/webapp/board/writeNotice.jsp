@@ -31,7 +31,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap"
 	rel="stylesheet">
-<title>Q&A 상세보기</title>
+<title>Notice 글쓰기</title>
 <style>
 /* 폰트 스타일 */
 @font-face {
@@ -67,6 +67,7 @@
 
 textarea {
 	resize: none;
+	height: 500px;
 }
 
 .header-board {
@@ -90,62 +91,57 @@ textarea {
 		<div class="row">여기는 Header</div>
 		<div class="row">
 			<div class="col title">
-				<h2>Q&A</h2>
+				<h2>Notice</h2>
 			</div>
 		</div>
-		<div class="row content">
-			<div class="row header-board">
-				<div class="col-3 align-self-center">
-					<p>제목</p>
+		<form id="writeNoticeForm" action="/writeNoticeProc.bo" method="post">
+			<div class="row content">
+				<div class="row header-board">
+					<div class="col-3 align-self-center">
+						<p>제목</p>
+					</div>
+					<div class="col-9">
+						<input type="text" name="title" id="title" class="form-control">
+					</div>
 				</div>
-				<div class="col-9">
-					<input type="text" name="title" value="" id="title"
-						class="form-control" readonly>
+				<div class="row header-board">
+					<div class="col-3 align-self-center">
+						<p>첨부파일</p>
+					</div>
+					<div class="col-3">
+						<p>
+							<a href=""></a>
+						</p>
+					</div>
+					<div class="col-6">
+						<img src="">
+					</div>
 				</div>
-			</div>
-			<div class="row header-board">
-				<div class="col-3 align-self-center">
-					<p>글쓴이</p>
-				</div>
-				<div class="col-3">
-					<p></p>
-				</div>
-				<div class="col-3 align-self-center">
-					<p>작성일</p>
-				</div>
-				<div class="col-3">
-					<p></p>
-				</div>
-			</div>
-			<div class="row header-board">
-				<div class="col-3 align-self-center">
-					<p>첨부파일</p>
-				</div>
-				<div class="col-3">
-					<p>
-						<a href=""></a>
-					</p>
-				</div>
-				<div class="col-6">
-					<img src="">
+				<div class="row header-board">
+					<div class="col-3 align-self-center">
+						<p>내용</p>
+					</div>
+					<div class="col-9">
+						<textarea id="content" name="content" class="form-control"></textarea>
+					</div>
 				</div>
 			</div>
-			<div class="row header-board">
-				<div class="col-3 align-self-center">
-					<p>내용</p>
-				</div>
-				<div class="col-9">
-					<textarea id="content" name="content" class="form-control" readonly></textarea>
-				</div>
-			</div>
-		</div>
+		</form>
+		<div class="boxBtn">
+       		<button type="button" class="btn btn-secondary" id="btnBack">뒤로가기</button>
+        	<button type="button" class="btn btn-success" id="btnSave">저장</button>
+        	
+    	</div>
+    	
+		<%-- 
 		<div class="row comment">
 			<div class="row">
 				<div class="col align-self-center">
 					<p>댓글</p>
 				</div>
 			</div>
-			<%-- <c:if test="${loginSession.isAdmin eq 'y'}
+		--%>
+		<%-- <c:if test="${loginSession.isAdmin eq 'y'}
             <div class="row">
                 <div class="col">
                     <button type="button" class="btn btn-success">등록</button>
@@ -173,16 +169,36 @@ textarea {
 	                	});
 	                </script>
                 </c:if> --%>
-		</div>
-		<div class="row">
-		여기는 footer
 	</div>
+	<div class="row">여기는 footer</div>
 	</div>
 	<script>
-	$("#backBtn").on("click", function(){ // 뒤로가기 버튼을 눌렀을때
-		location.href = "";
-	});
-	
-</script>
+		/*$("#backBtn").on("click", function() { // 뒤로가기 버튼을 눌렀을때
+			location.href = "";
+		});*/
+		
+    	$("#btnSave").on("click", function(){
+    		// 만약 제목을 입력하지 않았다면 title "제목없음" 이라는 타이틀 값을 넣어줌.
+    		if($("#title").val() === ""){
+    			alert("제목을 입력하세요.");
+    			$("#title").focus();
+    			return;
+    		}
+    		// 내용이 비어있으면 내용을 입력하세요.
+    		if($("#content").val() === ""){
+    			alert("내용을 입력하세요.");
+    			$("#content").focus();
+    			return;
+    		}
+    		$("#writeNoticeForm").submit();
+    	})
+    
+        const btnBack = document.getElementById("btnBack");
+
+        btnBack.addEventListener("click", function(e){
+            location.href="/notice.bo";
+        });
+		
+	</script>
 </body>
 </html>

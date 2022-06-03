@@ -9,7 +9,7 @@ html, body {
 }
 
 
-/*imgBox_Notice*/
+/*imgBox_Q&A*/
 .imgBox {
 	height: 120px;
 	background-color: gray;
@@ -17,12 +17,12 @@ html, body {
 }
 
 /*noticeBox*/
-.noticeBox {
+.qnaBox {
 	height: 50px;
 	border-bottom: 1px solid lightgray;
 }
 
-.noticeBox h5 {
+.qnaBox h5 {
 	margin: 0;
 }
 
