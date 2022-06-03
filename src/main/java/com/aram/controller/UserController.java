@@ -236,11 +236,12 @@ public class UserController extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}else if(uri.equals("/toLogout.user")) {//로그아웃  요청
+			HttpSession session = request.getSession();
+			session.getAttribute("loginSession");
+			session.invalidate();
+			response.sendRedirect("/main"); //로그아웃하면 main으로
 		}
-		
-		
-		
-		
 		
 	}
 }

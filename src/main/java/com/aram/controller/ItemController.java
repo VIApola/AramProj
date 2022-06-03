@@ -3,7 +3,6 @@ package com.aram.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,13 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.jasper.optimizations.ELInterpreterTagSetters;
-
 import com.aram.dao.ImgFileDAO;
 import com.aram.dao.ItemDAO;
+import com.aram.dao.ReviewDAO;
 import com.aram.dto.ItemDTO;
+import com.google.gson.Gson;
+
+import com.aram.dto.ItemViewDTO;
 import com.aram.dto.ItemimgDTO;
-import com.google.gson.internal.bind.DateTypeAdapter;
+
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -43,7 +44,7 @@ public class ItemController extends HttpServlet {
 			ItemDAO dao = new ItemDAO();
 			try {
 
-				ArrayList<Object> itemList = dao.selectAllItems().get("list");
+				ArrayList<ItemViewDTO> itemList = dao.selectAllItems();
 				System.out.println(itemList);
 
 				request.setAttribute("itemList", itemList);
@@ -54,20 +55,31 @@ public class ItemController extends HttpServlet {
 			}
 			
 		} else if(uri.equals("/detail.item")) { // 상품 상세페이지 로딩
-			int item_no = Integer.parseInt(request.getParameter("item_no"));
+			
+			int item_no = 104;
+//			int item_no = Integer.parseInt(request.getParameter("item_no"));
 			System.out.println("상품번호 : " + item_no);
 			ItemDAO dao = new ItemDAO();
+			ImgFileDAO imgDao = new ImgFileDAO();
+			ReviewDAO reviewDAO = new ReviewDAO();
 			
 			try {
 				ItemDTO itemDto = dao.selectItemByNo(item_no);
 				System.out.println(itemDto);
+				// 이미지 번호를 통해 이미지 경로값 가져오기
+				int img_no = itemDto.getImg_no();
+				ItemimgDTO imgDto = imgDao.select_img(img_no);
+				
+				reviewDAO.
+				
 				request.setAttribute("item", itemDto);
+				request.setAttribute("itemImg", imgDto);
 				
 				request.getRequestDispatcher("/shop/detail.jsp").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if(uri.equals("/toItemInput.item")) { // 상품 입력 페이지 이동
+		} else if(uri.equals("/toItemInput.item")) { // 상품 입력 페이지 이동 
 			response.sendRedirect("/admin/itemInsertModify.jsp");
 			
 			
@@ -92,18 +104,20 @@ public class ItemController extends HttpServlet {
 			int price = Integer.parseInt(multi.getParameter("itemPrice"));
 			String item_comment = multi.getParameter("itemDetail");
 			int item_stock = Integer.parseInt(multi.getParameter("itemStock"));
-			String item_category = multi.getParameter("itemCategory");
+			String category_id = multi.getParameter("itemCategory");
 			
-			System.out.println(item_name + ":" + item_category + ":" + price + ":" + item_stock + ":" + item_comment);
-			System.out.println(ori_name + ":" + sys_name + ":" + price + ":" + item_stock + ":" + item_comment);
+			System.out.println(item_name + ":" + category_id + ":" + price + ":" + item_stock + ":" + item_comment);
+			System.out.println(ori_name + ":" + sys_name + ":" + category_id);
 			
 			ItemDAO dao = new ItemDAO();
 			ImgFileDAO imgDao = new ImgFileDAO();
 			
 			try {
-				int item_no = 22;
-				int rs = dao.insertItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, "P200", 0));
-				int rsFile = imgDao.insert_img(new ItemimgDTO(0, item_no, null, ori_name, sys_name));
+				int item_no = dao.getItemNo();
+				int img_no = imgDao.getImgFileNo();
+				
+				int rs = dao.insertItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no));
+				int rsFile = imgDao.insert_img(new ItemimgDTO(img_no, item_no, null, ori_name, sys_name));
 				if(rs > 0 && rsFile > 0) {
 					System.out.println("등록 완료");
 					response.sendRedirect("/main");
@@ -147,35 +161,37 @@ public class ItemController extends HttpServlet {
 		} else if(uri.equals("/")) {
 			
 		}
-		
-		
-		
-		
-		
-		
-		if(uri.equals("/air.item")) { //카테고리별 페이지 로드 (공기청정)
+
+		/* 카테고리 파트 */
+		if(uri.equals("/air.item")) { // 카테고리별 페이지 로드 (공기청정)
 			
 				ItemDAO dao = new ItemDAO();
 			
 	            try {
-					ArrayList<Object> list = dao.selectAllItems().get("list");
-					System.out.println("list 값 : " + list);
-					request.setAttribute("list", list);
+					ArrayList<ItemViewDTO> itemList = dao.selectAllItems();
+					
+					System.out.println("list 값 : " + itemList);
+					
+					request.setAttribute("itemList", itemList);
 					
 					int count = dao.countItems("P100"); // 카테고리별 물품 갯수
 					request.setAttribute("count", count);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			
-			request.getRequestDispatcher("/shop/category/air.jsp").forward(request, response);
+	            request.getRequestDispatcher("/shop/category/air.jsp").forward(request, response);
 			
-		}else if(uri.equals("/interior.item")) {//카테고리별 페이지 로드 (내부)
+		}else if(uri.equals("/interior.item")) { //카테고리별 페이지 로드 (내부)
 			
 			 ItemDAO dao = new ItemDAO();
 	            try {
-					ArrayList<Object> list = dao.selectAllItems().get("list");
-					request.setAttribute("list", list);
+	            	ArrayList<ItemViewDTO> itemList = dao.selectAllItems();
+					
+					System.out.println("list 값 : " + itemList);
+					request.setAttribute("itemList", itemList);
+					
 					int count = dao.countItems("P200"); // 카테고리별 물품 갯수
 					request.setAttribute("count", count);
 					
@@ -188,8 +204,11 @@ public class ItemController extends HttpServlet {
 		}else if(uri.equals("/outside.item")) { //카테고리별 페이지 로드 (외부)
 			ItemDAO dao = new ItemDAO();
             try {
-				ArrayList<Object> list = dao.selectAllItems().get("list");
-				request.setAttribute("list", list);
+            	ArrayList<ItemViewDTO> itemList = dao.selectAllItems();
+				
+				System.out.println("list 값 : " + itemList);
+				request.setAttribute("itemList", itemList);
+				
 				int count = dao.countItems("P300"); // 카테고리별 물품 갯수
 				request.setAttribute("count", count);
 				
@@ -198,12 +217,95 @@ public class ItemController extends HttpServlet {
 			}
 		
             request.getRequestDispatcher("/shop/category/outside.jsp").forward(request, response);
+		
 		}
 		
 		
+		if(uri.equals("/searchProc.item")) {//메인페이지에서 검색 요청
+			String searchKeyword = request.getParameter("searchKeyword");
+
+			ItemDAO dao = new ItemDAO(); 
+			
+			try {
+				ArrayList<ItemDTO> list = dao.searchByTitle(searchKeyword);
+				request.setAttribute("searchList", list);
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}	
+			request.getRequestDispatcher("/shop/searchitem.jsp").forward(request, response);
 		
+		}else if(uri.equals("/toSearchPage.item")) { //검색페이지 요청
+			
+			ItemDAO dao = new ItemDAO();
+			
+			try {
+			
+				ArrayList<ItemViewDTO> itemList = dao.selectAllItems();
+				int allItemsCount = dao.countAllItems();
+				
+				request.setAttribute("itemList", itemList);
+				request.setAttribute("itemCount", allItemsCount);
+				
+				System.out.println(itemList);
+				System.out.println(allItemsCount);
+				System.out.println(pageList);
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			request.getRequestDispatcher("/shop/searchitem.jsp").forward(request, response);	
 		
+			
+		//낮은가격순으로
+		}else if(uri.equals("/searchRowPrice.item")) {
+			
+			ItemDAO dao = new ItemDAO();
+			
+			try {
+				ArrayList<ItemDTO> rowPriceList = dao.selectRowPrice();				
+				Gson gson = new Gson();
+				String rs = gson.toJson(rowPriceList);
+				System.out.println(rs);
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().append(rs);
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 		
-	}
+		//높은가격순으로
+		}else if(uri.equals("/searchHighPrice.item")) {
+			
+			ItemDAO dao = new ItemDAO();
+			
+			try {
+				ArrayList<ItemDTO> highPriceList = dao.selectHignPrice();
+				
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+		//이름순으로
+		}else if(uri.equals("/searchName.item")) {
+			
+			ItemDAO dao = new ItemDAO();
+			
+			try {
+				ArrayList<ItemDTO> nameList = dao.selectItemName();
+				
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+		}
+
+	 }
 
 }

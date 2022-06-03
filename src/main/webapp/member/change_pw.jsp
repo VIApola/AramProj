@@ -10,63 +10,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">    
     <title>비밀번호 변경</title>
-    <style>
-            *{
-                box-sizing: border-box;
-            }
+    
+            <!--style영역-->
+    		<link href="${pageContext.request.contextPath}/resources/css/change_pw.css" rel="stylesheet" type="text/css">
 
-        /* 폰트 스타일 */
-        @font-face {
-            font-family: 'GowunBatang-Bold';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        * {
-            font-family: 'Roboto Mono', monospace;
-            font-family: 'GowunBatang-Bold';
-        }
-
-
-
-        /* input창 길이설정 */
-        .form-control {
-            width: 300px;
-        }
-
-        /* 버튼 크기 및 마진설정 */
-        button {
-            margin: 15px;
-            width: 200px;
-        }
-
-        /* 비밀번호 변경 마진 설정 */
-        .boxChangePwAction {
-            margin-top: 30px;
-            margin-bottom: 30px;
-        }
-
-        /* 서버로부터 받아오는 정보 input */
-        .fromServer {
-            display: none;
-        }
-
-        /* 구분선 */
-        .clsLabel {
-            border-right: 1px solid grey;
-        }
-
-        .clsInputRow {
-            padding-top: 5px;
-            padding-bottom: 5px;
-            border-top: 1px solid grey;
-        }
-
-        .clsInputRow:nth-child(2) {
-            border-bottom: 1px solid grey;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -105,7 +52,7 @@
             </div>
             <div class="row">
                 <div class="col-12 d-flex justify-content-center">
-                    <button type="button" id="btnChangePw" class="btn btn-secondary">비밀번호 변경</button>
+                    <button type="button" id="btnChangePw" class="btn btn-outline-success">비밀번호 변경</button>
                             </div>
                         </div>
                     </div>
