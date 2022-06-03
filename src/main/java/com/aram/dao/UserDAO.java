@@ -25,7 +25,38 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 	}
-
+	// 회원 수정
+	public int modifyUser(UserDTO dto) throws Exception{
+		String sql = "update tbl_user set nickname=?, phone=?, email=?, "
+				+ "post_no=?, addr=?, addr_detail=? where id=?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);){
+			
+			pstmt.setString(1, dto.getNickname());
+			pstmt.setString(2, dto.getPhone());
+			pstmt.setString(3, dto.getEmail());
+			pstmt.setString(4, dto.getPost_no());
+			pstmt.setString(5, dto.getAddr());
+			pstmt.setString(6, dto.getAddr_detail());
+			pstmt.setString(7, dto.getUser_id());
+			
+			int rs = pstmt.executeUpdate();
+			return rs;
+		}
+	}
+	// 회원 탈퇴
+	public int deleteUser(String id, String pw) throws Exception{
+		String sql = "delete from tbl_user where id =? and pw =?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);){
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			
+			int rs = pstmt.executeUpdate();
+			return rs;
+		}
+	}
 	// 특정 회원의 이메일값 반환
 	public String getUserEmail(String id) throws Exception{
 		String sql = "select email from tbl_user where user_id=?";

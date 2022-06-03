@@ -103,7 +103,7 @@ public class UserController extends HttpServlet {
 					request.setAttribute("rs", false);
 					
 				}
-				request.getRequestDispatcher("/main").forward(request, response);
+				request.getRequestDispatcher("/member/login.jsp").forward(request, response);
 				//request.getRequestDispatcher("/member/emailSendAction.jsp").forward(request, response);
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -241,6 +241,50 @@ public class UserController extends HttpServlet {
 			session.getAttribute("loginSession");
 			session.invalidate();
 			response.sendRedirect("/main"); //로그아웃하면 main으로
+		
+		}else if(uri.equals("/toMypage.user")){// 마이페이지 요청
+			response.sendRedirect("/member/mypage.jsp");
+			
+		}else if(uri.equals("/delete.user")) { // 회원탈퇴 요청
+		
+			String id = request.getParameter("id");
+			String pw = request.getParameter("pw");
+			System.out.println("회원탈퇴 아이디 비번 : " + id + " : " +pw);
+			HttpSession session = request.getSession();
+			// 세션에서 아이디값 꺼내기
+			String session_id = (String)session.getAttribute("user_id");
+			try {
+				pw = EncryptionUtils.getSHA512(pw);
+				System.out.println("암호화된 데이터 : " + pw);
+				// 세션의 아이디 값과 입력한 아이디 값이 같으면 -> 아이디 비번 같은지 확인
+				if(session_id.equals(id)) {
+					UserDAO dao = new UserDAO();
+					int rs = dao.deleteUser(id, pw);
+					if(rs > 0) {
+						
+					}
+				}else {
+					
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+
+		}else if(uri.equals("/modify.user")) { // 회원정보 수정 요청
+			
+			HttpSession session = request.getSession();
+			// 세션에서 아이디값 꺼내기
+			String id = (String)session.getAttribute("user_id");
+			String nickname = request.getParameter("nickname");
+			String phone = request.getParameter("phone");
+			String email = request.getParameter("email");
+			String postcode = request.getParameter("postcode");
+			String roadAddr = request.getParameter("roadAddr");
+			String detailAddr = request.getParameter("detailAddr");
+			
+			System.out.println(id + " : " + nickname + " : " + phone + " : " + email
+					+ " : " + postcode + " : " + roadAddr + " : " + detailAddr );
+			
 		}
 		
 	}
