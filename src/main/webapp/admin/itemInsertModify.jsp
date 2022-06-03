@@ -12,65 +12,145 @@
     <title>Admin 상품등록 / 수정</title>
 </head>
 <style>
-    *{
-        margin: auto;
+
+    /* 폰트 스타일 */
+    @font-face {
+        font-family: 'GowunBatang-Bold';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    * {
+        font-family: 'Roboto Mono', monospace;
+        font-family: 'GowunBatang-Bold';
+    }
+
+
+    /* 전체설정 */
+    * {
         box-sizing: border-box;
+        /* border: 1px solid gray; */
     }
-    .item-admin-contents{
-        width: 70%;
+
+    form{
+        overflow: hidden;
     }
-    .row{
-        margin: 0;
-        
+    
+    
+    /* 바디 타이틀 */
+    .box-title {
+        margin-top: 30px;
+        margin-bottom: 20px;
+        background-color: lightgray;
     }
-    div[class*=col]{
-        margin: 0;
-        border: 1px solid black;
+    .box-title h2 {
+        margin-top: 5px;
     }
-    div[class*=input]{
+
+
+    /* 인풋창 */
+
+    div[class*=input] {
         width: 75%;
         padding: 0px;
     }
-    .input > input{
-        width: 80%;
+
+    .clsInputRow { /* 인풋 위아래 라인 */
+        border-top: 1px solid lightgray;
+        border-bottom: 1px solid lightgray;
+        margin-top: 5px;
+        margin-bottom: 25px;
     }
-    .item-admin-contents{
-    	border:1px solid black;
+
+    .item-admin-contents .row .col-3 {
+        padding-left: 0px;
+        padding-right: 0px;
     }
+
+    .clsInput { 
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+
+
+    /* 라벨 배경 */
+    .clsLabelCol {
+        background-color: lightgray;
+    }
+
+    label {
+        margin-top: 9px;
+    }
+
+
+
+    /* 이미지 정보 */
+    .clsImgInfo {
+        background-color: lightgray;
+    }
+
+    .clsImgTitle {
+        background-color: #bbbbbb;
+    }
+
+    .clsImgContent {
+        background-color: white;
+    }
+
+    #btn-deleteItem{ /* 삭제버튼 */
+        border: none;
+        border-radius: 5px;
+        background-color: lightgray;
+    }
+
+    
 </style>
+
 <body>
-    <!--헤드 부분-->
-    <div class="item-container">
-        <div class="item-admin-header"></div>
-        <div class="row adminItem-logo"><!--로고-->
-            <div class="col d-flex justify-content-center">
-                <a href="/main"><img src="/resources/images/Logo_md.png" alt="..."></a>
+    <div class="container">
+        <!--헤더영역-->
+        <div class="row main-header d-flex justify-content-center align-self-center">
+            <!--상단바 로고 영역-->
+            <div class="row d-flex justify-content-center">
+                <div class="header-logo d-flex justify-content-center">
+                    <a href="/main"><img src="/resources/images/Logo_md.png" class="imgLogo d-none d-sm-block" alt="..."></a>
+                    <a href="/main"><img src="/resources/images/Logo_sm.png" class="imgLogo d-block d-sm-none"
+                            style="" alt="..."></a>
+                </div>
             </div>
-        </div>
-        <!--상단 네비바-->
-        <div class="row adminItem-nav justify-content-center">
-            <div class="col-5">
-                <ul class="nav">
-                    <li class="nav-item">
-                      <a class="nav-link active" style="color: black;" href="#">로그아웃</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" style="color: black;" href="#">고객 관리</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" style="color: black;" href="#">상품 관리</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" style="color: black;" href="#">공지사항 관리</a>
-                    </li>
-                  </ul>      
-              </div>
-        </div>
+            <!--네비게이션-->
+            <div class="row d-flex justify-content-center">
+                <div class="col-12 col-md-8 col-xl-6 d-flex justify-content-center">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" style="color: black;" href="#">로그아웃</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: black;" href="#">고객관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: black;" href="#">상품관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: black;" href="#">공지사항 관리</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div> <!-- 헤더 끝 -->
+
+
+
+
+
         <!--콘텐츠 영역-->
         <div class="item-admin-contents">
-        <div class="row"><!--타이틀 -->
-            <div class="col">
-                <h3>상품등록 / 수정</h3>
+            <!-- 바디타이틀 -->
+            <div class="row box-title">
+                <div class="col-12">
+                    <h2>상품등록 / 수정</h2>
+                </div>
             </div>
         </div>
         <!-- form태그 시작 -->
@@ -126,38 +206,37 @@
         <!--footer 영역-->
         <div class="row">
             <div class="col">
-              
-                    풋터
-                
+                풋터
             </div>
         </div>
-    </div><!--item-container 끝-->
+
+    </form>
+    </div>
+    <!--item-container 끝-->
     <script>
-    
-    //등록버튼 눌렀을때
+  //등록버튼 눌렀을때
     $("#insertComplete").on("click",function(){
-    $("#category_select").val($("#category_name option:selected").val());	
-    	console.log($("#category_select").val());
-    	console.log($("#img_title").val());
-    	
+    $("#category_select").val($("#category_name option:selected").val());   
+       console.log($("#category_select").val());
+       console.log($("#img_title").val());
+       
     if($("#item_name").val() == ""){
-    	alert("상품 이름을 입력하세요")
-    	return;
+       alert("상품 이름을 입력하세요")
+       return;
     }else if($("#price").val() == ""){
-    	alert("상품 가격을 입력하세요.")
-    	return;
+       alert("상품 가격을 입력하세요.")
+       return;
     }else if($("#item_stock").val() == ""){
-    	alert("상품 재고 개수를 입력하세요.")
-    	return;
+       alert("상품 재고 개수를 입력하세요.")
+       return;
     }else if($("#item_comment").val() == ""){
-    	alert("상품 설명을 입력하세요.")
-    	return;
+       alert("상품 설명을 입력하세요.")
+       return;
     }
-	$("#itemUploadForm").submit();
+   $("#itemUploadForm").submit();
     
     })
-    
-    
     </script>
 </body>
+
 </html>

@@ -99,13 +99,22 @@ public class UserController extends HttpServlet {
 					HttpSession session = request.getSession();
 					session.setAttribute("loginSession", dto);
 
+					if(dto.getIsAdmin() == "n") { // 일반 회원일 경우
+						request.getRequestDispatcher("/main").forward(request, response);
+						//request.getRequestDispatcher("/member/emailSendAction.jsp").forward(request, response);
+					} else { // 관리자일경우
+						request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
+					}
+
 				}else {
 					System.out.println("로그인 실패");
 					request.setAttribute("rs", false);
 					
 				}
+
 				request.getRequestDispatcher("/member/login.jsp").forward(request, response);
 				//request.getRequestDispatcher("/member/emailSendAction.jsp").forward(request, response);
+        
 			}catch(Exception e) {
 				e.printStackTrace();
 			}

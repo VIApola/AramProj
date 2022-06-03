@@ -189,8 +189,10 @@
                }
                 
             </script>
+            
+            
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<script>
+	<script> // 카카오 로그인
                 window.Kakao.init('00ff75810173b90025a2b65babb862d9'); //발급받은 키 중 javascript키를 사용해준다.
                 console.log(Kakao.isInitialized()); // sdk초기화여부판단
 
