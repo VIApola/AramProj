@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.aram.dao.CartDAO;
 import com.aram.dao.UserDAO;
 import com.aram.dto.UserDTO;
 import com.aram.utils.EncryptionUtils;
-import com.google.gson.Gson;
 
 @WebServlet("*.user")
 public class UserController extends HttpServlet {
@@ -86,14 +86,25 @@ public class UserController extends HttpServlet {
 			String pw = request.getParameter("pw");
 			System.out.println(id + " : " + pw);
 			
+			//카트에 담겨진 값가져오기
+			CartDAO cartDAO = new CartDAO();
+			
 			UserDAO dao = new UserDAO();
 			try {
 				pw = EncryptionUtils.getSHA512(pw);
 				System.out.println("암호회된 비번 : " + pw);
 				UserDTO dto = dao.isLoginOk(id, pw);
+				
+				//아이디값에 따른 카트에 담겨진 값가져오기
+				int quantity = cartDAO.QuantityById(id);
+				
+				
 				if(dto != null) {
 					System.out.println("로그인 성공");
 					request.setAttribute("rs", true);
+					
+					request.setAttribute("quantity", quantity);
+					
 					HttpSession session = request.getSession();
 					session.setAttribute("loginSession", dto);
 				}else {
@@ -110,12 +121,16 @@ public class UserController extends HttpServlet {
 			String kakaoid = request.getParameter("userid");
 			System.out.println("카카오 아이디 : " + kakaoid);
 			
+			CartDAO cartDAO = new CartDAO();
 			UserDAO dao = new UserDAO();
 			try {
+				int quantity = cartDAO.QuantityById(kakaoid);
 				UserDTO dto = dao.kakaoLogin(kakaoid);
 				
 				if(dto != null) {
 					System.out.println("로그인 성공");
+					
+					request.setAttribute("quantity", quantity);
 					
 					response.getWriter().append("ok");
 					HttpSession session = request.getSession();
