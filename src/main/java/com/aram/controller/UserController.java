@@ -94,8 +94,8 @@ public class UserController extends HttpServlet {
 				System.out.println("암호화된 비번 : " + pw);
 				UserDTO dto = dao.isLoginOk(id, pw);
 				// 이메일 인증은 했는지 확인
-				String checked = dao.getUserEmailChecked(id);
-				System.out.println(checked);
+//				String checked = dao.getUserEmailChecked(id);
+//				System.out.println(checked);
 				/*
 				if(checked.equals("n")) {
 					System.out.println("이메일 인증이 완료되지 않았습니다. 가입시 입력한 이메일을 확인해주세요.");
@@ -107,8 +107,8 @@ public class UserController extends HttpServlet {
 					HttpSession session = request.getSession();
 					session.setAttribute("loginSession", dto);
 
-					if(dto.getIsAdmin() == "n") { // 일반 회원일 경우
-						request.getRequestDispatcher("/main").forward(request, response);
+					if(dto.getIsAdmin().equals("n")) { // 일반 회원일 경우
+						request.getRequestDispatcher("/member/login.jsp").forward(request, response);
 						//request.getRequestDispatcher("/member/emailSendAction.jsp").forward(request, response);
 					} else { // 관리자일경우
 						request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
@@ -117,9 +117,10 @@ public class UserController extends HttpServlet {
 				}else {
 					System.out.println("로그인 실패");
 					request.setAttribute("rs", false);
+					request.getRequestDispatcher("/member/login.jsp").forward(request, response);
 				}
 
-				request.getRequestDispatcher("/member/login.jsp").forward(request, response);
+				
 				//request.getRequestDispatcher("/member/emailSendAction.jsp").forward(request, response);
         
 			}catch(Exception e) {
@@ -173,7 +174,7 @@ public class UserController extends HttpServlet {
 			try {
 				String pw_id = EncryptionUtils.getSHA512(id);
 				System.out.println("암호회된 비번 : " + pw_id);
-				int rs = dao.signup(new UserDTO(id, pw_id, name, nickname, phone, email, postcode, roadAddr, detailAddr, id, "n", null, "n"));
+				int rs = dao.kakaoJoin(new UserDTO(id, pw_id, name, nickname, phone, email, postcode, roadAddr, detailAddr, id, "n", null, "n"));
 				if(rs > 0) {
 					response.sendRedirect("/login.user");
 				}
@@ -269,19 +270,19 @@ public class UserController extends HttpServlet {
 			System.out.println("회원탈퇴 아이디 비번 : " + id + " : " +pw);
 			HttpSession session = request.getSession();
 			// 세션에서 아이디값 꺼내기
-			String session_id = (String)session.getAttribute("user_id");
+			String session_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();
 			try {
 				pw = EncryptionUtils.getSHA512(pw);
 				System.out.println("암호화된 데이터 : " + pw);
 				// 세션의 아이디 값과 입력한 아이디 값이 같으면 -> 아이디 비번 같은지 확인
 				if(session_id.equals(id)) {
 					UserDAO dao = new UserDAO();
-					int rs = dao.deleteUser(id, pw);
-					if(rs > 0) {
-						
-					}
-				}else {
-					
+//					int rs = dao.deleteUser(id, pw);
+//					if(rs > 0) {
+//						
+//					}
+//				}else {
+//					
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -291,7 +292,7 @@ public class UserController extends HttpServlet {
 			
 			HttpSession session = request.getSession();
 			// 세션에서 아이디값 꺼내기
-			String id = (String)session.getAttribute("user_id");
+			String session_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();
 			String nickname = request.getParameter("nickname");
 			String phone = request.getParameter("phone");
 			String email = request.getParameter("email");
@@ -299,8 +300,41 @@ public class UserController extends HttpServlet {
 			String roadAddr = request.getParameter("roadAddr");
 			String detailAddr = request.getParameter("detailAddr");
 			
-			System.out.println(id + " : " + nickname + " : " + phone + " : " + email
+			System.out.println(session_id + " : " + nickname + " : " + phone + " : " + email
 					+ " : " + postcode + " : " + roadAddr + " : " + detailAddr );
+			
+			try {
+				UserDAO dao = new UserDAO();
+				int rs = dao.modifyUser(new UserDTO(session_id, null, null, nickname, phone, email, postcode, roadAddr, detailAddr, null, null, null, null));
+				
+				if(rs > 0) { // 수정 성공
+					response.getWriter().append("y");
+				}else {
+					response.getWriter().append("n");
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+		}else if (uri.equals("/toMypage.user")) { // 마이페이지 요청
+			response.sendRedirect("/member/mypage.jsp");
+		}else if(uri.equals("/pwCheck.user")) { // 패스워드 확인
+			String pwCheck = request.getParameter("pwCheck");
+			try {
+				pwCheck = EncryptionUtils.getSHA512(pwCheck);
+				System.out.println("암호화된 데이터 : " + pwCheck);
+				HttpSession session = request.getSession();
+				// 세션에서 아이디값 꺼내기
+				String session_pw = ((UserDTO)session.getAttribute("loginSession")).getUser_pw();
+				
+				if(pwCheck.equals(session_pw)) {
+					response.getWriter().append("pwOk");
+				}else {
+					response.getWriter().append("pwNo");
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 			
 		}
 	}
