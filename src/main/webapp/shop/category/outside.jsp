@@ -98,7 +98,7 @@
         </div>     
 		<div class="row">
 			<c:forEach items="${itemList}" var="dto">
-			<c:if test="${dto.category_id eq 'P300' }">
+			<c:if test="${dto.category_id eq 'p300' }">
 			<div class="col-2 item">
 				<div class="card" style="width: 10rem; height: 20rem;">
 					<a href="/detail.item?item_id=${dto.item_no}">      

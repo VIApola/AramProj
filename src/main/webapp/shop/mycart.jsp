@@ -17,6 +17,7 @@
         border-top: 1px solid gray;
         border-bottom: 1px solid gray;
         margin-bottom: 100px;
+        padding-top:20px;
     }
     p{
         text-align: center;
@@ -90,7 +91,11 @@
             </div>
 
         </div>
+
+        
         <div class="row title-row">
+   	
+        	
             <div class="col-8">
                 <p>product</p>
             </div>
@@ -102,18 +107,24 @@
             </div>
         </div>
 
+
 <div class="body-list">
         
         <c:forEach items="${list}" var="dto">
       
         <c:if test="${loginSession eq dto.user_id}">
         
-
+			<div class="cart_info">
+				 <input type="hidden" class="price_input" value="${dto.price}">
+      			 <input type="hidden" class="quantity_input" value="${dto.quantity}">
+       			 <input type="hidden" class="totalPrice_input" value="${dto.price * dto.quantity}">
+			
+			</div>
          <div class="row list-row">
              
              
              <div class="col-3">
-                <input class="form-check-input" type="checkbox" checked="checked" id="${dto.price}" name ="checkBox"  value="${dto.item_no}">
+                <input class="form-check-input checkBox" type="checkbox" checked="checked" id="${dto.price}" name ="checkBox"  value="${dto.item_no}">
                 <img src="/resources/images/items/${dto.item_name}.png">
             </div>
               
@@ -124,19 +135,20 @@
 
             <div class="col-2 quantityBox">
              <input type='button' class="btnPlus" value='+' />
-                    <input type="text" class="p_num" value="${dto.quantity}">
+                    <input type="text" class="p_num" id ="${dto.item_no}" value="${dto.quantity}" readonly>
              <input type='button' class="btnMinus" value='-' />
+          <%--  <input type="hidden" id="checkBoxId" value="${dto.item_no}">   --%>
             </div>
 
            
             <div class="col-2 priceName" >
             <span>${dto.price}</span>
+           
            </div>
         
         
         </div>
-        
-        
+         
         
         </c:if>
 
@@ -148,7 +160,7 @@
 				
 				<div class="row price-row">
      
-            <div class="col">총 가격 : ${total} 원</div>
+            <div class="col">총 가격 :<span class="totalPrice_span"> </span> </div>
         		</div>
 				
 	
@@ -164,7 +176,66 @@
     </div>
     
     <script>
+    $(".checkBox").on("change",function(){
+    	
+    	setTotalInfo($(".cart_info"));
+    });
     
+    
+    
+    $(document).ready(function(){
+    	setTotalInfo();
+    });
+    
+    function setTotalInfo(){
+    	let totalPrice = 0;  // 총 가격
+    	let totalCount = 0;	 // 총 갯수
+    	let totalKind = 0;   // 총 종류
+    	
+    	$(".cart_info").each(function(index, element){
+    		
+    		if($(element).find(".checkBox").is(":checked") === true){
+    				
+    			totalPrice += parseInt( $(".totalPrice_input").val() );
+        		totalCount += parseInt($(element).find(".quantity_input").val());
+        		totalKind +=1;
+    		}
+    			
+    	});
+    	
+    	$(".totalPrice_span").text(totalPrice.toLocaleString());
+    	console.log(totalPrice);
+    	console.log( $(".totalPrice_input").val() );
+    }  --%>
+    
+  
+    <%--
+    
+    $(".checkBox").click(function(){
+    	
+    	var sum = 0;
+    	
+    	$(".checkBox").each(function(){
+    		
+    		if( $(this).is(":checked") == true){
+    			
+    			var price_goods = parseInt( $(".checkBoxPrice").val() );
+    				
+    					sum = sum + price_goods;
+    		}
+    		
+    	});
+    	
+    	$(".totalPrice_span").html(sum);
+    				
+    console.log(sum);
+    	
+    });
+    
+    --%>
+    
+ 
+    <%--
     
     $("input:checkbox:checked").each(function(){
 		
@@ -176,7 +247,7 @@
     
     
     
-    <%--
+    
     function count(type) {
         // 결과를 표시할 element
         const p_numElement = document.getElementsByClassName("p_num");
@@ -192,32 +263,85 @@
         }
        
       }
+      
     --%>
     
+
+    <%--
+    $("input:checkbox:checked").each(function(){
+    	
+    	$.ajax({
+    		
+    		url: "/totalPrice.cart"
+            	,	type:"post"
+            	,	traditional :true
+            	,	data: 
+
+            	,	success: function(){
+            		
+            	}
+    			,	error: function(e){
+    				console.log(e);
+    			}
+    		
+    		
+    	});
+    	
+    }  --%>
+    <%--
+    $(document).ready(function(){
+    	console.log("totalPrice function");
+    	setTotalInfo();
+    });
+    
+    
+    $(".checkBox").on("change", function(){
+    	setTotalInfo($(".cart_info"));
+    });
+    
+    
+    
+    
+    --%>
+    
+   <%--
+   	let  
+    
+    let plusFunction = parseInt($(".p_num").val());
+    console.log(plusFunction);
+    
     $(".btnPlus").on("click", function(){
+  	
+    	plusFunction = plusFunction +1;
     	
-    	console.log($(".p_num").val());
+    	console.log(plusFunction);
     	
-    	parseInt($(".p_num").val()) = parseInt($(".p_num").val()) + 1;
-    	
-    	console.log($(".p_num").val());
+    	$(".p_num").val(plusFunction);
     	
     	
     });
     
-    
+    let minusFunction = parseInt($("#'${dto.}'").val());
     
     
     $(".btnMinus").on("click", function(){
-    	console.log("-");
+
+
+    	munusFunction = minusFunction-1;
     	
-		console.log($(".p_num").val());
-    	
-    	parseInt($(".p_num").val()) = parseInt($(".p_num").val()) + 1;
-    	
-    	
+    	console.log(minusFunction);
+    	$(".p_num").val(minusFunction);
     });
     
+    --%>
+    
+    
+    
+    
+    
+    
+    
+    <%-- 물품 삭제 --%>
     
     $("#btnDelete").on("click", function(){
     	
@@ -271,7 +395,7 @@
             				let list = $("<div>").addClass("row list-row");
             				
             				let col_3 =  $("<div>").addClass("col-3");
-            				let checkBox = $("<input>").attr({class:"form-check-input", type:"checkbox" ,id:dto.price}).val(dto.item_no).prop("checked", true);
+            				let checkBox = $("<input>").attr({class:"form-check-input checkBox", type:"checkbox" ,id:dto.price}).val(dto.item_no).prop("checked", true);
             				
             				let img = $("<img>").attr({ src:"/resources/images/items/"+ dto.item_name +".png"});
             				col_3.append(checkBox, img);
@@ -294,47 +418,31 @@
             				list.append(col_3, itemName, quantityBox, priceName);
             				
             				$(".body-list").append(list);           				
-            				
-            				
-            				
-            				
-            				
-            	           
-            				
-            				
-            				
-            				
-            				
-            				
-            				
-            				
-            				
+				
             		}
             		
             	}   
             		
-            		
-            	}		
+           	}		
         		,	error:function(e){
         			console.log(e);
-        		}
+       	}
             		
         	});
  
     	}
     	
-    	
-    	
-    	
-    	
     });
+    
+    $("#btnShopping").on("click", function(){
+    	location.href="/air.item";
+    });
+    
+ 
     
     
     </script>
     
-    
-    
 
-  
 </body>
 </html>

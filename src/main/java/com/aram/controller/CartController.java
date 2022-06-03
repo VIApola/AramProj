@@ -138,29 +138,23 @@ public class CartController extends HttpServlet {
 				Gson gson = new Gson();
 				String result = gson.toJson(list);
 			
-				
-				
+
 				
 				response.getWriter().append(result);
 		
-				
-			
+		
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 				 
-	
-			
-			
 		}
 		
-		
-		
-		
-		
-	
-	
+		//체크박스 상태에 따라서 총 금액 실시간 계산
+		if(uri.equals("/totalPrice.cart")) {
+			
+		}
+
 	
 	}
 

@@ -46,7 +46,7 @@
 <form action="/cartProc.cart" method="post" id = "cartForm">  
 
   <div class="container">
-  ${item}
+  <%-- ${item} --%>
     <div class="row itemInfoBox">
       <div class="col-12 col-md-6">
         <div class="imgBox m-3">
@@ -84,11 +84,19 @@
           </table>
           
           
-          <div class="totalAmout text-end p-3">
+       <%-- 
+       
+       <div class="totalAmout text-end p-3">
             <span>총 상품금액</span>
             <span>000,000원</span>
           </div>
+       
+       --%>  
+       	  
+        
+        
         </div>
+        
         <div class="btnBox d-flex justify-content-center">
         
    

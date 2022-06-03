@@ -56,8 +56,8 @@ public class ItemController extends HttpServlet {
 			
 		} else if(uri.equals("/detail.item")) { // 상품 상세페이지 로딩
 			
-			int item_no = 105;
-		//int item_no = Integer.parseInt(request.getParameter("item_no"));
+			//int item_no = 105;
+		int item_no = Integer.parseInt(request.getParameter("item_no"));
 			System.out.println("상품번호 : " + item_no);
 			ItemDAO dao = new ItemDAO();
 			ImgFileDAO imgDao = new ImgFileDAO();
@@ -174,7 +174,7 @@ public class ItemController extends HttpServlet {
 					
 					request.setAttribute("itemList", itemList);
 					
-					int count = dao.countItems("P100"); // 카테고리별 물품 갯수
+					int count = dao.countItems("p100"); // 카테고리별 물품 갯수
 					request.setAttribute("count", count);
 					
 				} catch (Exception e) {
@@ -192,7 +192,7 @@ public class ItemController extends HttpServlet {
 					System.out.println("list 값 : " + itemList);
 					request.setAttribute("itemList", itemList);
 					
-					int count = dao.countItems("P200"); // 카테고리별 물품 갯수
+					int count = dao.countItems("p200"); // 카테고리별 물품 갯수
 					request.setAttribute("count", count);
 					
 				} catch (Exception e) {
@@ -209,7 +209,7 @@ public class ItemController extends HttpServlet {
 				System.out.println("list 값 : " + itemList);
 				request.setAttribute("itemList", itemList);
 				
-				int count = dao.countItems("P300"); // 카테고리별 물품 갯수
+				int count = dao.countItems("p300"); // 카테고리별 물품 갯수
 				request.setAttribute("count", count);
 				
 			} catch (Exception e) {

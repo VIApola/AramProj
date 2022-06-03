@@ -114,7 +114,7 @@
             
             
             <c:forEach items="${itemList}" var="dto">
-            	 <c:if test="${dto.category_id eq 'P100' }">
+            	 <c:if test="${dto.category_id eq 'p100' }">
               <div class="col-2 item">
                    
                         <div class="card" style="width: 10rem; height: 20rem;">

@@ -156,7 +156,7 @@
                 <li class="nav-item">
                 <c:choose>
                 <c:when test="${not empty loginSession}">
-                  <a href="" class="nav-link" style="color: black;">Cart (0)</a>
+                  <a href="/mycart.cart" class="nav-link" style="color: black;">Cart</a>
                 </c:when>
                 <c:otherwise>
                 <a href="/login.user" 
@@ -242,13 +242,13 @@
         <!--카테고리 영역 시작-->
         <div class="row main-category" data-aos="fade-up" data-aos-duration="1000">
             <div class="col-3 d-none d-lg-block">
-                <a href=""><img src="/resources/images/category_Air.png"alt="..."></a>
+                <a href="/air.item"><img src="/resources/images/category_Air.png"alt="..."></a>
             </div>
             <div class="col-3 d-none d-sm-block">
-                <a href=""><img src="/resources/images/category_In.png" alt="..."></a>
+                <a href="/interior.item"><img src="/resources/images/category_In.png" alt="..."></a>
             </div>
             <div class="col-3 d-none d-sm-block">
-                <a href=""><img src="/resources/images/category_Out.png" alt="..."></a>
+                <a href="/outside.item"><img src="/resources/images/category_Out.png" alt="..."></a>
               </div>
         </div>
         <!--카테고리 영역 끝-->
