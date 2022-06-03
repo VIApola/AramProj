@@ -71,6 +71,7 @@
 </head>
 <body>
     <div class="container">
+    	<jsp:include page="/frame/header.jsp"></jsp:include>
         <div class="row" id="category">
             <div class="col-4">
                 <a href="/air.item"> <img src="/resources/images/category_Air.png"></a>

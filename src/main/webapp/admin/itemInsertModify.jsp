@@ -74,7 +74,7 @@
             </div>
         </div>
         <!-- form태그 시작 -->
-        <form id="itemUploadForm" action="/itemUpload.admin" method="post" enctype="multipart/form-data">
+        <form id="itemUploadForm" action="/insert.item" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-12">기본정보</div>
             <div class="col-3">상품명</div>
@@ -131,7 +131,6 @@
                 
             </div>
         </div>
-    </form>
     </div><!--item-container 끝-->
     <script>
     

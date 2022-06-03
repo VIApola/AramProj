@@ -26,6 +26,7 @@
 
         <body>
             <div class="container">
+            <jsp:include page="/frame/header.jsp"></jsp:include>
                 <!-- 컨테이너 -->
                 <div class="row header">
                     <!-- 헤더부분 -->
@@ -697,8 +698,6 @@
     
       ② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
 
-    
-    
                         </textarea>
                     </div>
                 </div>  <!-- 개인정보수집 끝-->    
@@ -917,9 +916,8 @@
                 document.getElementById("roadAddr").value = roadAddr;
             }
         }).open();
-    });
-    	
+    });    	
     	
     </script>
-</body>
+	</body>
 </html>

@@ -7,13 +7,13 @@ public class ReviewDTO {
 	private String write_date;
 	private int score;
 	private String user_id;
-	private int item_id;
+	private int item_no;
 	private int img_no;
 	
 	public ReviewDTO() {}
 
 	public ReviewDTO(int review_no, String title, String content, String write_date, int score, String user_id,
-			int item_id, int img_no) {
+			int item_no, int img_no) {
 		super();
 		this.review_no = review_no;
 		this.title = title;
@@ -21,7 +21,7 @@ public class ReviewDTO {
 		this.write_date = write_date;
 		this.score = score;
 		this.user_id = user_id;
-		this.item_id = item_id;
+		this.item_no = item_no;
 		this.img_no = img_no;
 	}
 
@@ -73,12 +73,12 @@ public class ReviewDTO {
 		this.user_id = user_id;
 	}
 
-	public int getItem_id() {
-		return item_id;
+	public int getItem_no() {
+		return item_no;
 	}
 
-	public void setItem_id(int item_id) {
-		this.item_id = item_id;
+	public void setItem_no(int item_no) {
+		this.item_no = item_no;
 	}
 
 	public int getImg_no() {
@@ -92,7 +92,7 @@ public class ReviewDTO {
 	@Override
 	public String toString() {
 		return "ReviewDTO [review_no=" + review_no + ", title=" + title + ", content=" + content + ", write_date="
-				+ write_date + ", score=" + score + ", user_id=" + user_id + ", item_id=" + item_id + ", img_no="
+				+ write_date + ", score=" + score + ", user_id=" + user_id + ", item_no=" + item_no + ", img_no="
 				+ img_no + "]";
 	}
 	
