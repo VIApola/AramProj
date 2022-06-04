@@ -103,7 +103,7 @@ span:hover::after {
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-5 d-none d-md-block col-md-5">
+				<div class="col d-none d-md-block col-md-5">
 					<div class="row">
 						<div class="col">
 							<h5>Shopping page</h5>
@@ -145,8 +145,8 @@ span:hover::after {
 						</div>
 					</div>
 				</div>
-				<div class="col-7" id="content">
-					<p>님, 환영합니다.</p>
+				<div class="col-12 col-md-7" id="content">
+					<p>${loginSession.nickname}님, 환영합니다.</p>
 				</div>
 			</div>
 		</div>
@@ -154,7 +154,7 @@ span:hover::after {
 	</div>
 	<script>
     $("#mypage").on("click", function(){
-        location.href= "마이페이지로 가기";
+        location.href= "/toMypage.user";
     })
     /* 주문내역, 배송 조회*/
      $("#shopping").on("click", function(){
@@ -162,7 +162,7 @@ span:hover::after {
         let h3 = $("<h5>").html("주문내역 & 배송 조회");
         let row = $("<div>").addClass('row');
         let col = $("<div>").addClass("col-12").css("text-align", "center");;
-        let p =  $("<p>").html("님이 쇼핑몰에서 주문한 내역입니다.");
+        let p =  $("<p>").html("${loginSession.nickname}님이 쇼핑몰에서 주문한 내역입니다.");
         let tableRow = $("<div>").addClass('row');
         let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
         let table = $("<table>");
@@ -187,29 +187,54 @@ span:hover::after {
      });
      /* Q & A*/
      $("#qa").on("click", function(){
-        $("#content").empty();
-        let h3 = $("<h5>").html("Q & A");
-        let row = $("<div>").addClass('row');
-        let col = $("<div>").addClass("col-12").css("text-align", "center");
-        let p =  $("<p>").html("님이 작성하신 글입니다.");
-        let tableRow = $("<div>").addClass('row');
-        let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
-        let table = $("<table>");
-        let tr1 = $("<tr>");
-        let thNum = $("<th>").html("번호");
-        let thTitle = $("<th>").html("제목");
-        let thDate = $("<th>").html("상품명");
-        let tr2 = $("<tr>");
-        // 조건문 돌려서 문의내역 있으면 td 생성
-            col.append(p);
-            row.append(col);
-            tr1.append(thNum, thTitle, thDate);
-            table.append(tr1);
-            tableCol.append(table);
-            tableRow.append(tableCol);
-            $("#content").append(h3); 
-            $("#content").append(row);
-            $("#content").append(tableRow);
+    	 $("#content").empty();
+         let h3 = $("<h5>").html("Q & A");
+         let row = $("<div>").addClass('row');
+         let col = $("<div>").addClass("col-12").css("text-align", "center");
+         let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 글입니다.");
+         let p2 = $("<p>").html("* 제목을 클릭하시면, 게시글의 내용을 확인 할 수 있습니다.").css({"font-size": "small", "text-align" : "left"})
+          let tableRow = $("<div>").addClass('row');
+    		        let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
+    		        let table = $("<table>");
+    		        let tr1 = $("<tr>");
+    		        let thNum = $("<th>").html("번호");
+    		        let thTitle = $("<th>").html("제목");
+    		        let thDate = $("<th>").html("상품명");
+    		        let tr2 = $("<tr>");
+    		        // 조건문 돌려서 문의내역 있으면 td 생성
+    		        
+    		            col.append(p);
+    		            col.append(p2);
+    		            row.append(col);
+    		            tr1.append(thNum, thTitle, thDate);
+    		            table.append(tr1);
+    		            tableCol.append(table);
+    		            tableRow.append(tableCol);
+    		            $("#content").append(h3); 
+    		            $("#content").append(row);
+    		            $("#content").append(tableRow); 
+    	 $.ajax({
+    		 url: "/qnaSearchProc.bo?=${loginSession.user_id}"
+    		 , type: "get"
+    		 , dataType: "json"
+    		 , success: function(data){
+    			 
+    			 let rs = JSON.parse(data);
+    			 console.log(rs);
+    			 if(data.length == 0){
+    				 let tr = $("<tr>");
+    				 let td = $("<td>").attr("colspan", "3").html("작성하신 Q & A 글이 없습니다.");
+    				 tr.append(td);
+    				 $("#content").append(tr); 
+    			 }
+    			 
+    		 }
+    		 ,error: function(e){
+    			 console.log(e);
+    		 }
+    	 })
+       
+      
      })
      /* 리뷰 */
      $("#review").on("click", function(){
@@ -217,7 +242,7 @@ span:hover::after {
         let h3 = $("<h5>").html("Review");
         let row = $("<div>").addClass('row');
         let col = $("<div>").addClass("col-12").css("text-align", "center");
-        let p =  $("<p>").html("님이 작성하신 리뷰입니다.");
+        let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 리뷰입니다.");
             let tableRow = $("<div>").addClass('row');
         let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
         let table = $("<table>");
@@ -243,7 +268,7 @@ span:hover::after {
         $("#content").empty();
         let h3 = $("<h5>").html("회원 정보 수정");
         let row = $("<div>").addClass('row');
-        let col = $("<div>").addClass("col-12").css("text-align", "center");
+        let col = $("<div>").addClass("col-12 col-md-12").css("text-align", "center");
         let img = $("<img>").addClass('d-none d-md-block').attr("src", "/resources/images/password.png").css({"width": "200px", "margin": "0px auto"});
         let p =  $("<p>").html("<br>본인확인을 위해 비밀번호를 입력해주세요.");
         let p2 =  $("<p>").addClass("kakao").html("카카오 로그인은 여기를 눌러주세요.").css({"cursor": "pointer", "color": "#ffd600", "font-size" : "15px"});
@@ -258,215 +283,36 @@ span:hover::after {
             $("#content").append(h3);
             $("#content").append(row);
             // 카카오 로그인 했을경우 (세션에서 social 컬럼 비교..?)
+           
+            
             $(".kakao").on("click", function(){
-                
-                $("#content").empty();
-                let form = $("<form>");
-                    // 이름
-                let clsInputRow = $("<div>").addClass("row clsInputRow").css("margin-top", "20px");
-                let colName = $("<div>").addClass("col-4 col-md-3 align-self-center");
-                let labelName = $("<label>").attr("for", "name").html("이름");
-                let colNameInput = $("<div>").addClass("col-7 col-md-9").css("margin-bottom", "10px");
-                let pName = $("<p>").html("${loginSession.username}").css("margin", "0");
-                    clsInputRow.append(colName);
-                    colName.append(labelName);
-                    colNameInput.append(pName);
-                    clsInputRow.append(colNameInput);
-                    // 닉네임
-                let colNicknmae = $("<div>").addClass("col-4 col-md-3 align-self-center");
-                let labelNickname = $("<label>").attr("for", "nickname").html("닉네임");
-                let colNickInput = $("<div>").addClass("col-7 col-md-9");
-                let inputNickname = $("<input>").addClass("form-control").attr({"type" : "text",
-                    "id" : "nickname", "name" : "nickname"});
-                clsInputRow.append(colNicknmae);
-                colNicknmae.append(labelNickname);
-                clsInputRow.append(colNickInput);
-                colNickInput.append(inputNickname);
-                form.append(clsInputRow);
-                    // 휴대폰
-                let clsInputRow2 = $("<div>").addClass("row clsInputRow").css("margin-top", "20px");
-                let colPhone = $("<div>").addClass("col-4 col-md-3 align-self-center");
-                let labelPhone = $("<label>").attr("for", "phone1").html("휴대폰번호");
-                clsInputRow2.append(colPhone);
-                colPhone.append(labelPhone);
-                let colSelect = $("<div>").addClass("col-3 col-md-3");
-                let select = $("<select>").addClass("form-select").attr("id", "phone1");
-                let option1 = $("<option>").attr("value", "010").html("010");
-                let option2 = $("<option>").attr("value", "011").html("011");
-                let option3 = $("<option>").attr("value", "016").html("016");
-                let option4 = $("<option>").attr("value", "017").html("017");
-                let option5 = $("<option>").attr("value", "018").html("018");
-                let option6 = $("<option>").attr("value", "019").html("019");
-                
-                select.append(option1, option2, option3, option4, option5, option6);
-                colSelect.append(select);
-
-                let colPhone2 = $("<div>").addClass("col-2 col-md-3");
-                let inputPhone2 = $("<input>").addClass("form-control").attr({"type" : "text",
-                    "id" : "phone2", "maxlength" : "4"});
-                    colPhone2.append(inputPhone2);
-                let colPhone3 = $("<div>").addClass("col-2 col-md-3");
-                let inputPhone3 = $("<input>").addClass("form-control").attr({"type" : "text",
-                    "id" : "phone3", "maxlength" : "4"});
-                    colPhone3.append(inputPhone3);
-                let phoneDnone =  $("<div>").addClass("col d-none");
-                let dnonePhone = $("<input>").attr({"type" : "text",
-                    "id" : "phone", "maxlength" : "phone"});
-                    phoneDnone.append(dnonePhone);
-                clsInputRow2.append(colSelect);
-                clsInputRow2.append(colPhone2, colPhone3, phoneDnone);
-                form.append(clsInputRow2);
-
-                // 이메일
-                let clsInputRow3 = $("<div>").addClass("row clsInputRow").css("margin-top", "20px");
-                let colEamil = $("<div>").addClass("col-4 col-md-3 align-self-center");
-                let labelEmail = $("<label>").attr("for", "email").html("이메일");
-                let colEmailInput = $("<div>").addClass("col-7 col-md-9");
-                let inputEmail = $("<input>").addClass("form-control").attr({"type" : "text",
-                    "id" : "email", "name" : "email"});
-                    colEamil.append(labelEmail);
-                    colEmailInput.append(inputEmail);
-                    clsInputRow3.append(colEamil, colEmailInput);
-                    form.append(clsInputRow3);
-                
-                // 우편번호
-                let clsInputRow4 = $("<div>").addClass("row clsInputRow").css("margin-top", "20px");
-                let colPostcode = $("<div>").addClass("col-4 col-md-3 align-self-center");
-                let labelPostcode = $("<label>").attr("for", "postcode").html("우편번호");
-                let colPostcodeInput =  $("<div>").addClass("col-7 col-md-4");
-                let inputPostcode = $("<input>").addClass("form-control").attr({"type" : "text",
-                    "id" : "postcode", "name" : "postcode", "readonly" : true});
-                
-                let colPostcodeBtn =  $("<div>").addClass("col-4 col-md-5");
-                let PostcodeBtn = $("<button>").addClass("btn btn-outline-success").attr({"id": "btnPostcode", "type" : "button"}).html("우편번호 검색");
-                    colPostcode.append(labelPostcode);
-                    colPostcodeInput.append(inputPostcode);
-                    colPostcodeBtn.append(PostcodeBtn);
-                    clsInputRow4.append(colPostcode, colPostcodeInput, colPostcodeBtn);
-                    form.append(clsInputRow4);
-
-                // 주소
-                let clsInputRow5 = $("<div>").addClass("row clsInputRow").css("margin-top", "20px");
-                let colRoadAddr = $("<div>").addClass("col-4 col-md-3 align-self-center");
-                let labelRoadAddr = $("<label>").attr("for", "roadAddr").html("주소");
-                let colRoadAddrInput =  $("<div>").addClass("col-7 col-md-9");
-                let inputRoadAddr = $("<input>").addClass("form-control").attr({"type" : "text",
-                    "id" : "roadAddr", "name" : "roadAddr", "readonly" : true, "placeholder" : "도로명주소"});
-                    colRoadAddr.append(labelRoadAddr);
-                    colRoadAddrInput.append(inputRoadAddr);
-                    clsInputRow5.append(colRoadAddr, colRoadAddrInput);
-                    form.append(clsInputRow5);
-                // 상세 주소
-                let clsInputRow6 = $("<div>").addClass("row clsInputRow").css("margin-top", "20px");
-                let colDetailAddr = $("<div>").addClass("col-4 col-md-3 align-self-center");
-                let labelDetailAddr = $("<label>").attr("for", "detailAddr").html("상세주소");
-                let colDetailAddrInput =  $("<div>").addClass("col-7 col-md-9");
-                let inputDetailAddr = $("<input>").addClass("form-control").attr({"type" : "text",
-                    "id" : "detailAddr", "name" : "detailAddr", "placeholder" : "도로명주소"});
-                    colDetailAddr.append(labelDetailAddr);
-                    colDetailAddrInput.append(inputDetailAddr);
-                    clsInputRow6.append(colDetailAddr, colDetailAddrInput);
-                    form.append(clsInputRow6);
-                   
-                // 뒤로가기 수정 버튼
-                let row = $("<div>").addClass("row").css("margin-top", "20px");
-                let colBtn =  $("<div>").addClass("col-12 d-flex justify-content-center");
-                let backBtn = $("<button>").addClass("btn btn-secondary").attr({"id": "backBtn" ,"type" : "button"}).html("뒤로가기").css("margin-left", "5px");
-                let modifyBtn = $("<button>").addClass("btn btn-outline-success").attr({"id": "modifyBtn", "type" : "button"}).html("수정").css("margin-left", "10px");
-                
-                colBtn.append(backBtn, modifyBtn);
-                row.append(colBtn);
-                form.append(row);
-                $("#content").append(form);
-                // 뒤로가기 버튼
-                backBtn.on("click", function(){
-                    location.href ="/";
-                })
-                // 수정 버튼
-				modifyBtn.on("click", function(){
-					// 유효성 검사
-					let regexNickname = /^[a-zA-z0-9ㄱ-흫]{3,6}$/;
-		    		let regexPw = /^[a-zA-z0-9~!@#$]{6,12}$/;
-		    		let regexEmail = /^[a-zA-z][\w]+@[a-zA-z]+\.(com|net|co\.kr|or\.kr)$/;
-					let regexPhone = /^[0-9]{11}$/;
-					let phone = $("#phone1 option:selected").val() + $("#phone2").val() + $("#phone3").val();
-					console.log(phone);
-					$("#phone").val(phone);
-					 if(!regexNickname.test($("#nickname").val())){
-			    			alert("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~ 10자 이내로 작성해 주세요.");
-			    			$("#nickname").focus();
-			    			return;
-			    		}else if(!regexPhone.test(phone)){ // 숫자 데이터에 대한 별도의 형변환이 필요없음
-							alert("휴대폰번호는 각각 4자리의 숫자로 입력해주세요.");
-							return;
-			    		}else if(!regexEmail.test($("#email").val())){
-			    			alert("이메일 형식에 맞게 입력해주세요.");
-			    			$("#email").focus();
-			    			return;
-			    		}else if($("#postcode").val() === "" || $("#roadAddr").val() === ""){
-							alert("주소를 입력해 주세요.");
-							return;
-						}
-					let data = form.serialize();
-					$.ajax({
-						url: "/modify.user"
-						, type: "post"
-						, data: data
-						, success: function(){
-						
-					}
-					, error: function(e){
-						console.log(e);
-					}
-					})
-				})
-                    /* 우편번호 api */
-                    $("#btnPostcode").on("click", function () {
-            new daum.Postcode({
-                theme: {
-                    searchBgColor: "#7CC09C", //검색창 배경색
-                    queryTextColor: "#FFFFFF" //검색창 글자색
-            }
-            ,oncomplete: function(data) {
-   
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var roadAddr = data.roadAddress; // 도로명 주소 변수
-                var extraRoadAddr = ''; // 참고 항목 변수
-
-                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                    extraRoadAddr += data.bname;
-                }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraRoadAddr !== ''){
-                    extraRoadAddr = ' (' + extraRoadAddr + ')';
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('postcode').value = data.zonecode;
-                document.getElementById("roadAddr").value = roadAddr;
-            }
-        }).open();
-    });
-                 
-    	
+            	if("${loginSession.social_login}" == "${loginSession.user_id}"){
+               		
+            		modifyUser();
+   	
+            }else{
+            	alert("카카오 회원이 아닙니다.");
+            }	
             
             });
             $(".pwBtn").on("click", function(){
-                alert("비밀번호 확인");
-                //   $.ajax({
-                //       url: "/modify.user"
-                //      , type: "post"
-                //      , data: {'pw' : 'pw'}
-                //   })
+               $.ajax({
+            	   url : "/pwCheck.user"
+               , type: "post"
+               , data : {"pwCheck" : input.val()}
+               ,dataType : "text"
+               ,success: function(pwCheck){
+            	   if(pwCheck === "pwOk"){
+            		   modifyUser();
+            	   }else if(pwCheck === "pwNo"){
+            		   alert("비밀번호가 틀렸습니다. 다시입력해주세요.");
+            		   input.focus();
+            	   }
+               }, error: function(e){
+            	   console.log(e);
+               }
+               })
+               
             })
         
      })
@@ -540,10 +386,280 @@ span:hover::after {
      /* 반응형 됐을경우 select 이벤트*/
       function myFunction(str){
          if(str == 1){
-            location.href= "마이페이지로 가기";
+            location.href= "/toMypage.user";
          }else if(str == 2){
             alert("shop"); // 예시...
+         }else if(str == 3){
+        	 
+         }else if(str == 4){
+        	 
+         }else if(str == 5){
+        	 $("#content").empty();
+             let h3 = $("<h5>").html("회원 정보 수정").css("margin-top", "30px");
+             let row = $("<div>").addClass('row');
+             let col = $("<div>").addClass("col-12").css("text-align", "center");
+             let img = $("<img>").addClass('d-none d-md-block').attr("src", "/resources/images/password.png").css({"width": "200px", "margin": "0px auto"});
+             let p =  $("<p>").html("<br>본인확인을 위해 비밀번호를 입력해주세요.");
+             let p2 =  $("<p>").addClass("kakao").html("카카오 로그인은 여기를 눌러주세요.").css({"cursor": "pointer", "color": "#ffd600", "font-size" : "15px"});
+             let input = $("<input>").addClass('form-control pw').attr({'type':'password', 'name' : 'pw', "placeholder" : "비밀번호를 입력해주세요"}).css("margin-left", "10px");
+             let btn = $("<button>").addClass('btn btn-secondary pwBtn').html('비밀번호 확인').css("margin", "10px").attr("type", "button");
+                 col.append(img);
+                 col.append(p);
+                 col.append(p2);
+                 col.append(input);
+                 col.append(btn)
+                 row.append(col);
+                 $("#content").append(h3);
+                 $("#content").append(row);
+                 // 카카오 로그인 했을경우 (세션에서 social 컬럼 비교..?)
+                
+                 
+                 $(".kakao").on("click", function(){
+                 	if("${loginSession.social_login}" == "${loginSession.user_id}"){
+                    		
+                 		modifyUser();
+        	
+                 }else{
+                 	alert("카카오 회원이 아닙니다.");
+                 }	
+                 
+                 });
+                 $(".pwBtn").on("click", function(){
+                    $.ajax({
+                 	   url : "/pwCheck.user"
+                    , type: "post"
+                    , data : {"pwCheck" : input.val()}
+                    ,dataType : "text"
+                    ,success: function(pwCheck){
+                 	   if(pwCheck === "pwOk"){
+                 		   modifyUser();
+                 	   }else if(pwCheck === "pwNo"){
+                 		   alert("비밀번호가 틀렸습니다. 다시입력해주세요.");
+                 		   input.focus();
+                 	   }
+                    }, error: function(e){
+                 	   console.log(e);
+                    }
+                    })
+                    
+                 })
+             
+          }
+     }
+     
+     function modifyUser(){
+    	 
+    	 $("#content").empty();
+         let form = $("<form>");
+             // 이름
+         let clsInputRow = $("<div>").addClass("row clsInputRow").css("margin-top", "20px");
+         let colName = $("<div>").addClass("col-4 col-md-3 align-self-center");
+         let labelName = $("<label>").attr("for", "name").html("이름");
+         let colNameInput = $("<div>").addClass("col-7 col-md-9").css("margin-bottom", "10px");
+         let pName = $("<p>").html("${loginSession.username}").css("margin", "0");
+             clsInputRow.append(colName);
+             colName.append(labelName);
+             colNameInput.append(pName);
+             clsInputRow.append(colNameInput);
+             // 닉네임
+         let colNicknmae = $("<div>").addClass("col-4 col-md-3 align-self-center");
+         let labelNickname = $("<label>").attr("for", "nickname").html("닉네임");
+         let colNickInput = $("<div>").addClass("col-7 col-md-9");
+         let inputNickname = $("<input>").addClass("form-control").attr({"type" : "text",
+             "id" : "nickname", "name" : "nickname"}).val("${loginSession.nickname}");
+         clsInputRow.append(colNicknmae);
+         colNicknmae.append(labelNickname);
+         clsInputRow.append(colNickInput);
+         colNickInput.append(inputNickname);
+         form.append(clsInputRow);
+
+             // 휴대폰번호 값 쪼개서 넣기(셋팅)
+     	let phone = "${loginSession.phone}"
+     	let phone1 = phone.slice(0, 3);
+     	let phone2 = phone.slice(3, 7);
+     	let phone3 = phone.slice(7);
+     	
+     	
+     	// 휴대폰
+         let clsInputRow2 = $("<div>").addClass("row clsInputRow").css("margin-top", "20px");
+         let colPhone = $("<div>").addClass("col-4 col-md-3 align-self-center");
+         let labelPhone = $("<label>").attr("for", "phone1").html("휴대폰번호");
+         clsInputRow2.append(colPhone);
+         colPhone.append(labelPhone);
+         let colSelect = $("<div>").addClass("col-3 col-md-3");
+         let select = $("<select>").addClass("form-select").attr("id", "phone1").val(phone1).prop("selected", true);;
+         let option1 = $("<option>").attr("value", "010").html("010");
+         let option2 = $("<option>").attr("value", "011").html("011");
+         let option3 = $("<option>").attr("value", "016").html("016");
+         let option4 = $("<option>").attr("value", "017").html("017");
+         let option5 = $("<option>").attr("value", "018").html("018");
+         let option6 = $("<option>").attr("value", "019").html("019");
+      
+         select.append(option1, option2, option3, option4, option5, option6);
+         colSelect.append(select);
+      
+         let colPhone2 = $("<div>").addClass("col-2 col-md-3");
+         let inputPhone2 = $("<input>").addClass("form-control").attr({"type" : "text",
+             "id" : "phone2", "maxlength" : "4"}).val(phone2);
+             colPhone2.append(inputPhone2);
+         let colPhone3 = $("<div>").addClass("col-2 col-md-3");
+         let inputPhone3 = $("<input>").addClass("form-control").attr({"type" : "text",
+             "id" : "phone3", "maxlength" : "4"}).val(phone3);
+             colPhone3.append(inputPhone3);
+         let phoneDnone =  $("<div>").addClass("col d-none");
+         let dnonePhone = $("<input>").attr({"type" : "text",
+             "id" : "phone", "name" : "phone"});
+         
+             phoneDnone.append(dnonePhone);
+         clsInputRow2.append(colSelect);
+         clsInputRow2.append(colPhone2, colPhone3, phoneDnone);
+         form.append(clsInputRow2);
+      
+         // 이메일
+         let clsInputRow3 = $("<div>").addClass("row clsInputRow").css("margin-top", "20px");
+         let colEamil = $("<div>").addClass("col-4 col-md-3 align-self-center");
+         let labelEmail = $("<label>").attr("for", "email").html("이메일");
+         let colEmailInput = $("<div>").addClass("col-7 col-md-9");
+         let inputEmail = $("<input>").addClass("form-control").attr({"type" : "text",
+             "id" : "email", "name" : "email"}).val("${loginSession.email}");
+             colEamil.append(labelEmail);
+             colEmailInput.append(inputEmail);
+             clsInputRow3.append(colEamil, colEmailInput);
+             form.append(clsInputRow3);
+         
+         // 우편번호
+         let clsInputRow4 = $("<div>").addClass("row clsInputRow").css("margin-top", "20px");
+         let colPostcode = $("<div>").addClass("col-4 col-md-3 align-self-center");
+         let labelPostcode = $("<label>").attr("for", "postcode").html("우편번호");
+         let colPostcodeInput =  $("<div>").addClass("col-5 col-md-4");
+         let inputPostcode = $("<input>").addClass("form-control").attr({"type" : "text",
+             "id" : "postcode", "name" : "postcode", "readonly" : true}).val("${loginSession.post_no}");
+         
+         let colPostcodeBtn =  $("<div>").addClass("col-4 col-md-5");
+         let PostcodeBtn = $("<button>").addClass("btn btn-outline-success").attr({"id": "btnPostcode", "type" : "button"}).html("우편번호 검색");
+             colPostcode.append(labelPostcode);
+             colPostcodeInput.append(inputPostcode);
+             colPostcodeBtn.append(PostcodeBtn);
+             clsInputRow4.append(colPostcode, colPostcodeInput, colPostcodeBtn);
+             form.append(clsInputRow4);
+
+         // 주소
+         let clsInputRow5 = $("<div>").addClass("row clsInputRow").css("margin-top", "20px");
+         let colRoadAddr = $("<div>").addClass("col-4 col-md-3 align-self-center");
+         let labelRoadAddr = $("<label>").attr("for", "roadAddr").html("주소");
+         let colRoadAddrInput =  $("<div>").addClass("col-7 col-md-9");
+         let inputRoadAddr = $("<input>").addClass("form-control").attr({"type" : "text",
+             "id" : "roadAddr", "name" : "roadAddr", "readonly" : true, "placeholder" : "도로명주소"}).val("${loginSession.addr}");
+             colRoadAddr.append(labelRoadAddr);
+             colRoadAddrInput.append(inputRoadAddr);
+             clsInputRow5.append(colRoadAddr, colRoadAddrInput);
+             form.append(clsInputRow5);
+         // 상세 주소
+         let clsInputRow6 = $("<div>").addClass("row clsInputRow").css("margin-top", "20px");
+         let colDetailAddr = $("<div>").addClass("col-4 col-md-3 align-self-center");
+         let labelDetailAddr = $("<label>").attr("for", "detailAddr").html("상세주소");
+         let colDetailAddrInput =  $("<div>").addClass("col-7 col-md-9");
+         let inputDetailAddr = $("<input>").addClass("form-control").attr({"type" : "text",
+             "id" : "detailAddr", "name" : "detailAddr", "placeholder" : "도로명주소"}).val("${loginSession.addr_detail}");
+             colDetailAddr.append(labelDetailAddr);
+             colDetailAddrInput.append(inputDetailAddr);
+             clsInputRow6.append(colDetailAddr, colDetailAddrInput);
+             form.append(clsInputRow6);
+            
+         // 뒤로가기 수정 버튼
+         let row = $("<div>").addClass("row").css("margin-top", "20px");
+         let colBtn =  $("<div>").addClass("col-12 d-flex justify-content-center");
+         let backBtn = $("<button>").addClass("btn btn-secondary").attr({"id": "backBtn" ,"type" : "button"}).html("뒤로가기").css("margin-left", "5px");
+         let modifyBtn = $("<button>").addClass("btn btn-outline-success").attr({"id": "modifyBtn", "type" : "button"}).html("수정").css("margin-left", "10px");
+         
+         colBtn.append(backBtn, modifyBtn);
+         row.append(colBtn);
+         form.append(row);
+         $("#content").append(form);
+         // 뒤로가기 버튼
+         backBtn.on("click", function(){
+             location.href ="/toMypage.user";
+         })
+         // 수정 버튼
+			modifyBtn.on("click", function(){
+				// 유효성 검사
+				let regexNickname = /^[a-zA-z0-9ㄱ-흫]{2,6}$/;
+	    		let regexPw = /^[a-zA-z0-9~!@#$]{6,12}$/;
+	    		let regexEmail = /^[a-zA-z][\w]+@[a-zA-z]+\.(com|net|co\.kr|or\.kr)$/;
+				let regexPhone = /^[0-9]{11}$/;
+				let phone = $("#phone1 option:selected").val() + $("#phone2").val() + $("#phone3").val();
+				console.log(phone);
+				$("#phone").val(phone);
+				 if(!regexNickname.test($("#nickname").val())){
+		    			alert("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 2~6자 이내로 작성해 주세요.");
+		    			$("#nickname").focus();
+		    			return;
+		    		}else if(!regexPhone.test(phone)){ // 숫자 데이터에 대한 별도의 형변환이 필요없음
+						alert("휴대폰번호는 각각 4자리의 숫자로 입력해주세요.");
+						return;
+		    		}else if(!regexEmail.test($("#email").val())){
+		    			alert("이메일 형식에 맞게 입력해주세요.");
+		    			$("#email").focus();
+		    			return;
+		    		}else if($("#postcode").val() === "" || $("#roadAddr").val() === ""){
+						alert("주소를 입력해 주세요.");
+						return;
+					}
+				let data = form.serialize();
+				$.ajax({
+					url: "/modify.user"
+					, type: "post"
+					, data: data
+					, dataType: "text"
+					, success: function(modify){
+					if(modify === "y"){
+						alert("수정 완료되었습니다!");
+						location.href = "/toMypage.user";
+					}else if(modify === "n"){
+						alert("수정에 실패하였습니다. 다시 시도해주세요.");
+					}
+				}
+				, error: function(e){
+					console.log(e);
+				}
+				})
+			})
+             /* 우편번호 api */
+             $("#btnPostcode").on("click", function () {
+     new daum.Postcode({
+         theme: {
+             searchBgColor: "#7CC09C", //검색창 배경색
+             queryTextColor: "#FFFFFF" //검색창 글자색
+     }
+     ,oncomplete: function(data) {
+
+         // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+         // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+         // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+         var roadAddr = data.roadAddress; // 도로명 주소 변수
+         var extraRoadAddr = ''; // 참고 항목 변수
+
+         // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+         // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+         if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+             extraRoadAddr += data.bname;
          }
+         // 건물명이 있고, 공동주택일 경우 추가한다.
+         if(data.buildingName !== '' && data.apartment === 'Y'){
+            extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+         }
+         // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+         if(extraRoadAddr !== ''){
+             extraRoadAddr = ' (' + extraRoadAddr + ')';
+         }
+
+         // 우편번호와 주소 정보를 해당 필드에 넣는다.
+         document.getElementById('postcode').value = data.zonecode;
+         document.getElementById("roadAddr").value = roadAddr;
+     }
+ }).open();
+});
      }
 
     </script>
