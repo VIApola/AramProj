@@ -3,13 +3,13 @@ package com.aram.controller;
 import java.io.IOException;
 import java.util.Properties;
 
-import javax.mail.Transport;
-import javax.mail.Address;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+//import javax.mail.Transport;
+//import javax.mail.Address;
+//import javax.mail.Authenticator;
+//import javax.mail.Message;
+//import javax.mail.Session;
+//import javax.mail.internet.InternetAddress;
+//import javax.mail.internet.MimeMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -69,17 +69,17 @@ public class EmailController extends HttpServlet {
 			
 			
 			try {
-				Authenticator auth = new Gmail();
-				Session ses = Session.getInstance(p, auth);
-				ses.setDebug(true);
-				MimeMessage msg = new MimeMessage(ses);
-				msg.setSubject(subject);
-				Address fromAddr = new InternetAddress(from);
-				msg.setFrom(fromAddr);
-				Address toAddr = new InternetAddress(to);
-				msg.addRecipient(Message.RecipientType.TO, toAddr);
-				msg.setContent(content, "text/html;charset=UTF-8");
-				Transport.send(msg);
+//				Authenticator auth = new Gmail();
+//				Session ses = Session.getInstance(p, auth);
+//				ses.setDebug(true);
+//				MimeMessage msg = new MimeMessage(ses);
+//				msg.setSubject(subject);
+//				Address fromAddr = new InternetAddress(from);
+//				msg.setFrom(fromAddr);
+//				Address toAddr = new InternetAddress(to);
+//				msg.addRecipient(Message.RecipientType.TO, toAddr);
+//				msg.setContent(content, "text/html;charset=UTF-8");
+//				Transport.send(msg);
 				
 				dao.setHashedEmail(user_id, hashedEmail);
 			} catch (Exception e1) {

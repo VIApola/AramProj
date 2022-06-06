@@ -27,10 +27,23 @@ public class CartDAO {
 		}
 	}
 
-	//카트에 담긴 값 main으로 뿌려주기위해 전체 조회
-	//메인에서 if로 user_id와 로그인세션의 user_id가 같다면
-	//quantity의 값을 가져와 뿌려줘야함
-	
+	//user_id로 cart에 담겨져있는 총 상품 개수 출력
+	public int QuantityById(String user_id) throws Exception{
+		String sql ="select sum(quantity) from tbl_cart where user_id = ?";
+				try(Connection con = bds.getConnection();
+			 PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, user_id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			int quantity = rs.getInt(1);
+			System.out.println("카트에 담긴 상품 개수 : "+quantity);
+			return quantity;
+			
+		}		
+	}
+
 	
 	// 장바구니에 item 전체 데이터 출력
 	public ArrayList<Cart_ItemDTO> selectAll()throws Exception{

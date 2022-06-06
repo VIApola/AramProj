@@ -27,12 +27,13 @@
 				</nav>
 				<!--네비 메뉴-->
 				<div class="row search-menu">
-					<span>Shop</span> <a href="/air.item" class="fromLeft"><span>공기
-							정화 (Air Purifying)</span></a> <a href="/interior.item" class="fromLeft"><span>실내
-							식물 (Indoor Plants)</span></a> <a href="/outside.item" class="fromLeft"><span>실외
-							식물(Outdoor Plants)</span></a> <span>Community</span> <a href=""
-						class="fromLeft"><span>Q & A</span></a> <a href=""
-						class="fromLeft" id="noticeNav"><span>Notice</span></a>
+					<span>Shop</span> 
+					<a href="/air.item" class="fromLeft"><span>공기정화 (Air Purifying)</span></a> 
+					<a href="/interior.item" class="fromLeft"><span>실내식물 (Indoor Plants)</span></a> 
+					<a href="/outside.item" class="fromLeft"><span>실외식물(Outdoor Plants)</span></a> 
+					<span>Community</span> 
+					<a href=""class="fromLeft"><span>Q & A</span></a> 
+					<a href=""class="fromLeft" id="noticeNav"><span>Notice</span></a>
 					<c:choose>
 						<c:when test="${not empty loginSession}">
 							<a href="/toLogout.user" class="fromLeft bottom" id="logoutNav"><span>로그아웃</span></a>
@@ -61,10 +62,8 @@
 		</div>
 		<!--상단바 로고 영역-->
 		<div class="header-logo col-9">
-			<a href="/main"><img src="/resources/images/Logo_md.png"
-				class="d-none d-sm-block" alt="..."></a> <a href="/main"><img
-				src="/resources/images/Logo_sm.png" class="d-block d-sm-none"
-				style="margin-right: 100px;" alt="..."></a>
+			<a href="/main"><img src="/resources/images/Logo_md.png"class="d-none d-sm-block" alt="..."></a>
+			<a href="/main"><img src="/resources/images/Logo_sm.png" class="d-block d-sm-none" style="margin-right: 100px;" alt="..."></a>
 		</div>
 		<!-- 상단바 cart 영역-->
 		<div class="col-2 d-md-none header-left">
@@ -114,7 +113,7 @@
 								onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')"
 								class="nav-link" style="color: black;">Cart (0)</a>
 						</c:otherwise>
-					</c:choose></li>
+				</c:choose></li>
 			</ul>
 		</div>
 	</div>

@@ -104,8 +104,7 @@
     		<c:if test="${naviMap.needNext eq true}">
     	<li class="page-item"><a class="page-link" href="/toSearchPage.item?curPage=${naviMap.endNavi+1}">>></a></li>    
     		</c:if>
-    	${naviMap.needNext}
-  		</ul>
+    	</ul>
 		</nav>
 		<!-- 페이징끝 -->
 		<jsp:include page="/frame/footer.jsp"></jsp:include>
