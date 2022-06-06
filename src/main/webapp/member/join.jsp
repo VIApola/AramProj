@@ -1,201 +1,207 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <!DOCTYPE html>
-        <html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+	crossorigin="anonymous"></script>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- 폰트 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap"
+	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/join.css"
+	rel="stylesheet" type="text/css">
+<title>회원가입</title>
+<!--style영역-->
+</head>
 
-        <head>
-            <meta charset="UTF-8">
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-                integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-                crossorigin="anonymous">
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-                crossorigin="anonymous"></script>
-            <script src="https://code.jquery.com/jquery-3.6.0.js"
-                integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-            <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-            <!-- 폰트 -->
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+<body>
+	<div class="container">
+		<jsp:include page="/frame/header.jsp"></jsp:include>
+		<!-- 컨테이너 -->
+		<div class="row header">
+			<!-- 헤더부분 -->
+			<div class="col">여기는 Header</div>
+		</div>
+		<!-- 헤더부분 끝 -->
+		<div class="row body">
+			<!-- 바디부분 -->
+			<form id="signupForm" action="/signup.user" method="post">
+				<div class="row signupTitleBox">
+					<div class="col-12 col-md-12">
+						<h2 class="titleSignup">회원가입</h2>
+						<span class="star">*</span> <span>표시는 필수로 작성해주세요.</span>
+					</div>
+				</div>
+				<div class="signupInputBox">
+					<!-- 사용자 입력 박스-->
+					<div class="row clsInputRow">
+						<div class="col-4 col-md-3 align-self-center">
+							<span class="star">*</span> <label for="name">이름</label>
+						</div>
+						<div class="col-7 col-md-9">
+							<input type="text" class="form-control" id="name" name="name">
+						</div>
+					</div>
+					<div class="row clsCheckInfo">
+						<div class="col-4 col-md-3"></div>
+						<div class="col-7 col-md-9 ">
+							<span id="checkName"></span>
+						</div>
+					</div>
+					<div class="row clsInputRow">
+						<div class="col-4 col-md-3 align-self-center">
+							<span class="star">*</span> <label for="id">아이디</label>
+						</div>
+						<div class="col-5 col-md-7">
+							<input type="text" class="form-control" id="id" name="id">
+						</div>
+						<div class="col-3 col-md-2">
+							<button type="button" id="idCheckBtn"
+								class="btn btn-outline-success">중복확인</button>
+						</div>
+					</div>
+					<div class="row clsCheckInfo">
+						<div class="col-4 col-md-3"></div>
+						<div class="col-8 col-md-9 ">
+							<span id="checkId"></span>
+						</div>
+					</div>
+					<div class="row clsInputRow">
+						<div class="col-4 col-md-3 align-self-center">
+							<span class="star">*</span> <label for="nickname">닉네임</label>
+						</div>
+						<div class="col-7 col-md-9 ">
+							<input type="text" class="form-control" id="nickname"
+								name="nickname">
+						</div>
+					</div>
+					<div class="row clsCheckInfo">
+						<div class="col-4 col-md-3"></div>
+						<div class="col-8 col-md-9 ">
+							<span id="checkNickname"></span>
+						</div>
+					</div>
+					<div class="row clsInputRow">
+						<div class="col-4 col-md-3 align-self-center">
+							<span class="star">*</span> <label for="password">비밀번호</label>
+						</div>
+						<div class="col-7 col-md-9 ">
+							<input type="password" class="form-control" id="password"
+								name="password">
+						</div>
+					</div>
+					<div class="row clsCheckInfo">
+						<div class="col-4 col-md-3"></div>
+						<div class="col-8 col-md-9 ">
+							<span id="checkPw"></span>
+						</div>
+					</div>
 
-            <title>회원가입</title>
-            <!--style영역-->
-    		<link href="${pageContext.request.contextPath}/resources/css/join.css" rel="stylesheet" type="text/css">
-        </head>
+					<div class="row clsInputRow">
+						<div class="col-4 col-md-3 align-self-center">
+							<span class="star">*</span> <label for="password2">비밀번호
+								확인</label>
+						</div>
+						<div class="col-7 col-md-9 ">
+							<input type="password" class="form-control" id="password2">
+						</div>
+					</div>
+					<div class="row clsInputRow">
+						<div class="col-4 col-md-3 align-self-center">
+							<span class="star">*</span> <label for="phone1">휴대폰번호</label>
+						</div>
+						<div class="col-3 col-md-3">
+							<select class="form-select" id="phone1">
+								<option value="010">010</option>
+								<option value="011">011</option>
+								<option value="016">016</option>
+								<option value="017">017</option>
+								<option value="018">018</option>
+								<option value="019">019</option>
+							</select>
+						</div>
+						<div class="col-2 col-md-3">
+							<input type="number" class="form-control" id="phone2"
+								maxlength="4">
+						</div>
+						<div class="col-2 col-md-3">
+							<input type="number" class="form-control" id="phone3"
+								maxlength="4">
+						</div>
+						<div class="col d-none">
+							<input type="text" id="phone" name="phone">
+						</div>
+					</div>
+					<div class="row clsInputRow">
+						<div class="col-4 col-md-3 align-self-center">
+							<span class="star">*</span> <label for="email">이메일</label>
+						</div>
+						<div class="col-7 col-md-9 ">
+							<input type="text" class="form-control" id="email" name="email">
+						</div>
+					</div>
+					<div class="row clsInputRow">
+						<div class="col-4 col-md-3 align-self-center">
+							<span class="star">*</span> <label for="postcode">우편번호</label>
+						</div>
+						<div class="col-3 col-md-3">
+							<input type="text" class="form-control" id="postcode"
+								name="postcode" readonly>
+						</div>
+						<div class="col-4 col-md-3">
+							<button type="button" id="btnPostcode"
+								class="btn btn-outline-success">우편번호 검색</button>
+						</div>
+					</div>
+					<div class="row clsInputRow">
+						<div class="col-4 col-md-3 align-self-center">
+							<span class="star">*</span> <label for="roadAddr">주소</label>
+						</div>
+						<div class="col-7 col-md-9 ">
+							<input type="text" class="form-control" name="roadAddr"
+								id="roadAddr" placeholder="도로명주소" readonly>
+						</div>
+					</div>
+					<div class="row clsInputRow">
+						<div class="col-4 col-md-3 align-self-center">
+							<label for="detailAddr">상세주소</label>
+						</div>
+						<div class="col-7 col-md-9 ">
+							<input type="text" class="form-control" id="detailAddr"
+								placeholder="상세주소">
+						</div>
+					</div>
+				</div>
+				<!-- 사용자 입력 박스 끝-->
 
-        <body>
-            <div class="container">
-            <jsp:include page="/frame/header.jsp"></jsp:include>
-                <!-- 컨테이너 -->
-                <div class="row header">
-                    <!-- 헤더부분 -->
-                    <div class="col">여기는 Header</div>
-                </div><!-- 헤더부분 끝 -->
-                <div class="row body">
-                    <!-- 바디부분 -->
-                    <form id="signupForm" action="/signup.user" method="post">
-                        <div class="row signupTitleBox">
-                            <div class="col-12 col-md-12">
-                                <h2 class="titleSignup">회원가입</h2>
-                                <span class="star">*</span>
-                                <span>표시는 필수로 작성해주세요.</span>
-                            </div>
-                        </div>
-
-
-                        <div class="signupInputBox">
-                            <!-- 사용자 입력 박스-->
-
-                            <div class="row clsInputRow">
-                                <div class="col-4 col-md-3 align-self-center">
-                                    <span class="star">*</span>
-                                    <label for="name">이름</label>
-                                </div>
-                                <div class="col-7 col-md-9">
-                                    <input type="text" class="form-control" id="name" name="name">
-                                </div>
-                            </div>
-                            <div class="row clsCheckInfo">
-                                <div class="col-4 col-md-3"></div>
-                                <div class="col-7 col-md-9 ">
-                                    <span id="checkName"></span>
-                                </div>
-                            </div>
-                            <div class="row clsInputRow">
-                                <div class="col-4 col-md-3 align-self-center">
-                                    <span class="star">*</span>
-                                    <label for="id">아이디</label>
-                                </div>
-                                <div class="col-5 col-md-7">
-                                    <input type="text" class="form-control" id="id" name="id">
-                                </div>
-                                <div class="col-3 col-md-2">
-                                    <button type="button" id="idCheckBtn" class="btn btn-outline-success">중복확인</button>
-                                </div>
-                            </div>
-                            <div class="row clsCheckInfo">
-                                <div class="col-4 col-md-3"></div>
-                                <div class="col-8 col-md-9 ">
-                                    <span id="checkId"></span>
-                                </div>
-                            </div>
-                            <div class="row clsInputRow">
-                                <div class="col-4 col-md-3 align-self-center">
-                                    <span class="star">*</span>
-                                    <label for="nickname">닉네임</label>
-                                </div>
-                                <div class="col-7 col-md-9 ">
-                                    <input type="text" class="form-control" id="nickname" name="nickname">
-                                </div>
-                            </div>
-                            <div class="row clsCheckInfo">
-                                <div class="col-4 col-md-3"></div>
-                                <div class="col-8 col-md-9 ">
-                                    <span id="checkNickname"></span>
-                                </div>
-                            </div>
-                            <div class="row clsInputRow">
-                                <div class="col-4 col-md-3 align-self-center">
-                                    <span class="star">*</span>
-                                    <label for="password">비밀번호</label>
-                                </div>
-                                <div class="col-7 col-md-9 ">
-                                    <input type="password" class="form-control" id="password" name="password">
-                                </div>
-                            </div>
-                            <div class="row clsCheckInfo">
-                                <div class="col-4 col-md-3"></div>
-                                <div class="col-8 col-md-9 ">
-                                    <span id="checkPw"></span>
-                                </div>
-                            </div>
-
-                            <div class="row clsInputRow">
-                                <div class="col-4 col-md-3 align-self-center">
-                                    <span class="star">*</span>
-                                    <label for="password2">비밀번호 확인</label>
-                                </div>
-                                <div class="col-7 col-md-9 ">
-                                    <input type="password" class="form-control" id="password2">
-                                </div>
-                            </div>
-                            <div class="row clsInputRow">
-                                <div class="col-4 col-md-3 align-self-center">
-                                    <span class="star">*</span>
-                                    <label for="phone1">휴대폰번호</label>
-                                </div>
-                                <div class="col-3 col-md-3">
-                                    <select class="form-select" id="phone1">
-                                        <option value="010">010</option>
-                                        <option value="011">011</option>
-                                        <option value="016">016</option>
-                                        <option value="017">017</option>
-                                        <option value="018">018</option>
-                                        <option value="019">019</option>
-                                    </select>
-                                </div>
-                                <div class="col-2 col-md-3">
-                                    <input type="number" class="form-control" id="phone2" maxlength="4">
-                                </div>
-                                <div class="col-2 col-md-3">
-                                    <input type="number" class="form-control" id="phone3" maxlength="4">
-                                </div>
-                                <div class="col d-none">
-                                    <input type="text" id="phone" name="phone">
-                                </div>
-                            </div>
-                            <div class="row clsInputRow">
-                                <div class="col-4 col-md-3 align-self-center">
-                                    <span class="star">*</span>
-                                    <label for="email">이메일</label>
-                                </div>
-                                <div class="col-7 col-md-9 ">
-                                    <input type="text" class="form-control" id="email" name="email">
-                                </div>
-                            </div>
-                            <div class="row clsInputRow">
-                                <div class="col-4 col-md-3 align-self-center">
-                                    <span class="star">*</span>
-                                    <label for="postcode">우편번호</label>
-                                </div>
-                                <div class="col-3 col-md-3">
-                                    <input type="text" class="form-control" id="postcode" name="postcode" readonly>
-                                </div>
-                                <div class="col-4 col-md-3">
-                                    <button type="button" id="btnPostcode" class="btn btn-outline-success">우편번호 검색</button>
-                                </div>
-                            </div>
-                            <div class="row clsInputRow">
-                                <div class="col-4 col-md-3 align-self-center">
-                                    <span class="star">*</span>
-                                    <label for="roadAddr">주소</label>
-                                </div>
-                                <div class="col-7 col-md-9 ">
-                                    <input type="text" class="form-control" name="roadAddr" id="roadAddr" placeholder="도로명주소" readonly>
-                                </div>
-                            </div>
-                            <div class="row clsInputRow">
-                                <div class="col-4 col-md-3 align-self-center">
-                                    <label for="detailAddr">상세주소</label>
-                                </div>
-                                <div class="col-7 col-md-9 ">
-                                    <input type="text" class="form-control" id="detailAddr" placeholder="상세주소">
-                                </div>
-                            </div>
-                        </div> <!-- 사용자 입력 박스 끝-->
-
-                        <div class="agreementContentBox">
-                            <!-- 이용약관내용-->
-                            <div class="row signupTitleBox">
-                                <div class="col-12">
-                                    <h5>이용약관</h5>
-                                </div>
-                            </div>
-                            <div class="row ">
-                                <!-- 이용약관 -->
-                                <div class="col-11 col-md-12 d-flex justify-content-center">
-                                    <textarea class="textarea" cols="30" rows="10" readonly>
+				<div class="agreementContentBox">
+					<!-- 이용약관내용-->
+					<div class="row signupTitleBox">
+						<div class="col-12">
+							<h5>이용약관</h5>
+						</div>
+					</div>
+					<div class="row ">
+						<!-- 이용약관 -->
+						<div class="col-11 col-md-12 d-flex justify-content-center">
+							<textarea class="textarea" cols="30" rows="10" readonly>
     전자상거래(인터넷사이버몰) 표준약관
         
     표준약관 제10023호
@@ -441,18 +447,19 @@
     
       ② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
                         </textarea>
-                                </div>
-                            </div> <!-- 이용약관 끝-->
+						</div>
+					</div>
+					<!-- 이용약관 끝-->
 
-                            <div class="row signupTitleBox">
-                                <div class="col-12">
-                                    <h5>개인정보 수집 및 이용 안내</h5>
-                                </div>
-                            </div>
-                            <div class="row ">
-                                <!-- 개인정보수집 -->
-                                <div class="col-11 col-md-12 d-flex justify-content-center">
-                                    <textarea class="textarea" cols="30" rows="10" readonly>
+					<div class="row signupTitleBox">
+						<div class="col-12">
+							<h5>개인정보 수집 및 이용 안내</h5>
+						</div>
+					</div>
+					<div class="row ">
+						<!-- 개인정보수집 -->
+						<div class="col-11 col-md-12 d-flex justify-content-center">
+							<textarea class="textarea" cols="30" rows="10" readonly>
     전자상거래(인터넷사이버몰) 표준약관
         
     표준약관 제10023호
@@ -699,43 +706,53 @@
       ② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
 
                         </textarea>
-                    </div>
-                </div>  <!-- 개인정보수집 끝-->    
-            </div> <!-- 이용약관내용 끝-->
-            <div class="row signupTitleBox"> <!-- 약관 동의 박스 -->
-                <div class="col-12">
-                    <h5>
-                        <input type="checkbox" class="form-check-input" id="agreeAll">
-                        <label for="agreeAll" class="form-check-label">전체동의</label>
-                    </h5>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12  col-md-4 order-1">
-                    <input type="checkbox" class="form-check-input" id="termsOfUse">
-                    <label for="termsOfUse" class="form-check-label">이용약관(필수)</label>
-                </div>
-                <div class="col-12  col-md-5 order-2">
-                    <input type="checkbox" class="form-check-input" id="personalDataAgree">
-                    <label for="personalDataAgree" class="form-check-label">개인정보 수집 및 이용 안내(필수)</label>
-                </div>
-                <div class="col-12 col-md-3 order-3">
-                    <input type="checkbox" class="form-check-input" id="marketingAgree">
-                    <label for="marketingAgree" class="form-check-label">마케팅 수신동의</label>
-                </div>
-            </div> <!-- 약관 동의 박스 끝 -->
-            <div class="row">
-                <div class="col-12 d-flex justify-content-center">
-                    <button type="button" class="btn btn-secondary" id="backBtn">취소</button>
-                    <button type="button" class="btn btn-outline-success" id="joinBtn">회원가입</button>
-                </div>
-            </div>
-            </form>
-        </div><!-- 바디부분 끝 -->
-	  	<div class="row footer"> <!-- 풋터부분 -->
-        </div><!-- 풋터부분 끝 -->
-    </div><!-- 컨테이너 끝 -->
-    <script>
+						</div>
+					</div>
+					<!-- 개인정보수집 끝-->
+				</div>
+				<!-- 이용약관내용 끝-->
+				<div class="row signupTitleBox">
+					<!-- 약관 동의 박스 -->
+					<div class="col-12">
+						<h5>
+							<input type="checkbox" class="form-check-input" id="agreeAll">
+							<label for="agreeAll" class="form-check-label">전체동의</label>
+						</h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12  col-md-4 order-1">
+						<input type="checkbox" class="form-check-input" id="termsOfUse">
+						<label for="termsOfUse" class="form-check-label">이용약관(필수)</label>
+					</div>
+					<div class="col-12  col-md-5 order-2">
+						<input type="checkbox" class="form-check-input"
+							id="personalDataAgree"> <label for="personalDataAgree"
+							class="form-check-label">개인정보 수집 및 이용 안내(필수)</label>
+					</div>
+					<div class="col-12 col-md-3 order-3">
+						<input type="checkbox" class="form-check-input"
+							id="marketingAgree"> <label for="marketingAgree"
+							class="form-check-label">마케팅 수신동의</label>
+					</div>
+				</div>
+				<!-- 약관 동의 박스 끝 -->
+				<div class="row">
+					<div class="col-12 d-flex justify-content-center">
+						<button type="button" class="btn btn-secondary" id="backBtn">취소</button>
+						<button type="button" class="btn btn-outline-success" id="joinBtn">회원가입</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- 바디부분 끝 -->
+		<div class="row footer">
+			<!-- 풋터부분 -->
+		</div>
+		<!-- 풋터부분 끝 -->
+	</div>
+	<!-- 컨테이너 끝 -->
+	<script>
     	// 이름 조건 밑에 뜨게
     	$("#name").focus(function(){
     		$("#checkName").html("한글 및 영문으로 2~6자 이내로 작성해주세요.");
@@ -877,7 +894,7 @@
 				return;
 			}
     		$("#signupForm").submit();
-    		alert("인증이메일이 작성하신 이메일로 발송되었습니다.");
+    		alert("작성하신 이메일로 인증메일이 발송되었습니다. 메일을 통해 인증을 완료해주세요.");
     		
     	});
     	
@@ -919,5 +936,5 @@
     });    	
     	
     </script>
-	</body>
+</body>
 </html>
