@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+img {
+	width: 90%;
+	height: 90%;
+}
+
+.card {
+	text-align: center;
+	margin-left: auto;
+	margin-bottom: 50px;
+}
+
+#category {
+    margin-bottom: 50px;
+}
+
+#links {
+    text-align: right;
+    border-top: 1px solid gray;
+    margin-bottom: 80px;
+}
+
+a {
+    text-decoration-line: none;
+    color: black;
+}
+
+.search {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+#count{
+    font-size: small;
+}
+.countBox {
+    text-align: left;
+}
+.item {
+    margin-right: 80px;
+}
