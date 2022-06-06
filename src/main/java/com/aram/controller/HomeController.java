@@ -39,6 +39,7 @@ public class HomeController extends HttpServlet {
 		
 		try {
 			ArrayList<ItemViewDTO> list = itemDao.selectByStock();
+			System.out.println(list);
 			request.setAttribute("itemList", list);
 			
 			

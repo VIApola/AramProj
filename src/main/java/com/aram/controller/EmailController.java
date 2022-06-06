@@ -35,9 +35,9 @@ public class EmailController extends HttpServlet {
 		String uri = request.getRequestURI();
 		System.out.println(uri);
 		
-		if(uri.equals("/send.email")) {
-			String user_id = "fallows7";
-					// request.getParameter("id");
+		if(uri.equals("/sendVerify.email")) {
+			String user_id = request.getParameter("user_id");
+			System.out.println(user_id);
 			
 			UserDAO dao = new UserDAO();
 			String host = "http://localhost:8022/";
@@ -45,7 +45,7 @@ public class EmailController extends HttpServlet {
 			String to= "";
 			
 			try {
-				to = dao.getUserEmail("fallows7");
+				to = dao.getUserEmail(user_id);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -98,7 +98,7 @@ public class EmailController extends HttpServlet {
 			UserDAO dao = new UserDAO();
 			try {
 				int rs = dao.setUserEmailChecked(code);
-				if(rs >0) {
+				if(rs > 0) {
 					System.out.println("인증완료!");
 					response.sendRedirect("/main");
 				}
