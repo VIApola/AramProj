@@ -76,7 +76,7 @@
                                 <input type="password" id="pw" name="pw" class="form-control" placeholder="password">
                             </div>
                         <div class="row rememberId d-flex justify-content-center">
-			               <div class="col-8 d-flex justify-content-center">
+			               <div class="col-8 d-flex justify-content-center" id="remeberIdCol">
 			                  <input type="checkbox" class="" id="rememberId">
 			                  <label for="rememberId" class="form-check-label">&nbsp;&nbsp;&nbsp;아이디 저장</label>
 			               </div>
@@ -91,10 +91,10 @@
                     </form>
                     <div class="row">
                         <div class="col-12 order-1 col-sm-6">
-                            <span><a href="/join.user">회원가입</a></span>
+                            <span><a href="/join.user" class="a">회원가입</a></span>
                         </div>
                         <div class="col-12 order-2 col-sm-6">
-                            <span><a href="/toFinduser.user">ID / PW 찾기</a></span>
+                            <span><a href="/toFinduser.user" class="a">ID / PW 찾기</a></span>
                         </div>
                     </div>
                     <div class="row">

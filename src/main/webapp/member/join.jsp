@@ -823,7 +823,7 @@
     	$("#joinBtn").on("click", function(){
     		let regexName = /[a-zA-Z가-힣]{2,6}$/;
     		let regexId = /^[a-z0-9]{5,12}$/;
-    		let regexNickname = /^[a-zA-z0-9ㄱ-흫]{3,6}$/;
+    		let regexNickname = /^[a-zA-z0-9ㄱ-흫]{2,6}$/;
     		let regexPw = /^[a-zA-z0-9~!@#$]{6,12}$/;
     		let regexEmail = /^[a-zA-z][\w]+@[a-zA-z]+\.(com|net|co\.kr|or\.kr)$/;
 			let regexPhone = /^[0-9]{11}$/;
@@ -852,7 +852,7 @@
     			$("#id").focus();
     			return;
     		}else if(!regexNickname.test($("#nickname").val())){
-    			alert("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 3~ 10자 이내로 작성해 주세요.");
+    			alert("닉네임은 영어대소문자 또는 한글 또는 숫자를 이용해서 2 ~ 6자 이내로 작성해 주세요.");
     			$("#nickname").focus();
     			return;
     		}else if(!regexPw.test($("#password").val())){
