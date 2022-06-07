@@ -29,16 +29,16 @@
                 <div class="col-12 col-md-8 col-xl-6 d-flex justify-content-center">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link active" style="color: black;" href="#">로그아웃</a>
+                            <a class="nav-link active" style="color: black;" href="/toLogout.user">로그아웃</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: black;" href="#">고객관리</a>
+                            <a class="nav-link" style="color: black;" href="/toUserManage.admin">고객관리</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: black;" href="#">상품관리</a>
+                            <a class="nav-link" style="color: black;" href="/toItemPage.admin">상품관리</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: black;" href="#">공지사항 관리</a>
+                            <a class="nav-link" style="color: black;" href="/toNoticeManage.admin">공지사항 관리</a>
                         </li>
                     </ul>    
             </div>

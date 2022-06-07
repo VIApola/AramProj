@@ -94,8 +94,8 @@ public class UserController extends HttpServlet {
 				System.out.println("암호화된 비번 : " + pw);
 				UserDTO dto = dao.isLoginOk(id, pw);
 				// 이메일 인증은 했는지 확인
-				String checked = dao.getUserEmailChecked(id);
-				System.out.println(checked);
+//				String checked = dao.getUserEmailChecked(id);
+//				System.out.println(checked);
 				/*
 				if(checked.equals("n")) {
 					System.out.println("이메일 인증이 완료되지 않았습니다. 가입시 입력한 이메일을 확인해주세요.");
@@ -107,8 +107,8 @@ public class UserController extends HttpServlet {
 					HttpSession session = request.getSession();
 					session.setAttribute("loginSession", dto);
 
-					if(dto.getIsAdmin() == "n") { // 일반 회원일 경우
-						request.getRequestDispatcher("/main").forward(request, response);
+					if(dto.getIsAdmin().equals("n")) { // 일반 회원일 경우
+						request.getRequestDispatcher("/member/login.jsp").forward(request, response);
 						//request.getRequestDispatcher("/member/emailSendAction.jsp").forward(request, response);
 					} else { // 관리자일경우
 						request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
@@ -117,9 +117,10 @@ public class UserController extends HttpServlet {
 				}else {
 					System.out.println("로그인 실패");
 					request.setAttribute("rs", false);
+					request.getRequestDispatcher("/member/login.jsp").forward(request, response);
+
 				}
 
-				request.getRequestDispatcher("/member/login.jsp").forward(request, response);
 				//request.getRequestDispatcher("/member/emailSendAction.jsp").forward(request, response);
         
 			}catch(Exception e) {
@@ -276,12 +277,12 @@ public class UserController extends HttpServlet {
 				// 세션의 아이디 값과 입력한 아이디 값이 같으면 -> 아이디 비번 같은지 확인
 				if(session_id.equals(id)) {
 					UserDAO dao = new UserDAO();
-					int rs = dao.deleteUser(id, pw);
-					if(rs > 0) {
-						
-					}
-				}else {
-					
+//					int rs = dao.deleteUser(id, pw);
+//					if(rs > 0) {
+//						
+//					}
+//				}else {
+//					
 				}
 			}catch(Exception e) {
 				e.printStackTrace();

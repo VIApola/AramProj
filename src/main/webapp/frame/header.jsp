@@ -98,7 +98,7 @@
 							style="color: black;">Mypage</a></li>
 					</c:when>
 					<c:otherwise>
-						<li class="nav-item"><a href="/toLogin.main"
+						<li class="nav-item"><a href="/login.user"
 							onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')"
 							class="nav-link" id="toMypage" style="color: black;">Mypage</a></li>
 					</c:otherwise>
