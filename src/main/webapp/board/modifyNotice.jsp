@@ -62,16 +62,26 @@
 }
 /* 내용 들어가는 부분*/
 .content {
+	margin : 30px;
 	border: 1px solid lightgrey;
 }
 
-textarea {
-	resize: none;
+#contentTitle {
+	margin-top : 10px
 }
 
 .header-board {
 	margin-top: 15px;
-	margin-bottom: 20px;
+	margin-bottom: 15px;
+}
+
+.header-board p {
+	margin-bottom : 0px;
+}
+
+textarea {
+	height : 500px;
+	resize: none;
 }
 /* 댓글 부분*/
 .comment {
@@ -83,18 +93,24 @@ textarea {
 .btns button {
 	margin: 5px;
 }
+
+.boxBtn {
+	margin-bottom : 30px;
+}
+
 </style>
 </head>
 <body>
 	<div class="container">
-		<div class="row">여기는 Header</div>
+		<%-- 헤더 부분 --%>
+		<jsp:include page="/frame/header.jsp"></jsp:include>
 		<div class="row">
 			<div class="col title">
 				<h2>Notice</h2>
 			</div>
 		</div>
 		<form id="modifyNoticeForm" action="/modifyNoticeProc.bo" method="post">
-			<div class="row content">
+			<div class="row content" id = "contentTitle">
 				<div class="row header-board">
 					<div class="col-3 align-self-center">
 						<p>제목</p>
@@ -144,8 +160,8 @@ textarea {
 			</div>
 		</form>
 		<div class="boxBtn">
-			<button type="button" class="btn btn-secondary" id="btnBack">뒤로가기</button>
-			<button type="button" id="btnCom" class="btn btn-warning">수정완료</button>
+			<button type="button" class="btn btn-outline-secondary" id="btnBack">뒤로가기</button>
+			<button type="button" id="btnCom" class="btn btn-outline-warning">수정완료</button>
 		</div>
 		<%-- 
 		<div class="row comment">
@@ -184,8 +200,8 @@ textarea {
 	                </script>
                 </c:if> --%>
 	</div>
-	<div class="row">여기는 footer</div>
-	</div>
+	<%--풋터영역 --%>
+	<jsp:include page="/frame/footer.jsp"></jsp:include>
 	<script>
 		$("#btnBack").on("click", function() { // 뒤로가기 버튼을 눌렀을때
 			location.href = "/detailViewNotice.bo?notice_no=${dto.notice_no}";

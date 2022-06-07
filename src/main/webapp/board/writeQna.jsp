@@ -31,7 +31,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap"
 	rel="stylesheet">
-<title>Notice 글쓰기</title>
+<title>Qna 글쓰기</title>
 <style>
 /* 폰트 스타일 */
 @font-face {
@@ -97,7 +97,6 @@ textarea {
 .boxBtn {
 	margin-bottom : 30px;
 }
-
 </style>
 </head>
 <body>
@@ -106,10 +105,10 @@ textarea {
 		<jsp:include page="/frame/header.jsp"></jsp:include>
 		<div class="row">
 			<div class="col title">
-				<h2>Notice</h2>
+				<h2>Qna</h2>
 			</div>
 		</div>
-		<form id="writeNoticeForm" action="/writeNoticeProc.bo" method="post">
+		<form id="writeQnaForm" action="/writeQnaProc.bo" method="post">
 			<div class="row content">
 				<div class="row header-board" id = "contentTitle">
 					<div class="col-3 align-self-center">
@@ -205,13 +204,13 @@ textarea {
     			$("#content").focus();
     			return;
     		}
-    		$("#writeNoticeForm").submit();
+    		$("#writeQnaForm").submit();
     	})
     
         const btnBack = document.getElementById("btnBack");
 
         btnBack.addEventListener("click", function(e){
-            location.href="/notice.bo";
+            location.href="/qna.bo";
         });
 		
 	</script>
