@@ -1,19 +1,32 @@
 @charset "UTF-8";
+/* 폰트 스타일 */
+@font-face {
+    font-family: 'GowunDodum-Regular';
+   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff') format('woff');
+    font-weight: normal;
+   font-style: normal;
+   }
+
+   *{box-sizing: border-box;
+     margin: auto;
+     font-family: 'Roboto Mono', monospace;
+     font-family: 'GowunDodum-Regular';}
+     
 html, body {
 	width: 100%;
 	height: 100%;
 }
 
+
 * {
-	font-size: small;
+	font-size: medium;
 }
 
 
 /*imgBox_Q&A*/
 .imgBox {
-	height: 120px;
-	background-color: gray;
-	/* background-image: url('이미지주소'); */
+
+	background-image: url('/resources/images/Board_Q&A.png');
 }
 
 /*noticeBox*/

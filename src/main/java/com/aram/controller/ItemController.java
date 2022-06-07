@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +21,6 @@ import com.aram.dto.ItemimgDTO;
 import com.google.gson.Gson;
 import com.aram.dto.ReviewDTO;
 import com.aram.utils.Pagination;
-
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -43,22 +41,34 @@ public class ItemController extends HttpServlet {
 		
 		request.setCharacterEncoding("utf-8");
 		
-		if(uri.equals("/category.item")) { // 카테고리 페이지 로딩
+		if(uri.equals("/category.item")) { // 카테고리 버튼 누를 때
 			String category_id = request.getParameter("category_id");
+			int page = Integer.parseInt(request.getParameter("page"));
+			
+			System.out.println(category_id);
 			ItemDAO dao = new ItemDAO();
+			
+			
 			try {
-
-				ArrayList<ItemViewDTO> itemList = dao.selectAllItems();
-				System.out.println(itemList);
-
-				request.setAttribute("itemList", itemList);
-				request.getRequestDispatcher("/shop/category/air.jsp").forward(request, response);
+				ArrayList<ItemViewDTO> itemList = dao.selectItemsByCategory(category_id);
+				HashMap<String, Object> pageMap =  Pagination.getPageNavi(itemList.size(), page, 8);
+				pageMap.put("category_id", category_id);
 				
+				System.out.println("list 값 : " + itemList);
+				request.setAttribute("itemList", itemList);
+				
+				int count = itemList.size();
+				request.setAttribute("count", count);
+				
+				request.setAttribute("pageMap", pageMap);
+				
+				request.getRequestDispatcher("/shop/category.jsp").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-		} else if(uri.equals("/detail.item")) { // 상품 상세페이지 로딩
+		}
+		
+		else if(uri.equals("/detail.item")) { // 상품 상세페이지 로딩
 			
 			int item_no = Integer.parseInt(request.getParameter("item_no"));
 			System.out.println("상품번호 : " + item_no);
@@ -72,7 +82,8 @@ public class ItemController extends HttpServlet {
 				// 이미지 번호를 통해 이미지 경로값 가져오기
 				int img_no = itemDto.getImg_no();
 				ItemimgDTO imgDto = imgDao.select_img(img_no);
-
+				
+				// 상품에 달린 리뷰 가져오기
 				ArrayList<ReviewDTO> reviewList = reviewDao.selectAllReviewByItem(item_no);
 				System.out.println(reviewList);
 				
@@ -86,8 +97,6 @@ public class ItemController extends HttpServlet {
 			}
 		} else if(uri.equals("/toItemInput.item")) { // 상품 입력 페이지 이동 
 			response.sendRedirect("/admin/itemInsertModify.jsp");
-			
-			
 			
 		} else if(uri.equals("/insert.item")) { // 상품등록 요청 (관리자)
 			
@@ -231,429 +240,128 @@ public class ItemController extends HttpServlet {
 		} else if(uri.equals("/")) {
 			
 		}
-
-		/* 카테고리 파트 */
-		if(uri.equals("/air.item")) { // 카테고리별 페이지 로드 (공기청정)
-			
-				ItemDAO dao = new ItemDAO();
-			
-	            try {
-					ArrayList<ItemViewDTO> itemList = dao.selectAllItems();
-					
-					System.out.println("list 값 : " + itemList);
-					
-					request.setAttribute("itemList", itemList);
-					
-					int count = dao.countItems("P100"); // 카테고리별 물품 갯수
-					request.setAttribute("count", count);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			
-	            request.getRequestDispatcher("/shop/category/air.jsp").forward(request, response);
-			
-		}else if(uri.equals("/interior.item")) { //카테고리별 페이지 로드 (내부)
-			
-			 ItemDAO dao = new ItemDAO();
-	            try {
-	            	ArrayList<ItemViewDTO> itemList = dao.selectAllItems();
-					
-					System.out.println("list 값 : " + itemList);
-					request.setAttribute("itemList", itemList);
-					
-					int count = dao.countItems("P200"); // 카테고리별 물품 갯수
-					request.setAttribute("count", count);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			
-			request.getRequestDispatcher("/shop/category/interior.jsp").forward(request, response);
 		
-		}else if(uri.equals("/outside.item")) { //카테고리별 페이지 로드 (외부)
+		if(uri.equals("/toSearchPage.item")) { // 검색페이지 진입할 때
+			System.out.println("검색페이지");
+			
 			ItemDAO dao = new ItemDAO();
             try {
             	ArrayList<ItemViewDTO> itemList = dao.selectAllItems();
-				
+            	int itemCount = dao.countAllItems();
+            	
 				System.out.println("list 값 : " + itemList);
+				System.out.println(itemCount);
 				request.setAttribute("itemList", itemList);
+				request.setAttribute("itemCount", itemCount);
 				
-				int count = dao.countItems("P300"); // 카테고리별 물품 갯수
-				request.setAttribute("count", count);
+				request.getRequestDispatcher("/shop/searchitem.jsp").forward(request, response);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		
-            request.getRequestDispatcher("/shop/category/outside.jsp").forward(request, response);
-		
 		}
 		
+		if (uri.equals("/searchit.item")) { // 검색버튼 누를 때
+			// null 값 체크
+			String orderBy = "";
+			String keyword = "";
+			int minPrice = 0;
+			int maxPrice = 0;
+			
+			System.out.println(request.getParameter("orderBy"));
+			System.out.println(request.getParameter("keyword"));
+			System.out.println(request.getParameter("minPrice"));
+			System.out.println(request.getParameter("maxPrice"));
+			
+			if(request.getParameter("orderBy") != null) {
+				orderBy = request.getParameter("orderBy");
+			}
+			if(request.getParameter("keyword") != "") {
+				keyword = request.getParameter("keyword");
+			}
+			if (request.getParameter("minPrice") != "") {
+				minPrice = Integer.parseInt(request.getParameter("minPrice"));
+			}
+			if (request.getParameter("maxPrice") != "") {
+				maxPrice = Integer.parseInt(request.getParameter("maxPrice"));
+			}
+			
+			ItemSearchDAO dao = new ItemSearchDAO();
+			
+			try {
+				ArrayList<ItemViewDTO> searchList = dao.searchItems(orderBy, keyword, minPrice, maxPrice);
+				int itemCount = dao.countSearchItems(uri, keyword, minPrice, maxPrice);
+				System.out.println(searchList);
+				
+				HashMap<String, Object> searchMap = new HashMap<String, Object>();
+				
+				searchMap.put("orderBy", orderBy);
+				searchMap.put("keyword", keyword);
+				searchMap.put("minPrice", minPrice);
+				searchMap.put("maxPrice", maxPrice);
+				
+				request.setAttribute("itemList", searchList);
+				request.setAttribute("itemCount", itemCount);
+				request.setAttribute("searchMap", searchMap);
+				request.getRequestDispatcher("/shop/searchitem.jsp").forward(request, response);
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 		
-		
-		//전체상품 낮은가격순
-		if(uri.equals("/searchRowPrice.item")) {
+		if (uri.equals("/searchOrderBy.item")) { // 검색페이지 정렬조건 누를때
+			String orderBy = request.getParameter("orderBy");
+			String keyword = request.getParameter("keyword");
+			int minPrice = Integer.parseInt(request.getParameter("minPrice"));
+			int maxPrice = Integer.parseInt(request.getParameter("maxPrice"));
+			
+			System.out.println(request.getParameter("orderBy"));
+			System.out.println(request.getParameter("keyword"));
+			System.out.println(request.getParameter("minPrice"));
+			System.out.println(request.getParameter("maxPrice"));
 			
 			ItemSearchDAO dao = new ItemSearchDAO();
 			
 			try {
-				ArrayList<ItemViewDTO> rowPriceList = dao.selectAllItemsByRowPrice();	
-				System.out.println(rowPriceList);
+				ArrayList<ItemViewDTO> searchList = dao.searchItems(orderBy, keyword, minPrice, maxPrice);
+				System.out.println(searchList);
 				
 				Gson gson = new Gson();
-				String rs = gson.toJson(rowPriceList);
+				String rs = gson.toJson(searchList);
 				System.out.println(rs);
 				response.setCharacterEncoding("utf-8");
 				response.getWriter().append(rs);
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		
-		//전체상품 높은가격순으로
-		}else if(uri.equals("/searchHighPrice.item")) {
 			
-			ItemSearchDAO dao = new ItemSearchDAO();
-			
-			try {
-				ArrayList<ItemViewDTO> highPriceList = dao.selectHignPrice();
-				System.out.println(highPriceList);
-				
-				Gson gson = new Gson();
-				String rs = gson.toJson(highPriceList);
-				System.out.println(rs);
-				response.setCharacterEncoding("utf-8");
-				response.getWriter().append(rs);
-				
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-			
-		//전체상품 이름순으로
-		}else if(uri.equals("/searchName.item")) {
-			
-			ItemSearchDAO dao = new ItemSearchDAO();
-			
-			try {
-				ArrayList<ItemViewDTO> nameList = dao.selectItemName();
-				System.out.println(nameList);
-				
-				Gson gson = new Gson();
-				String rs = gson.toJson(nameList);
-				System.out.println(rs);
-				response.setCharacterEncoding("utf-8");
-				response.getWriter().append(rs);
-				
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}	
-		
-		//가격범위만 입력했을때
-		}else if(uri.equals("/searchItemPrice.item")) {
-			int minPrice =Integer.parseInt(request.getParameter("minPrice"));
-			int maxPrice =Integer.parseInt(request.getParameter("maxPrice"));
-			System.out.println(minPrice+" : "+maxPrice);
-			
-			ItemSearchDAO dao = new ItemSearchDAO();
-			try {
-				
-				ArrayList<ItemViewDTO> searchItemList = dao.searchByPrice(minPrice, maxPrice);
-				System.out.println(searchItemList);
-				int count =  dao.countSearchItems(minPrice, maxPrice);
-				System.out.println(count);
-				
-				request.setAttribute("itemList", searchItemList);
-				request.setAttribute("minPrice", minPrice);
-				request.setAttribute("maxPrice", maxPrice);
-				
-				request.setAttribute("count", count);
-				
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			request.getRequestDispatcher("/shop/searchItem/selectByPrice.jsp").forward(request, response);
-		
-		//키워드만 검색했을때
-		}else if(uri.equals("/searchItem.item")) {
-			String searchKeyword = request.getParameter("searchKeyword");
-			System.out.println(searchKeyword);
-			
-			ItemSearchDAO dao = new ItemSearchDAO();
-			try {
-				
-				ArrayList<ItemViewDTO> searchItemList = dao.searchByTitle(searchKeyword);
-				System.out.println(searchItemList);
-				int count =  dao.countSearchItems(searchKeyword);
-				System.out.println(count);
-				
-				request.setAttribute("itemList", searchItemList);
-				request.setAttribute("searchKeyword", searchKeyword);
-				request.setAttribute("count", count);
-				
-				
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			request.getRequestDispatcher("/shop/searchItem/selectByName.jsp").forward(request, response);
-			
-		//가격, 키워드 검색할때
-		}else if(uri.equals("/searchPriceItem.item")) {
-			String searchKeyword = request.getParameter("searchKeyword");
-			int minPrice =Integer.parseInt(request.getParameter("minPrice"));
-			int maxPrice =Integer.parseInt(request.getParameter("maxPrice"));
-			
-			System.out.println(searchKeyword +" : "+minPrice+" : "+maxPrice);
-			
-			ItemSearchDAO dao = new ItemSearchDAO();
-			try {
-				ArrayList<ItemViewDTO> searchItemList = dao.searchByPriceName(searchKeyword,minPrice,maxPrice);
-				System.out.println(searchItemList);
-				int count =  dao.countSearchItems(searchKeyword);
-				System.out.println(count);
-				
-				request.setAttribute("itemList", searchItemList);
-				request.setAttribute("searchKeyword", searchKeyword);
-				request.setAttribute("minPrice", minPrice);
-				request.setAttribute("maxPrice", maxPrice);
-				request.setAttribute("count", count);
-				
-				
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			request.getRequestDispatcher("/shop/searchItem/selectByNamePrice.jsp").forward(request, response);
-		
-		//메인에서 search눌렀을때
-		}else if(uri.equals("/toSearchPage.item")) { //검색페이지 요청
-			int curPage = Integer.parseInt(request.getParameter("curPage"));
-			ItemDAO dao = new ItemDAO();
-			Pagination pageNavi = new Pagination();
-			
-			try {
-				int totalItemsCnt = dao.countAllItems();
-				HashMap<String, Object> naviMap = pageNavi.getPageNavi(totalItemsCnt, curPage, 8);
-				curPage = (Integer)naviMap.get("curPage");
-				ArrayList<ItemViewDTO> itemList = dao.selectRecentPagingAll(curPage*8-7,curPage*8);
-				
-				request.setAttribute("itemList", itemList);
-				request.setAttribute("itemCount", totalItemsCnt);
-				request.setAttribute("naviMap", naviMap);
-				
-				System.out.println(itemList);
-				System.out.println(totalItemsCnt);
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			request.getRequestDispatcher("/shop/searchitem.jsp").forward(request, response);	
-		
-		
-		//키워드 검색 + 낮은 가격순
-		}else if(uri.equals("/nameRowPrice.item")) {
-			String searchKeyword = request.getParameter("searchKeyword");
-			System.out.println(searchKeyword);
-			ItemSearchDAO dao = new ItemSearchDAO();
-			
-			try {
-				ArrayList<ItemViewDTO> rowPriceList = dao.searchByTitleRP(searchKeyword);	
-				System.out.println(rowPriceList);
-				
-				Gson gson = new Gson();
-				String rs = gson.toJson(rowPriceList);
-				System.out.println(rs);
-				response.setCharacterEncoding("utf-8");
-				response.getWriter().append(rs);
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-			//키워드 검색 + 높은 가격순	
-		}else if(uri.equals("/nameHighPrice.item")) {
-			String searchKeyword = request.getParameter("searchKeyword");
-			System.out.println(searchKeyword);
-			
-			
-			ItemSearchDAO dao = new ItemSearchDAO();
-			
-			try {
-				ArrayList<ItemViewDTO> rowPriceList = dao.searchByTitleRP(searchKeyword);	
-				System.out.println(rowPriceList);
-				
-				Gson gson = new Gson();
-				String rs = gson.toJson(rowPriceList);
-				System.out.println(rs);
-				response.setCharacterEncoding("utf-8");
-				response.getWriter().append(rs);
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-			//키워드 + 이름순
-		}else if(uri.equals("/nameSearchName.item")) {
-			String searchKeyword = request.getParameter("searchKeyword");
-			System.out.println(searchKeyword);
-			
-			ItemSearchDAO dao = new ItemSearchDAO();
-			
-			try {
-				ArrayList<ItemViewDTO> rowPriceList = dao.searchByTitleName(searchKeyword);	
-				System.out.println(rowPriceList);
-				
-				Gson gson = new Gson();
-				String rs = gson.toJson(rowPriceList);
-				System.out.println(rs);
-				response.setCharacterEncoding("utf-8");
-				response.getWriter().append(rs);
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-			//가격범위 + 낮은가격
-		}else if(uri.equals("/priceRowPrice.item")) {
-			int minPrice =Integer.parseInt(request.getParameter("minPrice"));
-			int maxPrice =Integer.parseInt(request.getParameter("maxPrice"));
-			
-			ItemSearchDAO dao = new ItemSearchDAO();
-			
-			try {
-				ArrayList<ItemViewDTO> rowPriceList = dao.searchByPriceRP(minPrice,maxPrice);	
-				System.out.println(rowPriceList);
-				
-				Gson gson = new Gson();
-				String rs = gson.toJson(rowPriceList);
-				System.out.println(rs);
-				response.setCharacterEncoding("utf-8");
-				response.getWriter().append(rs);
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			//가격범위 + 높은가격	
-		}else if(uri.equals("/priceHighPrice.item")) {
-			
-			int minPrice =Integer.parseInt(request.getParameter("minPrice"));
-			int maxPrice =Integer.parseInt(request.getParameter("maxPrice"));
-			
-			ItemSearchDAO dao = new ItemSearchDAO();
-			
-			try {
-				ArrayList<ItemViewDTO> rowPriceList = dao.searchByPriceHP(minPrice,maxPrice);	
-				System.out.println(rowPriceList);
-				
-				Gson gson = new Gson();
-				String rs = gson.toJson(rowPriceList);
-				System.out.println(rs);
-				response.setCharacterEncoding("utf-8");
-				response.getWriter().append(rs);
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-			//가격범위 + 이름순	
-		}else if(uri.equals("/priceName.item")) {
-			int minPrice =Integer.parseInt(request.getParameter("minPrice"));
-			int maxPrice =Integer.parseInt(request.getParameter("maxPrice"));
-			
-			ItemSearchDAO dao = new ItemSearchDAO();
-													
-			try {
-				ArrayList<ItemViewDTO> rowPriceList = dao.searchByPriceTitle(minPrice,maxPrice);	
-				System.out.println(rowPriceList);
-				
-				Gson gson = new Gson();
-				String rs = gson.toJson(rowPriceList);
-				System.out.println(rs);
-				response.setCharacterEncoding("utf-8");
-				response.getWriter().append(rs);
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		//가격 + 키워드 + 낮은가격	
-		}else if(uri.equals("/namePriceRowPrice.item")) {
-			System.out.println("요청 url : "+uri);
-			
-			
-			String searchKeyword = request.getParameter("searchKeyword");
-			int minPrice =Integer.parseInt(request.getParameter("minPrice"));
-			int maxPrice =Integer.parseInt(request.getParameter("maxPrice"));
-			
-			ItemSearchDAO dao = new ItemSearchDAO();
-			
-			try {
-				ArrayList<ItemViewDTO> rowPriceList = dao.searchByPriceNameRP(searchKeyword,minPrice,maxPrice);	
-				System.out.println(rowPriceList);
-				
-				Gson gson = new Gson();
-				String rs = gson.toJson(rowPriceList);
-				System.out.println(rs);
-				response.setCharacterEncoding("utf-8");
-				response.getWriter().append(rs);
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		//가격 + 키워드 + 높은가격	
-		}else if(uri.equals("/namePriceHighPrice.item")) {
-			
-			System.out.println("요청 url : "+uri);
-			
-			String searchKeyword = request.getParameter("searchKeyword");
-			int minPrice =Integer.parseInt(request.getParameter("minPrice"));
-			int maxPrice =Integer.parseInt(request.getParameter("maxPrice"));
-			
-			ItemSearchDAO dao = new ItemSearchDAO();
-			
-			try {
-				ArrayList<ItemViewDTO> rowPriceList = dao.searchByPriceNameHP(searchKeyword,minPrice,maxPrice);	
-				System.out.println(rowPriceList);
-				
-				Gson gson = new Gson();
-				String rs = gson.toJson(rowPriceList);
-				System.out.println(rs);
-				response.setCharacterEncoding("utf-8");
-				response.getWriter().append(rs);
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		//가격 + 키워드 + 이름순	
-		}else if(uri.equals("/namePriceName.item")) {
-			
-			System.out.println("요청 url : "+uri);
-			
-			String searchKeyword = request.getParameter("searchKeyword");
-			int minPrice =Integer.parseInt(request.getParameter("minPrice"));
-			int maxPrice =Integer.parseInt(request.getParameter("maxPrice"));
-			
-			ItemSearchDAO dao = new ItemSearchDAO();
-			
-			try {
-				ArrayList<ItemViewDTO> rowPriceList = dao.searchByPriceNameName(searchKeyword,minPrice,maxPrice);	
-				System.out.println(rowPriceList);
-				
-				Gson gson = new Gson();
-				String rs = gson.toJson(rowPriceList);
-				System.out.println(rs);
-				response.setCharacterEncoding("utf-8");
-				response.getWriter().append(rs);
-				
-			}catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+		
+		if (uri.equals("/categoryOrderBy.item")) { // 카테고리 정렬조건 누를때
+			String orderBy = request.getParameter("orderBy");
+			String category_id = request.getParameter("category_id");
+			System.out.println(orderBy);
+			System.out.println(category_id);
+			
+			ItemSearchDAO dao = new ItemSearchDAO();
+			
+			try {
+				ArrayList<ItemViewDTO> searchList = dao.searchItems(orderBy, category_id);
+				System.out.println(searchList);
+				
+				Gson gson = new Gson();
+				String rs = gson.toJson(searchList);
+				System.out.println(rs);
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().append(rs);
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		/*
 		if(uri.equals("/dummy.item")) {
 			ItemDAO dao = new ItemDAO();

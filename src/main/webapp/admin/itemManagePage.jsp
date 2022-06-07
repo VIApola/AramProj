@@ -146,7 +146,7 @@
                             <a class="nav-link" style="color: black;" href="/toNoticeManage.admin">공지사항 관리</a>
                         </li>
                     </ul>    
-            </div>
+              </div>
             </div>
         </div> <!-- 헤더 끝 -->
 
@@ -302,7 +302,6 @@
             $.ajax({
                 url: "/searchMng.admin?item_name=" + searchInput
                 , type: "get"
-                , dataType: "json"
                 , success: function (data) {
                     console.log(data);
                     makeList(data);
@@ -313,15 +312,13 @@
             });
 
         } else if (select === "상품번호") {
-            console.log("이름 : " + searchInput);
+            console.log("상품번호 : " + searchInput);
             $.ajax({
                 url: "/searchMng.admin?item_no=" + searchInput
                 , type: "get"
-                , dataType: "json"
                 , success: function (data) {
                     console.log(data);
                     makeList(data)
-
                 }
                 , error: function (e) {
                     console.log(e);
