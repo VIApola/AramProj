@@ -203,7 +203,9 @@ public class ItemController extends HttpServlet {
 			ImgFileDAO imgDao = new ImgFileDAO();
 			
 			
+			
 			try {
+				int rsCount = dao.countAllItems();
 				int rs = dao.deleteItem(item_no);
 				int rsFile = imgDao.delete_img(img_no);
 				if (rs > 0 && rsFile>0) { // 삭제 성공, 상품목록 응답
@@ -213,8 +215,10 @@ public class ItemController extends HttpServlet {
 					ArrayList<ItemViewDTO> list = dao.mngItemList();
 					Gson gson = new Gson();
 					String result = gson.toJson(list);
+					
 					response.setCharacterEncoding("utf-8");
 					response.getWriter().append(result);
+					
 				} else { // 삭제 실패
 					response.getWriter().append("fail");
 				}

@@ -122,6 +122,50 @@ public class AdminController extends HttpServlet {
 			}
 			request.getRequestDispatcher("/admin/itemModify.jsp").forward(request, response);
 			
+		} else if(uri.equals("/searchMng.admin")) { // 관리자페이지 : 상품관리에서 상품검색
+			String item_name = request.getParameter("item_name");
+			String item_no = request.getParameter("item_no");
+			
+			if (!item_name.isEmpty()) { // 상품명으로 검색
+				
+				ItemDAO itemDao = new ItemDAO();
+				
+				try {
+					ArrayList<ItemViewDTO> list = itemDao.searchByNameMng(item_name);
+					System.out.println(list);
+					
+					int count = itemDao.countAllItems();
+					
+					Gson gson = new Gson();
+					String rs = gson.toJson(list);
+					System.out.println(rs);
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(rs);
+					
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+			} else if (!item_no.isEmpty()) { // 상품번호로 검색
+				ItemDAO itemDao = new ItemDAO();
+				
+				try {
+					ArrayList<ItemViewDTO> list = itemDao.searchByNoMng(item_name);
+					System.out.println(list);
+					
+					int count = itemDao.countAllItems();
+					
+					Gson gson = new Gson();
+					String rs = gson.toJson(list);
+					System.out.println(rs);
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(rs);
+					
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+
+			}
 		}
 //		else if () {
 //			
