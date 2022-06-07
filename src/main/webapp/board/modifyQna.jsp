@@ -116,7 +116,11 @@ textarea {
 						<p>제목</p>
 					</div>
 					<div class="col-9">
-						<input type="text" name="title" value="${dto.title}" id="title" class="form-control">
+						<select class="form-select" aria-label="Default select example" name = "title" id = "title" value="${dto.title}">
+							<option selected value="상품문의">상품문의</option>
+							<option value="배송문의">배송문의</option>
+							<option value="결제문의">결제문의</option>
+						</select>
 					</div>
 					<div class="col-9 p-2 d-none">
 	    			<input type="text" class="form-control" name="qna_no" value="${dto.qna_no}">
@@ -134,19 +138,6 @@ textarea {
 					</div>
 					<div class="col-3">
 						<p>${dto.write_date }</p>
-					</div>
-				</div>
-				<div class="row header-board">
-					<div class="col-3 align-self-center">
-						<p>첨부파일</p>
-					</div>
-					<div class="col-3">
-						<p>
-							<a href=""></a>
-						</p>
-					</div>
-					<div class="col-6">
-						<img src="">
 					</div>
 				</div>
 				<div class="row header-board">

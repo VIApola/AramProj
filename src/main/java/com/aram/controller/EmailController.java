@@ -3,6 +3,9 @@ package com.aram.controller;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 //import javax.mail.Transport;
 //import javax.mail.Address;
 //import javax.mail.Authenticator;

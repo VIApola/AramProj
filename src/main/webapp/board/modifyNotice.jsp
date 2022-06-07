@@ -138,19 +138,6 @@ textarea {
 				</div>
 				<div class="row header-board">
 					<div class="col-3 align-self-center">
-						<p>첨부파일</p>
-					</div>
-					<div class="col-3">
-						<p>
-							<a href=""></a>
-						</p>
-					</div>
-					<div class="col-6">
-						<img src="">
-					</div>
-				</div>
-				<div class="row header-board">
-					<div class="col-3 align-self-center">
 						<p>내용</p>
 					</div>
 					<div class="col-9">

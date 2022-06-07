@@ -291,14 +291,20 @@ public class UserController extends HttpServlet {
 
 				if(session_id.equals(id)) {
 					UserDAO dao = new UserDAO();
+<<<<<<< HEAD
+=======
 
+>>>>>>> 5a03047ad5e6dee74984f8013cd9ca041b8e011d
 //					int rs = dao.deleteUser(id, pw);
 //					if(rs > 0) {
 //						
 //					}
 //				}else {
 //					
+<<<<<<< HEAD
+=======
 
+>>>>>>> 5a03047ad5e6dee74984f8013cd9ca041b8e011d
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
