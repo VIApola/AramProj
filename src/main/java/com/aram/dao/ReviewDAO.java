@@ -17,15 +17,15 @@ import com.aram.dto.ReviewDTO;
 public class ReviewDAO {
 private BasicDataSource bds;
 	
-	public ReviewDAO() {
-		try {
-			Context iCtx = new InitialContext();
-			Context envCtx = (Context)iCtx.lookup("java:comp/env");
-			bds = (BasicDataSource)envCtx.lookup("jdbc/bds");
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+public ReviewDAO() {
+	try {
+		Context iCtx = new InitialContext();
+		Context envCtx = (Context)iCtx.lookup("java:comp/env");
+		bds = (BasicDataSource)envCtx.lookup("jdbc/bds");
+	} catch(Exception e) {
+		e.printStackTrace();
 	}
+}
 	
 	// 리뷰 등록
 	public int insertReview(ReviewDTO dto)throws Exception{
@@ -96,33 +96,32 @@ private BasicDataSource bds;
 			return list;
 		}
 	}
-	
 	// 고객 아이디 별 리뷰조회
-	public ArrayList<ReviewDTO> selectAllReviewByUserId(String user_id) throws Exception {
-		String sql = "select * from tbl_review where user_id=?";
+	public ArrayList<ReviewDTO> selectAllReviewByUserId(String user_id)throws Exception{
+		String sql = "select * from tbl_review where user_id=? order by write_date desc";
 		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql);){
+			PreparedStatement pstmt = con.prepareStatement(sql)	
+				){
 			pstmt.setString(1, user_id);
-			
 			ResultSet rs = pstmt.executeQuery();
 			
 			ArrayList<ReviewDTO> list = new ArrayList<>();
 			while(rs.next()) {
-				int review_no = rs.getInt(1);
-				String title = rs.getString(2);
-				String content = rs.getString(3);
-				String write_date = rs.getString(4);
-				int score = rs.getInt(5);
-				int item_id = rs.getInt(7);
-				int img_no = rs.getInt(8);
+				int review_no = rs.getInt("review_no");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String write_date = getStringDate(rs.getDate("write_date"));
+				int score = rs.getInt("score");
+				int item_no = rs.getInt("item_no");
+				int img_no = rs.getInt("img_no");
 				
-				list.add(new ReviewDTO(review_no, title, content, write_date, score, user_id, item_id, img_no));
+				list.add(new ReviewDTO(review_no, title, content, write_date, score, user_id, item_no, img_no));
+				
 			}
 			return list;
 		}
 	}
 	
-		
 	
 	// 개별 리뷰 조회
 	public ReviewDTO selectReviewByNo(int review_no)throws Exception {
@@ -181,7 +180,7 @@ private BasicDataSource bds;
 	// Date형을 String형으로
 	public String getStringDate(Date date) {
 	
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 	return sdf.format(date);
 	}
 	

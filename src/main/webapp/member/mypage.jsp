@@ -57,6 +57,7 @@ h3 {
 	cursor: pointer;
 }
 
+
 h5 {
 	border-bottom: 2px solid lightgray;
 	padding: 5px;
@@ -79,12 +80,103 @@ span::after {
 span:hover::after {
 	transform: scaleX(1);
 }
+.reviewImg{
+width:50%;
+height:50%;
+margin-top:5px;
+}
+.list-row{
+height:70px;
+border-top: 1px solid lightgray;
+}
+.list-row:last-child{
+border-bottom: 1px solid lightgray;
+}
+.imgDiv{
+
+padding-left:40px;
+padding-right:0;
+padding-top:10px;
+
+}
+.imgDiv>img{
+height:70%;
+
+}
+
+.nameDiv{
+margin-top:25px;
+padding-left:0;
+padding-right:0;
+
+}
+.titleDiv{
+margin-top:25px;
+
+}
+.scoreDiv{
+margin-top:25px;
+
+}
+.write_dateDiv{
+margin-top:25px;
+
+}
+.bottom-line{
+margin-bottom:20px;
+}
+.listTitle{
+margin-bottom:20px;
+}
+.listTitle>.nameDivT{
+text-align:center;
+
+}
+.listTitle>.titleDivT{
+text-align:left;
+padding-left:25px;
+}
+.scoreDivT{
+text-align:70%;
+}
+.listTitle>.write_dateDivT{
+padding-left:50px;
+text-align:left;
+}
+
+a {
+	margin: 10px;
+	cursor: pointer;
+	color: #000;
+	text-decoration:none;
+}
+a:visited { color: #000; }
+
+a::after {
+	display: block;
+	content: '';
+	width: 50%;
+	border-bottom: solid 2px #7cc09c;
+	transform: scaleX(0);
+	transition: transform 250ms ease-in-out;
+}
+
+a:hover::after {
+	transform: scaleX(1);
+}
+
+
+
+
+
+
 </style>
 </head>
 <body>
 	<div class="container">
 		<div class="row">여기는 Header</div>
 		<div class="row">
+			
 			<div class="col-12 d-md-none">
 				<select id="selectbox" class="form-select"
 					aria-label="Default select example"
@@ -146,15 +238,47 @@ span:hover::after {
 					</div>
 				</div>
 				<div class="col-7" id="content">
-					<p>님, 환영합니다.</p>
+					<p>${loginSession.nickname}님, 환영합니다.</p>
 				</div>
 			</div>
 		</div>
 		<div class="row">여기는 footer</div>
 	</div>
+	
+	
+	
+	
 	<script>
+	
+    /*글자수 처리*/
+    function CheckMaxString(obj, maxNum){               
+         var li_str_len = obj.length;
+         var li_byte = 0;
+         var li_len = 0;
+         var ls_one_char = "";
+         var ls_str2 = "";
+         for( var j=0; j<li_str_len; j++){
+                 ls_one_char = obj.charAt(j);
+                 if(escape(ls_one_char).length > 4 ) {
+                       li_byte += 2;
+                       }else{
+                         li_byte++;
+                        }
+                         if(li_byte <= maxNum){
+                            li_len = j+1;
+                      }
+                    }
+                    if(li_byte > maxNum){
+                              ls_str2 = obj.substr(0, li_len)+"...";
+                    }else{
+                              ls_str2 = obj;
+                    }
+                    return ls_str2;
+          }
+	
+
     $("#mypage").on("click", function(){
-        location.href= "마이페이지로 가기";
+        location.href= "/toMypage.user";
     })
     /* 주문내역, 배송 조회*/
      $("#shopping").on("click", function(){
@@ -162,7 +286,7 @@ span:hover::after {
         let h3 = $("<h5>").html("주문내역 & 배송 조회");
         let row = $("<div>").addClass('row');
         let col = $("<div>").addClass("col-12").css("text-align", "center");;
-        let p =  $("<p>").html("님이 쇼핑몰에서 주문한 내역입니다.");
+        let p =  $("<p>").html("${loginSession.nickname}님이 쇼핑몰에서 주문한 내역입니다.");
         let tableRow = $("<div>").addClass('row');
         let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
         let table = $("<table>");
@@ -191,7 +315,7 @@ span:hover::after {
         let h3 = $("<h5>").html("Q & A");
         let row = $("<div>").addClass('row');
         let col = $("<div>").addClass("col-12").css("text-align", "center");
-        let p =  $("<p>").html("님이 작성하신 글입니다.");
+        let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 글입니다.");
         let tableRow = $("<div>").addClass('row');
         let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
         let table = $("<table>");
@@ -212,31 +336,85 @@ span:hover::after {
             $("#content").append(tableRow);
      })
      /* 리뷰 */
-     $("#review").on("click", function(){
-        $("#content").empty();
-        let h3 = $("<h5>").html("Review");
-        let row = $("<div>").addClass('row');
-        let col = $("<div>").addClass("col-12").css("text-align", "center");
-        let p =  $("<p>").html("님이 작성하신 리뷰입니다.");
-            let tableRow = $("<div>").addClass('row');
-        let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
-        let table = $("<table>");
-        let tr1 = $("<tr>");
-        let thNum = $("<th>").html("번호");
-        let thProduct = $("<th>").html("상품");
-        let thTitle = $("<th>").html("제목");
-        let thScore = $("<th>").html("별점");
-        let tr2 = $("<tr>");
-        // 조건문 돌려서 리뷰 있으면 td 생성
-            col.append(p);
-            row.append(col);
-            tr1.append(thNum, thProduct, thTitle, thScore);
-            table.append(tr1);
-            tableCol.append(table);
-            tableRow.append(tableCol);
-            $("#content").append(h3); 
-            $("#content").append(row);
-            $("#content").append(tableRow);
+  
+     $("#review").on("click", function(){ 
+    	
+    	 $.ajax({
+    		 
+    			url: "/review.user"
+    			   	,	type:"post"
+    			   	,	data:""
+    			    ,	dataType:"json"
+					, success: function(data){				
+						console.log(data);	
+						console.log(data.list);
+						console.log(data.list2);
+						
+					
+						 $("#content").empty();
+					        let h3 = $("<h5>").html("Review");
+					        let row = $("<div>").addClass('row');
+					        let col = $("<div>").addClass("col-12").css("text-align", "center");
+					        let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 리뷰입니다.");
+					        let tableRow = $("<div>").addClass('row');
+					        let tableCol = $("<div>").addClass("col-12 bottom-line").css("text-align", "center");
+					        col.append(p);
+				            row.append(col);       
+				            tableRow.append(tableCol);
+				            $("#content").append(h3); 
+				            $("#content").append(row);
+				            $("#content").append(tableRow);
+				            
+				            let listTitle = $("<div>").addClass("row listTitle"); 
+				       
+				            let nameDivT = $("<div>").addClass("col-4 nameDivT").html("상품");
+				            let titleDivT =  $("<div>").addClass("col-3 titleDivT").html("제목");
+				            let scoreDivT = $("<div>").addClass("col-2 scoreDivT").html("평점");
+				            let write_dateDivT = $("<div>").addClass("col-3 write_dateDivT").html("날짜");
+				            listTitle.append(nameDivT, titleDivT, scoreDivT, write_dateDivT);
+				            $("#content").append(listTitle);  
+					
+						for(let dto of data){
+							
+							let list = $("<div>").addClass("row list-row");
+            				
+            				let imgDiv =  $("<div>").addClass("col-2 imgDiv");
+            				
+            				let img = $("<img>").attr({class:"reviewImg", src:"/resources/images/items/"+ dto.sys_name});
+            				imgDiv.append(img);
+
+            				let nameDiv = $("<div>").addClass("col-2 nameDiv");
+            				let nameSpan = $("<span>").html(CheckMaxString(dto.item_name, 10));
+            				nameDiv.append(nameSpan);
+ 
+            				let titleDiv = $("<div>").addClass("col-3 titleDiv");
+            				let title = $("<a>").attr("href","/detail.item?item_no="+dto.item_no).html(CheckMaxString(dto.title, 12));
+            				titleDiv.append(title);
+            				
+            				let scoreDiv = $("<div>").addClass("col-2 scoreDiv");
+            				let score = $("<span>").html(dto.score);
+            				scoreDiv.append(score);
+            				
+            				let write_dateDiv = $("<div>").addClass("col-2 write_dateDiv");
+            				let write_date = $("<span>").html(dto.write_date);
+            				write_dateDiv.append(write_date);
+            				
+            				list.append(imgDiv,nameDiv, titleDiv, scoreDiv, write_dateDiv);
+            				
+            				$("#content").append(list);           			
+      	
+						}
+									
+				
+				}
+				, error: function(e){
+					console.log(e);
+				}
+
+    	 });
+    	 
+    	 
+            
      })
      /* 회원정보 수정*/
      $("#modify").on("click", function(){
@@ -480,7 +658,7 @@ span:hover::after {
         let h4 =  $("<h4>").html("정말 탈퇴하시겠어요?").css('margin', '10px');
         let p =  $("<p>").html("본인 확인을 위해 회원정보를 입력해주세요.").css('margin', '10px');
         let p2 =  $("<p>").addClass("kakao").html("카카오 로그인은 여기를 눌러주세요.").css({"cursor": "pointer", "color": "#ffd600", "font-size" : "15px"});
-        let idInput = $("<input>").addClass('form-control id').attr({'type':'password', 
+        let idInput = $("<input>").addClass('form-control id').attr({'type':'text', 
                         'name' : 'id', "placeholder" : "ID를 입력해주세요"}).css({"margin-left": "10px", "margin": "10px"});
         let pwInput = $("<input>").addClass('form-control pw').attr({'type':'password', 
                         'name' : 'pw', "placeholder" : "비밀번호를 입력해주세요"}).css("margin-left", "10px");
@@ -497,7 +675,15 @@ span:hover::after {
             $("#content").append(row);
 
             // 카카오 로그인 탈퇴
-            $(".kakao").on("click", function(){
+            $(".kakao").on("click", function(){           	
+            	console.log("${loginSession.social_login}");
+            	
+            	// 일반회원이 클릭 시 alert 및 접근불가(return)
+            	if( "${loginSession.social_login}" == "" ){
+            		alert("일반회원은 이용 불가합니다.");
+            		return false;
+            	}
+            	
                 $("#content").empty();
                 let row =  $("<div>").addClass('row');
                 let col = $("<div>").addClass("col-12").css("text-align", "center");
@@ -512,28 +698,109 @@ span:hover::after {
                         if( input.val() !== "탈퇴하겠습니다"){
                             alert("문구를 정확히 입력해주세요.");
                         }else{
-                            location,href = "";
+                        	console.log("true");
+                        	
+                        	 $.ajax({
+                                 url: "/deleteKakao.user"
+                                , type: "post"
+                                , data: ""
+                             	, dataType: 'text'
+                             	, success: function(data){
+                             		console.log(data);
+                             		
+                             		if(data === "success"){
+                             			alert("탈퇴 처리 되었습니다.");
+                             			location.href="/toLogout.user";
+                             		}else{
+                             			alert("탈퇴처리를 실패했습니다. 관리자에게 문의하세요");
+                             			return false;
+                             		}     		
+                             		
+                             	}
+                             	, error: function(e){
+                             		console.log(e);
+                             	}
+                             	
+                             	});
+                      
                         }
                     })
 
             });
 
             $(".deletBtn").on("click", function(){
-                let rs = confirm("탈퇴하시겠습니까?");
-                if(rs){
-                   $.ajax({
-                       url: "/delete.user"
-                      , type: "post"
-                      , data: {'id': $(".id").val(), 'pw' : $(".pw").val()}
-                   	, dataType: 'text'
-                   	, success: function(data){
-                   		
-                   	}
-                   	, error: function(e){
-                   		console.log(e);
-                   	}
-                   })
-                }
+                
+            	if($(".id").val() == ""){
+            		alert("회원 아이디를 입력해주세요.");
+            		$(".id").focus();
+            		return false;
+            	}
+            	if($(".pw").val() == ""){
+            		alert("회원 비밀번호를 입력해주세요.");
+            		$(".pw").focus();
+            		return false;
+            	}
+            	
+            	
+            	  $.ajax({  //탈퇴 요건 검사
+                      url: "/deleteProc.user"
+                     , type: "post"
+                     , data: {'id': $(".id").val(), 'pw' : $(".pw").val()}
+                  	, dataType: 'text'
+                  	, success: function(data){
+                  		console.log(data);
+                  		
+                  		
+                  		if(data === 'fail_id'){
+                    		alert("입력하신 ID와 현재 아이디가 일치하지 않습니다. 다시 확인해주세요");   
+                    		return false;
+                    	}else if(data ==='fail_pw'){
+                    		alert("입력하신 비밀번호와 현재 비밀번호가 일치하지 않습니다. 다시 확인해주세요");
+                    		return false;
+                  		
+                  		}else if(data === 'pass'){
+                  			
+                  			
+                  			let rs = confirm("정말 탈퇴하시겠습니까?");
+                  			
+                  		  if(rs){
+                              $.ajax({
+                                  url: "/delete.user"
+                                 , type: "post"
+                                 , data: {'id': $(".id").val()}
+                              	, dataType: 'text'
+                              	, success: function(data){
+                              		console.log(data);
+                              		
+                              		if(data === "true"){
+                              			
+                              			alert("정상적으로 탈퇴되었습니다.");
+                              			location.href="/toLogout.user";
+                              			
+                              		}else if(data === "false"){
+                              			alert("탈퇴에 실패했습니다. 관리자에게 문의하세요")
+                              		}
+                              		
+                              		
+                              	}
+                              	, error: function(e){
+                              		console.log(e);
+                              	}
+                              })
+                           }
+                  			
+                  			
+                  		}
+                  	
+                  	}
+                  	
+                  	, error: function(e){
+                  		console.log(e);
+                  	}
+                  })
+            	          
+          
+                
                
             })
      })

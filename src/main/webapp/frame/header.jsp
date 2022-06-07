@@ -44,7 +44,7 @@
 					<a href="/join.user" class="fromLeft bottom"><span>회원가입</span></a>
 					<c:choose>
 						<c:when test="${not empty loginSession}">
-							<a href="" class="fromLeft bottom"><span>마이페이지</span></a>
+							<a href="/toMypage.user" class="fromLeft bottom"><span>마이페이지</span></a>
 						</c:when>
 						<c:otherwise>
 							<a href="/login.user"
@@ -94,7 +94,7 @@
 					</c:choose></li>
 				<c:choose>
 					<c:when test="${not empty loginSession}">
-						<li class="nav-item"><a href="" class="nav-link"
+						<li class="nav-item"><a href="/toMypage.user" class="nav-link"
 							style="color: black;">Mypage</a></li>
 					</c:when>
 					<c:otherwise>

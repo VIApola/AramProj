@@ -5,12 +5,14 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
+import com.aram.dto.MypageReviewDTO;
 import com.aram.dto.UserDTO;
 
 public class UserDAO {
@@ -34,6 +36,8 @@ public class UserDAO {
 	 * - 카카오 로그인 kakaoLogin
 	 * - 아이디 비밀번호 찾기 findId toChangePassord, ChangePassword, 비밀번호 변경
 	 * - 이메일 인증 관련 
+	 * - 일반 화원탈퇴
+	 * - 카카오 회원탈퇴
 	 * */
 	
 	// 회원가입
@@ -82,7 +86,22 @@ public class UserDAO {
 			
 		}
 	}
-	
+	// 비밀번호 일치 여부
+	public int checkPw(String id, String pw)throws Exception{
+		String sql = "select * from tbl_user where user_id =? and user_pw = ?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)	
+				){
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				return 0;  // 비밀번호 존재
+			}
+			return 1;
+		}
+	}
 	
 	// 로그인 - 아이디 비밀번호 검사, 유저정보를 담는 dto를 전송
 	public UserDTO isLoginOk(String id, String pw) throws Exception {
@@ -285,7 +304,67 @@ public class UserDAO {
 			return pst.executeUpdate();
 		}
 	}
+	
+	//회원탈퇴
+	public int deleteUser(String id) throws Exception{
+		String sql = "delete from tbl_user where user_id = ?";
+		try(Connection con =bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)	
+				){
+			pstmt.setString(1, id);
+			
+			return pstmt.executeUpdate();
+		}
+	}
+	
+	//카카오 회원탈퇴
+	public int deleteKakaoUser(String id, String social_login)throws Exception{
+		String sql = "delete from tbl_user where user_id = ? and social_login = ?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)	
+				){
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, social_login);
+			return pstmt.executeUpdate();
 		
+		}
+	}
+	
+	// 회원아이디로 마이페이지-리뷰에서 필요한 모든 정보 출력
+	public ArrayList<MypageReviewDTO> selectAllById(String user_id)throws Exception{
+		String sql="select * from tbl_review a, tbl_item_img b, tbl_items c where a.item_no = b.item_no and b.item_no = c.item_no and user_id=? order by write_date desc";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)	
+				){
+			pstmt.setString(1, user_id);
+			ResultSet rs = pstmt.executeQuery();
+			ArrayList<MypageReviewDTO> list = new ArrayList<>();
+			while(rs.next()) {
+				
+				int review_no = rs.getInt("review_no");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String written_date = simpleStringDate(rs.getDate("write_date"));
+				int score = rs.getInt("score");
+				
+				int item_no = rs.getInt("item_no");
+				int img_no = rs.getInt("img_no");
+				String sys_date = rs.getString("sys_name");
+				String item_name = rs.getString("item_name");
+			
+			list.add(new MypageReviewDTO(review_no, title, content, written_date, score, user_id, item_no, img_no, sys_date, item_name));	
+			}
+			return list;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
 		// 관리자인지 아닌지
 //		public boolean isAdmin(String id, String pw) throws Exception{
 //			String sql = "select "
@@ -301,6 +380,10 @@ public class UserDAO {
 		// java 월(MM) 분(mm)
 		// 1900년 02월 02일 00시 00분 00초
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
+		return sdf.format(date);
+	}
+	public String simpleStringDate(Date date) { 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		return sdf.format(date);
 	}
 

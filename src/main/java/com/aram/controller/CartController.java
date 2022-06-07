@@ -2,7 +2,7 @@ package com.aram.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -52,8 +52,11 @@ public class CartController extends HttpServlet {
 			try {
 				ArrayList<Cart_ItemDTO> list = dao.selectByUserId(loginSession);
 				
-				request.setAttribute("list", list);
+				int listSize =  list.size();
+				System.out.println("list : " + list.toString());
 				
+				request.setAttribute("list", list);
+				request.setAttribute("listSize", listSize);
 				// 장바구니 데이터 (user_id ) 로 총 가격 (total) 구하기
 				int total = dao.total(loginSession);
 				System.out.println("총 금액 : " + total);
@@ -139,8 +142,6 @@ public class CartController extends HttpServlet {
 				Gson gson = new Gson();
 				String result = gson.toJson(list);
 			
-
-				
 				response.getWriter().append(result);
 		
 		
@@ -150,14 +151,65 @@ public class CartController extends HttpServlet {
 			}
 				 
 		}
-		
-		//체크박스 상태에 따라서 총 금액 실시간 계산
-		if(uri.equals("/totalPrice.cart")) {
+		/*
+		//각 상품별 금액 계산 (individualPrice)
+		if(uri.equals("/individualPrice.cart")) {
+			HttpSession session = request.getSession();
+			String loginSession = ((UserDTO)session.getAttribute("loginSession")).getUser_id();	
+			System.out.println("현재 로그인세션 ID : " + loginSession);
+			
+			int quantity = Integer.parseInt(request.getParameter("number"));
+			int item_no = Integer.parseInt(request.getParameter("item_no"));
+			
+			System.out.println("quantity : " + quantity + " item_no : " + item_no);
+			
+			ItemDAO dao = new ItemDAO();
+			try {
+				int price = dao.selectItemByNo(item_no).getPrice();
+				System.out.println("해당 물품의 가격 : " + price);
+				System.out.println("해당 물품의 총 가격 : " + price * quantity);
+				
+				int individualPrice = price * quantity;
+				
+				Gson gson = new Gson();
+				String rs = gson.toJson(individualPrice);
+				
+				response.getWriter().append(rs);
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 			
 		}
-
+		*/
 	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

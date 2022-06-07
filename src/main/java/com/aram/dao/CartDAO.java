@@ -174,6 +174,8 @@ public class CartDAO {
 				return total;
 		}
 	}
+	
+
 
 
 

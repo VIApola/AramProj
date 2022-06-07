@@ -39,6 +39,13 @@ img {
     margin-top: 50px;
     text-align: center;
 }
+.total{
+	font-size: larger;
+}
+.totalPrice{
+	font-size: larger;
+	
+}
 
 /* div{
      border: 1px solid black;
