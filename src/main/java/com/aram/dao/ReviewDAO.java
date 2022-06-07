@@ -28,17 +28,18 @@ private BasicDataSource bds;
 	}
 	
 	// 리뷰 등록
-	public int insertReview(ReviewDTO dto)throws Exception{
-		String sql = "insert into tbl_review values(seq_review_no.nextval,?,?,sysdate,?,?,?,?)";
+	public int insertReview(ReviewDTO dto)throws Exception {
+		String sql = "insert into tbl_review values(seq_review_no.nextval,?,?,?,sysdate,?,?,?,?)";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
-			pstmt.setString(1, dto.getTitle());
-			pstmt.setString(2, dto.getContent());
-			pstmt.setInt(3, dto.getScore());
-			pstmt.setString(4, dto.getUser_id());
-			pstmt.setInt(5, dto.getItem_no());
-			pstmt.setInt(6, dto.getImg_no());
+			pstmt.setString(1, dto.getNickname());
+			pstmt.setString(2, dto.getTitle());
+			pstmt.setString(3, dto.getContent());
+			pstmt.setInt(4, dto.getScore());
+			pstmt.setString(5, dto.getUser_id());
+			pstmt.setInt(6, dto.getItem_no());
+			pstmt.setInt(7, dto.getImg_no());
 			
 			int rs = pstmt.executeUpdate();
 			return rs;
@@ -56,16 +57,17 @@ private BasicDataSource bds;
 			
 			ArrayList<ReviewDTO> list = new ArrayList<>();
 			while(rs.next()) {
-				int review_no = rs.getInt(1);
-				String title = rs.getString(2);
-				String content = rs.getString(3);
-				String write_date = rs.getString(4);
-				int score = rs.getInt(5);
-				String user_id = rs.getString(6);
-				int item_id = rs.getInt(7);
-				int img_no = rs.getInt(8);
+				int review_no = rs.getInt("review_no");
+				String nickname = rs.getString("nickname");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String write_date = rs.getString("write_date");
+				int score = rs.getInt("score");
+				String user_id = rs.getString("user_id");
+				int item_no = rs.getInt("item_no");
+				int img_no = rs.getInt("img_no");
 				
-				list.add(new ReviewDTO(review_no, title, content, write_date, score, user_id, item_id, img_no));
+				list.add(new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_no, img_no));
 			}
 			return list;
 		}
@@ -82,16 +84,16 @@ private BasicDataSource bds;
 			
 			ArrayList<ReviewDTO> list = new ArrayList<>();
 			while(rs.next()) {
-				int review_no = rs.getInt(1);
-				String title = rs.getString(2);
-				String content = rs.getString(3);
-				String write_date = rs.getString(4);
-				int score = rs.getInt(5);
-				String user_id = rs.getString(6);
-				int item_id = rs.getInt(7);
-				int img_no = rs.getInt(8);
+				int review_no = rs.getInt("review_no");
+				String nickname = rs.getString("nickname");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String write_date = rs.getString("write_date");
+				int score = rs.getInt("score");
+				String user_id = rs.getString("user_id");
+				int img_no = rs.getInt("img_no");
 				
-				list.add(new ReviewDTO(review_no, title, content, write_date, score, user_id, item_id, img_no));
+				list.add(new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_no, img_no));
 			}
 			return list;
 		}
@@ -108,58 +110,56 @@ private BasicDataSource bds;
 			
 			ArrayList<ReviewDTO> list = new ArrayList<>();
 			while(rs.next()) {
-				int review_no = rs.getInt(1);
-				String title = rs.getString(2);
-				String content = rs.getString(3);
-				String write_date = rs.getString(4);
-				int score = rs.getInt(5);
-				int item_id = rs.getInt(7);
-				int img_no = rs.getInt(8);
+				int review_no = rs.getInt("review_no");
+				String nickname = rs.getString("nickname");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String write_date = rs.getString("write_date");
+				int score = rs.getInt("score");
+				int item_no = rs.getInt("item_no");
+				int img_no = rs.getInt("img_no");
 				
-				list.add(new ReviewDTO(review_no, title, content, write_date, score, user_id, item_id, img_no));
+				list.add(new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_no, img_no));
 			}
 			return list;
 		}
 	}
 	
-		
-	
-	// 개별 리뷰 조회
-	public ReviewDTO selectReviewByNo(int review_no)throws Exception {
-		String sql = "select * from tbl_review where review_no = ?";
-		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql)	
-				){
-			pstmt.setInt(1, review_no);
-			ResultSet rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				String title = rs.getString("title");
-				String content = rs.getString("content");
-				String write_date = getStringDate(rs.getDate("write_date"));
-				int score = rs.getInt("score");
-				String user_id = rs.getString("user_id");
-				int item_id = rs.getInt("item_id");
-				int img_no = rs.getInt("img_no");
-				
-				return new ReviewDTO(review_no, title, content, write_date, score, user_id, item_id, img_no);
-			}
-			return null;
-		}
-	}
+//	// 개별 리뷰 조회
+//	public ReviewDTO selectReviewByNo(int review_no)throws Exception {
+//		String sql = "select * from tbl_review where review_no = ?";
+//		try(Connection con = bds.getConnection();
+//			PreparedStatement pstmt = con.prepareStatement(sql)	
+//				){
+//			pstmt.setInt(1, review_no);
+//			ResultSet rs = pstmt.executeQuery();
+//			
+//			if(rs.next()) {
+//				String nickname = rs.getString("nickname");
+//				String title = rs.getString("title");
+//				String content = rs.getString("content");
+//				String write_date = rs.getString("write_date");
+//				int score = rs.getInt("score");
+//				int item_id = rs.getInt("item_id");
+//				int img_no = rs.getInt("img_no");
+//				
+//				return new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_id, img_no);
+//			}
+//			return null;
+//		}
+//	}
 	
 	// 리뷰 수정
 	public int modifyReview(ReviewDTO dto)throws Exception{
-		String sql = "update tbl_review set title=?,content=?,score=?, item_id=?, img_no=? where review_no=?";
+		String sql = "update tbl_review set title=?,content=?,score=?, img_no=? where review_no=?";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
 			pstmt.setString(1, dto.getTitle());
 			pstmt.setString(2, dto.getContent());
 			pstmt.setInt(3, dto.getScore());
-			pstmt.setInt(4, dto.getItem_no());
-			pstmt.setInt(5, dto.getImg_no());
-			pstmt.setInt(6, dto.getReview_no());
+			pstmt.setInt(4, dto.getImg_no());
+			pstmt.setInt(5, dto.getReview_no());
 			
 			int rs = pstmt.executeUpdate();
 			return rs;
@@ -180,9 +180,8 @@ private BasicDataSource bds;
 
 	// Date형을 String형으로
 	public String getStringDate(Date date) {
-	
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-	return sdf.format(date);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		return sdf.format(date);
 	}
 	
 }

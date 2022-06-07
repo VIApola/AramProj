@@ -1,98 +1,95 @@
 @charset "UTF-8";
 
+/* 폰트 스타일 */
+@font-face {
+    font-family: 'GowunBatang-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
-                /* 폰트 스타일 */
-                @font-face {
-                    font-family: 'GowunBatang-Bold';
-                    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff') format('woff');
-                    font-weight: normal;
-                    font-style: normal;
-                }
+* {
+    font-family: 'Roboto Mono', monospace;
+    font-family: 'GowunBatang-Bold';
+}
 
-                * {
-                    font-family: 'Roboto Mono', monospace;
-                    font-family: 'GowunBatang-Bold';
-                }
-                
+/* 로그인 박스 영역*/
+.body {
+    text-align: center;
+    margin: none;
+}
 
-                /* 로그인 박스 영역*/
-                .body {
-                    text-align: center;
-                    margin: none;
-                }
-                
-                
-                /* 로그인 타이틀 */
-                .titleLogin {
-                	margin-bottom: 30px;
-                }
+/* 로그인 타이틀 */
+.titleLogin {
+	margin-bottom: 30px;
+}
 
-                /* 회원가입, ID/PW 찾기 a 태그*/
-                a {
-                    text-decoration: none;
-                    color: black;
-                }
+/* 회원가입, ID/PW 찾기 a 태그*/
+a {
+	text-decoration: none;
+	color: black;
+}
 
-                a:hover {
-                    color: black;
-                }
+a:hover {
+	color: black;
+}
 
-                /* 버튼 */
-                button {
-                    width: 200px;
-                    margin: 10px;
-                }
+/* 버튼 */
+button {
+    width: 200px;
+    margin: 10px;
+}
 
-                /* 로그인 글씨 */
-                h3 {
-                    border-bottom: 2px solid lightgray;
-                    padding-bottom: 15px;
-                }
-                
-                /* 아이디 저장 */
-                .rememberId {
-                	margin-top: 10px;
-                }
-                #rememberId {
-                	accent-color: green;
-                	margin-top: 6px;
-                }
+/* 로그인 글씨 */
+h3 {
+	border-bottom: 2px solid lightgray;
+	padding-bottom: 15px;
+}
 
-                /* id, pw input 창*/
-                .idInput {
-                    margin-bottom: 10px;
-                }
+/* 아이디 저장 */
+.rememberId {
+	margin-top: 10px;
+}
+#rememberId {
+	accent-color: green;
+	margin-top: 6px;
+}
 
-                .pwInput {
-                    margin-bottom: 10px;
-                }
+/* id, pw input 창*/
+.idInput {
+    margin-bottom: 10px;
+}
 
-                /* 카카오 로그인 이미지*/
-                img {
-                    width: 250px;
-                    cursor: pointer;
-                }
+.pwInput {
+    margin-bottom: 10px;
+}
 
-                /* 또는 글씨 양옆으로 선 그리기*/
-                .line {
-                    display: flex;
-                    flex-basis: 100%;
-                    align-items: center;
-                    color: black;
-                    margin: 8px 0px;
-                }
+/* 카카오 로그인 이미지*/
+.btnkakao img {
+    width: 250px;
+    cursor: pointer;
+}
 
-                .line::before,
-                .line::after {
-                    content: "";
-                    flex-grow: 1;
-                    background: rgba(0, 0, 0, 0.35);
-                    height: 1px;
-                    font-size: 0px;
-                    line-height: 0px;
-                    margin: 0px 16px;
-                }
+/* 또는 글씨 양옆으로 선 그리기*/
+.line {
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    color: black;
+    margin: 8px 0px;
+}
 
-                li {
-                    list-style: none;
-                }
+.line::before,
+.line::after {
+    content: "";
+    flex-grow: 1;
+    background: rgba(0, 0, 0, 0.35);
+    height: 1px;
+    font-size: 0px;
+    line-height: 0px;
+    margin: 0px 16px;
+}
+
+li {
+    list-style: none;
+}
