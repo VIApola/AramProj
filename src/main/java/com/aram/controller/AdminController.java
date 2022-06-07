@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.aram.dao.BlacklistDAO;
+import com.aram.dao.ItemDAO;
 import com.aram.dao.QnaDAO;
 import com.aram.dto.BlacklistDTO;
+import com.aram.dto.ItemViewDTO;
 import com.aram.dto.QnaDTO;
 import com.aram.dto.UserDTO;
 import com.google.gson.Gson;
@@ -77,7 +79,25 @@ public class AdminController extends HttpServlet {
 		}
 		
 		} else if (uri.equals("/toItemPage.admin")) { // 관리자 페이지(상품관리) 이동 요청
-			response.sendRedirect("/admin/itemManagePage.jsp");
+			
+			ItemDAO itemDao = new ItemDAO();
+			
+			try {
+				ArrayList<ItemViewDTO> mngItemList = itemDao.mngItemList();
+				System.out.println(mngItemList);
+				
+				int count = itemDao.countAllItems();
+				
+				request.setAttribute("count", count);
+				request.setAttribute("mngItemList", mngItemList);
+				request.getRequestDispatcher("/admin/itemManagePage.jsp").forward(request, response);
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			
 		} else if(uri.equals("/toUserManage.admin")) { //관리자 페이지(고객관리) 이동 요청
 			
 			BlacklistDAO BlacklistDAO = new BlacklistDAO();

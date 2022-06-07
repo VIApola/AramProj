@@ -364,46 +364,7 @@ public class ItemDAO {
 		}	
 	}  
 
-	// 제품 등록
-	public int insertItem(ItemDTO dto) throws Exception {
-		String sql = "insert into tbl_items values (?, ?, ?, ?, sysdate, ?, ?, ?)";
-		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
-			pst.setInt(1, dto.getItem_no());
-			pst.setString(2, dto.getItem_name());
-			pst.setInt(3, dto.getPrice());
-			pst.setString(4, dto.getItem_comment());
-			pst.setInt(5, dto.getItem_stock());
-			pst.setString(6, dto.getCategory_id());
-			pst.setInt(7, dto.getImg_no());			
-			
-			return pst.executeUpdate();
-		}
-	}
 	
-	// 제품 정보 수정
-	public int updateItem(ItemDTO dto) throws Exception {
-		String sql = "update tbl_items set item_name=?, price=?, item_comment=?, item_stock=?, category_id=?, img_no=?";
-		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
-			pst.setString(1, dto.getItem_name());
-			pst.setInt(2, dto.getPrice());
-			pst.setString(3, dto.getItem_comment());
-			pst.setInt(4, dto.getItem_stock());
-			pst.setString(5, dto.getCategory_id());
-			pst.setInt(6, dto.getImg_no());
-			
-			return pst.executeUpdate();
-		}
-	}
-
-	// 등록된 제품 삭제
-	public int deleteItem(int item_no) throws Exception {
-		String sql = "delete from tbl_items where item_no = ?";
-		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
-			pst.setInt(1, item_no);	
-			
-			return pst.executeUpdate();
-		}
-	}
 	
 	// Date형을 String형으로
 	public String getStringDate(Date date) {

@@ -140,7 +140,7 @@
                             <a class="nav-link" style="color: black;" href="/toItemPage.admin">상품관리</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: black;" href="/toQnAManagePage.admin">공지사항 관리</a>
+                            <a class="nav-link" style="color: black;" href="/toQnAManagePage.admin">게시판 관리</a>
                         </li>
                     </ul>    
               </div>
@@ -211,9 +211,20 @@
         </div>
         <!--콘텐츠-->
         <div class="contents-box">
-            <div class="row contents">
+<form id="qnaForm" action="" method="post">
+		<c:choose>
+		<c:when test="${empty QnaList}">
+		<div class="row contents">
+                <div class="col d-flex align-self-center justify-content-center">
+                    <h2>등록된 Q&A 게시글이 없습니다.</h2>
+                </div>
+        </div>
+		</c:when>
+		<c:otherwise>
+		<c:forEach items="${QnaList}" var="list"> 
+		 <div class="row contents">
                 <div class="col-1 d-flex align-self-center justify-content-center">
-                    <input type="checkbox" id="1">
+                    <input type="checkbox" class="clicks" name="user_id" value="${list.user_id}">
                 </div>
                 <div class="col-2 d-flex align-self-center justify-content-center">
                     <span>001</span>
@@ -231,6 +242,11 @@
                     <span>22/06/06</span>
                 </div>
             </div>
+		</c:forEach>
+		</c:otherwise>
+		</c:choose>
+            
+</form>
             <!-- 신규상품등록 버튼 -->
             <div class="row box-btn-addItem">
                 <div class="col d-flex align-self-center justify-content-end">

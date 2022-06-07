@@ -18,6 +18,11 @@ import com.aram.dto.QnaDTO;
 import com.aram.dto.UserDTO;
 import com.google.gson.Gson;
 
+// 세션 가져오기 : 공지사항 같은 경우 후에 관리자세션으로 연결할 것!
+//HttpSession session = request.getSession();
+//session.getAttribute("loginSession");
+
+
 @WebServlet("*.bo")
 public class BoardController extends HttpServlet {
 	
@@ -36,9 +41,9 @@ public class BoardController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		UserDTO userdto = new UserDTO();
-		// 세션 가져오기 : 관리자세션으로 연결할 것!
-		HttpSession session = request.getSession();
-		session.getAttribute("loginSession");
+		// 세션 가져오기 : 공지사항(notice) 같은 경우 관리자세션으로 연결할 것!
+//		HttpSession session = request.getSession();
+//		session.getAttribute("loginSession");
 //		System.out.println(userdto);
 	
 		
@@ -49,8 +54,10 @@ public class BoardController extends HttpServlet {
 			int curPage = 1;
 			System.out.println("curPage");
 			
-//			session.getAttribute("loginSession");
-//			System.out.println(userdto);
+			// 후에 관리자 세션으로 가져오기
+			HttpSession session = request.getSession();
+			session.getAttribute("loginSession");
+			
 			
 			NoticeDAO dao = new NoticeDAO();
 			
@@ -63,7 +70,7 @@ public class BoardController extends HttpServlet {
 				System.out.println(list);
 				request.setAttribute("list", list);
 
-				request.setAttribute("naviMap", map);
+				//request.setAttribute("naviMap", map);
         
 				request.getSession();
 
@@ -118,8 +125,11 @@ public class BoardController extends HttpServlet {
 			
 		}else if(uri.equals("/writeNoticeProc.bo")) { // Notice_게시글 작성 proc
 			
-//			UserDTO userdto = (UserDTO)request.getSession().getAttribute("loginSession");
-//			System.out.println(userdto);
+			// 후에 관리자 세션으로 가져오기
+			HttpSession session = request.getSession();
+			session.getAttribute("loginSession");
+			
+			
 			NoticeDTO noticedto = new NoticeDTO();
 			
 			String user_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();
@@ -248,12 +258,21 @@ public class BoardController extends HttpServlet {
 			
 		// Qna_게시판 검색
 		}else if(uri.equals("/qnaSearchProc.bo")) { 
+			
+			 HttpSession session = request.getSession();
+	          session.getAttribute("loginSession");
+	          String searchId = request.getParameter("searchid");
+	          String searchTitle = request.getParameter("searchtitle");
 
-			String searchId = request.getParameter("searchid");
-			String searchTitle = request.getParameter("searchtitle");
+//	          System.out.println("searchAuthor : " + searchId);
+//	          System.out.println("searchTitle : " + searchTitle);
+	          // 세션 아이디값
+	          String session_id = request.getParameter("user_id");
+	         System.out.println("세션 아이디값 : " + session_id);
+			
 
-			System.out.println("searchAuthor : " + searchId);
-			System.out.println("searchTitle : " + searchTitle);
+//			System.out.println("searchAuthor : " + searchId);
+//			System.out.println("searchTitle : " + searchTitle);
 
 
 			QnaDAO dao = new QnaDAO();
@@ -296,6 +315,8 @@ public class BoardController extends HttpServlet {
 			response.sendRedirect("/board/writeQna.jsp");
 			
 		}else if(uri.equals("/writeQnaProc.bo")) { // qna 게시글 작성 Proc
+			
+			HttpSession session = request.getSession();
 			
 			QnaDTO dto = new QnaDTO();
 			

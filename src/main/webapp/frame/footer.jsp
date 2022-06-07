@@ -49,8 +49,8 @@
 		<div class="col-2 d-none d-sm-block">
 			<ul class="ft-ul">
 				<li><strong>사이트맵</strong></li>
-				<a href=""><li>공지사항</li></a>
-				<a href=""><li>Q&A</li></a>
+				<a href="/notice.bo"><li>공지사항</li></a>
+				<a href="/qna.bo"><li>Q&A</li></a>
 			</ul>
 		</div>
 		<div class="col-3 d-none d-sm-block">
