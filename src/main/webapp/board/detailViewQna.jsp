@@ -160,34 +160,7 @@ textarea {
 		    	</script>
 			</c:if>
 
-		<%-- 
-		<div class="boxBtn">
-       		<button type="button" class="btn btn-secondary" id="btnBack">뒤로가기</button>
-	        <button type="button" id="btnModify" class="btn btn-warning">수정</button>
-	        <button type="button" id="btnDelete" class="btn btn-danger">삭제</button>
-    	</div> --%>
-		<%-- <c:if test="${loginSession.id eq dto.writer_id}">
-				<div class="col-2">
-					<button type="button" class="btn btn-warning" id="btnModify">수정</button>
-				</div>
-				<div class="col-2">
-					<button type="button" class="btn btn-danger" id="btnDelete">삭제</button>
-				</div>
-				<script>
-                    $("#btnModify").on("click", function() { // 수정 페이지 요청
-                        location.href = "/modify.bo?seq_board=${dto.seq_board}";
-                    });
-                    $("#btnDelete").on("click",function() { // 삭제 요청
-                        let answer = confirm("지금 삭제하시면 복구가 불가합니다. 정말 삭제하시겠습니까?");
-                        console.log(answer);
-                        if (answer) {
-                            location.href = "/deleteProc.bo?seq_board=${dto.seq_board}";
-                        }
-                    })
-                </script>
-			</c:if> --%>
-
-
+		
 		<%-- 
 		<div class="row comment">
 			<div class="row">

@@ -365,7 +365,6 @@ public class ItemDAO {
 	}  
 
 	
-	
 	// Date형을 String형으로
 	public String getStringDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
