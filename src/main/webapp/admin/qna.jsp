@@ -192,13 +192,13 @@
                 <div class="col-1 d-flex align-self-center justify-content-center">
                     <input type="checkbox" id="checkAll">
                 </div>
-                <div class="col-1 d-flex align-self-center justify-content-center">
+                <div class="col-2 d-flex align-self-center justify-content-center">
                     <span>게시글번호</span>
                 </div>
                 <div class="col-1 d-flex align-self-center justify-content-center">
                     <span>카테고리</span>
                 </div>
-                <div class="col-4 d-flex align-self-center justify-content-center">
+                <div class="col-5 d-flex align-self-center justify-content-center">
                     <span>제목</span>
                 </div>
                 <div class="col-2 d-flex align-self-center justify-content-center">
@@ -215,13 +215,13 @@
                 <div class="col-1 d-flex align-self-center justify-content-center">
                     <input type="checkbox" id="1">
                 </div>
-                <div class="col-1 d-flex align-self-center justify-content-center">
+                <div class="col-2 d-flex align-self-center justify-content-center">
                     <span>001</span>
                 </div>
                 <div class="col-1 d-flex align-self-center justify-content-center">
                     <span>상품문의</span>
                 </div>
-                <div class="col-4 d-flex align-self-center justify-content-center">
+                <div class="col-5 d-flex align-self-center justify-content-center">
                      <span>식물이 금방 시들었는데 물을 너무 자주줘서그런가요</span>
                 </div>
                 <div class="col-2 d-flex align-self-center justify-content-center">

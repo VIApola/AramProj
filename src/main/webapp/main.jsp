@@ -61,7 +61,7 @@
 <body><!--  onLoad="javascript:pop()" -->
     <div class="container main-container">
 		<jsp:include page="/frame/header.jsp"></jsp:include>
-
+  
         <!-- 케로셀 영역 시작-->
         <div class="row">
           <div class="col">
