@@ -34,10 +34,6 @@ public class AdminController extends HttpServlet {
 		System.out.println("요청 uri" + uri);
 		
 		
-	
-		
-		
-		
 		if(uri.equals("/itemUpload.admin")) {
 			System.out.println("파일 업로드 요청");
 
