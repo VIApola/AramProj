@@ -192,16 +192,16 @@
                 <div class="col-1 d-flex align-self-center justify-content-center">
                     <input type="checkbox" id="checkAll">
                 </div>
-                <div class="col-1 d-flex align-self-center justify-content-center">
+                <div class="col-2 d-flex align-self-center justify-content-center">
                     <span>게시글번호</span>
                 </div>
                 <div class="col-2 d-flex align-self-center justify-content-center">
                     <span>아이디</span>
                 </div>
                 <div class="col-1 d-flex align-self-center justify-content-center">
-                    <span>첨부파일</span>
+                    <span>첨부사진</span>
                 </div>
-                <div class="col-4 d-flex align-self-center justify-content-center">
+                <div class="col-5 d-flex align-self-center justify-content-center">
                     <span>내용</span>
                 </div>
                 <div class="col-1 d-flex align-self-center justify-content-center">
@@ -229,15 +229,18 @@
                 </div>
                 <div class="col-1 d-flex align-self-center justify-content-center">
                     <span>${reviewList.review_no}</span>
+
                 </div>
                 <div class="col-2 d-flex align-self-center justify-content-center">
                     <span>${reviewList.user_id}</span>
                 </div>
                 <div class="col-1 d-flex align-self-center justify-content-center">
-                    <img src="">
+                    <img src="" style="width:50px height:50px">
                 </div>
+
                 <div class="col-4 d-flex align-self-center justify-content-center">
                     <span><a href="">${reviewList.content}</a></span>
+
                 </div>
                 <div class="col-1 d-flex align-self-center justify-content-center">
                     <span>${reviewList.score}</span>
@@ -274,11 +277,9 @@
         // 전체체크
         $("#checkAll").change(function () {
             if ($("#checkAll").is(":checked")) {
-                $("#1").prop("checked", true);
-                $("#2").prop("checked", true);
+                $(".clicks").prop("checked", true);
             } else {
-                $("#1").prop("checked", false);
-                $("#2").prop("checked", false);
+                $(".clicks").prop("checked", false);
             }
         });
       //체크박스에 체크된 id값만 가져오기

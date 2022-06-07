@@ -18,6 +18,10 @@
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
 
+    <!--AOS 라이브러리-->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
 <%-- Style영역 --%>
 <link href="${pageContext.request.contextPath}/resources/css/notice.css"
 	rel="stylesheet" type="text/css">
@@ -27,8 +31,9 @@
 <body>
 	<div class="container">
 		
-		<%-- 헤더 부분 
-		<jsp:include page="/frame/header.jsp"></jsp:include>--%>
+		<!-- 헤더 -->
+		<jsp:include page="/frame/header.jsp"></jsp:include>
+		
 		<div class="row">
 			<div class="col-md-12">
 				<div class="imgBox">
@@ -55,7 +60,7 @@
 						<div class="inputPart">
 							<div class="input-group mb-3">
 								<input type="text" class="form-control" id="resSearchText">
-								<span class="btn btn-outline-secondary" id="resSearchBtn">검색</span>
+								<button class="btn btn-outline-secondary" id="resSearchBtn">검색</button>
 							</div>
 						</div>
 					</div>
@@ -75,7 +80,7 @@
 					<div class="inputPart">
 						<div class="input-group mb-3">
 							<input type="text" class="form-control" id="searchText">
-							<span class="btn btn-outline-secondary" id="searchBtn">검색</span>
+							<span class="btn btn-outline-secondary" id="adpSearchBtn">검색</span>
 						</div>
 					</div>
 				</div>
@@ -213,7 +218,7 @@
     	})
 	
     	// 비반응형 검색 기능
-    	$("#searchBtn").on("click", function(){
+    	$("#adpSearchBtn").on("click", function(){
     		let searchInput = $("#searchInput option:selected").val();
     		let searchText = $("#searchText").val();
     		console.log(searchInput);
@@ -255,6 +260,36 @@
     		});
     		
     	})
+    	
+    	//네비바 검색창 -> 상품검색페이지
+      	$("#searchBtn").on("click",function(){
+      		let searchKeyword = $("#searchKeyword").val();
+      		if($("#searchKeyword").val()==""){
+      			alert("검색어를 입력해 주세요");
+      			return;
+      		}else{
+      			location.href ="/searchItem.item?searchKeyword="+searchKeyword;
+      		}
+      		
+      	})
+      
+      	//더많은 상품 보러가기 버튼 클릭했을때
+      	$("#toSerchItemBtn").on("click", function() {
+      		location.href = "/toSearchPage.item?curPage=1";
+      	})
+      	
+
+        //AOS
+        AOS.init();
+
+        //상단바 sm크기에서 생기는 navbar
+        function openNav() {
+          document.getElementById("mySidenav").style.width = "100%";
+        }
+        
+        function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+        }
     	
 
     </script>

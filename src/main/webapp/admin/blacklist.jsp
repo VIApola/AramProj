@@ -40,6 +40,7 @@
                         <li class="nav-item">
 
                             <a class="nav-link" style="color: black;" href="/toQnAManagePage.admin">공지사항 관리</a>
+
                         </li>
                     </ul>    
             </div>
