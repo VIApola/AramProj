@@ -291,6 +291,15 @@ public class UserController extends HttpServlet {
 				System.out.println("암호화된 데이터 : " + pw);
 				// 세션의 아이디 값과 입력한 아이디 값이 같으면 -> 아이디 비번 같은지 확인
 
+				if(session_id.equals(id)) {
+//					int rs = dao.deleteUser(id, pw);
+//					if(rs > 0) {
+//						
+//					}
+//				}else {
+//					
+//				}
+          
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -324,7 +333,13 @@ public class UserController extends HttpServlet {
 			}
 			
 		}else if (uri.equals("/toMypage.user")) { // 마이페이지 요청
-			response.sendRedirect("/member/mypage.jsp");
+			 	HttpSession session = request.getSession();
+	            session.getAttribute("loginSession");
+	            String session_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();
+	            System.out.println("현재 로그인세션 ID :" + session_id);
+	            request.setAttribute("loginSession", session.getAttribute("loginSession"));
+	            request.getRequestDispatcher("/member/mypage.jsp").forward(request, response);
+	            
 		}else if(uri.equals("/pwCheck.user")) { // 패스워드 확인
 			String pwCheck = request.getParameter("pwCheck");
 			try {
