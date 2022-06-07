@@ -291,14 +291,6 @@ public class UserController extends HttpServlet {
 
 				if(session_id.equals(id)) {
 					UserDAO dao = new UserDAO();
-
-//					int rs = dao.deleteUser(id, pw);
-//					if(rs > 0) {
-//						
-//					}
-//				}else {
-//					
-
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
