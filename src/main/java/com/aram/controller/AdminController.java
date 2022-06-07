@@ -10,14 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import com.aram.dao.ItemDAO;
-import com.aram.dto.ItemViewDTO;
-
 import com.aram.dao.BlacklistDAO;
+import com.aram.dao.ItemDAO;
+import com.aram.dao.QnaDAO;
 import com.aram.dto.BlacklistDTO;
+import com.aram.dto.ItemViewDTO;
+import com.aram.dto.QnaDTO;
 import com.aram.dto.UserDTO;
-
 import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -39,7 +38,11 @@ public class AdminController extends HttpServlet {
 		System.out.println("요청 uri" + uri);
 		
 		
-		if(uri.equals("/itemUpload.admin")) { // 상품등록
+	
+		
+		
+		
+		if(uri.equals("/itemUpload.admin")) {
 			System.out.println("파일 업로드 요청");
 
 		String realPath = request.getServletContext().getRealPath("");	
@@ -76,7 +79,7 @@ public class AdminController extends HttpServlet {
 		}
 		
 		} else if (uri.equals("/toItemPage.admin")) { // 관리자 페이지(상품관리) 이동 요청
-
+			
 			ItemDAO itemDao = new ItemDAO();
 			
 			try {
@@ -92,35 +95,9 @@ public class AdminController extends HttpServlet {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-
-		} else if (uri.equals("/toUserManage.admin")) { //관리자 페이지(고객관리) 이동 요청
-	         response.sendRedirect("/admin/blacklist.jsp");
-	         
-		} else if (uri.equals("/toNoticeManage.admin")) { // 관리자 페이지 (공지사항 관리) 이동 요청
-			response.sendRedirect("/board/notice.jsp");
 			
-		} else if (uri.equals("/toModifyItem.admin")) { // 개별상품 수정버튼 눌렀을 때
-			int item_no = Integer.parseInt(request.getParameter("item_no"));
-			System.out.println(item_no);
 			
-			ItemDAO itemdao = new ItemDAO();
-			try {
-				ItemViewDTO dto = itemdao.selectByItemNo(item_no);
-				request.setAttribute("dto", dto);
-				System.out.println(dto);
-				
-				// RealPath로 쓰면 맨 앞에 슬래시가 2개가 더 생겨서 취소
-//				String filePath = request.getServletContext().getRealPath("/resources/images/items");
-//				System.out.println(filePath);
-//				request.setAttribute("filePath", filePath);
-				
-				
-				
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			request.getRequestDispatcher("/admin/itemModify.jsp").forward(request, response);
-
+			
 		} else if(uri.equals("/toUserManage.admin")) { //관리자 페이지(고객관리) 이동 요청
 			
 			BlacklistDAO BlacklistDAO = new BlacklistDAO();
@@ -325,14 +302,26 @@ public class AdminController extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-
 			
 		}else if(uri.equals("/toQnAManagePage.admin")) {//QnA 관리 페이지 요청
+			QnaDAO QnaDAO = new QnaDAO();
+			
+			try {
+				
+				ArrayList<QnaDTO> list = QnaDAO.qnaSelectAll();
+				request.setAttribute("QnaList", list);
+				
+				request.getRequestDispatcher("/admin/qna.jsp").forward(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			
+			
 			response.sendRedirect("/admin/qna.jsp");
 		}else if(uri.equals("/toReviewManage.admin")) {//리뷰 관리 페이지 요청
 			response.sendRedirect("/admin/review.jsp");
-
 		}
-
 	}
 }
