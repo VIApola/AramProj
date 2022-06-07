@@ -1,7 +1,9 @@
 package com.aram.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.io.PrintWriter;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.aram.dao.ReviewDAO;
 import com.aram.dao.CartDAO;
 import com.aram.dao.UserDAO;
+import com.aram.dto.MypageReviewDTO;
 import com.aram.dto.UserDTO;
 import com.aram.utils.EncryptionUtils;
 
@@ -30,8 +34,9 @@ public class UserController extends HttpServlet {
 		System.out.println("요청 uri : " + uri);
     
 		request.setCharacterEncoding("utf-8");
-		
+    
 		if (uri.equals("/idCheck.user")) { // 아이디 중복체크 요청
+
 			String id = request.getParameter("id");
 			System.out.println("아이디 중복확인 : " + id);
 			UserDAO dao = new UserDAO();
@@ -273,36 +278,130 @@ public class UserController extends HttpServlet {
 			session.invalidate();
 			response.sendRedirect("/main"); //로그아웃하면 main으로
 		
-		}else if(uri.equals("/toMypage.user")){ // 마이페이지 요청
-			response.sendRedirect("/member/mypage.jsp");
+
+		}else if(uri.equals("/toMypage.user")){// 마이페이지 요청
+			HttpSession session = request.getSession();
+			session.getAttribute("loginSession");		
+			
+			String session_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();	
+			System.out.println("현재 로그인세션 ID :" + session_id);	
+			request.setAttribute("loginSession", session.getAttribute("loginSession"));
+			
+			request.getRequestDispatcher("/member/mypage.jsp").forward(request, response);
 			
 		} else if(uri.equals("/delete.user")) { // 회원탈퇴 요청
 		
 			String id = request.getParameter("id");
-			String pw = request.getParameter("pw");
-			System.out.println("회원탈퇴 아이디 비번 : " + id + " : " +pw);
-			HttpSession session = request.getSession();
-			// 세션에서 아이디값 꺼내기
-			String session_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();
+
+			System.out.println("회원탈퇴 아이디 : " + id);
+		
 			try {
-				pw = EncryptionUtils.getSHA512(pw);
-				System.out.println("암호화된 데이터 : " + pw);
-				// 세션의 아이디 값과 입력한 아이디 값이 같으면 -> 아이디 비번 같은지 확인
-
-				if(session_id.equals(id)) {
-					UserDAO dao = new UserDAO();
-
-//					int rs = dao.deleteUser(id, pw);
-//					if(rs > 0) {
-//						
-//					}
-//				}else {				
-
+				UserDAO dao = new UserDAO();
+				int rs = dao.deleteUser(id);
+			
+				if(rs > 0) {
+					response.getWriter().append("true");
+				}else {
+					response.getWriter().append("false");
 				}
+				
+				
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
 
+		}else if(uri.equals("/deleteKakao.user")) { // 카카오 회원탈퇴 요청
+			HttpSession session = request.getSession();
+			session.getAttribute("loginSession");
+			String session_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();	
+			String session_social = ((UserDTO)session.getAttribute("loginSession")).getSocial_login();
+			
+			System.out.println("id : " + session_id + " , kakao ID : " + session_social);
+			
+			UserDAO dao = new UserDAO();
+			
+			try {
+				
+			int rs = dao.deleteKakaoUser(session_id, session_social);
+			if(rs>0) {
+				response.getWriter().append("success");
+			}else {
+				response.getWriter().append("fail");
+			}
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}	
+			
+		}else if(uri.equals("/deleteProc.user")) { // 회원탈퇴 조건 검사
+			HttpSession session = request.getSession();
+			session.getAttribute("loginSession");
+			String session_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();	
+			String session_pw = ((UserDTO)session.getAttribute("loginSession")).getUser_pw();
+			
+			System.out.println("session ID : " + session_id + " session_pw : " + session_pw);
+			
+			String id = request.getParameter("id");
+			String raw_pw = request.getParameter("pw");
+
+
+			try {
+				
+			String pw = EncryptionUtils.getSHA512(raw_pw);
+			
+			UserDAO dao = new UserDAO();
+
+			
+			if(dao.checkId(id) != 0 || !session_id.equals(id)) { // input값과 데이터값이 일치하면 0,현재 로그인세션값과 입력한 정보가 일치하는지
+						
+					response.getWriter().append("fail_id");
+					return;
+			}
+
+			if(dao.checkPw(id, pw) != 0 || !session_pw.equals(pw)) { //일치하면 0
+					response.getWriter().append("fail_pw");
+					return;
+			}else {
+					response.getWriter().append("pass");
+			}
+			
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else if(uri.equals("/review.user")) { // 마이페이지-리뷰 페이지 요청	
+			
+			
+			HttpSession session = request.getSession();
+			session.getAttribute("loginSession");
+			String session_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();	
+			
+			System.out.println("현재 로그인세션 ID : " + session_id);
+			UserDAO dao = new UserDAO();
+			try {
+				ArrayList<MypageReviewDTO> list = dao.selectAllById(session_id);
+
+				System.out.println("리스트 : " + list);
+	
+				Gson gson = new Gson();
+				
+				String rs = gson.toJson(list);
+			
+				response.getWriter().append(rs);
+				
+				//dao.insertReview(new ReviewDTO( 0, "긴 제목 초과 시 ", "긴제목6글자이상테스트1트 ㄱㄱㄱㄱㄱㄱ", "a", 5, "hwi9201", 105, 4 ));
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+			
+			
+			
+			
+			
+			
 		}else if(uri.equals("/modify.user")) { // 회원정보 수정 요청
 			
 			HttpSession session = request.getSession();
