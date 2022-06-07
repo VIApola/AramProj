@@ -32,12 +32,11 @@
 </head>
 
 <body>
+	<!-- 컨테이너 -->
 	<div class="container">
-		<jsp:include page="/frame/header.jsp"></jsp:include>
-		<!-- 컨테이너 -->
 		<div class="row header">
 			<!-- 헤더부분 -->
-			<div class="col">여기는 Header</div>
+			<jsp:include page="/frame/header.jsp"></jsp:include>
 		</div>
 		<!-- 헤더부분 끝 -->
 		<div class="row body">
@@ -49,85 +48,89 @@
 						<span class="star">*</span> <span>표시는 필수로 작성해주세요.</span>
 					</div>
 				</div>
-				<div class="signupInputBox">
+				<div class="col-3"></div>
+				<div class="col signupInputBox">
 					<!-- 사용자 입력 박스-->
 					<div class="row clsInputRow">
-						<div class="col-4 col-md-3 align-self-center">
+						<div class="col-3 col-md-2 align-self-center">
 							<span class="star">*</span> <label for="name">이름</label>
 						</div>
-						<div class="col-7 col-md-9">
+						<div class="col-4 col-md-3">
 							<input type="text" class="form-control" id="name" name="name">
 						</div>
-					</div>
-					<div class="row clsCheckInfo">
-						<div class="col-4 col-md-3"></div>
-						<div class="col-7 col-md-9 ">
-							<span id="checkName"></span>
+						<div class="row clsCheckInfo">
+							<div class="col-3 col-md-2"></div>
+							<div class="col-4 col-md-3 ">
+								<span id="checkName"></span>
+							</div>
 						</div>
 					</div>
+				
 					<div class="row clsInputRow">
-						<div class="col-4 col-md-3 align-self-center">
+						<div class="col-3 col-md-2 align-self-center">
 							<span class="star">*</span> <label for="id">아이디</label>
 						</div>
-						<div class="col-5 col-md-7">
+						<div class="col-4 col-md-3">
 							<input type="text" class="form-control" id="id" name="id">
 						</div>
 						<div class="col-3 col-md-2">
 							<button type="button" id="idCheckBtn"
 								class="btn btn-outline-success">중복확인</button>
 						</div>
-					</div>
-					<div class="row clsCheckInfo">
-						<div class="col-4 col-md-3"></div>
-						<div class="col-8 col-md-9 ">
-							<span id="checkId"></span>
+						<div class="row clsCheckInfo">
+							<div class="col-3 col-md-2"></div>
+							<div class="col-5 col-md-4 ">
+								<span id="checkId"></span>
+							</div>
 						</div>
 					</div>
+					
 					<div class="row clsInputRow">
-						<div class="col-4 col-md-3 align-self-center">
+						<div class="col-3 col-md-2 align-self-center">
 							<span class="star">*</span> <label for="nickname">닉네임</label>
 						</div>
-						<div class="col-7 col-md-9 ">
+						<div class="col-4 col-md-3 ">
 							<input type="text" class="form-control" id="nickname"
 								name="nickname">
 						</div>
-					</div>
-					<div class="row clsCheckInfo">
-						<div class="col-4 col-md-3"></div>
-						<div class="col-8 col-md-9 ">
-							<span id="checkNickname"></span>
-						</div>
-					</div>
-					<div class="row clsInputRow">
-						<div class="col-4 col-md-3 align-self-center">
-							<span class="star">*</span> <label for="password">비밀번호</label>
-						</div>
-						<div class="col-7 col-md-9 ">
-							<input type="password" class="form-control" id="password"
-								name="password">
-						</div>
-					</div>
-					<div class="row clsCheckInfo">
-						<div class="col-4 col-md-3"></div>
-						<div class="col-8 col-md-9 ">
-							<span id="checkPw"></span>
+						<div class="row clsCheckInfo">
+							<div class="col-3 col-md-2"></div>
+							<div class="col-5 col-md-4 ">
+								<span id="checkNickname"></span>
+							</div>
 						</div>
 					</div>
 
 					<div class="row clsInputRow">
-						<div class="col-4 col-md-3 align-self-center">
+						<div class="col-3 col-md-2 align-self-center">
+							<span class="star">*</span> <label for="password">비밀번호</label>
+						</div>
+						<div class="col-5 col-md-4 ">
+							<input type="password" class="form-control" id="password"
+								name="password">
+						</div>
+						<div class="row clsCheckInfo">
+							<div class="col-3 col-md-2"></div>
+							<div class="col-5 col-md-4 ">
+								<span id="checkPw"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row clsInputRow">
+						<div class="col-3 col-md-2 align-self-center">
 							<span class="star">*</span> <label for="password2">비밀번호
 								확인</label>
 						</div>
-						<div class="col-7 col-md-9 ">
+						<div class="col-5 col-md-4 ">
 							<input type="password" class="form-control" id="password2">
 						</div>
 					</div>
 					<div class="row clsInputRow">
-						<div class="col-4 col-md-3 align-self-center">
+						<div class="col-3 col-md-2 align-self-center">
 							<span class="star">*</span> <label for="phone1">휴대폰번호</label>
 						</div>
-						<div class="col-3 col-md-3">
+						<div class="col-3 col-md-1">
 							<select class="form-select" id="phone1">
 								<option value="010">010</option>
 								<option value="011">011</option>
@@ -137,11 +140,11 @@
 								<option value="019">019</option>
 							</select>
 						</div>
-						<div class="col-2 col-md-3">
+						<div class="col-3 col-md-1">
 							<input type="number" class="form-control" id="phone2"
 								maxlength="4">
 						</div>
-						<div class="col-2 col-md-3">
+						<div class="col-3 col-md-1">
 							<input type="number" class="form-control" id="phone3"
 								maxlength="4">
 						</div>
@@ -150,18 +153,18 @@
 						</div>
 					</div>
 					<div class="row clsInputRow">
-						<div class="col-4 col-md-3 align-self-center">
+						<div class="col-3 col-md-2 align-self-center">
 							<span class="star">*</span> <label for="email">이메일</label>
 						</div>
-						<div class="col-7 col-md-9 ">
+						<div class="col-5 col-md-4 ">
 							<input type="text" class="form-control" id="email" name="email">
 						</div>
 					</div>
 					<div class="row clsInputRow">
-						<div class="col-4 col-md-3 align-self-center">
+						<div class="col-3 col-md-2 align-self-center">
 							<span class="star">*</span> <label for="postcode">우편번호</label>
 						</div>
-						<div class="col-3 col-md-3">
+						<div class="col-3 col-md-1">
 							<input type="text" class="form-control" id="postcode"
 								name="postcode" readonly>
 						</div>
@@ -171,19 +174,19 @@
 						</div>
 					</div>
 					<div class="row clsInputRow">
-						<div class="col-4 col-md-3 align-self-center">
+						<div class="col-3 col-md-2 align-self-center">
 							<span class="star">*</span> <label for="roadAddr">주소</label>
 						</div>
-						<div class="col-7 col-md-9 ">
+						<div class="col-7 col-md-4">
 							<input type="text" class="form-control" name="roadAddr"
 								id="roadAddr" placeholder="도로명주소" readonly>
 						</div>
 					</div>
 					<div class="row clsInputRow">
-						<div class="col-4 col-md-3 align-self-center">
+						<div class="col-3 col-md-2 align-self-center">
 							<label for="detailAddr">상세주소</label>
 						</div>
-						<div class="col-7 col-md-9 ">
+						<div class="col-7 col-md-4 ">
 							<input type="text" class="form-control" id="detailAddr"
 								placeholder="상세주소">
 						</div>

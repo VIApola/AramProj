@@ -83,7 +83,7 @@ span:hover::after {
 </head>
 <body>
 	<div class="container">
-		<div class="row">여기는 Header</div>
+		<jsp:include page="/frame/header.jsp"></jsp:include>
 		<div class="row">
 			<div class="col-12 d-md-none">
 				<select id="selectbox" class="form-select"
@@ -103,7 +103,7 @@ span:hover::after {
 				</div>
 			</div>
 			<div class="row">
-				<div class="col d-none d-md-block col-md-5">
+				<div class="col d-none d-md-block col-md-3">
 					<div class="row">
 						<div class="col">
 							<h5>Shopping page</h5>
@@ -145,12 +145,12 @@ span:hover::after {
 						</div>
 					</div>
 				</div>
-				<div class="col-12 col-md-7" id="content">
+				<div class="col-12 col-md-9" id="content">
 					<p>${loginSession.nickname}님, 환영합니다.</p>
 				</div>
 			</div>
 		</div>
-		<div class="row">여기는 footer</div>
+		<jsp:include page="/frame/footer.jsp"></jsp:include>
 	</div>
 	<script>
     $("#mypage").on("click", function(){

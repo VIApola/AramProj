@@ -43,46 +43,12 @@ public class OrderController extends HttpServlet {
 			// 주문 페이지 출력
 			HttpSession session = request.getSession();
 			UserDTO user = (UserDTO)session.getAttribute("loginSession");
-			String user_id = user.getUser_id();
-			String username = user.getUsername();
-			String phone = user.getPhone();
-			String email = user.getEmail();
-			String addr = user.getAddr();
 			
-			LinkedList<CartDTO> cartList = (LinkedList<CartDTO>)session.getAttribute("cartList");
-			
-			UserDTO userDto = new UserDTO(user_id, null, username, null, phone, email,
-					null, addr, null, null, null, null,
-					null);
-			
-			
-			// int quantity = Integer.parseInt(request.getParameter("quantity"));
-			
-			CartDAO cartDao = new CartDAO();
-			
-			try {
-				// 총 합계 출력
-				int totalPrice = 0;
-				for (Iterator itr = cartList.iterator(); itr.hasNext();) {
-					CartDTO item = (CartDTO) itr.next();
-					totalPrice += item.getPrice() * item.getQuantity();
-				}
-				
-				System.out.println(cartList);
-				request.setAttribute("cartList", cartList);
-				request.setAttribute("totalPrice", totalPrice);
-				request.setAttribute("userInfo", userDto);
-				request.getRequestDispatcher("/shop/purchase.jsp").forward(request, response);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 
 		} else if(uri.equals("/complete.order")) {
 			// 주문완료 요청
 			HttpSession session = request.getSession();
 			UserDTO user = (UserDTO)session.getAttribute("loginSession");
-			LinkedList<CartDTO> cartList = (LinkedList<CartDTO>)session.getAttribute("cartList");
 			
 			String user_id = user.getUser_id();
 			String order_name = request.getParameter("order_name");
@@ -115,27 +81,14 @@ public class OrderController extends HttpServlet {
 				// System.out.println(list);
 				
 				// 총 합계 출력
-				int totalPrice = 0;
-				for (Iterator itr = cartList.iterator(); itr.hasNext();) {
-					CartDTO item = (CartDTO) itr.next();
-					totalPrice += item.getPrice() * item.getQuantity();
-				}
-				
-				int order_amount = totalPrice;
+
 				// 주문서 생성
 				int	orderResult = dao.createOrder(new OrderDTO(order_no, user_id, order_name, order_email, order_phone,
 																null, order_amount, null, delivery_name, delivery_phone, 
 																delivery_addr, order_msg, delivery_msg));
 				// 카트에 담긴 상품 주문대기로 이동
 				int addOrder = 0;
-				for (CartDTO item : cartList) {
-					int item_no = item.getItem_no();
-					String item_name = item.getItem_name();
-					int price = item.getPrice();
-					int quantity = item.getQuantity();
-					
-					addOrder = dao.cartToOrder(new OrderItemDTO(order_no, item_no, item_name, price, quantity));
-				}
+
 				if(orderResult > 0 && addOrder > 0) {
 					// 주문이 정상적으로 완료
 					System.out.println("주문 담기 완료");

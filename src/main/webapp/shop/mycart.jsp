@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +23,10 @@
 <link href="${pageContext.request.contextPath}/resources/css/mycart.css"
 	rel="stylesheet" type="text/css">
 <title>장바구니</title>
+
+<style>
+
+</style>
 
 </head>
 <body>
@@ -49,34 +54,37 @@
 	<div class="body-list">
 		<c:forEach items="${list}" var="dto">
 			<c:if test="${loginSession eq dto.user_id}">
-			<div class="row list-row">
+			<div class="row list-row m-2">
 				<div class="col-1 d-flex align-items-center justify-content-center">
-					<input class="form-check-input" type="checkbox" checked="checked"
+					<input class="form-check-input checkBox" type="checkbox" checked="checked"
 							id="${dto.price}" name="checkBox" value="${dto.item_no}">
 				</div>
 				<div class="col-2">
-					<img src="/resources/images/items/${dto.item_name}.png">
+					<img src="/resources/images/items/${dto.item_name}.png" style="width: 100px">
 				</div>
 				<div class="col-5 itemName d-flex align-items-center">
 					<span>${dto.item_name}</span>
 				</div>
 				<div class="col-2 quantityBox d-flex align-items-center justify-content-center">
-					<input type='button' class="btnPlus" value='+' />
-					<input type="text" class="p_num" value="${dto.quantity}" style="width: 20px;text-align:center;">
-					<input type='button' class="btnMinus" value='-' />
+					<input type='button' id="btnPlus" value='+' />
+					<input type="text" id="qty" value="${dto.quantity}" readOnly>
+					<input type='button' id="btnMinus" value='-' />
+					<input type='hidden' class="individualPrice" value="${dto.quantity * dto.price}">
+					<input type="hidden" class="price" value="${dto.price}">
+					<%-- quantity 는 p_num.val() --%>
 				</div>
-				<div class="col-2 priceName d-flex align-items-center justify-content-center">
+					<div class="col-2 priceName d-flex align-items-center justify-content-center">
 					<span>${dto.price}</span>
-				</div>
+					</div>				
 			</div>
 			</c:if>
 		</c:forEach>
 	</div>
 	<div class="row price-row">
-		<div class="col">총 가격 : ${total} 원</div>
+		<div class="col totalPrice">총 가격<h1 class="total">0</h1></div>
 	</div>
 	<div class="row button-row">
-		<div class="col">
+		<div class="col btnRow">
 			<button type="button" class="btn btn-secondary btn-lg"
 				id="btnShopping">쇼핑 계속하기</button>
 			<button type="button" class="btn btn-secondary btn-lg" id="btnOrder">
@@ -86,169 +94,110 @@
 	<jsp:include page="/frame/footer.jsp"></jsp:include>
 </div>
 
-	<script>
-	$("#btnOrder").on("click", function(){
+<script>
+	$("#btnOrder").on("click", function() {
 		let ans = confirm("장바구니에 담긴 상품을 주문하시겠습니까?");
 		if(ans) {
 			location.href = "/purchase.order";
 		}
-	})
-    
-    <%--
-    $("input:checkbox:checked").each(function(){
-		
-		checkVals.push( $(this).val() );
-		
-	
-		console.log(checkVals);
 	});
-    --%>
-    
-    
-    
-    <%--
-    function count(type) {
-        // 결과를 표시할 element
-        const p_numElement = document.getElementsByClassName("p_num");
 
-        // 현재 화면에 표시된 값
-        let number = $(".p_num").val();
-
-        // 더하기/빼기
-        if (type === "plus") {
-          $(".p_num").val() = parseInt( $(".p_num").val() ) + 1;
-        } else if (type === "minus") {
-          $(".p_num").val() = parseInt( $(".p_num").val() ) - 1;
-        }
-       
-      }
-    --%>
-    
-    $(".btnPlus").on("click", function(){
-    	
-    	console.log($(".p_num").val());
-    	
-    	parseInt($(".p_num").val()) = parseInt($(".p_num").val()) + 1;
-    	
-    	console.log($(".p_num").val());
-    	
-    	
-    });
-    
-    $(".btnMinus").on("click", function(){
-    	console.log("-");
-    	
-		console.log($(".p_num").val());
-    	
-    	parseInt($(".p_num").val()) = parseInt($(".p_num").val()) + 1;
-    	
-    	
-    });
-    
-    
-    $("#btnDelete").on("click", function(){
-    	
-    	let con = confirm("이 물품들을 장바구니에서 삭제하시겠습니까?");
-    	
-    	if(con){
-    	
+	$("#btnShopping").on("click", function() {
+		location.href="/air.item";
+	});
+	
+	// 수량 변경 ajax
+	$(".quantityBox").on("click", "#btnPlus", function() {
+		total = parseInt($(".total").html());
+		quantity1 = quantity1 + 1;
+		total = total + parseInt(price1);
+		$(".total").html(total);
+	})
+	
+   // 삭제 요청 ajax
+	$("#btnDelete").on("click", function() {
+		let con = confirm("이 물품들을 장바구니에서 삭제하시겠습니까?");
+		// 배열로 체크한 항목 담기
+		if(con){
     		let checkval = "";
     		let checkVals = [];
-    		
-        	$("input:checkbox:checked").each(function(){
-        		
-        		checkVals.push( $(this).val() );
-        		
-        	
+        	$("input:checkbox:checked").each(function() {
+        		checkVals.push($(this).val());
         		console.log(checkVals);
         	});
-    		
-        
-        	
+			
+        	// ajax 요청으로 처리
         	$.ajax({
-        		url: "/deleteCart.cart"
-            	,	type:"post"
-            	,	traditional :true
-            	,	data: {
-            		checkVals
-            	}
-            	
-            	,	success: function(data){
-            		
-            		let list = JSON.parse(data);
-            		console.log(list);
-          
-            	<%--	
-            		for(let dto of list){
-            			
-            			console.log(dto.user_id);
-            			console.log(dto.price);
-            			console.log(dto.item_no);
-            			console.log("${loginSession}");      			
-            			
-            		}
-            		--%>
-            	
-            		
-            		$(".body-list").empty();
-            		       	
-            		for(let dto of list){
-            			
-            			if("${loginSession}" == dto.user_id){ 
-            				
-            				let list = $("<div>").addClass("row list-row");
-            				
-            				let col_3 =  $("<div>").addClass("col-3");
-            				let checkBox = $("<input>").attr({class:"form-check-input", type:"checkbox" ,id:dto.price}).val(dto.item_no).prop("checked", true);
-            				
-            				let img = $("<img>").attr({ src:"/resources/images/items/"+ dto.item_name +".png"});
-            				col_3.append(checkBox, img);
-            				
-            				
-            				let itemName = $("<div>").addClass("col-5 itemName");
-            				let nameSpan = $("<span>").html(dto.item_name);
-            				itemName.append(nameSpan);
- 
-            				let quantityBox = $("<div>").addClass("col-2 quantityBox");
-            				let plus = $("<input>").attr({class:"plus" ,type:"button"}).val('+');
-            				let quantity = $("<input>").attr({ class:"p_num", type:"text" }).val(dto.quantity);
-            				let minus = $("<input>").attr({class:"minus" , type:"button"}).val('-');
-            				quantityBox.append(plus, quantity, minus);
-            				
-            				let priceName = $("<div>").addClass("col-2 priceName");
-            				let priceSpan = $("<span>").html(dto.price);
-            				priceName.append(priceSpan);
-            				
-            				list.append(col_3, itemName, quantityBox, priceName);
-            				
-            				$(".body-list").append(list);           				
-            				
-            		}
-            		
-            	}   
-            		
-            		
-            	}		
-        		,	error:function(e){
-        			console.log(e);
-        		}
-            		
-        	});
- 
-    	}
-    	
-    	
-    	
-    	
-    	
-    });
+        		url: "/delete.cart"
+                , type:"post"
+                , traditional :true
+                , data: {
+                	checkVals
+                }
+        		, success: function(data) {
+        				printCartList(data);
+        		}, error:function(e) {
+        				console.log(e);
+               	}
+			})
+		}
+	})
+	
+	
+	// ajax 성공 시 리스트 출력해주는 함수
+	
+	function printCartList(data) {
+		let list = JSON.parse(data);
+		console.log(list);
+		console.log("list 길이 : " + list.length);
+		
+		$(".body-list").empty();
+		
+		for(let dto of list) {
+			
+			if("${loginSession}" == dto.user_id) { 
+				
+				let list = $("<div>").addClass("row list-row");
+				
+				let col_1 =  $("<div>").addClass("col-1 d-flex align-items-center justify-content-center");
+				let checkBox = $("<input>").attr({class:"form-check-input checkBox", type:"checkbox"}).val(dto.item_no).prop("checked", true);
+				col_1.append(checkBox);
+				
+				let col_2 = $("<div>").addClass("col-2");
+ 				let img = $("<img>").attr({ src:"/resources/images/items/"+ dto.item_name +".png"});
+ 				img.css("width","100px")
+ 				col_2.append(img);
+ 			
+				
+				let itemName = $("<div>").addClass("col-5 itemName d-flex align-items-center");
+				let nameSpan = $("<span>").html(dto.item_name);
+				itemName.append(nameSpan);
+
+				let quantityBox = $("<div>").addClass("col-2 quantityBox d-flex align-items-center justify-content-center");
+				let plus = $("<input>").attr({class:"btnPlus" ,type:"button"}).val('+');
+				let quantity = $("<input>").attr({ class:"p_num", type:"text" , "readonly":true}).val(dto.quantity);
+				let minus = $("<input>").attr({class:"btnMinus" , type:"button"}).val('-');
+				let individualPrice = $("<input>").attr({class:"individualPrice", type:"hidden"}).val(dto.quantity * dto.price);
+				let price = $("<input>").attr({class:"price", type:"hidden"}).val(dto.price);				
+				
+				quantityBox.append(plus, quantity, minus, individualPrice, price);
+				
+				let priceName = $("<div>").addClass("col-2 d-flex align-items-center justify-content-center");
+				let priceSpan = $("<span>").html(dto.price);
+				priceName.append(priceSpan);
+				
+				list.append(col_1,col_2, itemName, quantityBox, priceName);
+				
+				$(".body-list").append(list);           				
+	
+			}
+		}
+	}
+
+   
+   
+</script>
     
-    
-    </script>
-
-
-
-
 
 </body>
 </html>

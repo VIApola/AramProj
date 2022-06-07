@@ -30,6 +30,10 @@ p {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
+#qty {
+width: 20px;
+text-align:center;
+}
 .price-row {
     border-top: 1px solid gray;
     margin-top: 50px;

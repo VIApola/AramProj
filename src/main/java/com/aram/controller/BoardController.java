@@ -70,7 +70,7 @@ public class BoardController extends HttpServlet {
 				System.out.println(list);
 				request.setAttribute("list", list);
 
-				request.setAttribute("naviMap", map);
+				// request.setAttribute("naviMap", map);
         
 				request.getSession();
 
@@ -265,7 +265,9 @@ public class BoardController extends HttpServlet {
 //			System.out.println("searchAuthor : " + searchId);
 //			System.out.println("searchTitle : " + searchTitle);
 
-
+			String session_id = request.getParameter("user_id");
+            System.out.println("세션 아이디값 : " + session_id);
+			
 			QnaDAO dao = new QnaDAO();
 			
 			try {

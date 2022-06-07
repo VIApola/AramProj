@@ -179,26 +179,26 @@ public class CartDAO {
 		}
 		return checkVals.length;
 	}
-//	
-//	
-//	public int total(String user_id) throws Exception{
-//		String sql = "select price, quantity from tbl_cart left join tbl_items on tbl_cart.item_no = tbl_items.item_no where user_id = ? ";
-//		try(Connection con = bds.getConnection();
-//			PreparedStatement pstmt = con.prepareStatement(sql)	
-//				){
-//			pstmt.setString(1, user_id);
-//			
-//			ResultSet rs = pstmt.executeQuery();
-//			
-//			int total = 0;
-//			while(rs.next()) {
-//				int price = rs.getInt("price");
-//				int quantity = rs.getInt("quantity");
-//				
-//				total = total + (price * quantity);
-//			}
-//				return total;
-//		}
-//	}
+	
+	
+	public int total(String user_id) throws Exception{
+		String sql = "select price, quantity from tbl_cart left join tbl_items on tbl_cart.item_no = tbl_items.item_no where user_id = ? ";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)	
+				){
+			pstmt.setString(1, user_id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			int total = 0;
+			while(rs.next()) {
+				int price = rs.getInt("price");
+				int quantity = rs.getInt("quantity");
+				
+				total = total + (price * quantity);
+			}
+				return total;
+		}
+	}
 	
 }
