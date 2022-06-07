@@ -134,7 +134,7 @@
                             <a class="nav-link active" style="color: black;" href="#">로그아웃</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: black;" href="#">고객관리</a>
+                            <a class="nav-link" style="color: black;" href="/toUserManage.admin">고객관리</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" style="color: black;" href="#">상품관리</a>
@@ -143,7 +143,7 @@
                             <a class="nav-link" style="color: black;" href="#">공지사항 관리</a>
                         </li>
                     </ul>    
-            </div>
+              </div>
             </div>
         </div> <!-- 헤더 끝 -->
 
