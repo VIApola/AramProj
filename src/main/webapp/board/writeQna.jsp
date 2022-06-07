@@ -62,12 +62,12 @@
 }
 /* 내용 들어가는 부분*/
 .content {
-	margin : 30px;
+	margin: 30px;
 	border: 1px solid lightgrey;
 }
 
 #contentTitle {
-	margin-top : 10px
+	margin-top: 10px
 }
 
 .header-board {
@@ -76,11 +76,11 @@
 }
 
 .header-board p {
-	margin-bottom : 0px;
+	margin-bottom: 0px;
 }
 
 textarea {
-	height : 500px;
+	height: 500px;
 	resize: none;
 }
 /* 댓글 부분*/
@@ -95,7 +95,7 @@ textarea {
 }
 
 .boxBtn {
-	margin-bottom : 30px;
+	margin-bottom: 30px;
 }
 </style>
 </head>
@@ -110,25 +110,16 @@ textarea {
 		</div>
 		<form id="writeQnaForm" action="/writeQnaProc.bo" method="post">
 			<div class="row content">
-				<div class="row header-board" id = "contentTitle">
+				<div class="row header-board" id="contentTitle">
 					<div class="col-3 align-self-center">
 						<p>제목</p>
 					</div>
 					<div class="col-9">
-						<input type="text" name="title" id="title" class="form-control">
-					</div>
-				</div>
-				<div class="row header-board">
-					<div class="col-3 align-self-center">
-						<p>첨부파일</p>
-					</div>
-					<div class="col-3">
-						<p>
-							<a href=""></a>
-						</p>
-					</div>
-					<div class="col-6">
-						<img src="">
+						<select class="form-select" aria-label="Default select example" name = "title" id = "title">
+							<option selected value="상품문의">상품문의</option>
+							<option value="배송문의">배송문의</option>
+							<option value="결제문의">결제문의</option>
+						</select>
 					</div>
 				</div>
 				<div class="row header-board">
@@ -142,11 +133,11 @@ textarea {
 			</div>
 		</form>
 		<div class="boxBtn">
-       		<button type="button" class="btn btn-outline-secondary" id="btnBack">뒤로가기</button>
-        	<button type="button" class="btn btn-outline-success" id="btnSave">저장</button>
-        	
-    	</div>
-    	
+			<button type="button" class="btn btn-outline-secondary" id="btnBack">뒤로가기</button>
+			<button type="button" class="btn btn-outline-success" id="btnSave">저장</button>
+
+		</div>
+
 		<%-- 
 		<div class="row comment">
 			<div class="row">
