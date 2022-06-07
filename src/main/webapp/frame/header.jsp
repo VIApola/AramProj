@@ -12,7 +12,7 @@
 <title>Header</title>
 </head>
 <body>
-	<div class="row main-header">
+	<div class="row main-header d-flex justify-content-center">
 		<!-- 상단바 sm크기에서 생기는 네비바-->
 		<div class="col-1 d-md-none header-side">
 			<div id="mySidenav" class="sidenav">
@@ -61,9 +61,9 @@
 			<span style="font-size: 20px; cursor: pointer" onclick="openNav()">&#9776;</span>
 		</div>
 		<!--상단바 로고 영역-->
-		<div class="header-logo col-9">
+		<div class="header-logo col-9 d-flex justify-content-center">
 			<a href="/main"><img src="/resources/images/Logo_md.png"class="d-none d-sm-block" alt="..."></a>
-			<a href="/main"><img src="/resources/images/Logo_sm.png" class="d-block d-sm-none" style="margin-right: 100px;" alt="..."></a>
+			<a href="/main"><img src="/resources/images/Logo_sm.png" class="d-block d-sm-none" alt="..."></a>
 		</div>
 		<!-- 상단바 cart 영역-->
 		<div class="col-2 d-md-none header-left">
@@ -80,7 +80,7 @@
 		</div>
 		<!--네비게이션-->
 		<div class="col-4 d-none d-md-block">
-			<ul class="nav">
+			<ul class="nav d-flex justify-content-center">
 				<li class="nav-item"><c:choose>
 						<c:when test="${not empty loginSession}">
 							<a class="nav-link active" style="color: black;"
