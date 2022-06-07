@@ -120,6 +120,59 @@ public class AdminController extends HttpServlet {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
+		} else if(uri.equals("/searchMng.admin")) { // 관리자페이지 : 상품관리에서 상품검색
+			String item_name = request.getParameter("item_name");
+			String item_no = request.getParameter("item_no");
+			
+			System.out.println(item_name + " : " + item_no);
+			
+			
+			if (item_name != null && item_no == null) { // 상품명으로 검색
+				
+				ItemDAO itemDao = new ItemDAO();
+				
+				try {
+					
+					int count = itemDao.countAllItems();
+					
+					ArrayList<ItemViewDTO> list = itemDao.searchByNameMng(item_name);
+					System.out.println(list);
+					
+					Gson gson = new Gson();
+					String rs = gson.toJson(list);
+					System.out.println(rs);
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(rs);
+					
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+			} else if (item_name == null && item_no != null) { // 상품번호로 검색
+				ItemDAO itemDao = new ItemDAO();
+				
+				try {
+					
+					int count = itemDao.countAllItems();
+					
+					ArrayList<ItemViewDTO> list = itemDao.searchByNoMng(item_no);
+					System.out.println(list);
+					
+					Gson gson = new Gson();
+					String rs = gson.toJson(list);
+					System.out.println(rs);
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(rs);
+					
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+			
+			
+
+			
 		}else if(uri.equals("/addBlacklist.admin")) { //블랙리스트 추가요청
 			String[] user_id = request.getParameterValues("user_id");
 			String black_detail = request.getParameter("black_detail");
