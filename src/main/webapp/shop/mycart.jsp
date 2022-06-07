@@ -66,11 +66,10 @@
 				</div>
 				<div class="col-2 quantityBox d-flex align-items-center justify-content-center">
 					<input type='button' id="btnPlus" value='+' />
-					<input type="text" id="qty" value="${dto.quantity}" readOnly>
+					<input type="text" class="qty" id="qty" value="${dto.quantity}" readOnly>
 					<input type='button' id="btnMinus" value='-' />
 					<input type='hidden' class="individualPrice" value="${dto.quantity * dto.price}">
 					<input type="hidden" class="price" value="${dto.price}">
-					<%-- quantity 는 p_num.val() --%>
 				</div>
 					<div class="col-2 priceName d-flex align-items-center justify-content-center">
 					<span>${dto.price}</span>
@@ -80,7 +79,7 @@
 		</c:forEach>
 	</div>
 	<div class="row price-row">
-		<div class="col totalPrice">총 가격<h1 class="total">0</h1></div>
+		<div class="col">총 가격<h1 id="totalPrice">0</h1></div>
 	</div>
 	<div class="row button-row">
 		<div class="col btnRow">
@@ -94,6 +93,49 @@
 </div>
 
 <script>
+
+	// 처음 로드 될 때 나오는 총 가격 계산
+	let listSize = parseInt("${listSize}");
+	getTotalPrice();
+	
+	// 수량 추가와 감소시 프론트에서만 수량을 변경
+	$(".quantityBox").on("click", "#btnPlus", function() {
+		let qty = $(this).next().val();
+		if(qty > 4) {
+  			alert("5개 이상 담을 수 없습니다.");
+  			return;
+		}
+		qty = parseInt(qty) + 1;
+		$(this).next().val(qty);
+		getTotalPrice();
+
+	})
+	
+	$(".quantityBox").on("click", "#btnMinus", function() {
+		let qty = $(this).prev().val();
+		if(qty < 2) {
+  			return;
+		}
+		qty = parseInt(qty) - 1;
+		console.log(qty);
+		$(this).prev().val(qty);
+		getTotalPrice();
+	})
+	
+	// 변경된 수량에 맞게 총 금액 계산
+	function getTotalPrice() {
+		let total = 0;
+		for(let i = 0; i < listSize; i++) {
+			let price = $(".price").eq(i).val();
+			let quantity = parseInt($(".qty").eq(i).val());
+			let itemPrice = parseInt(price) * parseInt(quantity);
+		
+			total = total + (price * quantity);
+		}
+		$("#totalPrice").html(total);
+	}
+	
+	// 장바구니 주문 버튼 눌렀을 때
 	$("#btnOrder").on("click", function() {
 		let ans = confirm("장바구니에 담긴 상품을 주문하시겠습니까?");
 		if(ans) {
@@ -104,15 +146,8 @@
 	$("#btnShopping").on("click", function() {
 		location.href="/air.item";
 	});
-	
-	// 수량 변경 ajax
-	$(".quantityBox").on("click", "#btnPlus", function() {
-		total = parseInt($(".total").html());
-		quantity1 = quantity1 + 1;
-		total = total + parseInt(price1);
-		$(".total").html(total);
-	})
-	
+
+
    // 삭제 요청 ajax
 	$("#btnDelete").on("click", function() {
 		let con = confirm("이 물품들을 장바구니에서 삭제하시겠습니까?");
