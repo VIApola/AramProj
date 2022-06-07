@@ -260,9 +260,6 @@ public class UserController extends HttpServlet {
 			session.invalidate();
 			response.sendRedirect("/main"); //로그아웃하면 main으로
 		
-		}else if(uri.equals("/toMypage.user")){// 마이페이지 요청
-			response.sendRedirect("/member/mypage.jsp");
-			
 		}else if(uri.equals("/delete.user")) { // 회원탈퇴 요청
 		
 			String id = request.getParameter("id");
@@ -317,7 +314,13 @@ public class UserController extends HttpServlet {
 			}
 			
 		}else if (uri.equals("/toMypage.user")) { // 마이페이지 요청
-			response.sendRedirect("/member/mypage.jsp");
+			 	HttpSession session = request.getSession();
+	            session.getAttribute("loginSession");
+	            String session_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();
+	            System.out.println("현재 로그인세션 ID :" + session_id);
+	            request.setAttribute("loginSession", session.getAttribute("loginSession"));
+	            request.getRequestDispatcher("/member/mypage.jsp").forward(request, response);
+	            
 		}else if(uri.equals("/pwCheck.user")) { // 패스워드 확인
 			String pwCheck = request.getParameter("pwCheck");
 			try {

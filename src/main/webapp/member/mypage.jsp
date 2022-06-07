@@ -187,52 +187,7 @@ span:hover::after {
      });
      /* Q & A*/
      $("#qa").on("click", function(){
-    	 $("#content").empty();
-         let h3 = $("<h5>").html("Q & A");
-         let row = $("<div>").addClass('row');
-         let col = $("<div>").addClass("col-12").css("text-align", "center");
-         let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 글입니다.");
-         let p2 = $("<p>").html("* 제목을 클릭하시면, 게시글의 내용을 확인 할 수 있습니다.").css({"font-size": "small", "text-align" : "left"})
-          let tableRow = $("<div>").addClass('row');
-    		        let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
-    		        let table = $("<table>");
-    		        let tr1 = $("<tr>");
-    		        let thNum = $("<th>").html("번호");
-    		        let thTitle = $("<th>").html("제목");
-    		        let thDate = $("<th>").html("상품명");
-    		        let tr2 = $("<tr>");
-    		        // 조건문 돌려서 문의내역 있으면 td 생성
-    		        
-    		            col.append(p);
-    		            col.append(p2);
-    		            row.append(col);
-    		            tr1.append(thNum, thTitle, thDate);
-    		            table.append(tr1);
-    		            tableCol.append(table);
-    		            tableRow.append(tableCol);
-    		            $("#content").append(h3); 
-    		            $("#content").append(row);
-    		            $("#content").append(tableRow); 
-    	 $.ajax({
-    		 url: "/qnaSearchProc.bo?=${loginSession.user_id}"
-    		 , type: "get"
-    		 , dataType: "json"
-    		 , success: function(data){
-    			 
-    			 let rs = JSON.parse(data);
-    			 console.log(rs);
-    			 if(data.length == 0){
-    				 let tr = $("<tr>");
-    				 let td = $("<td>").attr("colspan", "3").html("작성하신 Q & A 글이 없습니다.");
-    				 tr.append(td);
-    				 $("#content").append(tr); 
-    			 }
-    			 
-    		 }
-    		 ,error: function(e){
-    			 console.log(e);
-    		 }
-    	 })
+    	 selectByQnA();
        
       
      })
@@ -390,7 +345,7 @@ span:hover::after {
          }else if(str == 2){
             alert("shop"); // 예시...
          }else if(str == 3){
-        	 
+        	 selectByQnA();
          }else if(str == 4){
         	 
          }else if(str == 5){
@@ -446,7 +401,90 @@ span:hover::after {
              
           }
      }
-     
+     function selectByQnA(){
+    	 $("#content").empty();
+         let h3 = $("<h5>").html("Q & A");
+         let row = $("<div>").addClass('row');
+         let col = $("<div>").addClass("col-12").css("margin", "20px");
+         let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 글입니다.");
+         let p2 = $("<p>").html("* 제목을 클릭하시면, 게시글의 내용을 확인 할 수 있습니다.").css({"font-size": "small", "text-align" : "left"})
+          let tableRow = $("<div>").addClass('row');
+    		        let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
+    		        let table = $("<table>").css({"width" : "100%", "border-top" : "1px solid grey", "border-collapse" : "collapse"});
+    		        let tr1 = $("<tr>").css("background-color", "#E1F2E3");
+    		        let thNum = $("<th>").html("번호").css({"padding" : "10px", "border-bottom" : "1px solid grey"});
+    		        let thTitle = $("<th>").html("제목").css({"padding" : "10px", "border-bottom" : "1px solid grey"});
+    		        let thDate = $("<th>").html("날짜").css({"padding" : "10px", "border-bottom" : "1px solid grey"});
+    		        // 조건문 돌려서 문의내역 있으면 td 생성
+    		        
+    		            col.append(p);
+    		            col.append(p2);
+    		            row.append(col);
+    		            tr1.append(thNum, thTitle, thDate);
+    		            table.append(tr1);
+    		            tableCol.append(table);
+    		            tableRow.append(tableCol);
+    		            $("#content").append(h3); 
+    		            $("#content").append(row);
+    		            $("#content").append(tableRow);
+    		          let user_id = "${loginSession.user_id}";
+    		          console.log(user_id);
+    		        
+    	 $.ajax({
+    		 url: "/qnaSearchProc.bo?user_id=" + user_id
+    		 , type: "get"
+    		 , dataType: "json"
+    		 , success: function(data){
+    			 
+    			 if(data.length == 0){
+    				 let tr = $("<tr>");
+    				 let td = $("<td>").attr("colspan", "3").html("작성하신 Q & A 글이 없습니다.").css({"padding" : "10px", "border-bottom" : "1px solid grey"});
+    				 tr.append(td);
+    				 table.append(tr); 
+    			 }else{
+    				 for(let dto of data){
+    					 let tr = $("<tr>");
+    					 let td1 = $("<td>").html(dto.qna_no).css({"padding" : "10px", "border-bottom" : "1px solid grey", "text-align" : "center"});
+    					 let td2 = $("<td>").css({"padding" : "10px", "border-bottom" : "1px solid grey"});
+    					 let anchor =  $("<a>").attr("href", "/"+dto.qna_no).html(CheckMaxString(dto.title, 12)).css({"text-decoration" : "none", "color": "black"});
+    					 let td3 = $("<td>").html(dto.write_date).css({"padding" : "10px", "border-bottom" : "1px solid grey", "text-align" : "center"});
+    					 td2.append(anchor);
+    					 tr.append(td1, td2, td3);
+        				 table.append(tr);
+    				 }
+    			 }
+    			 
+    		 }
+    		 ,error: function(e){
+    			 console.log(e);
+    		 }
+    	 })
+     }
+     // 글자수 처리
+     function CheckMaxString(obj, maxNum){
+         var li_str_len = obj.length;
+         var li_byte = 0;
+         var li_len = 0;
+         var ls_one_char = "";
+         var ls_str2 = "";
+         for( var j=0; j<li_str_len; j++){
+                 ls_one_char = obj.charAt(j);
+                 if(escape(ls_one_char).length > 4 ) {
+                       li_byte += 2;
+                       }else{
+                         li_byte++;
+                        }
+                         if(li_byte <= maxNum){
+                            li_len = j+1;
+                      }
+                    }
+                    if(li_byte > maxNum){
+                              ls_str2 = obj.substr(0, li_len)+"...";
+                    }else{
+                              ls_str2 = obj;
+                    }
+                    return ls_str2;
+          }
      function modifyUser(){
     	 
     	 $("#content").empty();
