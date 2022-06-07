@@ -119,8 +119,8 @@
 	   ,data: {
 			orderBy: "price_asc"
 			, keyword: "${searchMap.keyword}"
-			, minPrice: ${searchMap.minPrice}
-			, maxPrice: ${searchMap.maxPrice}
+			, minPrice: ${searchMap.minPrice} + 0
+			, maxPrice: ${searchMap.maxPrice} + 0
 	   }
 	   ,success:function(data){
 		   selectPriceAndName(data);
@@ -139,8 +139,8 @@
 	   ,data: {
 			orderBy: "price_desc"
 			, keyword: "${searchMap.keyword}"
-			, minPrice: ${searchMap.minPrice}
-			, maxPrice: ${searchMap.maxPrice}
+			, minPrice: ${searchMap.minPrice} + 0
+			, maxPrice: ${searchMap.maxPrice} + 0
 	   }
 	   ,success:function(data){
 		   selectPriceAndName(data);
@@ -159,8 +159,8 @@
 	   ,data: {
 			orderBy: "itemName"
 			, keyword: "${searchMap.keyword}"
-			, minPrice: ${searchMap.minPrice}
-			, maxPrice: ${searchMap.maxPrice}
+			, minPrice: ${searchMap.minPrice} + 0
+			, maxPrice: ${searchMap.maxPrice} + 0
 	   }
 	   ,success:function(data){
 		   selectPriceAndName(data);

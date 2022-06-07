@@ -20,6 +20,7 @@ import com.aram.dto.ItemViewDTO;
 import com.aram.dto.ItemimgDTO;
 import com.google.gson.Gson;
 import com.aram.dto.ReviewDTO;
+import com.aram.utils.Pagination;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -40,18 +41,26 @@ public class ItemController extends HttpServlet {
 		
 		request.setCharacterEncoding("utf-8");
 		
-		if(uri.equals("/category.item")) {
+		if(uri.equals("/category.item")) { // 카테고리 버튼 누를 때
 			String category_id = request.getParameter("category_id");
+			int page = Integer.parseInt(request.getParameter("page"));
+			
 			System.out.println(category_id);
 			ItemDAO dao = new ItemDAO();
 			
+			
 			try {
 				ArrayList<ItemViewDTO> itemList = dao.selectItemsByCategory(category_id);
+				HashMap<String, Object> pageMap =  Pagination.getPageNavi(itemList.size(), page, 8);
+				pageMap.put("category_id", category_id);
 				
 				System.out.println("list 값 : " + itemList);
 				request.setAttribute("itemList", itemList);
+				
 				int count = itemList.size();
 				request.setAttribute("count", count);
+				
+				request.setAttribute("pageMap", pageMap);
 				
 				request.getRequestDispatcher("/shop/category.jsp").forward(request, response);
 			} catch (Exception e) {

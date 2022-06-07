@@ -60,7 +60,7 @@
 </head>
 <body><!--  onLoad="javascript:pop()" -->
     <div class="container main-container">
-        <jsp:include page="/frame/header.jsp"></jsp:include>
+		<jsp:include page="/frame/header.jsp"></jsp:include>
 
         <!-- 케로셀 영역 시작-->
         <div class="row">
@@ -136,13 +136,13 @@
         <!--카테고리 영역 시작-->
         <div class="row main-category d-flex justify-content-center" data-aos="fade-up" data-aos-duration="1000">
             <div class="col-4 text-center">
-                <a href="/category.item?category_id=p100"><img src="/resources/images/category_Air.png" alt="..." style="width:90%"></a>
+                <a href="/category.item?category_id=p100&page=1"><img src="/resources/images/category_Air.png" alt="..." style="width:90%"></a>
             </div>
             <div class="col-4 text-center">
-                <a href="/category.item?category_id=p200"><img src="/resources/images/category_In.png" alt="..." style="width:90%"></a>
+                <a href="/category.item?category_id=p200&page=1"><img src="/resources/images/category_In.png" alt="..." style="width:90%"></a>
             </div>
             <div class="col-4 text-center">
-                <a href="/category.item?category_id=p300"><img src="/resources/images/category_Out.png" alt="..." style="width:90%"></a>
+                <a href="/category.item?category_id=p300&page=1"><img src="/resources/images/category_Out.png" alt="..." style="width:90%"></a>
               </div>
         </div>
         <!--카테고리 영역 끝-->
@@ -204,7 +204,6 @@
       		location.href = "/toSearchPage.item?curPage=1";
       	})
       	
-
 
         //AOS
         AOS.init();

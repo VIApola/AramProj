@@ -290,23 +290,7 @@ public class UserController extends HttpServlet {
 				pw = EncryptionUtils.getSHA512(pw);
 				System.out.println("암호화된 데이터 : " + pw);
 				// 세션의 아이디 값과 입력한 아이디 값이 같으면 -> 아이디 비번 같은지 확인
-<<<<<<< HEAD
-//				if(session_id.equals(id)) {
-//					UserDAO dao = new UserDAO();
-=======
-				if(session_id.equals(id)) {
->>>>>>> b3f3dd896ed394efe5f9c880ec2f50da17c84301
-//					int rs = dao.deleteUser(id, pw);
-//					if(rs > 0) {
-//						
-//					}
-//				}else {
-<<<<<<< HEAD
-//					
-//				}
-=======
-				}
->>>>>>> b3f3dd896ed394efe5f9c880ec2f50da17c84301
+
 			}catch(Exception e) {
 				e.printStackTrace();
 			}

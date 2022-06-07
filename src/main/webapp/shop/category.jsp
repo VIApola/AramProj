@@ -19,13 +19,13 @@
 	<jsp:include page="/frame/header.jsp"></jsp:include>
 	<div class="row" id="category">
 		<div class="col-4">
-			<a href="/category.item?category_id=p100"><img src="/resources/images/category_Air.png"></a>
+			<a href="/category.item?category_id=p100&page=1"><img src="/resources/images/category_Air.png"></a>
 		</div>
 		<div class="col-4">
-			<a href="/category.item?category_id=p200"><img src="/resources/images/category_In.png"></a>
+			<a href="/category.item?category_id=p200&page=1"><img src="/resources/images/category_In.png"></a>
 		</div>
 		<div class="col-4">
-			<a href="/category.item?category_id=p300"><img src="/resources/images/category_Out.png"></a>
+			<a href="/category.item?category_id=p300&page=1"><img src="/resources/images/category_Out.png"></a>
 		</div>
 	</div>
 	<div class="row" id="links">
@@ -64,15 +64,15 @@
 	<div class="row" id="pacing"></div>
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
-			<li class="page-item"><a class="page-link" href="/"
-				aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-			</a></li>
-			<li class="page-item"><a class="page-link" href="/">1</a></li>
-			<li class="page-item"><a class="page-link" href="/">2</a></li>
-			<li class="page-item"><a class="page-link" href="/">3</a></li>
-			<li class="page-item"><a class="page-link" href="/"
-				aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-			</a></li>
+			<c:if test="${pageMap.isPrev eq true}">
+			<li class="page-item"><a class="page-link" href="/category.item?category_id=${pageMap.category_id}&page=${pageMap.startNavi - 1}" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
+			</c:if>
+			<c:forEach var="pageNum" begin="${pageMap.startNavi}" end="${pageMap.endNavi}" step="1">
+				<li class="page-item"><a class="page-link" href="/category.item?category_id=${pageMap.category_id}&page=${pageNum}">${pageNum}</a></li>
+			</c:forEach>
+			<c:if test="${pageMap.isNext eq true}">
+				<li class="page-item"><a class="page-link" href="/category.item?category_id=${pageMap.category_id}&page=${pageMap.endNavi + 1}" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a></li>
+			</c:if>
 		</ul>
 	</nav>
 </div>
@@ -81,6 +81,7 @@
 	let urlSearch = new URLSearchParams(location.search);
 	let category_id = urlSearch.get('category_id');
 	console.log(category_id);
+	
 	// 낮은가격순
 	$("#lowPrice").on("click",function() {
 		$.ajax({
@@ -134,8 +135,6 @@
 	   }
 	  })
 	})
-	
-	
 	
 	function selectPriceAndName(data){
 	

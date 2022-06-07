@@ -56,12 +56,12 @@ public class BoardController extends HttpServlet {
 			
 			try {
 				
-				HashMap map = dao.getPageNavi(curPage);
+				// HashMap map = dao.getPageNavi(curPage);
 				
 				ArrayList<NoticeDTO> list = dao.selectAll(curPage*10-9, curPage*10);
 				System.out.println(list);
 				request.setAttribute("list", list);
-				request.setAttribute("naviMap", map);
+				// request.setAttribute("naviMap", map);
 				request.getSession();
 			}catch(Exception e) {
 				e.printStackTrace();
