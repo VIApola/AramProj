@@ -64,14 +64,14 @@ public class BoardController extends HttpServlet {
 			
 			try {
 				
-				// HashMap map = dao.getPageNavi(curPage);
+//				 HashMap map = dao.getPageNavi(curPage);
 				
 				ArrayList<NoticeDTO> list = dao.selectAll(curPage*10-9, curPage*10);
 				System.out.println(list);
 				request.setAttribute("list", list);
 
-				//request.setAttribute("naviMap", map);
-        
+				// request.setAttribute("naviMap", map);
+     
 				request.getSession();
 
 			}catch(Exception e) {
@@ -274,7 +274,9 @@ public class BoardController extends HttpServlet {
 //			System.out.println("searchAuthor : " + searchId);
 //			System.out.println("searchTitle : " + searchTitle);
 
-
+			String session_id = request.getParameter("user_id");
+            System.out.println("세션 아이디값 : " + session_id);
+			
 			QnaDAO dao = new QnaDAO();
 			
 			try {
@@ -295,15 +297,16 @@ public class BoardController extends HttpServlet {
 					response.setCharacterEncoding("utf-8");
 					response.getWriter().append(rs);
 					
-				}else if(session_id != null) {// 세션아이디로 자기자신이 쓴 글 조회
-					
-					ArrayList<QnaDTO> list = dao.searchByUserId(session_id);
-					Gson gson = new Gson();
-					String rs = gson.toJson(list);
-					System.out.println(rs);
-					response.setCharacterEncoding("utf-8");
-					response.getWriter().append(rs);
 				}
+//				else if(session_id != null) {// 세션아이디로 자기자신이 쓴 글 조회
+//					
+//					ArrayList<QnaDTO> list = dao.searchByUserId(session_id);
+//					Gson gson = new Gson();
+//					String rs = gson.toJson(list);
+//					System.out.println(rs);
+//					response.setCharacterEncoding("utf-8");
+//					response.getWriter().append(rs);
+//				}
 				
 			}catch(Exception e) {
 				e.printStackTrace();
