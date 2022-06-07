@@ -28,6 +28,56 @@ public class QnaDAO {
 		}
 	}
 	
+	// qna 게시글 작성
+	public int write(QnaDTO dto)throws Exception {
+		String sql = "INSERT into tbl_qna values(seq_qna.nextval, ?, ?, ?, sysdate, default, default, sysdate)";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, dto.getUser_id());
+			pstmt.setString(2, dto.getTitle());
+			pstmt.setString(3, dto.getContent());
+			
+			int rs = pstmt.executeUpdate();
+			
+			return rs;
+		}
+	}
+	
+	// qna 게시글 삭제
+	public int delete(int qna_no)throws Exception {
+		String sql = "DELETE FROM tbl_qna WHERE qna_no = ?";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setInt(1, qna_no);
+			
+			int rs = pstmt.executeUpdate();
+			return rs;
+		}
+	}
+	
+	
+	// qna 게시글 수정
+	public int modify(QnaDTO dto)throws Exception{
+		String sql = "UPDATE tbl_qna SET title = ?, content = ? WHERE qna_no = ?";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setInt(3, dto.getQna_no());
+			
+			int rs = pstmt.executeUpdate();
+			return rs;
+		}
+	}
+	
+	
+	// qna 게시글 조회 _ 전체
 	public ArrayList<QnaDTO> qnaSelectAll() throws Exception{ 
 		String sql =  "select * from tbl_qna order by 1 desc";
 		try(Connection con = bds.getConnection();
@@ -55,13 +105,41 @@ public class QnaDAO {
 		}
 	}
 	
+	//qna 게시글 조회 _ 부분 (detailview)
+	public QnaDTO selectByNo(int qna_no) throws Exception{
+		String sql = "SELECT * FROM tbl_qna Where qna_no = ?";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setInt(1, qna_no);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				String user_id = rs.getString("user_id");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String write_date = getStringDate(rs.getDate("write_date"));
+				Boolean answer_yn = rs.getBoolean("answer_yn");
+				String answer = rs.getString("answer");
+				String answer_date = getStringDate(rs.getDate("answer_date"));
+				QnaDTO dto = new QnaDTO(qna_no, user_id, title, content, write_date, answer_yn, answer, answer_date);
+				return dto;
+			}
+			return null;
+		}
+	}
+	
+	//날짜 String으로 변환
 	public String getStringDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 		return sdf.format(date);
 	}
 	
-	// 세션을 통한 검색
-		// 글쓴이로 검색
+	
+	// Qna 게시판 게시글 검색
+		// id(글쓴이)로 검색
 		public ArrayList<QnaDTO> searchByUserId(String searchByUserId) throws Exception{
 			String sql = "select * from tbl_qna where user_id = ? order by 1 desc";
 			try(Connection con = bds.getConnection();
@@ -120,6 +198,7 @@ public class QnaDAO {
 				return list;
 			}
 		}
-	
+		
 
+		
 }

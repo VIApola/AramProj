@@ -14,11 +14,11 @@ p {
     text-align: center;
 }
 #btnDelete {
-    width: 70%;
+    width: 30%;
     float: right;
 }
 
-img {
+.itemImg {
     height: 120px;
     width: 100px;
 }
@@ -26,9 +26,13 @@ img {
     margin-top: 25px;
     margin-right: 50px;
 }
-.list-row {
-    margin-top: 20px;
-    margin-bottom: 20px;
+.body-list {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+#qty {
+width: 20px;
+text-align:center;
 }
 .price-row {
     border-top: 1px solid gray;
@@ -46,7 +50,3 @@ img {
 	font-size: larger;
 	
 }
-
-/* div{
-     border: 1px solid black;
- } */

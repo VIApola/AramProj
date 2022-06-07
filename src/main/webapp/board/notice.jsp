@@ -18,20 +18,27 @@
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
 
+    <!--AOS 라이브러리-->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
 <%-- Style영역 --%>
 <link href="${pageContext.request.contextPath}/resources/css/notice.css"
 	rel="stylesheet" type="text/css">
 <title>Notice</title>
 
 </head>
-
 <body>
-${loginSession}
 	<div class="container">
+		
+		<!-- 헤더 -->
+		<jsp:include page="/frame/header.jsp"></jsp:include>
+		
 		<div class="row">
 			<div class="col-md-12">
 				<div class="imgBox">
-					<h1>Notice</h1>
+					<img src="/resources/images/Board_Notice.png" class="d-block w-100"
+						alt="...">
 				</div>
 			</div>
 		</div>
@@ -53,7 +60,7 @@ ${loginSession}
 						<div class="inputPart">
 							<div class="input-group mb-3">
 								<input type="text" class="form-control" id="resSearchText">
-								<span class="btn btn-secondary" id="resSearchBtn">검색</span>
+								<button class="btn btn-outline-secondary" id="resSearchBtn">검색</button>
 							</div>
 						</div>
 					</div>
@@ -73,7 +80,7 @@ ${loginSession}
 					<div class="inputPart">
 						<div class="input-group mb-3">
 							<input type="text" class="form-control" id="searchText">
-							<span class="btn btn-secondary" id="searchBtn">검색</span>
+							<span class="btn btn-outline-secondary" id="adpSearchBtn">검색</span>
 						</div>
 					</div>
 				</div>
@@ -115,11 +122,12 @@ ${loginSession}
 				</div>
 			</div>
 		</div>
-		<c:if test="${loginSession.user_id eq dto.user_id}">
+		<c:if test="${not empty loginSession.user_id}">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="writeBtnBox d-flex justify-content-end align-items-start pt-1">
-						<button type="button" id="writeBtn" class="btn btn-secondary">글쓰기</button>
+					<div
+						class="writeBtnBox d-flex justify-content-end align-items-start pt-1">
+						<button type="button" id="writeBtn" class="btn btn-outline-secondary">글쓰기</button>
 					</div>
 				</div>
 			</div>
@@ -132,26 +140,6 @@ ${loginSession}
 		    	})
 			</script>
 		</c:if>
-		<%-- <c:if test="${loginSession.id eq dto.writer_id}">
-				<div class="col-2">
-					<button type="button" class="btn btn-warning" id="btnModify">수정</button>
-				</div>
-				<div class="col-2">
-					<button type="button" class="btn btn-danger" id="btnDelete">삭제</button>
-				</div>
-				<script>
-                    $("#btnModify").on("click", function() { // 수정 페이지 요청
-                        location.href = "/modify.bo?seq_board=${dto.seq_board}";
-                    });
-                    $("#btnDelete").on("click",function() { // 삭제 요청
-                        let answer = confirm("지금 삭제하시면 복구가 불가합니다. 정말 삭제하시겠습니까?");
-                        console.log(answer);
-                        if (answer) {
-                            location.href = "/deleteProc.bo?seq_board=${dto.seq_board}";
-                        }
-                    })
-                </script>
-			</c:if> --%>
 		<div class="row">
 			<div class="col-md-12">
 				<div
@@ -183,6 +171,8 @@ ${loginSession}
 			</div>
 		</div>
 	</div>
+	<%--풋터영역 --%>
+	<jsp:include page="/frame/footer.jsp"></jsp:include>
 	<script>
 		// 반응형 검색 기능
 		$("#resSearchBtn").on("click", function(){
@@ -228,7 +218,7 @@ ${loginSession}
     	})
 	
     	// 비반응형 검색 기능
-    	$("#searchBtn").on("click", function(){
+    	$("#adpSearchBtn").on("click", function(){
     		let searchInput = $("#searchInput option:selected").val();
     		let searchText = $("#searchText").val();
     		console.log(searchInput);
@@ -271,14 +261,37 @@ ${loginSession}
     		
     	})
     	
-    	/*
-    	const writeBtn = document.getElementById("writeBtn");
+    	//네비바 검색창 -> 상품검색페이지
+      	$("#searchBtn").on("click",function(){
+      		let searchKeyword = $("#searchKeyword").val();
+      		if($("#searchKeyword").val()==""){
+      			alert("검색어를 입력해 주세요");
+      			return;
+      		}else{
+      			location.href ="/searchItem.item?searchKeyword="+searchKeyword;
+      		}
+      		
+      	})
+      
+      	//더많은 상품 보러가기 버튼 클릭했을때
+      	$("#toSerchItemBtn").on("click", function() {
+      		location.href = "/toSearchPage.item?curPage=1";
+      	})
+      	
+
+        //AOS
+        AOS.init();
+
+        //상단바 sm크기에서 생기는 navbar
+        function openNav() {
+          document.getElementById("mySidenav").style.width = "100%";
+        }
+        
+        function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+        }
     	
-    	writeBtn.addEventListener("click", function(e){
-    		console.log("click");
-    		location.href = "/writeNotice.bo";
-    	})
-    	*/
+
     </script>
 </body>
 

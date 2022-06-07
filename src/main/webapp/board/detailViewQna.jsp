@@ -31,7 +31,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap"
 	rel="stylesheet">
-<title>Notice 글쓰기</title>
+<title>Qna 상세보기</title>
 <style>
 /* 폰트 스타일 */
 @font-face {
@@ -100,41 +100,67 @@ textarea {
 
 </style>
 </head>
-<body>
 	<div class="container">
 		<%-- 헤더 부분 --%>
 		<jsp:include page="/frame/header.jsp"></jsp:include>
 		<div class="row">
 			<div class="col title">
-				<h2>Notice</h2>
+				<h2>Qna</h2>
 			</div>
 		</div>
-		<form id="writeNoticeForm" action="/writeNoticeProc.bo" method="post">
-			<div class="row content">
-				<div class="row header-board" id = "contentTitle">
-					<div class="col-3 align-self-center">
-						<p>제목</p>
-					</div>
-					<div class="col-9">
-						<input type="text" name="title" id="title" class="form-control">
-					</div>
+		<div class="row content">
+			<div class="row header-board" id = "contentTitle">
+				<div class="col-3 align-self-center">
+					<p>제목</p>
 				</div>
-				<div class="row header-board">
-					<div class="col-3 align-self-center">
-						<p>내용</p>
-					</div>
-					<div class="col-9">
-						<textarea id="content" name="content" class="form-control"></textarea>
-					</div>
+				<div class="col-9">
+					<input type="text" name="title" value="${dto.title}" id="title"
+						class="form-control" readonly>
 				</div>
 			</div>
-		</form>
+			<div class="row header-board">
+				<div class="col-3 align-self-center">
+					<p>글쓴이</p>
+				</div>
+				<div class="col-3">
+					<p>${dto.user_id}</p>
+				</div>
+				<div class="col-3 align-self-center">
+					<p>작성일</p>
+				</div>
+				<div class="col-3">
+					<p>${dto.write_date }</p>
+				</div>
+			</div>
+			<div class="row header-board">
+				<div class="col-3 align-self-center">
+					<p>내용</p>
+				</div>
+				<div class="col-9">
+					<textarea id="content" name="content" class="form-control" readonly>${dto.content}</textarea>
+				</div>
+			</div>
+		</div>
 		<div class="boxBtn">
-       		<button type="button" class="btn btn-outline-secondary" id="btnBack">뒤로가기</button>
-        	<button type="button" class="btn btn-outline-success" id="btnSave">저장</button>
-        	
-    	</div>
-    	
+				<button type="button" class="btn btn-outline-secondary" id="btnBack">뒤로가기</button>
+			<c:if test="${loginSession.user_id eq dto.user_id}">
+				<button type="button" id="btnModify" class="btn btn-outline-warning">수정</button>
+				<button type="button" id="btnDelete" class="btn btn-outline-danger">삭제</button>
+			</div>
+				<script>
+		        	$("#btnModify").on("click", function(){ //수정 버튼을 눌렀을때 시퀀스 번호도 가져감
+		            	location.href= "/modifyQna.bo?qna_no=${dto.qna_no}";
+		          	});
+		            $("#btnDelete").on("click", function(){ //삭제 버튼을 눌렀을때 시퀀스 번호도 가져감 
+		                let answer = confirm("게시글을 삭제하시겠습니까?");
+		                if(answer){
+		                	location.href = "/deleteQna.bo?qna_no=${dto.qna_no}";
+		                }
+		          	});
+		    	</script>
+			</c:if>
+
+		
 		<%-- 
 		<div class="row comment">
 			<div class="row">
@@ -175,32 +201,10 @@ textarea {
 	<%--풋터영역 --%>
 	<jsp:include page="/frame/footer.jsp"></jsp:include>
 	<script>
-		/*$("#backBtn").on("click", function() { // 뒤로가기 버튼을 눌렀을때
-			location.href = "";
-		});*/
-		
-    	$("#btnSave").on("click", function(){
-    		// 만약 제목을 입력하지 않았다면 title "제목없음" 이라는 타이틀 값을 넣어줌.
-    		if($("#title").val() === ""){
-    			alert("제목을 입력하세요.");
-    			$("#title").focus();
-    			return;
-    		}
-    		// 내용이 비어있으면 내용을 입력하세요.
-    		if($("#content").val() === ""){
-    			alert("내용을 입력하세요.");
-    			$("#content").focus();
-    			return;
-    		}
-    		$("#writeNoticeForm").submit();
-    	})
-    
-        const btnBack = document.getElementById("btnBack");
+	$("#btnBack").on("click", function(){ // 뒤로가기 버튼을 눌렀을때
+		location.href = "/qna.bo";
+	});
 
-        btnBack.addEventListener("click", function(e){
-            location.href="/notice.bo";
-        });
-		
-	</script>
+</script>
 </body>
 </html>

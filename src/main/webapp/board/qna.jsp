@@ -17,18 +17,23 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
+
+<%-- Style영역 --%>
 <link href="${pageContext.request.contextPath}/resources/css/qna.css"
 	rel="stylesheet" type="text/css">
 <title>QnA</title>
-
 </head>
-
 <body>
 	<div class="container">
+		
+		<!-- 헤더 -->
+		<jsp:include page="/frame/header.jsp"></jsp:include>
+		
 		<div class="row">
 			<div class="col-md-12">
 				<div class="imgBox">
-					<h1>QnA</h1>
+					<img src="/resources/images/Board_Q&A.png" class="d-block w-100"
+						alt="...">
 				</div>
 			</div>
 		</div>
@@ -50,7 +55,7 @@
 						<div class="inputPart">
 							<div class="input-group mb-3">
 								<input type="text" class="form-control" id="resSearchText">
-								<span class="btn btn-secondary" id="resSearchBtn">검색</span>
+								<span class="btn btn-outline-secondary" id="resSearchBtn">검색</span>
 							</div>
 						</div>
 					</div>
@@ -70,7 +75,7 @@
 					<div class="inputPart">
 						<div class="input-group mb-3">
 							<input type="text" class="form-control" id="searchText">
-							<span class="btn btn-secondary" id="searchBtn">검색</span>
+							<span class="btn btn-outline-secondary" id="adpSearchBtn">검색</span>
 						</div>
 					</div>
 				</div>
@@ -82,9 +87,9 @@
 					<div class="row">
 						<div class="col-1 d-none d-md-block">No.</div>
 						<div class="col-3 d-none d-md-block">title</div>
-						<div class="col-4 d-none d-md-block">content</div>
+						<div class="col-3 d-none d-md-block">content</div>
 						<div class="col-2 d-none d-md-block">id</div>
-						<div class="col-2 d-none d-md-block">date</div>
+						<div class="col-3 d-none d-md-block">date</div>
 					</div>
 					<div class="body_board">
 						<c:choose>
@@ -99,11 +104,11 @@
 									<div class="row">
 										<div class="col-1 d-none d-md-block">${dto.qna_no}</div>
 										<div class="col-3 d-none d-md-block">${dto.title}</div>
-										<div class="col-12 col-md-4">
-											<a href="">${dto.content}</a>
+										<div class="col-12 col-md-3">
+											<a href="/detailViewQna.bo?qna_no=${dto.qna_no}">${dto.content}</a>
 										</div>
 										<div class="col-12 col-md-2">${dto.user_id}</div>
-										<div class="col-2 d-none d-md-block">${dto.write_date}</div>
+										<div class="col-3 d-none d-md-block">${dto.write_date}</div>
 									</div>
 								</c:forEach>
 							</c:otherwise>
@@ -112,14 +117,24 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div
-					class="writeBtnBox d-flex justify-content-end align-items-start pt-1">
-					<button type="button" id="writeBtn" class="btn btn-secondary">글쓰기</button>
+		<c:if test="${not empty loginSession.user_id}">
+			<div class="row">
+				<div class="col-md-12">
+					<div
+						class="writeBtnBox d-flex justify-content-end align-items-start pt-1">
+						<button type="button" id="writeBtn" class="btn btn-outline-secondary">글쓰기</button>
+					</div>
 				</div>
 			</div>
-		</div>
+			<script>
+		    	const writeBtn = document.getElementById("writeBtn");
+		    	
+		    	writeBtn.addEventListener("click", function(e){
+		    		console.log("click");
+		    		location.href = "/writeQna.bo";
+		    	})
+			</script>
+		</c:if>
 		<div class="row">
 			<div class="col-md-12">
 				<div
@@ -141,8 +156,12 @@
 			</div>
 		</div>
 	</div>
+
+	<%--풋터영역 --%>
+	<jsp:include page="/frame/footer.jsp"></jsp:include>
 	<script>
-		// 반응형 검색 기능
+	
+		// 반응형일때, 검색 기능
 		$("#resSearchBtn").on("click", function(){
     		let searchInput = $("#resSearchInput option:selected").val();
     		let searchText = $("#resSearchText").val();
@@ -165,10 +184,10 @@
     						let row = $("<div class='row'>");
     						let col1 = $("<div class='col-1 d-none d-md-block'>").html(dto.qna_no);
     						let col2 = $("<div class='col-3 d-none d-md-block'>").html(dto.title);
-    						let col3 = $("<div class='col-12 col-md-4'>");
+    						let col3 = $("<div class='col-12 col-md-3'>");
     						let a = $("<a href=''>").html(dto.content);
     						let col4 = $("<div class='col-12 col-md-2'>").html(dto.user_id);
-    						let col5 = $("<div class='col-2 d-none d-md-block'>").html(dto.write_date);
+    						let col5 = $("<div class='col-3 d-none d-md-block'>").html(dto.write_date);
     						
     						col3.append(a);
     						row.append(col1, col2, col3, col4, col5);
@@ -185,8 +204,8 @@
     		
     	})
 	
-    	// 검색 기능
-    	$("#searchBtn").on("click", function(){
+    	// 비반응형일때, 검색 기능
+    	$("#adpSearchBtn").on("click", function(){
     		let searchInput = $("#searchInput option:selected").val();
     		let searchText = $("#searchText").val();
     		console.log(searchInput);
@@ -208,10 +227,10 @@
     						let row = $("<div class='row'>");
     						let col1 = $("<div class='col-1 d-none d-md-block'>").html(dto.qna_no);
     						let col2 = $("<div class='col-3 d-none d-md-block'>").html(dto.title);
-    						let col3 = $("<div class='col-12 col-md-4'>");
+    						let col3 = $("<div class='col-12 col-md-3'>");
     						let a = $("<a href=''>").html(dto.content);
     						let col4 = $("<div class='col-12 col-md-2'>").html(dto.user_id);
-    						let col5 = $("<div class='col-2 d-none d-md-block'>").html(dto.write_date);
+    						let col5 = $("<div class='col-3 d-none d-md-block'>").html(dto.write_date);
     						
     						col3.append(a);
     						row.append(col1, col2, col3, col4, col5);
@@ -220,7 +239,7 @@
     						
     						
     					}
-    				}
+    				}	
     			}, error: function(e){
     				console.log(e);
     			}
@@ -228,13 +247,7 @@
     		});
     		
     	})
-    	
-    	const writeBtn = document.getElementById("writeBtn");
-    	
-    	writeBtn.addEventListener("click", function(e){
-    		console.log("click");
-    		location.href = "/write.bo";
-    	})
+ 
     </script>
 </body>
 

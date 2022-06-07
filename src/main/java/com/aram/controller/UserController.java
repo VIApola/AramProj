@@ -1,7 +1,10 @@
 package com.aram.controller;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
+import java.io.PrintWriter;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import com.aram.dao.ReviewDAO;
+import com.aram.dao.CartDAO;
+
 import com.aram.dao.UserDAO;
 import com.aram.dto.MypageReviewDTO;
 import com.aram.dto.UserDTO;
@@ -32,9 +38,10 @@ public class UserController extends HttpServlet {
 		System.out.println("요청 uri : " + uri);
     
 		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-		
-		if(uri.equals("/idCheck.user")) { // 아이디 중복체크 요청
+    
+		if (uri.equals("/idCheck.user")) { // 아이디 중복체크 요청
+
+
 			String id = request.getParameter("id");
 			System.out.println("아이디 중복확인 : " + id);
 			UserDAO dao = new UserDAO();
@@ -97,11 +104,33 @@ public class UserController extends HttpServlet {
 				System.out.println("암호화된 비번 : " + pw);
 				UserDTO dto = dao.isLoginOk(id, pw);
 				// 이메일 인증은 했는지 확인
-				//String checked = dao.getUserEmailChecked(id);
-			//	System.out.println(checked);
+//				String checked = dao.getUserEmailChecked(id);
+//				System.out.println(checked);
 				/*
 				if(checked.equals("n")) {
 					System.out.println("이메일 인증이 완료되지 않았습니다. 가입시 입력한 이메일을 확인해주세요.");
+					response.setContentType("text/html;charset=UTF-8");
+					PrintWriter out = response.getWriter();
+					out.println("<script>alert('이메일이 등록 되지 않았습니다. 인증 메일을 확인해야 로그인 할 수 있습니다.'); location.href='/main'</script>");
+					out.flush();
+				} else {
+					// db에 유저 정보가 있을 때
+					if(dto != null) {
+						System.out.println("로그인 성공");
+						request.setAttribute("rs", true);
+						HttpSession session = request.getSession();
+						session.setAttribute("loginSession", dto);
+						
+						// 관리자 인증 먼저 // 로그인 시 관리자인지 아닌지 체크하는 부분
+						if(dto.getIsAdmin().equals("y")) {
+							request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
+						}else {
+							request.getRequestDispatcher("/member/login.jsp").forward(request, response);
+
+						
+					} else { // db에 유저 정보가 없을 때
+						System.out.println("로그인 실패");
+						request.setAttribute("rs", false);
 				}
 				*/
 				if(dto != null) {
@@ -110,8 +139,9 @@ public class UserController extends HttpServlet {
 					HttpSession session = request.getSession();
 					session.setAttribute("loginSession", dto);
 
-					if(dto.getIsAdmin().equals("n")) { // 일반 회원일 경우
-						request.getRequestDispatcher("/main").forward(request, response);
+					if(dto.getIsAdmin() == "n") { // 일반 회원일 경우
+
+						request.getRequestDispatcher("/member/login.jsp").forward(request, response);
 						//request.getRequestDispatcher("/member/emailSendAction.jsp").forward(request, response);
 					} else { // 관리자일경우
 						request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
@@ -120,9 +150,10 @@ public class UserController extends HttpServlet {
 				}else {
 					System.out.println("로그인 실패");
 					request.setAttribute("rs", false);
+					request.getRequestDispatcher("/member/login.jsp").forward(request, response);
 				}
 
-			//	request.getRequestDispatcher("/member/login.jsp").forward(request, response);
+				
 				//request.getRequestDispatcher("/member/emailSendAction.jsp").forward(request, response);
         
 			}catch(Exception e) {
@@ -261,7 +292,7 @@ public class UserController extends HttpServlet {
 			session.getAttribute("loginSession");
 			session.invalidate();
 			response.sendRedirect("/main"); //로그아웃하면 main으로
-		
+
 		}else if(uri.equals("/toMypage.user")){// 마이페이지 요청
 			HttpSession session = request.getSession();
 			session.getAttribute("loginSession");		
@@ -272,10 +303,10 @@ public class UserController extends HttpServlet {
 			
 			request.getRequestDispatcher("/member/mypage.jsp").forward(request, response);
 			
-			
 		}else if(uri.equals("/delete.user")) { // 회원탈퇴 요청
 		
 			String id = request.getParameter("id");
+
 			System.out.println("회원탈퇴 아이디 : " + id);
 		
 			try {
