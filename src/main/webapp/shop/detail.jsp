@@ -15,87 +15,85 @@
 <div class="container">
 <!--  헤더 영역 -->
 <jsp:include page="/frame/header.jsp"></jsp:include>
-
+<!---------------------------------- 상품 정보 영역 ------------------------------->
 <form action="/cartProc.cart" method="post" id = "cartForm">  
-  <div class="row itemInfoBox">
-    <div class="col-12 col-md-6">
-      <div class="imgBox d-flex justify-content-center m-3">
-       <img src="/resources/images/items/${itemImg.sys_name}"> 
-       </div>
-      <div class="imgDesc p-2 m-3">${item.item_comment}</div>
-    </div>
-    <div class="col-12 col-md-6 d-flex flex-column justify-content-center">
-      <div class="item-title text-center">
-        <h2>${item.item_name}</h2>
-      </div>
-      <div class="item-detail d-flex flex-column justify-content-center p-3">
-        <table>
-          <tr>
-            <td colspan="2"><span>판매가격</span></td>
-            <td><span class="item-price">
-                ${item.price} 원
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <span>상품수</span>
-            </td>
-            <td>
-              <input type='button' onclick='count("plus")' value='+' />
-              <input type="text" id='result' value="1" name="result">
-              <input type='button' onclick='count("minus")' value='-' />
-             </td>
-           </tr>
-         </table>
-         <div class="totalAmout text-end p-3">
-           <span>총 상품금액</span>
-           <span>000,000원</span>
-         </div>
-       </div>
-       <div class="btnBox d-flex justify-content-center">
-	<input type="text" name = "item_no" id = "item_no" class="d-none" value="${item.item_no}">       
-       <button class="m-2" id="btnCart" type="button">장바구니</button>
-
-         <button class="m-2" type="">구매하기</button>
-       </div>
-     </div>
-   </div>
+	<div class="row itemInfoBox">
+		<div class="col-12 col-md-7">
+			<div class="imgBox d-flex justify-content-center m-3">
+				<img src="/resources/images/items/${itemImg.sys_name}" style="width:50%;"> 
+			</div>
+		</div>
+		<div class="col-12 col-md-5 d-flex flex-column justify-content-center">
+			<div class="item-title text-center">
+				<h2>${item.item_name}</h2>
+			</div>
+			<div class="item-detail d-flex flex-column justify-content-center p-3">
+				<table>
+					<tr>
+						<td colspan="2"><span>판매가격</span></td>
+						<td><span class="item-price">${item.price} 원</span></td>
+					</tr>
+					<tr>
+						<td colspan="2"><span>상품수</span></td>
+						<td>
+							<input type='button' onclick='count("plus")' value='+' />
+							<input type="text" id="result" value="1" name="result">
+							<input type='button' onclick='count("minus")' value='-' />
+						</td>
+					</tr>
+				</table>      
+			</div>
+			<div class="totalAmout text-end p-3">
+				<span>총 상품금액</span>
+				<span id="totalPrice">${item.price}</span>원
+			</div>
+			<div class="btnBox d-flex justify-content-center">
+				<input type="text" name = "item_no" id ="item_no" class="d-none" value="${item.item_no}">       
+				<button class="m-2" id="btnCart" type="button">장바구니</button>
+				<button class="m-2" type="">구매하기</button>
+			</div>
+		</div>
+		<div class="col-12 imgDesc d-flex justify-content-center p-5 m-3">${item.item_comment}</div>
+	</div>
 </form>
-   <div class="itemDetailImageBox">
-     상품 세부설명 이미지
-   </div>
-   <div class="itemReviewBox">
-     <div class="review-title p-2" style="background-color: lightgray;">
-      <h1>Review</h1>
-    </div>
-  </div>
+<!---------------------------------- 상품 리뷰 영역 ------------------------------->
+	<div class="itemReviewBox">
+		<div class="review-title p-3" style="background-color: lightgray;">
+			<h1>Review</h1>
+		</div>
+	</div>
   <div class="review-inputBox border-bottom">
   	<form id="reviewForm" action="/write.re" method="post">
      <div class="row">
-       <div class="col-lg-1 col-2">닉네임</div>
+       <div class="col-lg-1 col-2 d-flex justify-content-center align-items-center"><span>닉네임</span></div>
        <div class="col-lg-4 col-2">
-         <input type="text" class="form-control" id="nickname" name="nickname">
+         <input type="text" class="form-control" id="nickname" name="nickname" value="${loginSession.nickname}" readOnly>
        </div>
-       <div class="col-lg-1 col-2">평점</div>
-       <div class="col-lg-4 col-2">
-         <input type="text" class="form-control" id="score" name="score">
+       <div class="col-lg-1 col-2 d-flex justify-content-center align-items-center">평점</div>
+       <div class="col-lg-3 col-6 d-flex align-items-center">
+    		<fieldset>
+	    		<label for="rate1">⭐</label><input type="radio" name="score" value="1" id="rate1">
+	    		<label for="rate2">⭐</label><input type="radio" name="score" value="2" id="rate2">
+	    		<label for="rate3">⭐</label><input type="radio" name="score" value="3" id="rate3">
+				<label for="rate4">⭐</label><input type="radio" name="score" value="4" id="rate4">
+				<label for="rate5">⭐</label><input type="radio" name="score" value="5" id="rate5">
+    		</fieldset>
        </div>
      </div>
      <div class="row">
-       <div class="col-lg-1 col-2">제목</div>
+       <div class="col-lg-1 col-2 d-flex justify-content-center align-items-center">제목</div>
        <div class="col-lg-4 col-6">
          <input type="text" class="form-control" id="title" name="title">
        </div>
      </div>
      <div class="row">
-       <div class="col-lg-1 col-2">사진</div>
+       <div class="col-lg-1 col-2 d-flex justify-content-center align-items-center">사진</div>
        <div class="col-lg-4 col-6">
          <input type="file">
        </div>
      </div>
      <div class="row">
-       <div class="col-lg-1 col-2">리뷰</div>
+       <div class="col-lg-1 col-2 d-flex justify-content-center align-items-center">리뷰</div>
        <div class="col-7">
          <textarea class="form-control" id="content" name="content"></textarea>
        </div>
@@ -111,9 +109,9 @@
      </div>
     </form>
   </div>
-  <div class="review-board">
-    <table>
-      <thead>
+  <div class="review-board d-flex justify-content-center">
+    <table class="m-4">
+      <thead class="border-top border-bottom">
         <tr class="text-center">
           <th class="p-2" style="width: 200px">닉네임</th>
           <th class="p-2" style="width: 700px">내용</th>
@@ -128,13 +126,15 @@
       </c:if>
       <c:if test="${not empty reviewList}">
       	<c:forEach items="${reviewList}" var="review">
-      		<tr>
-		  <td class="nickname">nickname</td>
+      		<tr class="p-2">
+		  <td class="nickname">${review.nickname}</td>
 		  <td class="title">
 			<span style="padding-right: 2em">${review.title}</span>
-			<c:if test="${empty loginSession}">
+			<c:if test="${loginSession.user_id eq review.user_id}">
+				<button type="button" id="btnReviewModify" value="${review.review_no}">수정</button>
+			</c:if>
+			<c:if test="${loginSession.user_id eq review.user_id}">
 				<button type="button" id="btnReviewDelete" value="${review.review_no}">삭제</button>
-				${review.review_no}
 			</c:if>
 		  </td>
 		  <td class="score">${review.score}</td>
@@ -149,34 +149,30 @@
 </div>
 
   <script>
-  
-  function count(type)  {
-	  // 결과를 표시할 element
-	  const resultElement = document.getElementById('result');
-	  
-	  // 현재 화면에 표시된 값
-	  let number = resultElement.innerText;
-	  
-	  // 더하기/빼기
-	  if(type === 'plus') {
-	    number = parseInt(number) + 1;
-	  }else if(type === 'minus')  {
-	    number = parseInt(number) - 1;
+  function count(type) {
+	  let number = $("#result").val();
+	  if(type === 'plus'){
+		  if($("#result").val() > 4) {
+			  alert("5개 이상 담을 수 없습니다.");
+			  return;
+		  }
+		  number = parseInt(number) + 1;
+		  console.log($(this));
+	  } else if(type === 'minus'){
+		  if($("#result").val() < 2) {
+			  return;
+		  }
+		  number = parseInt(number) - 1;
 	  }
-	  
-	  // 결과 출력
-	  resultElement.innerText = number;
-	}
-  $("#plus").on("click", function(){
-	  const resultElement = document.getElementById('result');
-	  let number = resultElement.innerText;
-	  number = parseInt(number) + 1;
-	  resultElement.innerText = number;
-  })
-
-    
-    $("#btnWriteReview").on("click", function(){
-    	// 리뷰 데이터 유효값 검사
+	  $("#result").val(number);
+	  $("#totalPrice").html(${item.price} * number);
+  }
+//리뷰 데이터 유효값 검사
+    $("#btnWriteReview").on("click", function() {
+    	if("${loginSession}" == "") {
+    		alert("로그인 된 유저만 리뷰를 등록할 수 있습니다.");
+    		return;
+    	}
     	if($("#nickname").val() == "") {
     		alert("닉네임을 입력해주세요");
     		return;
@@ -190,15 +186,12 @@
     		alert("리뷰 내용이 비어있습니다. 내용을 입력해주세요.");
     		return;
     	}
-    	
     	let answer = confirm("리뷰를 등록하시겠습니까?");
     	if(answer) {
     		$("#reviewForm").submit();
     	}
     	
-    	
     })
-    
     
     $(".review-board").on("click", "#btnReviewDelete", function(){
     	let answer = confirm("리뷰를 삭제하시겠습니까?");
@@ -223,23 +216,20 @@
     	}
     });
     
-    
     $("#btnCart").on("click", function() {
-    	
-    	
-    	
     	let con = confirm("장바구니에 담으시겠습니까?");
-    	
     	if(con){
     		console.log($("#item_no").val());
     		console.log($("#result").val());
-        	$("#cartForm").submit();
-        	alert("장바구니에 추가되었습니다.");
+    		if(${empty loginSession}) {
+    			alert("장바구니를 사용하기 위해 로그인이 필요합니다.");
+    			location.href = "/login.user";
+    			return;
+    		}
+    		$("#cartForm").submit();
+			alert("장바구니에 추가되었습니다.");
     	}
- 
-    
     });
   </script>
-  
 </body>
 </html>

@@ -6,6 +6,14 @@ import java.util.Properties;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+//import javax.mail.Transport;
+//import javax.mail.Address;
+//import javax.mail.Authenticator;
+//import javax.mail.Message;
+//import javax.mail.Session;
+//import javax.mail.internet.InternetAddress;
+//import javax.mail.internet.MimeMessage;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,9 +38,9 @@ public class EmailController extends HttpServlet {
 		String uri = request.getRequestURI();
 		System.out.println(uri);
 		
-		if(uri.equals("/send.email")) {
-			String user_id = "fallows7";
-					// request.getParameter("id");
+		if(uri.equals("/sendVerify.email")) {
+			String user_id = request.getParameter("user_id");
+			System.out.println(user_id);
 			
 			UserDAO dao = new UserDAO();
 			String host = "http://localhost:8022/";
@@ -40,7 +48,7 @@ public class EmailController extends HttpServlet {
 			String to= "";
 			
 			try {
-				to = dao.getUserEmail("fallows7");
+				to = dao.getUserEmail(user_id);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -64,17 +72,17 @@ public class EmailController extends HttpServlet {
 			
 			
 			try {
-				Authenticator auth = new Gmail();
-				Session ses = Session.getInstance(p, auth);
-				ses.setDebug(true);
-				MimeMessage msg = new MimeMessage(ses);
-				msg.setSubject(subject);
-				Address fromAddr = new InternetAddress(from);
-				msg.setFrom(fromAddr);
-				Address toAddr = new InternetAddress(to);
-				msg.addRecipient(Message.RecipientType.TO, toAddr);
-				msg.setContent(content, "text/html;charset=UTF-8");
-				Transport.send(msg);
+//				Authenticator auth = new Gmail();
+//				Session ses = Session.getInstance(p, auth);
+//				ses.setDebug(true);
+//				MimeMessage msg = new MimeMessage(ses);
+//				msg.setSubject(subject);
+//				Address fromAddr = new InternetAddress(from);
+//				msg.setFrom(fromAddr);
+//				Address toAddr = new InternetAddress(to);
+//				msg.addRecipient(Message.RecipientType.TO, toAddr);
+//				msg.setContent(content, "text/html;charset=UTF-8");
+//				Transport.send(msg);
 				
 				dao.setHashedEmail(user_id, hashedEmail);
 			} catch (Exception e1) {
@@ -93,7 +101,7 @@ public class EmailController extends HttpServlet {
 			UserDAO dao = new UserDAO();
 			try {
 				int rs = dao.setUserEmailChecked(code);
-				if(rs >0) {
+				if(rs > 0) {
 					System.out.println("인증완료!");
 					response.sendRedirect("/main");
 				}

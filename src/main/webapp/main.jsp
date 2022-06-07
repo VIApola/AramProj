@@ -60,8 +60,8 @@
 </head>
 <body><!--  onLoad="javascript:pop()" -->
     <div class="container main-container">
-        <!--헤더영역-->
-        <jsp:include page="/frame/header.jsp"></jsp:include>
+		<jsp:include page="/frame/header.jsp"></jsp:include>
+
         <!-- 케로셀 영역 시작-->
         <div class="row">
           <div class="col">
@@ -96,8 +96,8 @@
                 <p><strong>Aram</strong><br> 당신의 삶에 반려식물이라는 행복을 더해줍니다.</p>
           </div>
         </div>
-        <div class="row main-content " data-aos="fade-up" data-aos-duration="1000">
-            <div class="col-12 col-md-5">
+        <div class="row main-content d-flex justify-content-center" data-aos="fade-up" data-aos-duration="1000">
+            <div class="col-12 col-md-5 m-2 d-flex align-items-center">
                 <img src="/resources/images/content-0.png" alt="..."> 
             </div>
             <div class="col-12 col-md-5 content-text">
@@ -134,15 +134,15 @@
         </div>
         <!--사이트 대표사진, 설명영역 끝-->
         <!--카테고리 영역 시작-->
-        <div class="row main-category" data-aos="fade-up" data-aos-duration="1000">
-            <div class="col-3 d-none d-lg-block">
-                <a href="/"><img src="/resources/images/category_Air.png"alt="..."></a>
+        <div class="row main-category d-flex justify-content-center" data-aos="fade-up" data-aos-duration="1000">
+            <div class="col-4 text-center">
+                <a href="/category.item?category_id=p100&page=1"><img src="/resources/images/category_Air.png" alt="..." style="width:90%"></a>
             </div>
-            <div class="col-3 d-none d-sm-block">
-                <a href="/"><img src="/resources/images/category_In.png" alt="..."></a>
+            <div class="col-4 text-center">
+                <a href="/category.item?category_id=p200&page=1"><img src="/resources/images/category_In.png" alt="..." style="width:90%"></a>
             </div>
-            <div class="col-3 d-none d-sm-block">
-                <a href="/"><img src="/resources/images/category_Out.png" alt="..."></a>
+            <div class="col-4 text-center">
+                <a href="/category.item?category_id=p300&page=1"><img src="/resources/images/category_Out.png" alt="..." style="width:90%"></a>
               </div>
         </div>
         <!--카테고리 영역 끝-->
@@ -177,6 +177,7 @@
         </div>
         <%--풋터영역 --%>
         <jsp:include page="/frame/footer.jsp"></jsp:include>
+	</div>
       <script>
       //팝업창
       /*
@@ -203,7 +204,6 @@
       		location.href = "/toSearchPage.item?curPage=1";
       	})
       	
-
 
         //AOS
         AOS.init();
