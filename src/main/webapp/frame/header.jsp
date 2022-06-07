@@ -28,12 +28,12 @@
 				<!--네비 메뉴-->
 				<div class="row search-menu">
 					<span>Shop</span> 
-					<a href="/air.item" class="fromLeft"><span>공기정화 (Air Purifying)</span></a> 
-					<a href="/interior.item" class="fromLeft"><span>실내식물 (Indoor Plants)</span></a> 
-					<a href="/outside.item" class="fromLeft"><span>실외식물(Outdoor Plants)</span></a> 
+					<a href="/category.item?category_id=p100&page=1" class="fromLeft"><span>공기정화 (Air Purifying)</span></a> 
+					<a href="/category.item?category_id=p200&page=1" class="fromLeft"><span>실내식물 (Indoor Plants)</span></a> 
+					<a href="/category.item?category_id=p300&page=1" class="fromLeft"><span>실외식물(Outdoor Plants)</span></a> 
 					<span>Community</span> 
-					<a href=""class="fromLeft"><span>Q & A</span></a> 
-					<a href=""class="fromLeft" id="noticeNav"><span>Notice</span></a>
+					<a href="/qna.bo"class="fromLeft"><span>Q & A</span></a> 
+					<a href="/notice.bo"class="fromLeft" id="noticeNav"><span>Notice</span></a>
 					<c:choose>
 						<c:when test="${not empty loginSession}">
 							<a href="/toLogout.user" class="fromLeft bottom" id="logoutNav"><span>로그아웃</span></a>
@@ -45,7 +45,7 @@
 					<a href="/join.user" class="fromLeft bottom"><span>회원가입</span></a>
 					<c:choose>
 						<c:when test="${not empty loginSession}">
-							<a href="" class="fromLeft bottom"><span>마이페이지</span></a>
+							<a href="/toMypage.user" class="fromLeft bottom"><span>마이페이지</span></a>
 						</c:when>
 						<c:otherwise>
 							<a href="/login.user"
