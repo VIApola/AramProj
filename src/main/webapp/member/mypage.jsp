@@ -311,29 +311,7 @@ a:hover::after {
      });
      /* Q & A*/
      $("#qa").on("click", function(){
-        $("#content").empty();
-        let h3 = $("<h5>").html("Q & A");
-        let row = $("<div>").addClass('row');
-        let col = $("<div>").addClass("col-12").css("text-align", "center");
-        let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 글입니다.");
-        let tableRow = $("<div>").addClass('row');
-        let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
-        let table = $("<table>");
-        let tr1 = $("<tr>");
-        let thNum = $("<th>").html("번호");
-        let thTitle = $("<th>").html("제목");
-        let thDate = $("<th>").html("상품명");
-        let tr2 = $("<tr>");
-        // 조건문 돌려서 문의내역 있으면 td 생성
-            col.append(p);
-            row.append(col);
-            tr1.append(thNum, thTitle, thDate);
-            table.append(tr1);
-            tableCol.append(table);
-            tableRow.append(tableCol);
-            $("#content").append(h3); 
-            $("#content").append(row);
-            $("#content").append(tableRow);
+    	 selectByQnA();
      })
      /* 리뷰 */
   

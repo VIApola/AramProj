@@ -414,6 +414,99 @@ public class ItemDAO {
 		
 	}
 	
+	
+	public ArrayList<ItemViewDTO> searchByNameMng(String input) throws Exception { // 관리자 페이지 : 상품검색-상품명, 이름
+		
+		String sql = "select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no where item_name like '%'||?||'%' order by 2";
+		
+		try (PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)) {
+			
+			pstmt.setString(1, input);
+			
+			ResultSet rs = pstmt.executeQuery();
+			ArrayList<ItemViewDTO> list = new ArrayList<>();
+			
+			while(rs.next()) {
+				int item_no = rs.getInt("item_no");
+				String item_name = rs.getString("item_name");
+				int price = rs.getInt("price");
+				String item_comment = rs.getString("item_comment");
+				String item_regdate = getStringDate(rs.getDate("item_regdate"));
+				int item_stock = rs.getInt("item_stock");
+				
+				String category_id = "분류없음";
+				if(rs.getString("category_id").equals("p100")) {
+					category_id = "공기정화식물";
+				} else if(rs.getString("category_id").equals("p200")){
+					category_id = "실내식물";
+				} else if(rs.getString("category_id").equals("p300")) {
+					category_id = "실외식물";
+				}
+				
+				int img_no = rs.getInt("img_no");
+				String img_type = rs.getString("img_type");
+				String ori_name = rs.getString("ori_name");
+				String sys_name = rs.getString("sys_name");
+				
+				list.add(new ItemViewDTO(item_no, item_name, price, item_comment,
+						item_regdate, item_stock, category_id, new ItemimgDTO(img_no,item_no,img_type, ori_name, sys_name)));
+
+			}
+			return list;
+			
+		}
+		
+	}
+	
+	
+	
+	
+	public ArrayList<ItemViewDTO> searchByNoMng(String input) throws Exception { // 관리자 페이지 : 상품검색-상품번호, 번호순
+		
+		String sql = "select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no where item_no like '%'||?||'%' order by 1";
+		
+		try (PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)) {
+			
+			pstmt.setString(1, input);
+			
+			ResultSet rs = pstmt.executeQuery();
+			ArrayList<ItemViewDTO> list = new ArrayList<>();
+			
+			while(rs.next()) {
+				int item_no = rs.getInt("item_no");
+				String item_name = rs.getString("item_name");
+				int price = rs.getInt("price");
+				String item_comment = rs.getString("item_comment");
+				String item_regdate = getStringDate(rs.getDate("item_regdate"));
+				int item_stock = rs.getInt("item_stock");
+				
+				String category_id = "분류없음";
+				if(rs.getString("category_id").equals("p100")) {
+					category_id = "공기정화식물";
+				} else if(rs.getString("category_id").equals("p200")){
+					category_id = "실내식물";
+				} else if(rs.getString("category_id").equals("p300")) {
+					category_id = "실외식물";
+				}
+				
+				int img_no = rs.getInt("img_no");
+				String img_type = rs.getString("img_type");
+				String ori_name = rs.getString("ori_name");
+				String sys_name = rs.getString("sys_name");
+				
+				list.add(new ItemViewDTO(item_no, item_name, price, item_comment,
+						item_regdate, item_stock, category_id, new ItemimgDTO(img_no,item_no,img_type, ori_name, sys_name)));
+
+			}
+			return list;
+			
+		}
+		
+	}
+	
+	
+
+	
 	public ItemViewDTO selectByItemNo(int num) throws Exception { // 관리자 페이지 : 상품번호로 데이터 조회 (상품수정페이지)
 		
 		String sql = "select * from tbl_items a join tbl_item_img b on a.img_no = b.img_no where item_no = ?";

@@ -70,8 +70,9 @@
 
     /* 상품관리 메뉴 */
 
-    .body-header { /*고객관리 메뉴 백그라운드*/
+    .body-header { /*고객관리 메뉴*/
         background-color: lightgray;
+        margin-bottom: 20px;
     }
 
     /* 체크박스 색상 */
@@ -81,7 +82,6 @@
 
     /* 콘텐츠 헤더 */
     .contents-header {
-        margin-top: 30px;
         background-color: lightgray;
     }
 
@@ -92,7 +92,7 @@
     
     /* 상품번호 불러오는 input */
     .cls-item_no {
-    	/*display: none;*/
+    	display: none;
     }
 
     /* 수정/삭제 버튼 */
@@ -163,28 +163,32 @@
         <div class="row body-header">
             <div class="row">
                 <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
-                    전체목록
+                    
                 </div>
-                <div class="col-xs-6 col-sm-4 col-xl-2 d-flex align-self-center justify-content-center">
-                    등록된 상품 ${count}건
-                </div>
+                <div class="col-xs-6 col-sm-4 col-xl-2 d-flex align-self-center justify-content-center"></div>
                 <div class="d-none d-xl-block col-xl-5 d-flex align-self-center"></div>
                 <div class="col-2 col-xl-1 d-flex align-self-center justify-content-end" style="display:block; text-align: justify;">
-                    <select name="">
-                        <option value="상품평">상품명</option>
+                    <select id="searchSelect">
+                        <option value="상품명">상품명</option>
                         <option value="상품번호">상품번호</option>
-                        <option value="카테고리">카테고리</option>
+                        <!-- <option value="카테고리">카테고리</option>  -->
                     </select>
                 </div>
                 <div class="col-4 col-xl-3">
                     <nav class="navbar">
                         <div class="search">
-                            <input style="height:30px;" type="text" placeholder="검색어 입력">
-                            <a href=""><img style="width: 20px;" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></a>
+                            <input style="height:30px;" id="searchInput" type="text" placeholder="검색어 입력">
+                            <img id="searchBtn" style="width: 20px; cursor:pointer;" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
                         </div>
                     </nav>
                 </div>
             </div>
+        </div>
+        
+        <div class="row countBox">
+        	<div class="col">
+        		등록된 상품 ${count}건
+        	</div>
         </div>
         
         <!--콘텐츠 타이틀-->
@@ -281,6 +285,51 @@
 
     <script>
     
+    //검색버튼을 클릭했을 때
+    $("#searchBtn").on("click", function () {
+        let searchInput = $("#searchInput").val();
+
+        if (searchInput === "") {
+            location.href = "/toUserManage.admin";
+            return;
+        }
+        let select = $("#searchSelect option:selected").val();
+        
+        console.log(searchInput + " : " + select);
+        
+        if (select === "상품명") {
+            console.log("상품명 : " + searchInput);
+            $.ajax({
+                url: "/searchMng.admin?item_name=" + searchInput
+                , type: "get"
+                , success: function (data) {
+                    console.log(data);
+                    makeList(data);
+                }
+                , error: function (e) {
+                    console.log(e);
+                }
+            });
+
+        } else if (select === "상품번호") {
+            console.log("상품번호 : " + searchInput);
+            $.ajax({
+                url: "/searchMng.admin?item_no=" + searchInput
+                , type: "get"
+                , success: function (data) {
+                    console.log(data);
+                    makeList(data)
+                }
+                , error: function (e) {
+                    console.log(e);
+                }
+            });
+
+        }
+
+    });
+    
+    
         // 전체체크
         $("#checkAll").change(function () {
             if ($("#checkAll").is(":checked")) {
@@ -295,6 +344,8 @@
         });
         
         
+        
+    	
     	// 개별수정버튼
     	$(".btn-modify").click(function(){
     		$(this).parent().submit();
@@ -333,8 +384,8 @@
     		
 
     	});
-    	
-    	
+        
+        
         
         // 신규상품 등록버튼 클릭
         $("#toItemInput").on("click", function(){
@@ -358,12 +409,16 @@
         function makeList(data){ // 전체리스트 다시 뿌려주는 작업 (삭제 시)
         	let list = JSON.parse(data);
         
-        	//$(".body-header").empty();
+        	$(".countBox").empty();
         	
         	$(".contents-box").empty();
         	
-        	//let rowBoHead = $("<div>").addClass("row header");
-        	
+			let rowCount = $("<div>").addClass("row countBox");
+			let colCount = $("<div>").addClass("col").html("등록된 상품 ${count}건");
+			
+			rowCount.append(colCount);
+			$(".countBox").append(rowCount);
+			
         	
         	if(list.length == 0){ // 상품목록이 없을 때
         		let row = $("<div>").addClass("row");
@@ -373,41 +428,42 @@
         		$(".contents-box").append(row);
         	} else { // 상품목록이 있을 때
         		for(let dto of list){
+        			
         			let rowCon = $("<div>").addClass("row contents");
         			// 체크박스
         			let colCheckbox = $('<div>').addClass("col-1 d-flex align-self-center justify-content-center");
         			let inputCheckbox = $("<input>").attr({class: "clsCheckbox", type: "checkbox", id: ""})
         			
         			colCheckbox.append(inputCheckbox);
-        			$(".contents-box").append(colCheckbox);
+        			rowCon.append(colCheckbox);
         			
         			// 상품번호
         			let colItemNo = $("<div>").addClass("col-2 d-flex align-self-center justify-content-center"); 
         			let spanItemNo = $("<span>").html(dto.item_no);
         			
         			colItemNo.append(spanItemNo);
-        			$(".contents-box").append(colItemNo);
+        			rowCon.append(colItemNo);
         			
         			// 분류
         			let colCategory = $("<div>").addClass("col-2 d-flex align-self-center justify-content-center");
         			let spanCategory = $("<span>").html(dto.category_id);
         			
         			colCategory.append(spanCategory);
-        			$(".contents-box").append(colCategory);
+        			rowCon.append(colCategory);
         			
         			// 이미지
         			let colImg = $("<div>").addClass("col-2 d-flex align-self-center justify-content-center");
         			let img = $("<img>").attr("src", "/resources/images/items/"+dto.itemImgDTO.sys_name).addClass("card-img-top");
         			
         			colImg.append(img);
-        			$(".contents-box").append(colImg);
+        			rowCon.append(colImg);
         			
         			// 상품명
-        			let colItemName = $("<div>").addClass("d-flex align-self-center justify-content-center");
+        			let colItemName = $("<div>").addClass("col-3 d-flex align-self-center justify-content-center");
         			let spanItemName = $("<span>").html(dto.item_name);
         			
         			colItemName.append(spanItemName);
-        			$(".contents-box").append(colItemName);
+        			rowCon.append(colItemName);
         			
         			// 버튼
         			let colBtn = $("<div>").addClass("col-2 d-flex align-self-center justify-content-center");
@@ -418,24 +474,75 @@
         			formModifyBtn.append(inputModify).append(btnModify);
         			colBtn.append(formModifyBtn);
         			
-        			let formDeleteBtn = $("<form>").attr({id: "formDeleteItem"+dto.item_no});
+        			let formDeleteBtn = $("<form>");
         			let inputDelete = $("<input>").attr({type: "number", class:  "cls-item_no", id: dto.item_no, name: "item_no", value: dto.item_no, readonly: true});
         			let inputDeleteImg = $("<input>").attr({type: "text", class: "cls-item_no", id: dto.itemImgDTO.img_no, name: "img_no", value: dto.itemImgDTO.img_no});
-        			let btnDelete = $("<button>").attr({type: "button", id: "deleteItem"+dto.item_no, class: "btn-delete btn btn-secondary"}).html("삭제");
+        			let btnDelete = $("<button>").attr({type: "button", id: "deleteItem"+dto.item_no, value: dto.item_no, class: "btn-delete btn btn-secondary"}).html("삭제");
         			
         			formDeleteBtn.append(inputDelete).append(inputDeleteImg).append(btnDelete);
         			colBtn.append(formDeleteBtn);
-        			$(".contents-box").append(colBtn);
+        			rowCon.append(colBtn);
+        			$(".contents-box").append(rowCon);
+        			
+        			
         			
         			
                     
         		}
+        	
+            	
+        	
+        	
         	}
+        	
+        	
+        	// 개별수정버튼
+        	$(".btn-modify").click(function(){
+        		$(this).parent().submit();
+        	});
+        	
+        	
+        	// 개별삭제버튼
+        	$(".btn-delete").click(function(){
+        		let item_no = $(this).val();
+        		let img_no = $(this).prev().val();
+        		console.log(item_no + " : " + img_no);
+        	
+        		
+        		let delCheck = confirm("정말 삭제하시겠습니까?");
+        		
+        		if(delCheck) {
+            		$.ajax({
+            			url : "/delete.item"
+            			, type : "post"
+            			, data : {item_no : item_no, img_no : img_no}
+            			, success : function(data){
+            				console.log(data);
+            				
+            				if(data === "fail"){
+            					alert("상품 삭제에 실패했습니다.");
+            				} else {
+            					makeList(data);
+            				}
+            				
+            			}
+            			, error: function(e){
+            				console.log(e);
+            			}
+            		});
+        		}
+        		
+
+        	});
         	
         	
         	
         	
         }
+        
+        
+        
+        
         
     </script>
 </body>

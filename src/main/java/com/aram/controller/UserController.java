@@ -139,7 +139,7 @@ public class UserController extends HttpServlet {
 					HttpSession session = request.getSession();
 					session.setAttribute("loginSession", dto);
 
-					if(dto.getIsAdmin() == "n") { // 일반 회원일 경우
+					if(dto.getIsAdmin().equals("n")) { // 일반 회원일 경우
 
 						request.getRequestDispatcher("/member/login.jsp").forward(request, response);
 						//request.getRequestDispatcher("/member/emailSendAction.jsp").forward(request, response);
