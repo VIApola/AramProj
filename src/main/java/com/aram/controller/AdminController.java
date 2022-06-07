@@ -12,8 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import com.aram.dao.ItemDAO;
+import com.aram.dao.ReviewDAO;
 import com.aram.dto.ItemViewDTO;
-
+import com.aram.dto.ReviewDTO;
 import com.aram.dao.BlacklistDAO;
 import com.aram.dto.BlacklistDTO;
 import com.aram.dto.UserDTO;
@@ -93,10 +94,7 @@ public class AdminController extends HttpServlet {
 				e.printStackTrace();
 			}
 
-		} else if (uri.equals("/toUserManage.admin")) { //관리자 페이지(고객관리) 이동 요청
-	         response.sendRedirect("/admin/blacklist.jsp");
-	         
-		} else if (uri.equals("/toNoticeManage.admin")) { // 관리자 페이지 (공지사항 관리) 이동 요청
+		}else if (uri.equals("/toNoticeManage.admin")) { // 관리자 페이지 (공지사항 관리) 이동 요청
 			response.sendRedirect("/board/notice.jsp");
 			
 		} else if (uri.equals("/toModifyItem.admin")) { // 개별상품 수정버튼 눌렀을 때
@@ -325,15 +323,22 @@ public class AdminController extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-<<<<<<< HEAD
+
 			
 		}else if(uri.equals("/toQnAManagePage.admin")) {//QnA 관리 페이지 요청
 			response.sendRedirect("/admin/qna.jsp");
 		}else if(uri.equals("/toReviewManage.admin")) {//리뷰 관리 페이지 요청
-			response.sendRedirect("/admin/review.jsp");
-=======
+			ReviewDAO dao = new ReviewDAO();
+			try {
+				ArrayList<ReviewDTO> list  = dao.selectAllReview();
+				request.setAttribute("ReviewList", list);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			request.getRequestDispatcher("/admin/review.jsp").forward(request, response);
 
->>>>>>> 5a03047ad5e6dee74984f8013cd9ca041b8e011d
+		}else if(uri.equals("/deleteReviewlist.admin")) {// 리뷰 삭제
+			
 		}
 
 	}

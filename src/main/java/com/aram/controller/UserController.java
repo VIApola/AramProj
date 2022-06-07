@@ -122,8 +122,10 @@ public class UserController extends HttpServlet {
 						// 관리자 인증 먼저 // 로그인 시 관리자인지 아닌지 체크하는 부분
 						if(dto.getIsAdmin().equals("y")) {
 							request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
+						}else {
+							request.getRequestDispatcher("/member/login.jsp").forward(request, response);
 						}
-						request.getRequestDispatcher("/member/login.jsp").forward(request, response);
+						
 						
 					} else { // db에 유저 정보가 없을 때
 						System.out.println("로그인 실패");

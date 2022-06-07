@@ -446,7 +446,7 @@ span:hover::after {
     					 let tr = $("<tr>");
     					 let td1 = $("<td>").html(dto.qna_no).css({"padding" : "10px", "border-bottom" : "1px solid grey", "text-align" : "center"});
     					 let td2 = $("<td>").css({"padding" : "10px", "border-bottom" : "1px solid grey"});
-    					 let anchor =  $("<a>").attr("href", "/"+dto.qna_no).html(CheckMaxString(dto.title, 12)).css({"text-decoration" : "none", "color": "black"});
+    					 let anchor =  $("<a>").attr("href", "/detailViewQna.bo?qna_no="+dto.qna_no).html(CheckMaxString(dto.title, 12)).css({"text-decoration" : "none", "color": "black"});
     					 let td3 = $("<td>").html(dto.write_date).css({"padding" : "10px", "border-bottom" : "1px solid grey", "text-align" : "center"});
     					 td2.append(anchor);
     					 tr.append(td1, td2, td3);

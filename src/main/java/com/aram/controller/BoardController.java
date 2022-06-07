@@ -70,7 +70,7 @@ public class BoardController extends HttpServlet {
 				System.out.println(list);
 				request.setAttribute("list", list);
 
-				request.setAttribute("naviMap", map);
+				//request.setAttribute("naviMap", map);
         
 				request.getSession();
 
@@ -258,13 +258,16 @@ public class BoardController extends HttpServlet {
 			
 		// Qna_게시판 검색
 		}else if(uri.equals("/qnaSearchProc.bo")) { 
-
+			HttpSession session = request.getSession();
+            session.getAttribute("loginSession");
 			String searchId = request.getParameter("searchid");
 			String searchTitle = request.getParameter("searchtitle");
 
 //			System.out.println("searchAuthor : " + searchId);
 //			System.out.println("searchTitle : " + searchTitle);
-
+			// 세션 아이디값
+			String session_id = request.getParameter("user_id");
+			System.out.println("세션 아이디값 : " + session_id);	
 
 			QnaDAO dao = new QnaDAO();
 			

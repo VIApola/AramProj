@@ -38,11 +38,8 @@
                             <a class="nav-link" style="color: black;" href="/toItemPage.admin">상품관리</a>
                         </li>
                         <li class="nav-item">
-<<<<<<< HEAD
+
                             <a class="nav-link" style="color: black;" href="/toQnAManagePage.admin">공지사항 관리</a>
-=======
-                            <a class="nav-link" style="color: black;" href="/toNoticeManage.admin">공지사항 관리</a>
->>>>>>> 5a03047ad5e6dee74984f8013cd9ca041b8e011d
                         </li>
                     </ul>    
             </div>
