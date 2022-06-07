@@ -38,7 +38,11 @@
                             <a class="nav-link" style="color: black;" href="/toItemPage.admin">상품관리</a>
                         </li>
                         <li class="nav-item">
+<<<<<<< HEAD
+                            <a class="nav-link" style="color: black;" href="/toQnAManagePage.admin">공지사항 관리</a>
+=======
                             <a class="nav-link" style="color: black;" href="/toNoticeManage.admin">공지사항 관리</a>
+>>>>>>> 5a03047ad5e6dee74984f8013cd9ca041b8e011d
                         </li>
                     </ul>    
             </div>
@@ -58,10 +62,10 @@
         <div class="row header">
             <div class="row">
                 <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
-                    <a href="" class="header-menu">리뷰관리</a>
+                    <a href="/toReviewManage.admin" class="header-menu">리뷰관리</a>
                 </div>
                 <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
-                    <a href="" class="header-menu">Q&A관리</a>
+                    <a href="/toQnAManagePage.admin" class="header-menu">Q&A관리</a>
                 </div>
                 <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
                     <a href="/toUserManage.admin" class="header-menu">계정관리</a>
@@ -313,7 +317,6 @@
         	//상단바 목록/검색창
   		  $(".header").empty();
   		  let row = $("<div>").addClass("row");
-  		  
   		  let col5 = $("<div>").addClass("col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center");
   		  let a1 = $("<a>").attr({href:""}).addClass("header-menu").html("리뷰관리");
   		  let col6 = $("<div>").addClass("col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center");
