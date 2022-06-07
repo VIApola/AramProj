@@ -60,7 +60,7 @@
 						<div class="inputPart">
 							<div class="input-group mb-3">
 								<input type="text" class="form-control" id="resSearchText">
-								<span class="btn btn-outline-secondary" id="resSearchBtn">검색</span>
+								<button class="btn btn-outline-secondary" id="resSearchBtn">검색</button>
 							</div>
 						</div>
 					</div>
