@@ -2,27 +2,10 @@ package com.aram.utils;
 
 import java.util.HashMap;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-
-import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
-
 public class Pagination {
 
-	private BasicDataSource bds;
-
-	public Pagination() {
-		try {
-			Context iCtx = new InitialContext();
-			Context envCtx = (Context) iCtx.lookup("java:comp/env");
-			bds = (BasicDataSource) envCtx.lookup("jdbc/bds");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	// 페이징 - getPageNavi 메서드
-	public HashMap<String, Object> getPageNavi(int totalCnt, int curPage, int recordPerPage) throws Exception {
+	public static HashMap<String, Object> getPageNavi(int totalCnt, int curPage, int recordPerPage) throws Exception {
 
 		// totalCnt : 전체 게시글 갯수
 		int recordCntPerPage = recordPerPage; // 한페이지에 띠울 게시글수

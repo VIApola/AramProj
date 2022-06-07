@@ -146,7 +146,7 @@
                             <a class="nav-link" style="color: black;" href="/toNoticeManage.admin">공지사항 관리</a>
                         </li>
                     </ul>    
-            </div>
+              </div>
             </div>
         </div> <!-- 헤더 끝 -->
 

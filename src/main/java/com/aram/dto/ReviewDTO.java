@@ -2,6 +2,7 @@ package com.aram.dto;
 
 public class ReviewDTO {
 	private int review_no;
+	private String nickname;
 	private String title;
 	private String content;
 	private String write_date;
@@ -12,10 +13,11 @@ public class ReviewDTO {
 	
 	public ReviewDTO() {}
 
-	public ReviewDTO(int review_no, String title, String content, String write_date, int score, String user_id,
-			int item_no, int img_no) {
+	public ReviewDTO(int review_no, String nickname, String title, String content, String write_date, int score,
+			String user_id, int item_no, int img_no) {
 		super();
 		this.review_no = review_no;
+		this.nickname = nickname;
 		this.title = title;
 		this.content = content;
 		this.write_date = write_date;
@@ -31,6 +33,14 @@ public class ReviewDTO {
 
 	public void setReview_no(int review_no) {
 		this.review_no = review_no;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public String getTitle() {
@@ -91,10 +101,9 @@ public class ReviewDTO {
 
 	@Override
 	public String toString() {
-		return "ReviewDTO [review_no=" + review_no + ", title=" + title + ", content=" + content + ", write_date="
-				+ write_date + ", score=" + score + ", user_id=" + user_id + ", item_no=" + item_no + ", img_no="
-				+ img_no + "]";
+		return "ReviewDTO [review_no=" + review_no + ", nickname=" + nickname + ", title=" + title + ", content="
+				+ content + ", write_date=" + write_date + ", score=" + score + ", user_id=" + user_id + ", item_no="
+				+ item_no + ", img_no=" + img_no + "]";
 	}
 	
-
 }
