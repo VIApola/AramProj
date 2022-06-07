@@ -192,16 +192,16 @@
                 <div class="col-1 d-flex align-self-center justify-content-center">
                     <input type="checkbox" id="checkAll">
                 </div>
-                <div class="col-1 d-flex align-self-center justify-content-center">
+                <div class="col-2 d-flex align-self-center justify-content-center">
                     <span>게시글번호</span>
                 </div>
                 <div class="col-2 d-flex align-self-center justify-content-center">
                     <span>아이디</span>
                 </div>
                 <div class="col-1 d-flex align-self-center justify-content-center">
-                    <span>첨부파일</span>
+                    <span>첨부사진</span>
                 </div>
-                <div class="col-4 d-flex align-self-center justify-content-center">
+                <div class="col-5 d-flex align-self-center justify-content-center">
                     <span>내용</span>
                 </div>
                 <div class="col-1 d-flex align-self-center justify-content-center">
@@ -210,27 +210,46 @@
             </div>
         </div>
         <!--콘텐츠-->
+       
+             <div class="row">
+             <form id="ReviewlistForm" action="/deleteReviewlist.admin" method="post">
+              <c:choose>
+        <c:when test="${empty ReviewList}">
+              <div class="col d-flex align-self-center justify-content-center">
+            	<h2>등록된 리뷰가 없습니다.</h2>
+             </div>
+              </div>
+            </c:when>
+            <c:otherwise>
+            <c:forEach items="${ReviewList}" var="reviewList">
         <div class="contents-box">
             <div class="row contents">
                 <div class="col-1 d-flex align-self-center justify-content-center">
-                    <input type="checkbox" id="1">
+                    <input type="checkbox" class="clicks" name="review_no" value="${reviewList.review_no}">
                 </div>
                 <div class="col-1 d-flex align-self-center justify-content-center">
-                    <span>001</span>
+                    <span>${reviewList.review_no}</span>
+
                 </div>
                 <div class="col-2 d-flex align-self-center justify-content-center">
-                    <span>leeyujoo</span>
+                    <span>${reviewList.user_id}</span>
                 </div>
                 <div class="col-1 d-flex align-self-center justify-content-center">
-                    <img src="">
+                    <img src="" style="width:50px height:50px">
                 </div>
+
                 <div class="col-4 d-flex align-self-center justify-content-center">
-                    <span>식물이 금방 시들었어요 너무 속상해요</span>
+                    <span><a href="">${reviewList.content}</a></span>
+
                 </div>
                 <div class="col-1 d-flex align-self-center justify-content-center">
-                    <span>★☆☆☆☆</span>
+                    <span>${reviewList.score}</span>
                 </div>
             </div>
+            </c:forEach>
+         </c:otherwise>
+         </c:choose>
+         </form>
             <!-- 신규상품등록 버튼 -->
             <div class="row box-btn-addItem">
                 <div class="col d-flex align-self-center justify-content-end">
@@ -238,12 +257,14 @@
                 </div>
             </div>
         </div>
+        
         <!--페이징-->
         <div class="row box-paging">
             <div class="col d-flex align-self-center justify-content-center">
                 페이징
             </div>
         </div>
+       
         <!--풋터-->
         <div class="row">
             <div class="col">
@@ -256,13 +277,39 @@
         // 전체체크
         $("#checkAll").change(function () {
             if ($("#checkAll").is(":checked")) {
-                $("#1").prop("checked", true);
-                $("#2").prop("checked", true);
+                $(".clicks").prop("checked", true);
             } else {
-                $("#1").prop("checked", false);
-                $("#2").prop("checked", false);
+                $(".clicks").prop("checked", false);
             }
         });
+      //체크박스에 체크된 id값만 가져오기
+    	$(".clicks:checked").each(function(){
+    		let id = $(this).val();
+    		console.log(id);
+    			
+    	})
+    	
+    	//checkBox가 선택되지않은 경우
+    	if($(".clicks").val() === ""){
+    		alert("삭제할 리뷰를 선택해 주세요.");
+    		return;
+    	}
+    	
+    	//확인창 띄우기
+         let anwser = confirm("선택한 리뷰를 삭제하시겠습니까?");
+        if(anwser){
+        $("#ReviewlistForm").submit();
+    		
+    	//리뷰 추가된 행 삭제하기
+    	$(".clicks:checked").each(function(e){
+    		let check = $(this);
+    	    check.parent().parent().remove();
+    	})
+    	
+    	
+    	}
+    		
+    });
 
     </script>
 </body>

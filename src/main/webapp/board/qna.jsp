@@ -25,9 +25,10 @@
 </head>
 <body>
 	<div class="container">
-		<%-- 헤더 부분 
+		
+		<!-- 헤더 -->
 		<jsp:include page="/frame/header.jsp"></jsp:include>
-		--%>
+		
 		<div class="row">
 			<div class="col-md-12">
 				<div class="imgBox">
@@ -74,7 +75,7 @@
 					<div class="inputPart">
 						<div class="input-group mb-3">
 							<input type="text" class="form-control" id="searchText">
-							<span class="btn btn-outline-secondary" id="searchBtn">검색</span>
+							<span class="btn btn-outline-secondary" id="adpSearchBtn">검색</span>
 						</div>
 					</div>
 				</div>
@@ -204,7 +205,7 @@
     	})
 	
     	// 비반응형일때, 검색 기능
-    	$("#searchBtn").on("click", function(){
+    	$("#adpSearchBtn").on("click", function(){
     		let searchInput = $("#searchInput option:selected").val();
     		let searchText = $("#searchText").val();
     		console.log(searchInput);

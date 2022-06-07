@@ -8,13 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.aram.dao.CartDAO;
 import com.aram.dao.ItemDAO;
 import com.aram.dto.ItemViewDTO;
-import com.aram.dto.UserDTO;
-
 
 @WebServlet("/main")
 public class HomeController extends HttpServlet {
@@ -32,8 +28,6 @@ public class HomeController extends HttpServlet {
 		System.out.println("요청 uri : " + uri);
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-		
-		
 		
 		ItemDAO itemDao = new ItemDAO();
 		
