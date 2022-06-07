@@ -195,7 +195,7 @@ a:hover::after {
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-5 d-none d-md-block col-md-5">
+				<div class="col-3 d-none d-md-block col-md-3">
 					<div class="row">
 						<div class="col">
 							<h5>Shopping page</h5>
@@ -237,7 +237,7 @@ a:hover::after {
 						</div>
 					</div>
 				</div>
-				<div class="col-7" id="content">
+				<div class="col-9" id="content">
 					<p>${loginSession.nickname}님, 환영합니다.</p>
 				</div>
 			</div>
@@ -378,24 +378,24 @@ a:hover::after {
 							
 							let list = $("<div>").addClass("row list-row");
             				
-            				let imgDiv =  $("<div>").addClass("col-2 imgDiv");
+            				let imgDiv =  $("<div>").addClass("col-2 imgDiv  d-none d-md-none d-lg-block");
             				
             				let img = $("<img>").attr({class:"reviewImg", src:"/resources/images/items/"+ dto.sys_name});
             				imgDiv.append(img);
 
-            				let nameDiv = $("<div>").addClass("col-2 nameDiv");
+            				let nameDiv = $("<div>").addClass("col-4 nameDiv col-lg-2");
             				let nameSpan = $("<span>").html(CheckMaxString(dto.item_name, 10));
             				nameDiv.append(nameSpan);
  
-            				let titleDiv = $("<div>").addClass("col-3 titleDiv");
-            				let title = $("<a>").attr("href","/detail.item?item_no="+dto.item_no).html(CheckMaxString(dto.title, 12));
+            				let titleDiv = $("<div>").addClass("col-3 titleDiv col-lg-3");
+            				let title = $("<a>").attr("href","/detail.item?item_no="+dto.item_no).html(CheckMaxString(dto.title, 10));
             				titleDiv.append(title);
             				
-            				let scoreDiv = $("<div>").addClass("col-2 scoreDiv");
+            				let scoreDiv = $("<div>").addClass("col-2 scoreDiv col-lg-2");
             				let score = $("<span>").html(dto.score);
             				scoreDiv.append(score);
             				
-            				let write_dateDiv = $("<div>").addClass("col-2 write_dateDiv");
+            				let write_dateDiv = $("<div>").addClass("col-2 write_dateDiv col-lg-3");
             				let write_date = $("<span>").html(dto.write_date);
             				write_dateDiv.append(write_date);
             				

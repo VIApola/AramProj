@@ -61,7 +61,7 @@ text-align:center;
 				<div class="col-1 d-flex align-items-center justify-content-center">
 					<input class="form-check-input checkBox" type="checkbox" id="${dto.price}" name="checkBox" value="${dto.item_no}">
 				</div>
-				<div class="col-2">
+				<div class="col-2 d-none d-md-none d-lg-block">
 					<img src="/resources/images/items/${dto.item_name}.png">
 				</div>
 				<div class="col-5 itemName d-flex align-items-center">
@@ -258,7 +258,7 @@ $.ajax({
             				let checkBox = $("<input>").attr({class:"form-check-input checkBox", type:"checkbox"}).val(dto.item_no);
             				col_1.append(checkBox);
             				
-            				let col_2 = $("<div>").addClass("col-2");
+            				let col_2 = $("<div>").addClass("col-2 d-none d-md-none d-lg-block");
              				let img = $("<img>").attr({ src:"/resources/images/items/"+ dto.item_name +".png"});
              				col_2.append(img);
              			
@@ -340,7 +340,10 @@ $.ajax({
             			});			
             			
             	
-            	}	     		
+            	}	    
+            	
+            	alert("총 "+ checkVals.length + "개의 물품이 삭제되었습니다.");     		
+            	
            	}		
         		,	error:function(e){
         			console.log(e);
