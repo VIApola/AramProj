@@ -289,15 +289,15 @@ public class BoardController extends HttpServlet {
 					response.getWriter().append(rs);
 					
 				}
-//				else if(session_id != null) {// 세션아이디로 자기자신이 쓴 글 조회
-//					
-//					ArrayList<QnaDTO> list = dao.searchByUserId(session_id);
-//					Gson gson = new Gson();
-//					String rs = gson.toJson(list);
-//					System.out.println(rs);
-//					response.setCharacterEncoding("utf-8");
-//					response.getWriter().append(rs);
-//				}
+				else if(session_id != null) {// 세션아이디로 자기자신이 쓴 글 조회
+					
+					ArrayList<QnaDTO> list = dao.searchByUserId(session_id);
+					Gson gson = new Gson();
+					String rs = gson.toJson(list);
+					System.out.println(rs);
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(rs);
+				}
 				
 			}catch(Exception e) {
 				e.printStackTrace();
