@@ -281,6 +281,10 @@ public class AdminController extends HttpServlet {
 				}
 			}
 			
+		}else if(uri.equals("/toQnAManagePage.admin")) {//QnA 관리 페이지 요청
+			response.sendRedirect("/admin/qna.jsp");
+		}else if(uri.equals("/toReviewManage.admin")) {//리뷰 관리 페이지 요청
+			response.sendRedirect("/admin/review.jsp");
 		}
 	}
 }
