@@ -93,7 +93,7 @@
 					</c:choose></li>
 				<c:choose>
 					<c:when test="${not empty loginSession}">
-						<li class="nav-item"><a href="" class="nav-link"
+						<li class="nav-item"><a href="/toMypage.user" class="nav-link"
 							style="color: black;">Mypage</a></li>
 					</c:when>
 					<c:otherwise>
