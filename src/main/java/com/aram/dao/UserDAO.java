@@ -33,7 +33,7 @@ public class UserDAO {
 	 * - 카카오 회원가입 kakaoJoin
 	 * - 카카오 로그인 kakaoLogin
 	 * - 아이디 비밀번호 찾기 findId toChangePassord, ChangePassword, 비밀번호 변경
-	 * - 이메일 인증 관련 
+	 * - 이메일 인증 관련
 	 * */
 	
 	// 회원가입
@@ -230,6 +230,25 @@ public class UserDAO {
 			
 		}
 	}
+	// 회원정보 수정
+	public int modifyUser(UserDTO dto) throws Exception{
+		String sql = "update tbl_user set nickname=?, phone=?, email=?, "
+				+ "post_no=?, addr=?, addr_detail=? where user_id=?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);){
+			
+			pstmt.setString(1, dto.getNickname());
+			pstmt.setString(2, dto.getPhone());
+			pstmt.setString(3, dto.getEmail());
+			pstmt.setString(4, dto.getPost_no());
+			pstmt.setString(5, dto.getAddr());
+			pstmt.setString(6, dto.getAddr_detail());
+			pstmt.setString(7, dto.getUser_id());
+			
+			int rs = pstmt.executeUpdate();
+			return rs;
+		}
+	}
 
 	// 특정 회원의 이메일값 반환
 	public String getUserEmail(String id) throws Exception{
@@ -248,17 +267,6 @@ public class UserDAO {
 			}
 	}
 	
-	// 이메일 인증 된 사람
-	public int setUserEmailChecked(String code) throws Exception {
-		String sql = "update email_verfied set idHashChecked='y' where idHash=?";
-		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql);){
-				
-				pstmt.setString(1, code);				
-				return pstmt.executeUpdate();
-			}
-	}
-	
 	// 이메일 인증 확인
 	public String getUserEmailChecked(String id) throws Exception {
 		String sql = "select idHashChecked from email_verfied where user_id=?";
@@ -274,6 +282,19 @@ public class UserDAO {
 			return null;
 			}
 	}
+	
+	// 이메일 인증 완료 상태로 변경
+	public int setUserEmailChecked(String code) throws Exception {
+		String sql = "update email_verfied set idHashChecked='y' where idHash=?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);){
+				
+				pstmt.setString(1, code);				
+				return pstmt.executeUpdate();
+			}
+	}
+	
+	
 	
 	public int setHashedEmail(String id, String hashedEmail) throws Exception {
 		String sql = "insert into email_verfied values(?,?,'n')";

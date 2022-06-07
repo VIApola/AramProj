@@ -97,6 +97,21 @@ public class CartDAO {
 		}
 	}
 	
+	// 해당 유저의 장바구니에 담긴 총 금액 조회
+	public int totalPrice(String user_id) throws Exception {
+		String sql = "SELECT sum(price*quantity) FROM tbl_cart JOIN TBL_ITEMS ON tbl_cart.item_no = tbl_items.ITEM_NO WHERE user_id=?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			pstmt.setString(1, user_id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getInt(1);
+			}
+		}
+		return 0;
+	}
+	
 		
 	// 장바구니에 제품 담기
 	public int addCart(CartDTO dto) throws Exception {
@@ -122,8 +137,8 @@ public class CartDAO {
 	}
 	
 	
-	//해당 물품이 장바구니에 있는 물품인지 확인 - 없을 시 true, 있으면 false
-	public boolean existItem(int item_no)throws Exception{
+	// 해당 물품이 장바구니에 있는 물품인지 확인 - 없을 시 true, 있으면 false
+	public boolean existItem(int item_no)throws Exception {
 		String sql = "select count(*) as count from tbl_cart where item_no = ?";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
@@ -141,8 +156,6 @@ public class CartDAO {
 			
 		}
 	}
-	
-
 	
 	
 	// 장바구니 수량 추가
@@ -166,45 +179,26 @@ public class CartDAO {
 		}
 		return checkVals.length;
 	}
-	
-	
-	public int total(String user_id) throws Exception{
-		String sql = "select price, quantity from tbl_cart left join tbl_items on tbl_cart.item_no = tbl_items.item_no where user_id = ? ";
-		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql)	
-				){
-			pstmt.setString(1, user_id);
-			
-			ResultSet rs = pstmt.executeQuery();
-			
-			int total = 0;
-			while(rs.next()) {
-				int price = rs.getInt("price");
-				int quantity = rs.getInt("quantity");
-				
-				total = total + (price * quantity);
-			}
-				return total;
-		}
-	}
-
-
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+//	
+//	
+//	public int total(String user_id) throws Exception{
+//		String sql = "select price, quantity from tbl_cart left join tbl_items on tbl_cart.item_no = tbl_items.item_no where user_id = ? ";
+//		try(Connection con = bds.getConnection();
+//			PreparedStatement pstmt = con.prepareStatement(sql)	
+//				){
+//			pstmt.setString(1, user_id);
+//			
+//			ResultSet rs = pstmt.executeQuery();
+//			
+//			int total = 0;
+//			while(rs.next()) {
+//				int price = rs.getInt("price");
+//				int quantity = rs.getInt("quantity");
+//				
+//				total = total + (price * quantity);
+//			}
+//				return total;
+//		}
+//	}
 	
 }
