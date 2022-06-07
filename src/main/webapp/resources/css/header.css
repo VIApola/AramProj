@@ -7,14 +7,9 @@
 	font-style: normal;
 }
 
-* {
-	box-sizing: border-box;
-	font-family: 'Roboto Mono', monospace;
-	font-family: 'GowunDodum-Regular';
-}
-
 .main-header {
 	box-sizing: border-box;
+	margin: auto;
 	font-family: 'Roboto Mono', monospace;
 	font-family: 'GowunDodum-Regular';
 }

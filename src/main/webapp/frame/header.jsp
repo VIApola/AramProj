@@ -55,7 +55,6 @@
 				</c:choose>
 			</div>
 		</div>
-		<span style="font-size: 20px; cursor: pointer" onclick="openNav()">&#9776;</span>
 	</div>
 	<!--상단바 로고 영역-->
 	<div class="header-logo col-9 d-flex justify-content-center">

@@ -1,7 +1,6 @@
 package com.aram.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import com.aram.dao.CartDAO;
 import com.aram.dao.OrderDAO;
 import com.aram.dto.CartDTO;
-import com.aram.dto.Cart_ItemDTO;
 import com.aram.dto.OrderDTO;
 import com.aram.dto.OrderItemDTO;
 import com.aram.dto.UserDTO;

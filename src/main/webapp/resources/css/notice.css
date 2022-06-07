@@ -30,7 +30,7 @@ html, body {
 /*noticeBox*/
 .noticeBox {
 	height: 50px;
-	
+	z-index: 2;
 	border-bottom: 1px solid lightgray;
 }
 
@@ -40,6 +40,10 @@ html, body {
 
 .resSearchBox * {
 	height: 36px;
+
+}
+#resSearchBtn{
+	z-index: 2;
 }
 
 /*searchBox*/
