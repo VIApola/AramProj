@@ -21,6 +21,7 @@ import com.aram.dao.UserDAO;
 import com.aram.dto.MypageReviewDTO;
 import com.aram.dto.UserDTO;
 import com.aram.utils.EncryptionUtils;
+import com.aram.utils.PhoneVerification;
 import com.google.gson.Gson;
 
 @WebServlet("*.user")
@@ -409,5 +410,19 @@ public class UserController extends HttpServlet {
 					+ " : " + postcode + " : " + roadAddr + " : " + detailAddr );
 			
 		}
+		
+		
+		if(uri.equals("/sendPhoneVerify.user")) {
+			
+			String phone = request.getParameter("phone");
+			String randNum = PhoneVerification.sendPhoneMail(phone);
+			System.out.println(randNum);
+			
+			Gson gson = new Gson();
+			String rs = gson.toJson(randNum);
+			response.getWriter().append(rs);
+			
+		}
+		
 	}
 }
