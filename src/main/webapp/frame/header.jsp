@@ -30,8 +30,8 @@
 					<span>Shop</span> <a href="/air.item" class="fromLeft"><span>공기
 							정화 (Air Purifying)</span></a> <a href="/interior.item" class="fromLeft"><span>실내
 							식물 (Indoor Plants)</span></a> <a href="/outside.item" class="fromLeft"><span>실외
-							식물(Outdoor Plants)</span></a> <span>Community</span> <a href=""
-						class="fromLeft"><span>Q & A</span></a> <a href=""
+							식물(Outdoor Plants)</span></a> <span>Community</span> <a href="/qna.bo"
+						class="fromLeft"><span>Q & A</span></a> <a href="/notice.bo"
 						class="fromLeft" id="noticeNav"><span>Notice</span></a>
 					<c:choose>
 						<c:when test="${not empty loginSession}">
@@ -98,7 +98,7 @@
 							style="color: black;">Mypage</a></li>
 					</c:when>
 					<c:otherwise>
-						<li class="nav-item"><a href="/toLogin.main"
+						<li class="nav-item"><a href="/login.user"
 							onclick="return confirm('로그인 후 사용이 가능합니다. 로그인 화면으로 이동하시겠습니까?')"
 							class="nav-link" id="toMypage" style="color: black;">Mypage</a></li>
 					</c:otherwise>
