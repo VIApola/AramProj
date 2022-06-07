@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
-import org.apache.jasper.compiler.Node.CustomTag;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import com.aram.dto.OrderDTO;
@@ -29,17 +28,21 @@ public class OrderDAO {
 	
 	// 주문서 생성
 	public int createOrder(OrderDTO dto)throws Exception {
-		String sql = "insert into tbl_order values (?,?,?,sysdate,'주문대기중',?,?,?,?,?)";
+		String sql = "insert into tbl_order values (?,?,?,?,?,sysdate,?,'주문대기중',?,?,?,?,?)";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
 			pstmt.setInt(1, dto.getOrder_no());
 			pstmt.setString(2, dto.getUser_id());
 			pstmt.setString(3, dto.getOrder_name());
-			pstmt.setString(4, dto.getDelivery_name());
-			pstmt.setString(5, dto.getDelivery_addr());
-			pstmt.setString(6, dto.getOrder_msg());
-			pstmt.setString(7, dto.getDelivery_msg());
+			pstmt.setString(4, dto.getOrder_email());
+			pstmt.setString(5, dto.getOrder_phone());
+			pstmt.setInt(6, dto.getOrder_amount());
+			pstmt.setString(7, dto.getDelivery_name());
+			pstmt.setString(8, dto.getDelivery_phone());
+			pstmt.setString(9, dto.getDelivery_addr());
+			pstmt.setString(10, dto.getOrder_msg());
+			pstmt.setString(11, dto.getDelivery_msg());
 			
 			return pstmt.executeUpdate();
 		}
