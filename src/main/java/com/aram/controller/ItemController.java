@@ -131,47 +131,108 @@ public class ItemController extends HttpServlet {
 				int img_no = imgDao.getImgFileNo();
 				
 				int rs = dao.insertItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no));
-				int rsFile = imgDao.insert_img(new ItemimgDTO(img_no, item_no, null, ori_name, sys_name));
+				int rsFile = imgDao.insert_img(new ItemimgDTO(img_no, item_no, "type", ori_name, sys_name));
 				if(rs > 0 && rsFile > 0) {
 					System.out.println("등록 완료");
-					response.sendRedirect("/main");
+					response.sendRedirect("/toItemPage.admin");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
-		} else if(uri.equals("/update.item")) { // 상품 정보 변경 (관리자)
-			String item_name = request.getParameter("itemName");
-			int price = Integer.parseInt(request.getParameter("itemPrice"));
-			String item_comment = request.getParameter("itemDetail");
-			int item_stock = Integer.parseInt(request.getParameter("itemStock"));
-			String item_category = request.getParameter("itemCategory");
+		} else if(uri.equals("/update.item")) { // 상품 정보 수정 (관리자)
+			
+			String filePath = request.getServletContext().getRealPath("/resources/images/items");
+			System.out.println(filePath);
+			
+			
+			int maxSize = 1024*1024*10;
+			
+			MultipartRequest multi = new MultipartRequest(request, filePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
+			
+			String ori_name = multi.getOriginalFileName("imgFile");
+			String sys_name = multi.getFilesystemName("imgFile");
+
+			String item_name = multi.getParameter("itemName");
+			int price = Integer.parseInt(multi.getParameter("itemPrice"));
+			String item_comment = multi.getParameter("itemDetail");
+			int item_stock = Integer.parseInt(multi.getParameter("itemStock"));
+			String category_id = multi.getParameter("itemCategory");
+			int item_no = Integer.parseInt(multi.getParameter("item_no"));
+			int img_no = Integer.parseInt(multi.getParameter("defaultImg"));
+			
+			System.out.println(item_no + " : " + item_name + ":" + category_id + ":" + price + ":" + item_stock + ":" + item_comment);
+			System.out.println(ori_name + ":" + sys_name + ":" + category_id);
+			System.out.println("이미지 넘버 : " + img_no);
 			
 			ItemDAO dao = new ItemDAO();
+			ImgFileDAO imgDao = new ImgFileDAO();
 			
-			try {
-				int rs = dao.updateItem(new ItemDTO(0, item_name, price, item_comment, null, item_stock, "P200", 0));
-				if(rs > 0) {
-					System.out.println("수정 완료");
-					response.sendRedirect("/main");
+			if(ori_name == null) {
+				System.out.println("이미지가 null값입니다");
+//				
+				try {
+					int rs = dao.updateItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no));
+					if(rs>0) {
+						System.out.println("수정 완료");
+						response.sendRedirect("/toItemPage.admin");
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
+				
+			} else {
+				try {
+					
+					int img_no2 = imgDao.getImgFileNo();
+					
+					int rs = dao.updateItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no2));
+					int rsFile = imgDao.insert_img(new ItemimgDTO(img_no2, item_no, "type", ori_name, sys_name));
+					if(rs > 0 && rsFile > 0) {
+						
+						imgDao.delete_img(img_no);
+						System.out.println("수정 완료");
+						response.sendRedirect("/toItemPage.admin");
+					}
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				
 			}
-		} else if(uri.equals("/delete.item")) { // 상품 삭제 (관리자)
+				
+
+			
+		}else if(uri.equals("/delete.item")) { // 상품 삭제 (관리자)
 			int item_no = Integer.parseInt(request.getParameter("item_no")); 
+			int img_no = Integer.parseInt(request.getParameter("img_no"));
 			
 			ItemDAO dao = new ItemDAO();
+			ImgFileDAO imgDao = new ImgFileDAO();
+			
 			
 			try {
 				int rs = dao.deleteItem(item_no);
-				if (rs > 0) {
+				int rsFile = imgDao.delete_img(img_no);
+				if (rs > 0 && rsFile>0) { // 삭제 성공, 상품목록 응답
 					System.out.println("삭제완료");
-					response.sendRedirect("/main");
+					// response.sendRedirect("/toItemPage.admin");
+					
+					ArrayList<ItemViewDTO> list = dao.mngItemList();
+					Gson gson = new Gson();
+					String result = gson.toJson(list);
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(result);
+				} else { // 삭제 실패
+					response.getWriter().append("fail");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			
+			
 		} else if(uri.equals("/")) {
 			
 		}

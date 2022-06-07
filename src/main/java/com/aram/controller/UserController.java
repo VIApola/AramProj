@@ -100,8 +100,6 @@ public class UserController extends HttpServlet {
 				//아이디값에 따른 카트에 담겨진 값가져오기
 				int quantity = cartDAO.QuantityById(id);
 				
-				
-				// 이메일 인증은 했는지 확인
 				String checked = dao.getUserEmailChecked(id);
 				System.out.println(checked);
 				
@@ -292,14 +290,16 @@ public class UserController extends HttpServlet {
 				// 세션의 아이디 값과 입력한 아이디 값이 같으면 -> 아이디 비번 같은지 확인
 
 				if(session_id.equals(id)) {
+					UserDAO dao = new UserDAO();
+
 //					int rs = dao.deleteUser(id, pw);
 //					if(rs > 0) {
 //						
 //					}
 //				}else {
 //					
-//				}
-          
+
+				}
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
