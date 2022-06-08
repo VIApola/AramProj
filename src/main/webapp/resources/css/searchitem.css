@@ -35,6 +35,9 @@
     height: 25px;
 }
 
+.card img {
+	width: 12rem;
+}
 /*classifyBox*/
 .classifyBox {
     height: 100px;

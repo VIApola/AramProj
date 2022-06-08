@@ -147,12 +147,15 @@ text-align:left;
 padding-left:35px;
 }
 
+
 .titleDiv > a {
 	margin: 10px;
 	cursor: pointer;
 	color: #000;
 	text-decoration:none;
 }
+  
+
 .titleDiv >a:visited { color: #000; }
 
 .titleDiv >a::after {
@@ -164,11 +167,24 @@ padding-left:35px;
 	transition: transform 250ms ease-in-out;
 }
 
+
 .titleDiv >a:hover::after {
 	transform: scaleX(1);
 }
 
-
+#footer{
+	margin-top: 20px;
+}
+/* 마이페이지누르면 나오는 이미지*/
+#mypageImg {
+	display : block;
+ 	width: 300px;
+ 	margin: 0px auto;
+}
+.mypageMain {
+text-align: center;
+font-size: x-large;
+}
 
 
 
@@ -240,12 +256,11 @@ padding-left:35px;
 					</div>
 				</div>
 				<div class="col-12 col-md-9" id="content">
-					<p>${loginSession.nickname}님, 환영합니다.</p>
+						<img src="/resources/images/mypageImg001.png" id="mypageImg">
+						<p class="mypageMain">${loginSession.nickname}님, 환영합니다.</p>
 				</div>
 			</div>
 		</div>
-	
-	
 	
 		<jsp:include page="/frame/footer.jsp"></jsp:include>
 	</div>
@@ -318,77 +333,8 @@ padding-left:35px;
      /* 리뷰 */
   
      $("#review").on("click", function(){ 
-    	
-    	 $.ajax({
-    		 
-    			url: "/review.user"
-    			   	,	type:"post"
-    			   	,	data:""
-    			    ,	dataType:"json"
-					, success: function(data){				
-						console.log(data);					
-					
-						 $("#content").empty();
-					        let h3 = $("<h5>").html("Review");
-					        let row = $("<div>").addClass('row');
-					        let col = $("<div>").addClass("col-12").css("text-align", "center");
-					        let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 리뷰입니다.");
-					        let tableRow = $("<div>").addClass('row');
-					        let tableCol = $("<div>").addClass("col-12 bottom-line").css("text-align", "center");
-					        col.append(p);
-				            row.append(col);       
-				            tableRow.append(tableCol);
-				            $("#content").append(h3); 
-				            $("#content").append(row);
-				            $("#content").append(tableRow);
-				            
-				            let listTitle = $("<div>").addClass("row listTitle"); 
-				       
-				            let nameDivT = $("<div>").addClass("col-3 col-lg-4 nameDivT").html("상품");
-				            let titleDivT =  $("<div>").addClass("col-3 col-lg-3 titleDivT").html("제목");
-				            let scoreDivT = $("<div>").addClass("col-3 col-lg-2 scoreDivT").html("평점");
-				            let write_dateDivT = $("<div>").addClass("col-3 col-lg-3 write_dateDivT").html("날짜");
-				            listTitle.append(nameDivT, titleDivT, scoreDivT, write_dateDivT);
-				            $("#content").append(listTitle);  
-					
-						for(let dto of data){
-							
-							let list = $("<div>").addClass("row list-row");
-            				
-            				let imgDiv =  $("<div>").addClass("col-1 imgDiv  d-none d-md-none d-lg-block");
-            				
-            				let img = $("<img>").attr({class:"reviewImg", src:"/resources/images/items/"+ dto.sys_name});
-            				imgDiv.append(img);
 
-            				let nameDiv = $("<div>").addClass("col-3 col-lg-3 nameDiv");
-            				let nameSpan = $("<span>").html(CheckMaxString(dto.item_name, 10));
-            				nameDiv.append(nameSpan);
- 
-            				let titleDiv = $("<div>").addClass("col-3 titleDiv col-lg-3");
-            				let title = $("<a>").attr("href","/detail.item?item_no="+dto.item_no).html(CheckMaxString(dto.title, 10));
-            				titleDiv.append(title);
-            				
-            				let scoreDiv = $("<div>").addClass("col-2 col-lg-2 scoreDiv");
-            				let score = $("<span>").html(dto.score);
-            				scoreDiv.append(score);
-            				
-            				let write_dateDiv = $("<div>").addClass("col-3 col-lg-3 write_dateDiv");
-            				let write_date = $("<span>").html(dto.write_date);
-            				write_dateDiv.append(write_date);
-            				
-            				list.append(imgDiv,nameDiv, titleDiv, scoreDiv, write_dateDiv);
-            				
-            				$("#content").append(list);           			
-      	
-						}
-									
-				
-				}
-				, error: function(e){
-					console.log(e);
-				}
-
-    	 });
+    	 selectByReview();
 
          
      })
@@ -401,13 +347,15 @@ padding-left:35px;
         let img = $("<img>").addClass('d-none d-md-block').attr("src", "/resources/images/password.png").css({"width": "200px", "margin": "0px auto"});
         let p =  $("<p>").html("<br>본인확인을 위해 비밀번호를 입력해주세요.");
         let p2 =  $("<p>").addClass("kakao").html("카카오 로그인은 여기를 눌러주세요.").css({"cursor": "pointer", "color": "#ffd600", "font-size" : "15px"});
-        let input = $("<input>").addClass('form-control pw').attr({'type':'password', 'name' : 'pw', "placeholder" : "비밀번호를 입력해주세요"}).css("margin-left", "10px");
+        let div = $("<div>").addClass("d-flex justify-content-center");
+        let input = $("<input>").addClass('form-control pw').attr({'type':'password', 'name' : 'pw', "placeholder" : "비밀번호를 입력해주세요"}).css({"margin-left": "10px", "width" : "50%"});
         let btn = $("<button>").addClass('btn btn-secondary pwBtn').html('비밀번호 확인').css("margin", "10px").attr("type", "button");
             col.append(img);
             col.append(p);
             col.append(p2);
-            col.append(input);
-            col.append(btn)
+            div.append(input);
+            col.append(div);
+            col.append(btn);
             row.append(col);
             $("#content").append(h3);
             $("#content").append(row);
@@ -447,159 +395,7 @@ padding-left:35px;
      })
      // 회원정보 탈퇴
      $("#delete").on("click", function(){ // 카카오 탈퇴는 어떤방식으로 할까
-        $("#content").empty();
-        let h3 = $("<h5>").html("회원 탈퇴");
-        let row = $("<div>").addClass('row');
-        let col = $("<div>").addClass("col-12").css("text-align", "center");
-        let img = $("<img>").addClass('d-none d-md-block').attr("src", "/resources/images/sad.png").css({"width": "150px", "margin": "0px auto"});
-        let h4 =  $("<h4>").html("정말 탈퇴하시겠어요?").css('margin', '10px');
-        let p =  $("<p>").html("본인 확인을 위해 회원정보를 입력해주세요.").css('margin', '10px');
-        let p2 =  $("<p>").addClass("kakao").html("카카오 로그인은 여기를 눌러주세요.").css({"cursor": "pointer", "color": "#ffd600", "font-size" : "15px"});
-        let idInput = $("<input>").addClass('form-control id').attr({'type':'text', 
-                        'name' : 'id', "placeholder" : "ID를 입력해주세요"}).css({"margin-left": "10px", "margin": "10px"});
-        let pwInput = $("<input>").addClass('form-control pw').attr({'type':'password', 
-                        'name' : 'pw', "placeholder" : "비밀번호를 입력해주세요"}).css("margin-left", "10px");
-        let btn = $("<button>").addClass('btn btn-secondary deletBtn').html('확인').css("margin", "10px").attr("type", "button");
-            col.append(img);
-            col.append(h4);
-            col.append(p);
-            col.append(p2);
-            col.append(idInput);
-            col.append(pwInput);
-            col.append(btn)
-            row.append(col);
-            $("#content").append(h3);
-            $("#content").append(row);
-
-            // 카카오 로그인 탈퇴
-            $(".kakao").on("click", function(){           	
-            	console.log("${loginSession.social_login}");
-            	
-            	// 일반회원이 클릭 시 alert 및 접근불가(return)
-            	if( "${loginSession.social_login}" == "" ){
-            		alert("일반회원은 이용 불가합니다.");
-            		return false;
-            	}
-            	
-                $("#content").empty();
-                let row =  $("<div>").addClass('row');
-                let col = $("<div>").addClass("col-12").css("text-align", "center");
-                let h5 = $("<h5>").html("탈퇴를 원하시면 아래 문구를 작성해주세요.").css({"border": "none", "margin-top" : "50px"});
-                let p = $("<p>").html("'탈퇴하겠습니다'").css("color" , "#2e7d32");
-                let input = $("<input>").addClass("form-control deleteInput").attr("placeholder", "탈퇴하겠습니다");
-                let deletBtn = $("<button>").addClass('btn btn-outline-danger deleteBtn').html("탈퇴").css("margin-top" , "20px").attr("type", "button");
-                    col.append(h5, p, input, deletBtn);
-                    row.append(col);
-                    $("#content").append(col);
-                    $(deletBtn).on("click", function(){
-                        if( input.val() !== "탈퇴하겠습니다"){
-                            alert("문구를 정확히 입력해주세요.");
-                        }else{
-                        	console.log("true");
-                        	
-                        	 $.ajax({
-                                 url: "/deleteKakao.user"
-                                , type: "post"
-                                , data: ""
-                             	, dataType: 'text'
-                             	, success: function(data){
-                             		console.log(data);
-                             		
-                             		if(data === "success"){
-                             			alert("탈퇴 처리 되었습니다.");
-                             			location.href="/toLogout.user";
-                             		}else{
-                             			alert("탈퇴처리를 실패했습니다. 관리자에게 문의하세요");
-                             			return false;
-                             		}     		
-                             		
-                             	}
-                             	, error: function(e){
-                             		console.log(e);
-                             	}
-                             	
-                             	});
-                      
-                        }
-                    })
-
-            });
-
-            $(".deletBtn").on("click", function(){
-                
-            	if($(".id").val() == ""){
-            		alert("회원 아이디를 입력해주세요.");
-            		$(".id").focus();
-            		return false;
-            	}
-            	if($(".pw").val() == ""){
-            		alert("회원 비밀번호를 입력해주세요.");
-            		$(".pw").focus();
-            		return false;
-            	}
-            	
-            	
-            	  $.ajax({  //탈퇴 요건 검사
-                      url: "/deleteProc.user"
-                     , type: "post"
-                     , data: {'id': $(".id").val(), 'pw' : $(".pw").val()}
-                  	, dataType: 'text'
-                  	, success: function(data){
-                  		console.log(data);
-                  		
-                  		
-                  		if(data === 'fail_id'){
-                    		alert("입력하신 ID와 현재 아이디가 일치하지 않습니다. 다시 확인해주세요");   
-                    		return false;
-                    	}else if(data ==='fail_pw'){
-                    		alert("입력하신 비밀번호와 현재 비밀번호가 일치하지 않습니다. 다시 확인해주세요");
-                    		return false;
-                  		
-                  		}else if(data === 'pass'){
-                  			
-                  			
-                  			let rs = confirm("정말 탈퇴하시겠습니까?");
-                  			
-                  		  if(rs){
-                              $.ajax({
-                                  url: "/delete.user"
-                                 , type: "post"
-                                 , data: {'id': $(".id").val()}
-                              	, dataType: 'text'
-                              	, success: function(data){
-                              		console.log(data);
-                              		
-                              		if(data === "true"){
-                              			
-                              			alert("정상적으로 탈퇴되었습니다.");
-                              			location.href="/toLogout.user";
-                              			
-                              		}else if(data === "false"){
-                              			alert("탈퇴에 실패했습니다. 관리자에게 문의하세요")
-                              		}
-                              		
-                              		
-                              	}
-                              	, error: function(e){
-                              		console.log(e);
-                              	}
-                              })
-                           }
-                  			
-                  			
-                  		}
-                  	
-                  	}
-                  	
-                  	, error: function(e){
-                  		console.log(e);
-                  	}
-                  })
-            	          
-          
-                
-               
-            })
+    	 deleteUser(); 
      })
      /* 반응형 됐을경우 select 이벤트*/
       function myFunction(str){
@@ -610,7 +406,7 @@ padding-left:35px;
          }else if(str == 3){
         	 selectByQnA();
          }else if(str == 4){
-        	 
+        	 selectByReview();
          }else if(str == 5){
         	 $("#content").empty();
              let h3 = $("<h5>").html("회원 정보 수정").css("margin-top", "30px");
@@ -662,14 +458,97 @@ padding-left:35px;
                     
                  })
              
+          }else if(str == 6){
+        	  deleteUser();  
           }
      }
+     /* 리뷰 조회 */
+     function selectByReview(){
+    	 $.ajax({
+    		 
+ 			url: "/review.user"
+ 			   	,	type:"post"
+ 			   	,	data:""
+ 			    ,	dataType:"json"
+					, success: function(data){				
+						console.log(data);	
+						console.log(data.list);
+						console.log(data.list2);
+						
+					
+						 $("#content").empty();
+					        let h3 = $("<h5>").html("Review");
+					        let row = $("<div>").addClass('row');
+					        let col = $("<div>").addClass("col-12").css("margin", "10px");
+					        let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 리뷰입니다.");
+					        let p2 = $("<p>").html("* 제목을 클릭하시면, 게시글의 내용을 확인 할 수 있습니다.").css({"font-size": "small", "text-align" : "left"})
+					        let tableRow = $("<div>").addClass('row');
+					        let tableCol = $("<div>").addClass("col-12 bottom-line").css("text-align", "center");
+					        col.append(p);
+					        col.append(p2);
+				            row.append(col);       
+				            tableRow.append(tableCol);
+				            $("#content").append(h3); 
+				            $("#content").append(row);
+				            $("#content").append(tableRow);
+				            
+				            let listTitle = $("<div>").addClass("row listTitle"); 
+				       
+				            let nameDivT = $("<div>").addClass("col-4 nameDivT").html("상품");
+				            let titleDivT =  $("<div>").addClass("col-3 titleDivT").html("제목");
+				            let scoreDivT = $("<div>").addClass("col-2 scoreDivT").html("평점");
+				            let write_dateDivT = $("<div>").addClass("col-3 write_dateDivT").html("날짜");
+				            listTitle.append(nameDivT, titleDivT, scoreDivT, write_dateDivT);
+				            $("#content").append(listTitle);  
+					
+						for(let dto of data){
+							
+							let list = $("<div>").addClass("row list-row");
+         				
+         				let imgDiv =  $("<div>").addClass("col-2 imgDiv");
+         				
+         				let img = $("<img>").attr({class:"reviewImg", src:"/resources/images/items/"+ dto.sys_name});
+         				imgDiv.append(img);
+
+         				let nameDiv = $("<div>").addClass("col-2 nameDiv");
+         				let nameSpan = $("<span>").html(CheckMaxString(dto.item_name, 10));
+         				nameDiv.append(nameSpan);
+
+         				let titleDiv = $("<div>").addClass("col-3 titleDiv");
+         				let title = $("<a>").attr("href","/detail.item?item_no="+dto.item_no).html(CheckMaxString(dto.title, 12));
+         				titleDiv.append(title);
+         				
+         				let scoreDiv = $("<div>").addClass("col-2 scoreDiv");
+         				let score = $("<span>").html(dto.score);
+         				scoreDiv.append(score);
+         				
+         				let write_dateDiv = $("<div>").addClass("col-2 write_dateDiv");
+         				let write_date = $("<span>").html(dto.write_date);
+         				write_dateDiv.append(write_date);
+         				
+         				list.append(imgDiv,nameDiv, titleDiv, scoreDiv, write_dateDiv);
+         				
+         				$("#content").append(list);           			
+   	
+						}
+									
+				
+				}
+				, error: function(e){
+					console.log(e);
+				}
+
+ 	 });
+
+      
+     }
+     /* QnA 조회 */
      function selectByQnA(){
     	 $("#content").empty();
          let h3 = $("<h5>").html("Q & A");
          let row = $("<div>").addClass('row');
-         let col = $("<div>").addClass("col-12").css("margin", "20px");
-         let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 글입니다.");
+         let col = $("<div>").addClass("col-12").css("margin", "10px");
+         let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 Q & A 입니다.");
          let p2 = $("<p>").html("* 제목을 클릭하시면, 게시글의 내용을 확인 할 수 있습니다.").css({"font-size": "small", "text-align" : "left"})
           let tableRow = $("<div>").addClass('row');
     		        let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
@@ -723,31 +602,169 @@ padding-left:35px;
     		 }
     	 })
      }
-     // 글자수 처리
-     function CheckMaxString(obj, maxNum){
-         var li_str_len = obj.length;
-         var li_byte = 0;
-         var li_len = 0;
-         var ls_one_char = "";
-         var ls_str2 = "";
-         for( var j=0; j<li_str_len; j++){
-                 ls_one_char = obj.charAt(j);
-                 if(escape(ls_one_char).length > 4 ) {
-                       li_byte += 2;
-                       }else{
-                         li_byte++;
-                        }
-                         if(li_byte <= maxNum){
-                            li_len = j+1;
-                      }
-                    }
-                    if(li_byte > maxNum){
-                              ls_str2 = obj.substr(0, li_len)+"...";
-                    }else{
-                              ls_str2 = obj;
-                    }
-                    return ls_str2;
-          }
+     /* 회원 탈퇴 */
+     function deleteUser(){
+    	 $("#content").empty();
+         let h3 = $("<h5>").html("회원 탈퇴");
+         let row = $("<div>").addClass('row');
+         let col = $("<div>").addClass("col-12").css("text-align", "center");
+         let img = $("<img>").addClass('d-none d-md-block').attr("src", "/resources/images/sad.png").css({"width": "150px", "margin": "0px auto"});
+         let h4 =  $("<h4>").html("정말 탈퇴하시겠어요?").css('margin', '10px');
+         let p =  $("<p>").html("본인 확인을 위해 회원정보를 입력해주세요.").css('margin', '10px');
+         let p2 =  $("<p>").addClass("kakao").html("카카오 로그인은 여기를 눌러주세요.").css({"cursor": "pointer", "color": "#ffd600", "font-size" : "15px"});
+         let div = $("<div>").addClass("d-flex justify-content-center");
+         let idInput = $("<input>").addClass('form-control id').attr({'type':'text', 
+                         'name' : 'id', "placeholder" : "ID를 입력해주세요"}).css({"margin-left": "10px", "margin-top": "10px", "width" : "50%"});
+         let div2 = $("<div>").addClass("d-flex justify-content-center");
+         let pwInput = $("<input>").addClass('form-control pw').attr({'type':'password', 
+                         'name' : 'pw', "placeholder" : "비밀번호를 입력해주세요"}).css({"margin-left": "10px", "margin-top": "10px", "width" : "50%"});
+         let btn = $("<button>").addClass('btn btn-secondary deletBtn').html('확인').css("margin", "10px").attr("type", "button");
+             col.append(img);
+             col.append(h4);
+             col.append(p);
+             col.append(p2);
+             div.append(idInput);
+             div2.append(pwInput);
+             col.append(div);
+             col.append(div2);
+             col.append(btn)
+             row.append(col);
+             $("#content").append(h3);
+             $("#content").append(row);
+
+             // 카카오 로그인 탈퇴
+             $(".kakao").on("click", function(){           	
+             	console.log("${loginSession.social_login}");
+             	
+             	// 일반회원이 클릭 시 alert 및 접근불가(return)
+             	if( "${loginSession.social_login}" == "" ){
+             		alert("일반회원은 이용 불가합니다.");
+             		return false;
+             	}
+             	
+                 $("#content").empty();
+                 let row =  $("<div>").addClass('row');
+                 let col = $("<div>").addClass("col-12").css("text-align", "center");
+                 let h5 = $("<h5>").html("탈퇴를 원하시면 아래 문구를 작성해주세요.").css({"border": "none", "margin-top" : "50px"});
+                 let p = $("<p>").html("'탈퇴하겠습니다'").css("color" , "#2e7d32");
+                 let div = $("<div>").addClass("d-flex justify-content-center");
+                 let input = $("<input>").addClass("form-control deleteInput").attr("placeholder", "탈퇴하겠습니다").css("width", "60%");
+                 let deletBtn = $("<button>").addClass('btn btn-outline-danger deleteBtn').html("탈퇴").css("margin-top" , "20px").attr("type", "button");
+                 	 div.append(input);
+                     col.append(h5, p, div, deletBtn);
+                     row.append(col);
+                     $("#content").append(col);
+                     $(deletBtn).on("click", function(){
+                         if( input.val() !== "탈퇴하겠습니다"){
+                             alert("문구를 정확히 입력해주세요.");
+                         }else{
+                         	console.log("true");
+                         	
+                         	 $.ajax({
+                                  url: "/deleteKakao.user"
+                                 , type: "post"
+                                 , data: ""
+                              	, dataType: 'text'
+                              	, success: function(data){
+                              		console.log(data);
+                              		
+                              		if(data === "success"){
+                              			alert("탈퇴 처리 되었습니다.");
+                              			location.href="/toLogout.user";
+                              		}else{
+                              			alert("탈퇴처리를 실패했습니다. 관리자에게 문의하세요");
+                              			return false;
+                              		}     		
+                              		
+                              	}
+                              	, error: function(e){
+                              		console.log(e);
+                              	}
+                              	
+                              	});
+                       
+                         }
+                     })
+
+             });
+
+             $(".deletBtn").on("click", function(){
+                 
+             	if($(".id").val() == ""){
+             		alert("회원 아이디를 입력해주세요.");
+             		$(".id").focus();
+             		return false;
+             	}
+             	if($(".pw").val() == ""){
+             		alert("회원 비밀번호를 입력해주세요.");
+             		$(".pw").focus();
+             		return false;
+             	}
+             	
+             	
+             	  $.ajax({  //탈퇴 요건 검사
+                       url: "/deleteProc.user"
+                      , type: "post"
+                      , data: {'id': $(".id").val(), 'pw' : $(".pw").val()}
+                   	, dataType: 'text'
+                   	, success: function(data){
+                   		console.log(data);
+                   		
+                   		
+                   		if(data === 'fail_id'){
+                     		alert("입력하신 ID와 현재 아이디가 일치하지 않습니다. 다시 확인해주세요");   
+                     		return false;
+                     	}else if(data ==='fail_pw'){
+                     		alert("입력하신 비밀번호와 현재 비밀번호가 일치하지 않습니다. 다시 확인해주세요");
+                     		return false;
+                   		
+                   		}else if(data === 'pass'){
+                   			
+                   			
+                   			let rs = confirm("정말 탈퇴하시겠습니까?");
+                   			
+                   		  if(rs){
+                               $.ajax({
+                                   url: "/delete.user"
+                                  , type: "post"
+                                  , data: {'id': $(".id").val()}
+                               	, dataType: 'text'
+                               	, success: function(data){
+                               		console.log(data);
+                               		
+                               		if(data === "true"){
+                               			
+                               			alert("정상적으로 탈퇴되었습니다.");
+                               			location.href="/toLogout.user";
+                               			
+                               		}else if(data === "false"){
+                               			alert("탈퇴에 실패했습니다. 관리자에게 문의하세요")
+                               		}
+                               		
+                               		
+                               	}
+                               	, error: function(e){
+                               		console.log(e);
+                               	}
+                               })
+                            }
+                   			
+                   			
+                   		}
+                   	
+                   	}
+                   	
+                   	, error: function(e){
+                   		console.log(e);
+                   	}
+                   })
+             	          
+           
+                 
+                
+             })
+     }
+     /* 회원 수정 */
      function modifyUser(){
     	 
     	 $("#content").empty();
@@ -868,7 +885,7 @@ padding-left:35px;
              form.append(clsInputRow6);
             
          // 뒤로가기 수정 버튼
-         let row = $("<div>").addClass("row").css("margin-top", "20px");
+         let row = $("<div>").addClass("row").css("margin-top", "10px");
          let colBtn =  $("<div>").addClass("col-12 d-flex justify-content-center");
          let backBtn = $("<button>").addClass("btn btn-secondary").attr({"id": "backBtn" ,"type" : "button"}).html("뒤로가기").css("margin-left", "5px");
          let modifyBtn = $("<button>").addClass("btn btn-outline-success").attr({"id": "modifyBtn", "type" : "button"}).html("수정").css("margin-left", "10px");

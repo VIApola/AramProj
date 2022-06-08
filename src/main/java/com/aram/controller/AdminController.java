@@ -3,6 +3,7 @@ package com.aram.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,19 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
-import com.aram.dao.ItemDAO;
-import com.aram.dao.ReviewDAO;
-import com.aram.dto.ItemViewDTO;
-import com.aram.dto.ReviewDTO;
-
 import com.aram.dao.BlacklistDAO;
 import com.aram.dao.ItemDAO;
 import com.aram.dao.QnaDAO;
+import com.aram.dao.ReviewDAO;
 import com.aram.dto.BlacklistDTO;
 import com.aram.dto.ItemViewDTO;
 import com.aram.dto.QnaDTO;
+import com.aram.dto.ReviewDTO;
 import com.aram.dto.UserDTO;
 import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
@@ -103,10 +99,6 @@ public class AdminController extends HttpServlet {
 				e.printStackTrace();
 			}
 
-		}else if (uri.equals("/toNoticeManage.admin")) { // 관리자 페이지 (공지사항 관리) 이동 요청
-			response.sendRedirect("/board/notice.jsp");		
-
-			
 		} else if(uri.equals("/toUserManage.admin")) { //관리자 페이지(고객관리) 이동 요청
 			
 			BlacklistDAO BlacklistDAO = new BlacklistDAO();
@@ -377,11 +369,7 @@ public class AdminController extends HttpServlet {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-			
-			
-			
-			
-			response.sendRedirect("/admin/qna.jsp");
+
 		}else if(uri.equals("/toReviewManage.admin")) {//리뷰 관리 페이지 요청
 
 			ReviewDAO dao = new ReviewDAO();
@@ -397,6 +385,82 @@ public class AdminController extends HttpServlet {
 			
 
 			response.sendRedirect("/admin/review.jsp");
+		}else if(uri.equals("/QnADeleteProc.admin")) { //QnA 삭제 요청
+			String[] qna_num = request.getParameterValues("qna_no");
+			
+			int[] qua_no = new int[qna_num.length];
+			for(int i = 0; i<qna_num.length; i++) {
+				qua_no[i] = Integer.parseInt(qna_num[i]);
+			}
+			
+			
+			QnaDAO QnaDAO = new QnaDAO();
+			
+			try {
+				int rs = 0;
+				for(int i = 0; i<qua_no.length;i++) {
+					System.out.println(qua_no[i]);
+					rs = QnaDAO.deleteByQnA_no(qua_no[i]);
+					
+				}
+				if(rs > 0 ) {
+					System.out.println("QnA 삭제 성공");
+					response.sendRedirect("/toQnAManagePage.admin");
+					
+				}else {
+					System.out.println("QnA 삭제 실패");
+				}
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}			
+			
+		}else if(uri.equals("/searchQnAlist.admin")) {//관리자페이지 QnA관리 검색 요청
+			String user_id = request.getParameter("user_id");
+			String content = request.getParameter("content");
+		
+			
+			System.out.println(user_id +" : "+content);
+			
+			if(user_id != null && content == null) { //id로검색
+				System.out.println("아이디만으로 검색 : "+user_id);
+				QnaDAO QnaDAO = new QnaDAO();
+				
+				try {
+					
+					ArrayList<QnaDTO> list = QnaDAO.searchByUserId(user_id);
+					Gson gson = new Gson();
+					String data = gson.toJson(list);
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(data);	
+					
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				
+			}else if(user_id == null && content != null) { //content으로 검색
+				System.out.println("이름으로 검색 : "+content);
+				QnaDAO QnaDAO = new QnaDAO();
+				
+				try {
+					
+					ArrayList<QnaDTO> list = QnaDAO.searchByContent(content);
+					Gson gson = new Gson();
+					String data = gson.toJson(list);
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(data);	
+					
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+			}else if(uri.equals("")) { //detailViewQna에서 댓글 등록버튼을 눌렀을때
+				
+			}
 		}
 	}
 }

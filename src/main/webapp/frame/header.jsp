@@ -17,7 +17,7 @@
 		<div class="col-1 d-md-none header-side">
 			<div id="mySidenav" class="sidenav">
 				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-				<nav class="navbar">
+				<nav class="navbar d-flex justify-content-center">
 					<!--네비 검색창-->
 					<div class="search">
 						<input type="text" placeholder="상품명을 입력하세요" id="searchKeyword">

@@ -59,7 +59,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button
 }
 
 /* 체크박스 색상 */
-input {
+
+.form-check-input{
 	accent-color: green;
 }
 

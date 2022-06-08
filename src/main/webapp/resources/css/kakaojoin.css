@@ -27,6 +27,7 @@
                 /* 인풋창 */
                 .clsInputRow { /* 인풋창 마진 */
                 	margin-top: 30px;
+                	margin-bottom: 15px;
                 }
                 
                 .signupInputBox {
@@ -42,6 +43,9 @@
 
 
 				/* 인풋확인(check) ajax */
+				.clsCheckInfo{
+					margin-bottom: 15px;
+				}
 				.clsCheckInfo span{
 					font-size: small;
 				}

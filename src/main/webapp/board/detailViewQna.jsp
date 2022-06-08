@@ -97,6 +97,9 @@ textarea {
 .boxBtn {
 	margin-bottom : 30px;
 }
+#answer{
+ height:50px;
+}
 
 </style>
 </head>
@@ -142,7 +145,6 @@ textarea {
 			</div>
 		</div>
 		<div class="boxBtn">
-				<button type="button" class="btn btn-outline-secondary" id="btnBack">뒤로가기</button>
 			<c:if test="${loginSession.user_id eq dto.user_id}">
 				<button type="button" id="btnModify" class="btn btn-outline-warning">수정</button>
 				<button type="button" id="btnDelete" class="btn btn-outline-danger">삭제</button>
@@ -160,49 +162,85 @@ textarea {
 		    	</script>
 			</c:if>
 
-		
-		<%-- 
 		<div class="row comment">
-			<div class="row">
+			<div class="row header-reply">
 				<div class="col align-self-center">
-					<p>댓글</p>
+					<h5>댓글</h5>
 				</div>
 			</div>
-		--%>
-		<%-- <c:if test="${loginSession.isAdmin eq 'y'}
-            <div class="row">
-                <div class="col">
-                    <button type="button" class="btn btn-success">등록</button>
-                </div>
-            </div>
-        </c:if>
+	    <c:choose>
+	    <c:when test="${dto.answer_yn eq 'n'}"> <%--answer이 n일 경우 --%>
+	    	<div class="row">
+				<div class="col align-self-center">
+					<h4>등록된 댓글이 없습니다.</h4>
+				</div>
+			</div>
+		   <c:if test="${loginSession.isAdmin eq 'y'}">
+			<form id="formReply" action="/updateReply.admin" name="" method="post">
+			<div class="row">
+					<div class="col-10">
+					<textarea id="answer" class="form-control"name="answer"></textarea>
+				   </div>
+			        <div class="col-2">
+                    <button type="button" id="commentBtn" class="btn btn-success">등록</button>
+                    </div>	
+              </div>
+            </c:if>
+		</form>
+          			
+	    </c:when>
+	     <c:otherwise> <%--answer이 y일 경우 --%>
+	     	<div class="row replyContent">
+        <div class="row">
+            <div class="col d-flex justify-content-end">${dto.answer_date}</div>
         </div>
         <div class="row">
-            <div class="col btns  d-flex justify-content-center">
-                <button type="button" id="backBtn" class="btn btn-secondary">뒤로가기</button>
-                
-             <c:if test="${loginSession.id eq dto.writer_id}">
-	                <button type="button" id="btnModify" class="btn btn-warning">수정</button>
-	                <button type="button" id="btnDelete" class="btn btn-danger">삭제</button>
-	                
-	                <script>
-	                	$("#btnModify").on("click", function(){ <%-- 수정 버튼을 눌렀을때 시퀀스 번호도 가져감
-	                		location.href="/modify.bo?seq_board=${dto.seq_board}";
-	                	});
-	                	$("#btnDelete").on("click", function(){<%-- 삭제 버튼을 눌렀을때 시퀀스 번호도 가져감 
-	                		let answer = confirm("게시글을 삭제하시겠습니까?");
-	                		if(answer){
-	                			location.href = "/delete.bo?seq_board=${dto.seq_board}";
-	                		}
-	                	});
-	                </script>
-                </c:if> --%>
-	</div>
+            <div class="col-3 d-flex justify-content-first">관리자</div>
+            <div class="col-9">${dto.answer}</div>
+        </div>
+        </div>
+		   <c:if test="${loginSession.isAdmin eq 'y'}">
+        <form id="formReply" action="/updateReply.admin" name="" method="post">
+			<div class="row">
+					<div class="col-10">
+					<textarea id="answer" class="form-control"name="answer"></textarea>
+				   </div>
+			        <div class="col-2">
+                    <button type="button" id="commentBtn" class="btn btn-success">등록</button>
+                    </div>	
+              </div>
+		</form>
+           </c:if>				
+	     </c:otherwise>
+	    </c:choose>
+			<div class="row">
+			<div class="col"></div>
+			</div>
+		
+			</div> 
+			
+			
+			
+			
+		</div> 
+  <!-- 콘테이너 끝 -->
+		 
+
+       
+
+
+
 	<%--풋터영역 --%>
+
 	<jsp:include page="/frame/footer.jsp"></jsp:include>
 	<script>
-	$("#btnBack").on("click", function(){ // 뒤로가기 버튼을 눌렀을때
+	$("#backBtn").on("click", function(){ // 뒤로가기 버튼을 눌렀을때
 		location.href = "/qna.bo";
+	});
+	
+	$("#commentBtn").on("click",function(){
+		
+		location.href = "/updateQnaComment.admin";
 	});
 
 </script>

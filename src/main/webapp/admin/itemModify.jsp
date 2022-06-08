@@ -147,7 +147,10 @@
                             <a class="nav-link" style="color: black;" href="/toItemPage.admin">상품관리</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: black;" href="/toNoticeManage.admin">공지사항 관리</a>
+                            <a class="nav-link" style="color: black;" href="/toQnAManagePage.admin">게시판 관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: black;" href="/main">메인</a>
                         </li>
                     </ul>
                 </div>

@@ -116,6 +116,19 @@ public class ImgFileDAO {
 		}
 	}
 	
+	// 이미지 타이틀로 파일 삭제
+	public int delete_imgByTitle(int no) throws Exception {
+		String sql = "delete from tbl_item_img where img_title = ?";
+		try(Connection con = bds.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql)){
+			pstmt.setInt(1, no);
+			int rs = pstmt.executeUpdate();
+			return rs;
+		}
+	}
+	
+	
+
 	public int getImgFileNo() throws Exception {
 		String sql = "select seq_img_no.nextval from dual";
 		try(Connection con = bds.getConnection();
