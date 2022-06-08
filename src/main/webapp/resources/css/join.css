@@ -64,9 +64,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button
 	accent-color: green;
 }
 
-.container {
-	margin: 5%;
-}
 
 #btnPostcode {
 	width: 100%;
