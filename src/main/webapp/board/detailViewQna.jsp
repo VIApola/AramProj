@@ -189,7 +189,7 @@ textarea {
 	                	$("#btnModify").on("click", function(){ <%-- 수정 버튼을 눌렀을때 시퀀스 번호도 가져감
 	                		location.href="/modify.bo?seq_board=${dto.seq_board}";
 	                	});
-	                	$("#btnDelete").on("click", function(){<%-- 삭제 버튼을 눌렀을때 시퀀스 번호도 가져감 
+	                	$("#btnDelete").on("click", function(){<%--/삭제 버튼을 눌렀을때 시퀀스 번호도 가져감 
 	                		let answer = confirm("게시글을 삭제하시겠습니까?");
 	                		if(answer){
 	                			location.href = "/delete.bo?seq_board=${dto.seq_board}";

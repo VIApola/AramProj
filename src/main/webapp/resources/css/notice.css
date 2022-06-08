@@ -9,6 +9,7 @@
 	font-style: normal;
 }
 
+
 * {
 	box-sizing: border-box;
 	font-family: 'Roboto Mono', monospace;
@@ -31,21 +32,15 @@ html, body {
 
 /*noticeBox*/
 .noticeBox {
-	height: 50px;
-	z-index: 2;
-	border-bottom: 1px solid lightgray;
+	height: 60px;
+	padding-top: 2px;
+	padding-bottom: 2px;
 }
 
-.noticeBox h5 {
-	margin: 0;
-}
 
 .resSearchBox * {
 	height: 36px;
-}
-
-#resSearchBtn {
-	z-index: 2;
+	z-index: 0;
 }
 
 /*searchBox*/
@@ -64,9 +59,15 @@ html, body {
 	height: 300px;
 }
 
+.boardBox a {
+	text-decoration : none;
+	color: black;	
+}
+
 .boardBox>.row {
 	padding-top: 2px;
 	padding-bottom: 2px;
+	border-top: 1px solid lightgray;
 	border-bottom: 1px solid lightgray;
 }
 
