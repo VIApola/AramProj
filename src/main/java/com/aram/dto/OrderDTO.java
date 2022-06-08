@@ -1,7 +1,7 @@
 package com.aram.dto;
 
 public class OrderDTO {
-	private int order_no;
+	private String order_no;
 	private String user_id;
 	private String order_name;
 	private String order_email;
@@ -17,7 +17,7 @@ public class OrderDTO {
 	
 	public OrderDTO() {}
 
-	public OrderDTO(int order_no, String user_id, String order_name, String order_email, String order_phone,
+	public OrderDTO(String order_no, String user_id, String order_name, String order_email, String order_phone,
 			String order_date, int order_amount, String order_state, String delivery_name, String delivery_phone,
 			String delivery_addr, String order_msg, String delivery_msg) {
 		super();
@@ -36,11 +36,11 @@ public class OrderDTO {
 		this.delivery_msg = delivery_msg;
 	}
 
-	public int getOrder_no() {
+	public String getOrder_no() {
 		return order_no;
 	}
 
-	public void setOrder_no(int order_no) {
+	public void setOrder_no(String order_no) {
 		this.order_no = order_no;
 	}
 

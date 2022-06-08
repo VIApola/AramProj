@@ -64,6 +64,7 @@ public class OrderController extends HttpServlet {
 			UserDTO user = (UserDTO)session.getAttribute("loginSession");
 			
 			String user_id = user.getUser_id();
+			String order_no = request.getParameter("order_no"); 
 			String order_name = request.getParameter("order_name");
 			String order_email = request.getParameter("order_email");
 			String order_phone = request.getParameter("order_phone");
@@ -87,8 +88,6 @@ public class OrderController extends HttpServlet {
 			CartDAO cartDao = new CartDAO();
 			
 			try {
-				
-				int order_no = dao.getOrderNo();
 				
 				ArrayList<Cart_ItemDTO> cartList = cartDao.selectByUserId(user_id);
 				// System.out.println(list);

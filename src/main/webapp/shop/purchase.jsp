@@ -78,7 +78,6 @@
 				</div>
 			</div>
 			<!-- 주문자 정보 -->
-			<form id="orderForm" action="/complete.order" method="post">
 			<div class="orderInfo">
 				<div class=" row titleLabel">
 					<span>주문자 정보</span>
@@ -256,7 +255,7 @@
                 <span>최종결제 금액</span>
             </div>
             <div class="col-lg-10 col-3 d-flex justify-content-start align-items-center">
-                <span>20.000원<span>
+                <span>20.000원</span>
             </div>
         </div>
 		<!-- 버튼 -->
@@ -264,11 +263,11 @@
 			<button type="button" class="btn btn-outline-dark">취소하기</button>
 			<button type="button" class="btn btn-outline-success" id="btnOrder">주문하기</button>
 		</div>
-		</div>
-		
 		<%--풋터영역 --%>
 		<jsp:include page="/frame/footer.jsp"></jsp:include>
 	</div>
+		
+		
 
 	<script>
 	// 주문서 유효성 검사
@@ -309,41 +308,10 @@
 		console.log("eee");
 		
 		IMP.init("imp86984194");
-		requestPay("ord1113", "관나무 외 6개", 100, $("#order_email").val(), $("#delivery_name").val(), $("#delivery_phone").val(), $("#delivery_addr").val(), $("#postcode").val());
+		requestPay(orderNO(), "관나무 외 6개", 100, $("#order_email").val(), $("#delivery_name").val(), $("#delivery_phone").val(), $("#delivery_addr").val(), $("#postcode").val());
 		
 		
 	})
-	
-	function requestOrder() {
-		let buyer_addr = $("#postcode").val() + $("#delivery_addr").val() + $("#delivery_detail").val();
-		let buyer_phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
-		
-		$.ajax({
-			url:"/complete.order"
-			, type:"post"
-			, data: {
-				order_name: $("#order_name").val()
-				, order_email: $("#order_email").val()
-				, order_phone: $("#order_phone").val()
-				, delivery_name: $("#delivery_name").val()
-				, delivery_phone: buyer_phone
-				, delivery_addr: buyer_addr
-				, order_msg: $("#order_msg").val()
-				, delivery_msg: $("#delivery_msg").val()
-			}
-			, success: function(data) {
-				if(data == "success") {
-					location.href = "/shop/success.order";
-				} else {
-					alert("예기치 않은 오류로 인해 주문이 취소되었습니다.");
-				}
-			}
-			, error: function(e) {
-				console.log(e);
-			}
-		})	
-		
-	}
 	
 	// 아임포트 결제 모듈 실행
 	function requestPay(order_no, name, amount, buyer_email, buyer_name, buyer_tel, buyer_addr, buyer_postcode) {
@@ -374,7 +342,7 @@
 				if (rsp.success) {
 					// 결제 성공 시 로직,
 					console.log("success");
-					requestOrder();
+					requestOrder(order_no);
 				} else {
 					// 결제 실패 시 로직,
 					alert("결제 과정에서 오류가 발생했습니다. 다시 시도해주세요.")
@@ -382,6 +350,54 @@
 				}
 	      });
 	}
+	
+	// 주문서 정보 ajax로 요청하기
+	function requestOrder(order_no) {
+		let buyer_addr = $("#postcode").val() + $("#delivery_addr").val() + $("#delivery_detail").val();
+		let buyer_phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
+		
+		$.ajax({
+			url:"/complete.order"
+			, type:"post"
+			, data: {
+				order_no: order_no
+				, order_name: $("#order_name").val()
+				, order_email: $("#order_email").val()
+				, order_phone: $("#order_phone").val()
+				, delivery_name: $("#delivery_name").val()
+				, delivery_phone: buyer_phone
+				, delivery_addr: buyer_addr
+				, order_msg: $("#order_msg").val()
+				, delivery_msg: $("#delivery_msg").val()
+			}
+			, success: function(data) {
+				location.href = "/success.order";
+			}
+			, error: function(e) {
+				console.log(e);
+			}
+		})	
+		
+	}
+	
+	// 주문번호 생성하는 함수
+	function orderNO() {
+		let today = new Date();
+		let year = (today.getFullYear()).toString();
+		let month = today.getMonth() + 1;
+		if(month < 10) {
+			month = "0" + month;
+		}
+		let date = today.getDate();
+		if(date < 10) {
+			date = "0" + (date + 1);
+		}
+		
+		let orderNo = year + month + date + Math.floor(Math.random()*(9000)) + 1;
+		
+		return orderNo;
+	}
+	
 	
 	// 우편번호 API
 	$("#btnPostcode").on("click", function () {
