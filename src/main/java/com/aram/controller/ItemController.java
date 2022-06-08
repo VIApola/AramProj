@@ -231,8 +231,6 @@ public class ItemController extends HttpServlet {
 			ItemDAO dao = new ItemDAO();
 			ImgFileDAO imgDao = new ImgFileDAO();
 			
-			
-			
 			try {
 				int rsCount = dao.countAllItems();
 				int rs = dao.deleteItem(item_no);
@@ -257,8 +255,44 @@ public class ItemController extends HttpServlet {
 			
 			
 			
-		} else if(uri.equals("/")) {
+		} else if(uri.equals("/deleteSelected.item")) { // (관리자) 선택된 상품 전체 삭제
+			String[] checkArr = request.getParameterValues("checkArr"); // 배열로 받아주기
 			
+			ItemDAO dao = new ItemDAO();
+			ImgFileDAO imgDao = new ImgFileDAO();
+			
+			for(int i = 0; i<checkArr.length; i++) {
+				System.out.println(checkArr[i]); // 배열 출력
+				
+				try {
+					int count = dao.countAllItems();
+					int rs = dao.deleteItem(Integer.parseInt(checkArr[i]));
+					int rsFile = imgDao.delete_imgByTitle(Integer.parseInt(checkArr[i]));
+					if (rs > 0 && rsFile>0) { // 삭제 성공, 상품목록 응답
+						System.out.println("삭제완료");
+						// response.sendRedirect("/toItemPage.admin");
+					} else { // 삭제 실패
+						response.getWriter().append("fail");
+						return;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			try {
+				ArrayList<ItemViewDTO> list = dao.mngItemList();
+				
+				Gson gson = new Gson();
+				String result = gson.toJson(list);
+				
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().append(result);
+
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+				
 		}
 		
 		if(uri.equals("/toSearchPage.item")) { // 검색페이지 진입할 때
