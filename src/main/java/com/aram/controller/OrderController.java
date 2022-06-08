@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.aram.dao.CartDAO;
 import com.aram.dao.OrderDAO;
+import com.aram.dao.UserDAO;
 import com.aram.dto.Cart_ItemDTO;
 import com.aram.dto.OrderDTO;
 import com.aram.dto.OrderItemDTO;
@@ -57,11 +58,14 @@ public class OrderController extends HttpServlet {
 			
 			 
 			CartDAO dao = new CartDAO();
+	
 			
 			try {
+				// 구매리스트
 				ArrayList<Cart_ItemDTO> cartList = dao.selectByUserId(user_id);
 				
 				request.setAttribute("cartList", cartList);
+				
 				
 				request.getRequestDispatcher("/shop/purchase.jsp").forward(request, response);
 				
