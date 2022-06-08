@@ -124,17 +124,29 @@ public class UserController extends HttpServlet {
  				} else {
  					// db에 유저 정보가 있을 때
  					if(dto != null) {
- 						System.out.println("로그인 성공");
- 						request.setAttribute("rs", true);
- 						HttpSession session = request.getSession();
- 						session.setAttribute("loginSession", dto);
+ 					
+ 						// 블랙리스트 인지 아닌지
+ 						int blackList = dao.checkBlackList(id);
+ 						if(blackList == 1) {
+ 							System.out.println("로그인 성공");
+ 	 						request.setAttribute("rs", true);
+ 	 						HttpSession session = request.getSession();
+ 	 						session.setAttribute("loginSession", dto);
 
- 						// 관리자 인증 먼저 // 로그인 시 관리자인지 아닌지 체크하는 부분
- 						if(dto.getIsAdmin().equals("y")) {
- 							request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
- 						} else {
+ 	 						// 관리자 인증 먼저 // 로그인 시 관리자인지 아닌지 체크하는 부분
+ 	 						if(dto.getIsAdmin().equals("y")) {
+ 	 							request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
+ 	 						} else {
+ 	 							request.getRequestDispatcher("/member/login.jsp").forward(request, response);
+ 							}
+ 	 						
+ 	 						
+ 						}else if(blackList == 0) {
+ 							System.out.println("블랙리스트 회원");
+ 							request.setAttribute("blackList", true);
  							request.getRequestDispatcher("/member/login.jsp").forward(request, response);
-						}
+ 						}
+ 						
  						
  					} else { // db에 유저 정보가 없을 때
  						System.out.println("로그인 실패");
@@ -441,6 +453,23 @@ public class UserController extends HttpServlet {
 				e.printStackTrace();
 			}
 			
+		}else if(uri.equals("/emailCheck.user")) { // 이메일 중복확인
+			String email = request.getParameter("email");
+			System.out.println("이메일 중복확인 : " +email);
+			
+			UserDAO dao = new UserDAO();
+			try {
+				int rs = dao.checkEmail(email);
+				if(rs == 0) { // 이메일 중복
+					System.out.println("이메일 사용 불가능");
+					response.getWriter().append("nope");
+				}else if(rs == 1) {
+					System.out.println("이메일 사용 가능");
+					response.getWriter().append("ok");
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 		
 		

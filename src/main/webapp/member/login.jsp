@@ -44,6 +44,11 @@
 			alert("아이디 혹은 비밀번호가 틀렸습니다.");
 		</script>
 	</c:when>
+	<c:when test="${blackList eq true}">
+		<script>
+			alert("블랙리스트 회원입니다. 관리자에게 연락해주세요.");
+		</script>
+	</c:when>
 	</c:choose>
 	
 <div class="container">
