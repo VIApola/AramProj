@@ -89,7 +89,7 @@ public class ImgFileDAO {
 	
 	//파일 수정
 	public int modify_img(ItemimgDTO dto) throws Exception{
-		String sql = "update tbl_item_img set img_title=?,item_no=?,ori_name=?,sys_name=? where img_no =?";
+		String sql = "update tbl_item_img set item_no = ?, img_type= ?, ori_name = ?, sys_name = ? where img_no = ?";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
@@ -106,7 +106,7 @@ public class ImgFileDAO {
 			
 	// 파일 삭제
 	public int delete_img(int img_no)throws Exception {
-		String sql = "delete from tbl_item_img where img_no =?";
+		String sql = "delete from tbl_item_img where img_no = ?";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
@@ -116,9 +116,9 @@ public class ImgFileDAO {
 		}
 	}
 	
-	// 이미지 타이틀로 파일 삭제
+	// 이미지 타이틀(item_no)로 파일 삭제
 	public int delete_imgByTitle(int no) throws Exception {
-		String sql = "delete from tbl_item_img where img_title = ?";
+		String sql = "delete from tbl_item_img where item_no = ?";
 		try(Connection con = bds.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)){
 			pstmt.setInt(1, no);
@@ -128,7 +128,8 @@ public class ImgFileDAO {
 	}
 	
 	
-
+	
+	// 이미지 넘버 자동생성
 	public int getImgFileNo() throws Exception {
 		String sql = "select seq_img_no.nextval from dual";
 		try(Connection con = bds.getConnection();
