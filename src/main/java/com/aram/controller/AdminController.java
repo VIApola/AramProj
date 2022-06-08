@@ -3,13 +3,13 @@ package com.aram.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.aram.dao.BlacklistDAO;
 import com.aram.dao.ItemDAO;
@@ -82,6 +82,17 @@ public class AdminController extends HttpServlet {
 		}
 		
 		} else if (uri.equals("/toItemPage.admin")) { // 관리자 페이지(상품관리) 이동 요청
+			UserDTO userDto = (UserDTO)request.getSession().getAttribute("loginSession");
+			System.out.println(userDto);
+			
+			String isadmin = userDto.getIsAdmin();
+			System.out.println("관리자여부 : " + isadmin);
+			
+			if(isadmin.equals("n")) { // 관리자가 아닐경우
+				
+				return;
+			}
+			
 			
 			ItemDAO itemDao = new ItemDAO();
 			
@@ -98,7 +109,7 @@ public class AdminController extends HttpServlet {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-
+			
 		} else if(uri.equals("/toUserManage.admin")) { //관리자 페이지(고객관리) 이동 요청
 			
 			BlacklistDAO BlacklistDAO = new BlacklistDAO();

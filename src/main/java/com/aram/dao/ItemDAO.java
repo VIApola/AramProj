@@ -509,7 +509,7 @@ public class ItemDAO {
 	
 	public ItemViewDTO selectByItemNo(int num) throws Exception { // 관리자 페이지 : 상품번호로 데이터 조회 (상품수정페이지)
 		
-		String sql = "select * from tbl_items a join tbl_item_img b on a.img_no = b.img_no where item_no = ?";
+		String sql = "select * from tbl_items a join tbl_item_img b on a.item_no = b.item_no where a.item_no = ?";
 		
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)){
@@ -527,7 +527,6 @@ public class ItemDAO {
 				int item_stock = rs.getInt("item_stock");
 				String category_id = rs.getString("category_id");
 				int img_no = rs.getInt("img_no");
-//				String img_title = rs.getString("img_title");
 				String img_type = rs.getString("img_type");
 				String ori_name = rs.getString("ori_name");
 				String sys_name = rs.getString("sys_name");
