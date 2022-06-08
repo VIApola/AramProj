@@ -115,6 +115,7 @@ public class CartController extends HttpServlet {
 			String[] checkVals = request.getParameterValues("checkVals");
 			CartDAO dao = new CartDAO();
 			
+		
 			for(int i = 0 ; i <  dao.length(checkVals); i++) {
 				  System.out.println("checkVals : " + checkVals[i]);
 				  try {
