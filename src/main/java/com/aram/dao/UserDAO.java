@@ -380,8 +380,26 @@ public class UserDAO {
 		}
 	}
 	
-	
-	
+	/*
+	// 관리자 확인
+	public boolean getIsAdmin(String id) throws Exception {
+		String sql = "select isadmin from tbl_user where user_id = ?";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			pstmt.setString(1, id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.equals("y")) {
+				return true;
+			} else {
+				return false;
+			}
+			
+		}
+	}
+	*/
 	
 	
 	

@@ -133,7 +133,6 @@ public class UserController extends HttpServlet {
  						if(dto.getIsAdmin().equals("y")) {
  							request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
  						}
- 						request.getRequestDispatcher("/member/login.jsp").forward(request, response);
 
  					} else { // db에 유저 정보가 없을 때
  						System.out.println("로그인 실패");
