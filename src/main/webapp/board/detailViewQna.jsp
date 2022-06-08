@@ -59,6 +59,11 @@
 	padding-bottom: 5px;
 	text-align: left;
 	margin-bottom: 20px;
+	
+}
+#title{
+background-color : #ffffff !important;
+
 }
 /* 내용 들어가는 부분*/
 .content {
@@ -82,6 +87,8 @@
 textarea {
 	height : 500px;
 	resize: none;
+	background-color : #ffffff !important;
+
 }
 /* 댓글 부분*/
 .comment {
@@ -97,9 +104,15 @@ textarea {
 .boxBtn {
 	margin-bottom : 30px;
 }
-#answer{
- height:50px;
-}
+.answer{
+ height:30px;
+ resize: none;
+
+
+ }
+ #answerContent{
+ border:none;
+ }
 
 </style>
 </head>
@@ -176,59 +189,89 @@ textarea {
 				</div>
 			</div>
 		   <c:if test="${loginSession.isAdmin eq 'y'}">
-			<form id="formReply" action="/updateReply.admin" name="" method="post">
+			<form class="formReply" action="/updateReply.admin" method="post">
 			<div class="row">
+					<div class="col d-none">
+					<input class="qna_no" type="text" value="${dto.qna_no}" name="qna_no">
+					</div>
 					<div class="col-10">
-					<textarea id="answer" class="form-control"name="answer"></textarea>
+					<textarea class="form-control answer" name="answer"></textarea>
 				   </div>
 			        <div class="col-2">
-                    <button type="button" id="commentBtn" class="btn btn-success">등록</button>
+                    <button type="button" class="btn btn-success commentBtn">등록</button>
                     </div>	
               </div>
+			</form>
+			<script>
+		//댓글등록버튼을 눌렀을때
+		$(".commentBtn").on("click",function(){
+			if($(".answer").val() === ""){
+				alert("댓글을 입력해 주세요");
+				return;
+			}
+		
+			let regist = confirm("댓글을 등록하시겠습니까?");	
+		    if(regist){
+			$(".formReply").submit();	
+		    }
+						
+		});
+		
+		</script>
             </c:if>
-		</form>
           			
 	    </c:when>
 	     <c:otherwise> <%--answer이 y일 경우 --%>
 	     	<div class="row replyContent">
         <div class="row">
-            <div class="col d-flex justify-content-end">${dto.answer_date}</div>
+            <div class="col d-flex justify-content-end" style="font-size:11px">${dto.answer_date}</div>
         </div>
         <div class="row">
-            <div class="col-3 d-flex justify-content-first">관리자</div>
-            <div class="col-9">${dto.answer}</div>
-        </div>
-        </div>
-		   <c:if test="${loginSession.isAdmin eq 'y'}">
-        <form id="formReply" action="/updateReply.admin" name="" method="post">
-			<div class="row">
-					<div class="col-10">
-					<textarea id="answer" class="form-control"name="answer"></textarea>
-				   </div>
-			        <div class="col-2">
-                    <button type="button" id="commentBtn" class="btn btn-success">등록</button>
-                    </div>	
-              </div>
-		</form>
-           </c:if>				
-	     </c:otherwise>
-	    </c:choose>
-			<div class="row">
-			<div class="col"></div>
+            <div class="col-2 d-flex justify-content-center">관리자</div>
+            <form id="modifyReplyForm" action="/modifyReply.admin" method="post" style="width:500px">
+            <div class="col d-none">
+					<input id="qna_no" type="text" value="${dto.qna_no}" name="qna_no">
+					</div>
+            <div class="col-7 d-flex justify-content-center">
+					<textarea id="answerContent" class="form-control answer" name="answer" readonly>${dto.answer}</textarea>
 			</div>
-		
+			</form>
+            <c:if test="${loginSession.isAdmin eq 'y'}">
+
+            <div class="col-3 body-btnDefault-reply">
+							<button type="button" class="btn btn-warning modify-reply">수정</button>
+							<button type="button" class="btn btn-danger delete-reply" value="${reply.seq_reply}">삭제</button>
+						</div>
+						<div class="col-3 body-btnAfter-reply">
+							<button type="button" class="btn btn-secondary cancel-reply">취소</button>
+							<button type="button" class="btn btn-primary complete-reply" value="${reply.seq_reply}">완료</button>
+						</div>
+            
+            
+			<script>
+            $("#deleteReplyBtn").on("click", function(){ //삭제 버튼을 눌렀을때 시퀀스 번호도 가져감 
+                let answer = confirm("Q&A에대한 댓글을 삭제하시겠습니까?");
+                if(answer){
+                	location.href = "/deleteReply.admin?qna_no=${dto.qna_no}";
+                }
+          	});
+            
+            </script>
+             </c:if>
+        </div>
+        </div>				
+	     </c:otherwise>
+	    </c:choose>		
 			</div> 
-			
-			
-			
-			
 		</div> 
+		<div class="row">
+            <div class="col btns  d-flex justify-content-center">
+                <button type="button" id="backBtn" class="btn btn-secondary">뒤로가기</button>
+        </div>
+		
+		</div>
   <!-- 콘테이너 끝 -->
 		 
-
-       
-
-
 
 	<%--풋터영역 --%>
 
@@ -238,10 +281,7 @@ textarea {
 		location.href = "/qna.bo";
 	});
 	
-	$("#commentBtn").on("click",function(){
-		
-		location.href = "/updateQnaComment.admin";
-	});
+	
 
 </script>
 </body>

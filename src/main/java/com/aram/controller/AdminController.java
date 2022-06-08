@@ -427,7 +427,7 @@ public class AdminController extends HttpServlet {
 				}
 				if(rs > 0 ) {
 					System.out.println("QnA 삭제 성공");
-					response.sendRedirect("/toQnAManagePage.admin");
+					
 					
 				}else {
 					System.out.println("QnA 삭제 실패");
@@ -480,9 +480,59 @@ public class AdminController extends HttpServlet {
 					e.printStackTrace();
 				}
 				
-			}else if(uri.equals("")) { //detailViewQna에서 댓글 등록버튼을 눌렀을때
-				
 			}
+		}else if(uri.equals("/updateReply.admin")) { //detailViewQna에서 댓글 등록버튼을 눌렀을때
+			int qna_no = Integer.parseInt(request.getParameter("qna_no"));
+			String answer = request.getParameter("answer");
+			
+			System.out.println("게시글번호 : "+qna_no+" 관리자 댓글 : "+answer);
+			
+			 QnaDAO QnaDAO = new QnaDAO();
+			 
+			 try {
+				 
+				 int rs = QnaDAO.insertReply(qna_no, answer);
+				 if(rs>0) {
+					 System.out.println("댓글달기 성공");
+					 response.sendRedirect("/detailViewQna.bo?qna_no=" + qna_no);
+				 }else {
+					 System.out.println("댓글달기 실패");
+				 }
+				 
+				 
+				 
+				 
+			 }catch(Exception e) {
+				 e.printStackTrace();
+			 }
+			 
+			
+		}else if(uri.equals("/modifyReply.admin")) { //detailViewQna에서 댓글 수정버튼을 눌렀을때
+			int qna_no = Integer.parseInt(request.getParameter("qna_no"));
+			System.out.println("수정요청 댓글 게시글번호 :"+qna_no);
+			
+			
+			
+		}else if(uri.equals("/deleteReply.admin")) { ////detailViewQna에서 댓글 삭제버튼을 눌렀을때
+			int qna_no = Integer.parseInt(request.getParameter("qna_no"));
+			System.out.println("삭제요청 댓글 게시글번호 :"+qna_no);
+			
+			QnaDAO QnaDAO = new QnaDAO();
+			 
+			 try {
+				 
+				 int rs = QnaDAO.deleteReply(qna_no);
+				 if(rs>0) {
+					 System.out.println("댓글삭제 성공");
+					 response.sendRedirect("/detailViewQna.bo?qna_no=" + qna_no);
+				 }else {
+					 System.out.println("댓글삭제 실패");
+				 }
+ 
+			 }catch(Exception e) {
+				 e.printStackTrace();
+			 }
 		}
+		
 	}
 }

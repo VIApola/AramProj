@@ -133,22 +133,20 @@ public class UserController extends HttpServlet {
  	 						HttpSession session = request.getSession();
  	 						session.setAttribute("loginSession", dto);
 
- 	 						// 관리자 인증 먼저 // 로그인 시 관리자인지 아닌지 체크하는 부분
- 	 						if(dto.getIsAdmin().equals("y")) {
- 	 							request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
- 	 						} else {
- 	 							request.getRequestDispatcher("/member/login.jsp").forward(request, response);
- 							}
- 	 						
- 	 						
+ 						// 관리자 인증 먼저 // 로그인 시 관리자인지 아닌지 체크하는 부분
+ 						if(dto.getIsAdmin().equals("y")) {
+ 							request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
+ 						}else {
+ 							request.getRequestDispatcher("/member/login.jsp").forward(request, response); 							
+ 						}
+
  						}else if(blackList == 0) {
  							System.out.println("블랙리스트 회원");
  							request.setAttribute("blackList", true);
  							request.getRequestDispatcher("/member/login.jsp").forward(request, response);
  						}
  						
- 						
- 					} else { // db에 유저 정보가 없을 때
+ 				   else { // db에 유저 정보가 없을 때
  						System.out.println("로그인 실패");
  						request.setAttribute("rs", false);
  						request.getRequestDispatcher("/member/login.jsp").forward(request, response);

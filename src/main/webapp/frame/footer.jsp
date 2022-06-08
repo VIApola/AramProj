@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,6 +52,9 @@
 				<li><strong>사이트맵</strong></li>
 				<a href="/notice.bo"><li>공지사항</li></a>
 				<a href="/qna.bo"><li>Q&A</li></a>
+			<c:if test="${loginSession.isAdmin eq 'y'}">
+				<a href="/toItemPage.admin"><li>관리자페이지</li></a>
+			</c:if>
 			</ul>
 		</div>
 		<div class="col-3 d-none d-sm-block">
