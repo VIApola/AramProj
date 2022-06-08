@@ -151,7 +151,25 @@
 						<div class="col d-none">
 							<input type="text" id="phone" name="phone">
 						</div>
+					<!-------------------------- 인증번호 발송 --------------------------------->
+						<div class="col-3 col-md-2">
+							<button type="button" class="btn btn-outline-success" id="sendPhoneVerify">인증번호 발송</button>
+						</div>
 					</div>
+					<div class="row clsInputRow phoneVerify d-none">
+						<div class="col-3 col-md-2 align-self-center">
+							<label for="phone1">인증번호</label>
+						</div>
+						<div class="col-3 col-md-2">
+							<input type="text" class="form-control" id="phoneVerifyNum"
+								maxlength="6">
+						</div>
+						<div class="col-3 col-md-2">
+							<button type="button" class="btn btn-outline-success" id="btnPhoneComplete">확인</button>
+						</div>
+					</div>
+					
+					<!-------------------------- 인증번호 발송 --------------------------------->
 					<div class="row clsInputRow">
 						<div class="col-3 col-md-2 align-self-center">
 							<span class="star">*</span> <label for="email">이메일</label>
@@ -756,6 +774,45 @@
 	</div>
 	<!-- 컨테이너 끝 -->
 	<script>
+	
+		// 인증번호 발송 버튼 눌렀을 때
+		$("#sendPhoneVerify").on("click", function() {
+			// 전화번호 합쳐서 보내기
+			let phone = $("#phone1 option:selected").val() + $("#phone2").val() + $("#phone3").val();
+			alert("입력하신 번호로 인증번호가 발송되었습니다.");
+			$(".phoneVerify").removeClass("d-none");
+			
+			$.ajax({
+    			url: "/sendPhoneVerify.user"
+    			, type: "post"
+    			, data: {
+    				"phone": phone
+    			}
+    			, dataType: "text"
+    			, success: function(data) {
+    				
+    				$("#btnPhoneComplete").on("click", function() {
+    					console.log($("#phoneVerifyNum").val());
+    					console.log(data);
+    					console.log($("#phoneVerifyNum").val() == data.substr(1,5));
+    					if($("#phoneVerifyNum").val() == data.substr(1,5)) {
+    						alert("인증이 완료되었습니다.");
+    						$(".phoneVerify").addClass("d-none");
+    						$("#sendPhoneVerify").attr("disabled", true);
+    						$("#phone1").attr("readonly", true);
+    						$("#phone2").attr("readonly", true);
+    						$("#phone3").attr("readonly", true);
+    					} else {
+    						alert("인증이 실패했습니다. 다시 발송버튼을 눌러주세요.");
+    					}
+    				})
+    			}
+    			, error: function(e) {
+    				console.log(e);
+    			}
+    		})
+		})
+	
     	// 이름 조건 밑에 뜨게
     	$("#name").focus(function(){
     		$("#checkName").html("한글 및 영문으로 2~6자 이내로 작성해주세요.");

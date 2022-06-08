@@ -1,16 +1,19 @@
 @charset "UTF-8";
 /* 폰트 스타일 */
 @font-face {
-    font-family: 'GowunDodum-Regular';
-   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff') format('woff');
-    font-weight: normal;
-   font-style: normal;
-   }
+	font-family: 'GowunDodum-Regular';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
 
-   *{box-sizing: border-box;
-     margin: auto;
-     font-family: 'Roboto Mono', monospace;
-     font-family: 'GowunDodum-Regular';}
+* {
+	box-sizing: border-box;
+	font-family: 'Roboto Mono', monospace;
+	font-family: 'GowunDodum-Regular';
+}
 
 html, body {
 	width: 100%;
@@ -20,7 +23,6 @@ html, body {
 * {
 	font-size: medium;
 }
-
 
 /*imgBox_Notice*/
 .imgBox {
@@ -40,9 +42,9 @@ html, body {
 
 .resSearchBox * {
 	height: 36px;
-
 }
-#resSearchBtn{
+
+#resSearchBtn {
 	z-index: 2;
 }
 

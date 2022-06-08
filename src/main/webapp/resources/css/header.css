@@ -2,9 +2,17 @@
 
 @font-face {
 	font-family: 'GowunDodum-Regular';
-	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff') format('woff');
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff')
+		format('woff');
 	font-weight: normal;
 	font-style: normal;
+}
+
+* {
+	box-sizing: border-box;
+	font-family: 'Roboto Mono', monospace;
+	font-family: 'GowunDodum-Regular';
 }
 
 .main-header {
@@ -13,12 +21,12 @@
 	font-family: 'Roboto Mono', monospace;
 	font-family: 'GowunDodum-Regular';
 }
-  
+
 /*
-/* 상단바 cart 영역 */  
+/* 상단바 cart 영역 */
 .header-left {
-    margin: 0px;
-    padding: 0px;
+	margin: 0px;
+	padding: 0px;
 }
 /*상단바 sm에서 생기는 navbar*/
 .sidenav {
@@ -32,9 +40,8 @@
 	overflow-x: hidden;
 	transition: 0.5s;
 	padding-top: 60px;
-	text-align:center;
+	text-align: center;
 }
-   
 
 .sidenav a {
 	padding: 8px 8px 8px 32px;
@@ -48,15 +55,18 @@
 	position: absolute;
 	top: 0;
 	right: 25px;
- 	font-size: 36px;
- 	margin-left: 50px;
+	font-size: 36px;
+	margin-left: 50px;
 }
 
 @media screen and (max-height: 450px) {
-	.sidenav {padding-top: 15px;}
-	.sidenav a {font-size: 18px;}
+	.sidenav {
+		padding-top: 15px;
+	}
+	.sidenav a {
+		font-size: 18px;
+	}
 }
-
 
 /* 상단 네비바의 검색창 */
 /*
@@ -112,4 +122,4 @@ position : absolute;
 .fromLeft:after{  transform-origin:  0% 50%; }
 .search-menu .bottom{
     margin-top: 20px;
-}*/  
+}*/
