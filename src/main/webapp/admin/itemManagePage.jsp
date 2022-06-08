@@ -297,7 +297,7 @@
         let searchInput = $("#searchInput").val();
 
         if (searchInput === "") {
-            location.href = "/toUserManage.admin";
+            location.href = "/toItemPage.admin";
             return;
         }
         let select = $("#searchSelect option:selected").val();
