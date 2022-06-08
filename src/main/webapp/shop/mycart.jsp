@@ -55,7 +55,7 @@
 			<c:if test="${loginSession eq dto.user_id}">
 			<div class="row list-row m-2">
 				<div class="col-1 d-flex align-items-center justify-content-center">
-					<input class="form-check-input checkBox" type="checkbox" checked="checked"
+					<input class="form-check-input checkBox" type="checkbox"
 							id="${dto.price}" name="checkBox" value="${dto.item_no}">
 				</div>
 				<div class="col-2">
@@ -112,6 +112,7 @@
 	})
 	
 	$(".quantityBox").on("click", "#btnMinus", function() {
+		
 		let qty = $(this).prev().val();
 		if(qty < 2) {
   			return;
@@ -120,6 +121,7 @@
 		console.log(qty);
 		$(this).prev().val(qty);
 		getTotalPrice();
+
 	})
 	
 	// 변경된 수량에 맞게 총 금액 계산
@@ -139,7 +141,41 @@
 	$("#btnOrder").on("click", function() {
 		let ans = confirm("장바구니에 담긴 상품을 주문하시겠습니까?");
 		if(ans) {
-			location.href = "/purchase.order";
+		
+			var qty_arr = [];
+			var no_arr = [];
+			// 각 상품들의 최종 수량 배열에 담기 
+			$(".qty").each(function(){
+				//console.log("수량 : " + $(this).val() );
+				qty_arr.push($(this).val());
+				console.log(qty_arr);
+			}); 
+			
+			// 장바구니에 담긴 아이템들 배열에 담기
+			$(".checkBox").each(function(){
+				//console.log("item_no : " + $(this).val() );
+				no_arr.push($(this).val());
+				console.log(no_arr);
+			});
+							
+			
+		 $.ajax({
+				   
+			url: "/purchase.order"
+		,	method: "post"
+		,	traditional: true
+		,	data: {"item_no":  JSON.stringify(no_arr), "quantity":  JSON.stringify(qty_arr) }
+		,	dataType: "json"
+		,	success: function(data){
+				console.log(data);
+			}
+		,	 error: function(e){
+	    	 console.log(e);
+	    	}		      		    
+				     
+		 });
+
+			//location.href = "/purchase.order";
 		}
 	});
 
@@ -169,14 +205,72 @@
                 	checkVals
                 }
         		, success: function(data) {
-        				printCartList(data);
+        			let list = JSON.parse(data);
+        			console.log(list);
+        			console.log("list 길이 : " + list.length);
+        			
+        			printCartList(data);
+      			  			
+        	// 물품 삭제 후 남은 물품들에 대한 수량부분, 총금액 계산
+			let total = 0;
+   		    for(let i = 0; i < list.length; i++){
+    		
+    		let price = parseInt($(".price").eq(i).val());
+    		let quantity = parseInt($(".qty").eq(i).val());
+    		let individualPrice = parseInt(price * quantity);  
+   
+    		total = total + (price * quantity);
+    		
+    		$("#totalPrice").html(total);
+    		
+    		// 삭제 후 수량 +
+    		$(".btnPlus").eq(i).on("click",function(){
+    			
+    			if(quantity > 4) {
+    	  			alert("5개 이상 담을 수 없습니다.");
+    	  			return;
+    			}
+
+				total = parseInt($("#totalPrice").html());
+				quantity = quantity + 1;
+				console.log(quantity);
+				$(".qty").eq(i).val(quantity);
+				
+				total = total + parseInt(price);
+				$("#totalPrice").html(total);
+				console.log(total);	
+				console.log("total after : " + total);
+				
+			});					
+		
+			// 삭제 후 수량 -
+			$(".btnMinus").eq(i).on("click",function(){
+						
+			if(quantity <= 1){
+				quantity = 1;
+				return false;
+			}
+	     		total = parseInt($("#totalPrice").html());			
+				quantity = quantity - 1;
+				console.log(quantity);
+				$(".qty").eq(i).val(quantity);
+			
+				total = total - parseInt(price);
+				$("#totalPrice").html(total);
+
+			});	
+			
+    	}	    
+    	
+    	alert("총 "+ checkVals.length + "개의 물품이 삭제되었습니다.");
+	
         		}, error:function(e) {
         				console.log(e);
                	}
 			})
 		}
 	})
-	
+
 	
 	// ajax 성공 시 리스트 출력해주는 함수
 	
@@ -194,7 +288,7 @@
 				let list = $("<div>").addClass("row list-row");
 				
 				let col_1 =  $("<div>").addClass("col-1 d-flex align-items-center justify-content-center");
-				let checkBox = $("<input>").attr({class:"form-check-input checkBox", type:"checkbox"}).val(dto.item_no).prop("checked", true);
+				let checkBox = $("<input>").attr({class:"form-check-input checkBox", type:"checkbox"}).val(dto.item_no);
 				col_1.append(checkBox);
 				
 				let col_2 = $("<div>").addClass("col-2");
@@ -208,9 +302,9 @@
 				itemName.append(nameSpan);
 
 				let quantityBox = $("<div>").addClass("col-2 quantityBox d-flex align-items-center justify-content-center");
-				let plus = $("<input>").attr({class:"btnPlus" ,type:"button"}).val('+');
-				let quantity = $("<input>").attr({ class:"p_num", type:"text" , "readonly":true}).val(dto.quantity);
-				let minus = $("<input>").attr({class:"btnMinus" , type:"button"}).val('-');
+				let plus = $("<input>").attr({class:"btnPlus" , id:"btnPlus",type:"button"}).val('+');
+				let quantity = $("<input>").attr({ class:"qty",id:"qty", type:"text" , "readonly":true}).val(dto.quantity);
+				let minus = $("<input>").attr({class:"btnMinus" , id:"btnMinus", type:"button"}).val('-');
 				let individualPrice = $("<input>").attr({class:"individualPrice", type:"hidden"}).val(dto.quantity * dto.price);
 				let price = $("<input>").attr({class:"price", type:"hidden"}).val(dto.price);				
 				
@@ -228,8 +322,6 @@
 		}
 	}
 
-   
-   
 </script>
     
 

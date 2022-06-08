@@ -45,7 +45,7 @@ public class AdminController extends HttpServlet {
 		
 		
 		
-		if(uri.equals("/itemUpload.admin")) {
+		if(uri.equals("/itemUpload.admin")) { // 상품등록 (안쓰임!!! /toItemInput.item 으로)
 			System.out.println("파일 업로드 요청");
 
 		String realPath = request.getServletContext().getRealPath("");	
@@ -112,7 +112,29 @@ public class AdminController extends HttpServlet {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-		} else if(uri.equals("/searchMng.admin")) { // 관리자페이지 : 상품관리에서 상품검색
+		} else if (uri.equals("/toModifyItem.admin")) { // 개별상품 수정버튼 눌렀을 때
+			int item_no = Integer.parseInt(request.getParameter("item_no"));
+			System.out.println(item_no);
+			
+			ItemDAO itemdao = new ItemDAO();
+			try {
+				ItemViewDTO dto = itemdao.selectByItemNo(item_no);
+				request.setAttribute("dto", dto);
+				System.out.println(dto);
+				
+				// RealPath로 쓰면 맨 앞에 슬래시가 2개가 더 생겨서 취소
+//				String filePath = request.getServletContext().getRealPath("/resources/images/items");
+//				System.out.println(filePath);
+//				request.setAttribute("filePath", filePath);
+				
+				
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			request.getRequestDispatcher("/admin/itemModify.jsp").forward(request, response);
+			
+		}else if(uri.equals("/searchMng.admin")) { // 관리자페이지 : 상품관리에서 상품검색
 			String item_name = request.getParameter("item_name");
 			String item_no = request.getParameter("item_no");
 			

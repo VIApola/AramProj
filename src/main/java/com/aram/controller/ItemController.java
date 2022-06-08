@@ -170,57 +170,42 @@ public class ItemController extends HttpServlet {
 			System.out.println(ori_name + ":" + sys_name + ":" + category_id);
 			System.out.println("이미지 넘버 : " + img_no);
 			
-
-// 	            try {
-// 					ArrayList<ItemViewDTO> itemList = dao.selectAllItems();
-					
-// 					System.out.println("list 값 : " + itemList);
-					
-// 					request.setAttribute("itemList", itemList);
-					
-// 					int count = dao.countItems("p100"); // 카테고리별 물품 갯수
-// 					request.setAttribute("count", count);
-					
-// 				} catch (Exception e) {
-
-// 			ItemDAO dao = new ItemDAO();
-// 			ImgFileDAO imgDao = new ImgFileDAO();
+			ItemDAO dao = new ItemDAO();
+			ImgFileDAO imgDao = new ImgFileDAO();
 			
-// 			if(ori_name == null) {
-// 				System.out.println("이미지가 null값입니다");
-// //				
-// 				try {
-// 					int rs = dao.updateItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no));
-// 					if(rs>0) {
-// 						System.out.println("수정 완료");
-// 						response.sendRedirect("/toItemPage.admin");
-// 					}
-// 				}catch(Exception e) {
-
-// 					e.printStackTrace();
-// 				}
+			if(ori_name == null) {
+				System.out.println("이미지가 null값입니다");
+//				
+				try {
+					int rs = dao.updateItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no));
+					if(rs>0) {
+						System.out.println("수정 완료");
+						response.sendRedirect("/toItemPage.admin");
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
 				
-// 			} else {
-// 				try {
+			} else {
+				try {
 					
-// 					int img_no2 = imgDao.getImgFileNo();
-				
-// 					int count = dao.countItems("p200"); // 카테고리별 물품 갯수
-// 					request.setAttribute("count", count);
-
-// 					int rs = dao.updateItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no2));
-// 					int rsFile = imgDao.insert_img(new ItemimgDTO(img_no2, item_no, "type", ori_name, sys_name));
-// 					if(rs > 0 && rsFile > 0) {
+					int img_no2 = imgDao.getImgFileNo();
+					
+					int rs = dao.updateItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no2));
+					int rsFile = imgDao.insert_img(new ItemimgDTO(img_no2, item_no, "type", ori_name, sys_name));
+					if(rs > 0 && rsFile > 0) {
 						
-// 						imgDao.delete_img(img_no);
-// 						System.out.println("수정 완료");
-// 						response.sendRedirect("/toItemPage.admin");
-// 					}
-
+						imgDao.delete_img(img_no);
+						System.out.println("수정 완료");
+						response.sendRedirect("/toItemPage.admin");
+					}
 					
-// 				}catch(Exception e) {
-// 					e.printStackTrace();
-// 				}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				
+			}
 				
 
 			

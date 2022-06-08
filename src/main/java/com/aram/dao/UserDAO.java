@@ -86,6 +86,26 @@ public class UserDAO {
 			
 		}
 	}
+	// 이메일 중복검사
+	public int checkEmail(String email) throws Exception{
+		String sql = "select * from tbl_user where email = ?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);){
+			
+			pstmt.setString(1, email);
+			ResultSet rs = pstmt.executeQuery();
+			
+			int emailCheck = 0;
+			if(rs.next() || email.equals("")) {// 이메일 중복
+				emailCheck = 0;
+			}else {
+				emailCheck = 1;
+			}
+			return emailCheck;
+			
+		}
+		
+	}
 	// 비밀번호 일치 여부
 	public int checkPw(String id, String pw)throws Exception{
 		String sql = "select * from tbl_user where user_id =? and user_pw = ?";
@@ -133,6 +153,22 @@ public class UserDAO {
 				return new UserDTO(user_id, user_pw, username, nickname, phone, email, post_no, addr, addr_detail, social_login, email_verify, join_date, isAdmin);
 			}
 			return null;
+		}
+	}
+	// 블랙리스트라면
+	public int checkBlackList(String id) throws Exception{
+		String sql = "select * from tbl_blacklist where user_id = ?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);){
+			
+			pstmt.setString(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				return 0; // 블랙리스트 존재
+			}
+			return 1;
+			
 		}
 	}
 

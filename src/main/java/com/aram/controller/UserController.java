@@ -124,10 +124,14 @@ public class UserController extends HttpServlet {
  				} else {
  					// db에 유저 정보가 있을 때
  					if(dto != null) {
- 						System.out.println("로그인 성공");
- 						request.setAttribute("rs", true);
- 						HttpSession session = request.getSession();
- 						session.setAttribute("loginSession", dto);
+ 					
+ 						// 블랙리스트 인지 아닌지
+ 						int blackList = dao.checkBlackList(id);
+ 						if(blackList == 1) {
+ 							System.out.println("로그인 성공");
+ 	 						request.setAttribute("rs", true);
+ 	 						HttpSession session = request.getSession();
+ 	 						session.setAttribute("loginSession", dto);
 
  						// 관리자 인증 먼저 // 로그인 시 관리자인지 아닌지 체크하는 부분
  						if(dto.getIsAdmin().equals("y")) {
@@ -136,7 +140,13 @@ public class UserController extends HttpServlet {
  							request.getRequestDispatcher("/member/login.jsp").forward(request, response); 							
  						}
 
- 					} else { // db에 유저 정보가 없을 때
+ 						}else if(blackList == 0) {
+ 							System.out.println("블랙리스트 회원");
+ 							request.setAttribute("blackList", true);
+ 							request.getRequestDispatcher("/member/login.jsp").forward(request, response);
+ 						}
+ 						
+ 				   else { // db에 유저 정보가 없을 때
  						System.out.println("로그인 실패");
  						request.setAttribute("rs", false);
  						request.getRequestDispatcher("/member/login.jsp").forward(request, response);
@@ -417,7 +427,7 @@ public class UserController extends HttpServlet {
 			
 			HttpSession session = request.getSession();
 			// 세션에서 아이디값 꺼내기
-			String id = (String)session.getAttribute("user_id");
+			String session_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();
 			String nickname = request.getParameter("nickname");
 			String phone = request.getParameter("phone");
 			String email = request.getParameter("email");
@@ -425,9 +435,39 @@ public class UserController extends HttpServlet {
 			String roadAddr = request.getParameter("roadAddr");
 			String detailAddr = request.getParameter("detailAddr");
 			
-			System.out.println(id + " : " + nickname + " : " + phone + " : " + email
+			System.out.println(session_id + " : " + nickname + " : " + phone + " : " + email
 					+ " : " + postcode + " : " + roadAddr + " : " + detailAddr );
 			
+			try {
+				UserDAO dao = new UserDAO();
+				int rs = dao.modifyUser(new UserDTO(session_id, null, null, nickname, phone, email, postcode, roadAddr, detailAddr, null, null, null, null));
+				
+				if(rs > 0) { // 수정 성공
+					response.getWriter().append("y");
+				}else {
+					response.getWriter().append("n");
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+		}else if(uri.equals("/emailCheck.user")) { // 이메일 중복확인
+			String email = request.getParameter("email");
+			System.out.println("이메일 중복확인 : " +email);
+			
+			UserDAO dao = new UserDAO();
+			try {
+				int rs = dao.checkEmail(email);
+				if(rs == 0) { // 이메일 중복
+					System.out.println("이메일 사용 불가능");
+					response.getWriter().append("nope");
+				}else if(rs == 1) {
+					System.out.println("이메일 사용 가능");
+					response.getWriter().append("ok");
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 		
 		
