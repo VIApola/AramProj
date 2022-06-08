@@ -724,7 +724,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12  col-md-4 order-1">
+					<div class="col-12 col-md-4 order-1">
 						<input type="checkbox" class="form-check-input" id="termsOfUse">
 						<label for="termsOfUse" class="form-check-label">이용약관(필수)</label>
 					</div>
