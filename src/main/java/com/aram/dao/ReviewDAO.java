@@ -110,6 +110,7 @@ public ReviewDAO() {
 			ArrayList<ReviewDTO> list = new ArrayList<>();
 			while(rs.next()) {
 				int review_no = rs.getInt("review_no");
+				String nickname = rs.getString("nickname");
 				String title = rs.getString("title");
 				String content = rs.getString("content");
 				String write_date = getStringDate(rs.getDate("write_date"));
@@ -117,7 +118,7 @@ public ReviewDAO() {
 				int item_no = rs.getInt("item_no");
 				int img_no = rs.getInt("img_no");
 				
-				list.add(new ReviewDTO(review_no, title, content, write_date, score, user_id, item_no, img_no));
+				list.add(new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_no, img_no));
 				
 			}
 			return list;
@@ -134,18 +135,20 @@ public ReviewDAO() {
 			pstmt.setInt(1, review_no);
 			ResultSet rs = pstmt.executeQuery();
 			
+			ReviewDTO dto = new ReviewDTO();
 			if(rs.next()) {
 				String nickname = rs.getString("nickname");
 				String title = rs.getString("title");
 				String content = rs.getString("content");
 				String write_date = rs.getString("write_date");
 				int score = rs.getInt("score");
+				String user_id = rs.getString("user_id");
 				int item_no = rs.getInt("item_no");
 				int img_no = rs.getInt("img_no");
 				
-				list.add(new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_no, img_no));
+				return new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_no, img_no);
 			}
-			return list;
+			return null;
 		}
 	}
 	

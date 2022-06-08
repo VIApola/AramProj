@@ -92,34 +92,35 @@ border-top: 1px solid lightgray;
 .list-row:last-child{
 border-bottom: 1px solid lightgray;
 }
-.imgDiv{
 
+.imgDiv{
 padding-left:40px;
 padding-right:0;
-padding-top:10px;
+padding-top:0px;
+height:100%;
 
 }
 .imgDiv>img{
-height:70%;
-
+height:85%;
+width:65%;
 }
 
 .nameDiv{
-margin-top:25px;
+padding-top:25px;
 padding-left:0;
 padding-right:0;
 
-}
-.titleDiv{
-margin-top:25px;
 
 }
+.titleDiv{
+padding-top:25px;
+}
 .scoreDiv{
-margin-top:25px;
+padding-top:25px;
 
 }
 .write_dateDiv{
-margin-top:25px;
+padding-top:25px;
 
 }
 .bottom-line{
@@ -138,21 +139,23 @@ padding-left:25px;
 }
 .scoreDivT{
 text-align:70%;
+margin-right:0px;
 }
 .listTitle>.write_dateDivT{
-padding-left:50px;
+
 text-align:left;
+padding-left:35px;
 }
 
-a {
+.titleDiv > a {
 	margin: 10px;
 	cursor: pointer;
 	color: #000;
 	text-decoration:none;
 }
-a:visited { color: #000; }
+.titleDiv >a:visited { color: #000; }
 
-a::after {
+.titleDiv >a::after {
 	display: block;
 	content: '';
 	width: 50%;
@@ -161,10 +164,9 @@ a::after {
 	transition: transform 250ms ease-in-out;
 }
 
-a:hover::after {
+.titleDiv >a:hover::after {
 	transform: scaleX(1);
 }
-
 
 
 
@@ -242,11 +244,11 @@ a:hover::after {
 				</div>
 			</div>
 		</div>
+	
+	
+	
 		<jsp:include page="/frame/footer.jsp"></jsp:include>
 	</div>
-	
-	
-	
 	
 	<script>
 	
@@ -324,10 +326,7 @@ a:hover::after {
     			   	,	data:""
     			    ,	dataType:"json"
 					, success: function(data){				
-						console.log(data);	
-						console.log(data.list);
-						console.log(data.list2);
-						
+						console.log(data);					
 					
 						 $("#content").empty();
 					        let h3 = $("<h5>").html("Review");
@@ -345,10 +344,10 @@ a:hover::after {
 				            
 				            let listTitle = $("<div>").addClass("row listTitle"); 
 				       
-				            let nameDivT = $("<div>").addClass("col-4 nameDivT").html("상품");
-				            let titleDivT =  $("<div>").addClass("col-3 titleDivT").html("제목");
-				            let scoreDivT = $("<div>").addClass("col-2 scoreDivT").html("평점");
-				            let write_dateDivT = $("<div>").addClass("col-3 write_dateDivT").html("날짜");
+				            let nameDivT = $("<div>").addClass("col-3 col-lg-4 nameDivT").html("상품");
+				            let titleDivT =  $("<div>").addClass("col-3 col-lg-3 titleDivT").html("제목");
+				            let scoreDivT = $("<div>").addClass("col-3 col-lg-2 scoreDivT").html("평점");
+				            let write_dateDivT = $("<div>").addClass("col-3 col-lg-3 write_dateDivT").html("날짜");
 				            listTitle.append(nameDivT, titleDivT, scoreDivT, write_dateDivT);
 				            $("#content").append(listTitle);  
 					
@@ -356,12 +355,12 @@ a:hover::after {
 							
 							let list = $("<div>").addClass("row list-row");
             				
-            				let imgDiv =  $("<div>").addClass("col-2 imgDiv  d-none d-md-none d-lg-block");
+            				let imgDiv =  $("<div>").addClass("col-1 imgDiv  d-none d-md-none d-lg-block");
             				
             				let img = $("<img>").attr({class:"reviewImg", src:"/resources/images/items/"+ dto.sys_name});
             				imgDiv.append(img);
 
-            				let nameDiv = $("<div>").addClass("col-4 nameDiv col-lg-2");
+            				let nameDiv = $("<div>").addClass("col-3 col-lg-3 nameDiv");
             				let nameSpan = $("<span>").html(CheckMaxString(dto.item_name, 10));
             				nameDiv.append(nameSpan);
  
@@ -369,11 +368,11 @@ a:hover::after {
             				let title = $("<a>").attr("href","/detail.item?item_no="+dto.item_no).html(CheckMaxString(dto.title, 10));
             				titleDiv.append(title);
             				
-            				let scoreDiv = $("<div>").addClass("col-2 scoreDiv col-lg-2");
+            				let scoreDiv = $("<div>").addClass("col-2 col-lg-2 scoreDiv");
             				let score = $("<span>").html(dto.score);
             				scoreDiv.append(score);
             				
-            				let write_dateDiv = $("<div>").addClass("col-2 write_dateDiv col-lg-3");
+            				let write_dateDiv = $("<div>").addClass("col-3 col-lg-3 write_dateDiv");
             				let write_date = $("<span>").html(dto.write_date);
             				write_dateDiv.append(write_date);
             				
