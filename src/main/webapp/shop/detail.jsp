@@ -46,7 +46,7 @@
 						</table>
 					</div>
 					<div class="totalAmout text-end p-3">
-						<span>총 상품금액</span> <span id="totalPrice">${item.price}</span>원
+						<span>총 상품금액</span> <strong><span id="totalPrice">${item.price}</span></strong> 원
 						<input type="text" class="d-none" name="price" value="${item.price}">
 					</div>
 					<div class="btnBox d-flex justify-content-center">
@@ -73,16 +73,14 @@
 						<input type="text" class="form-control" id="nickname" name="nickname" value="${loginSession.nickname}" readOnly>
 					</div>
 					<div class="col-lg-1 col-2 d-flex justify-content-center align-items-center">평점</div>
-					<div class="col-lg-3 col-6 d-flex align-items-center">
+					<div class="col-lg-3 col-6 d-flex align-items-center" name="myform" id="myform">
 						<fieldset>
-							<label for="rate1">⭐</label><input type="radio" name="score"
-								value="1" id="rate1"> <label for="rate2">⭐</label><input
-								type="radio" name="score" value="2" id="rate2"> <label
-								for="rate3">⭐</label><input type="radio" name="score" value="3"
-								id="rate3"> <label for="rate4">⭐</label><input
-								type="radio" name="score" value="4" id="rate4"> <label
-								for="rate5">⭐</label><input type="radio" name="score" value="5"
-								id="rate5">
+																						
+								<input type="radio" name="score" value="1" id="rate1"> <label for="rate1">⭐</label>
+								<input type="radio" name="score" value="2" id="rate2"> <label for="rate2">⭐</label>
+								<input type="radio" name="score" value="3" id="rate3"> <label for="rate3">⭐</label>
+								<input type="radio" name="score" value="4" id="rate4"> <label for="rate4">⭐</label>
+								<input type="radio" name="score" value="5" id="rate5"><label for="rate5">⭐</label>
 						</fieldset>
 					</div>
 				</div>

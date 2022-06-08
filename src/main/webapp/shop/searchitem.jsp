@@ -74,7 +74,7 @@
             <c:otherwise>
 				<c:forEach items="${itemList}" var="dto">
 				<div class="col-6 col-lg-3 d-flex justify-content-center">
-					<div class="card" style="width: 16rem;">
+					<div class="card">
 						<a href="/detail.item?item_no=${dto.item_no}">
 							<img src="/resources/images/items/${dto.itemImgDTO.sys_name}" class="card-img-top">
 						</a>
@@ -173,52 +173,8 @@
 		
 	//가격대에서 숫자만 입력하도록 유효성 검사
 	let regexPrice =/[0-9]/;
-
 	
-	//가격범위만 입력.
-	 /* if($("#minPrice").val()!==""&&$("#maxPrice").val()!==""&&$("#searchKeyword").val()===""){
-		if(!regexPrice.test($("#minPrice").val())&&!regexPrice.test($("#maxPrice").val())){
-			alert("숫자로 입력해주세요.");
-			return;
-		}else if($("#minPrice").val()>$("#maxPrice").val()){
-			alert("범위를 올바르게 입력하여 주세요.");
-			return;
-		}
-		let minPrice = $("#minPrice").val();
-		let maxPrice = $("#maxPrice").val();
-		console.log(minPrice+" : "+maxPrice);
-		
-		location.href = "/searchItemPrice.item?minPrice="+minPrice+"&maxPrice="+maxPrice;
-		
-
-	//키워드만 입력
-	}else if($("#minPrice").val()===""&&$("#maxPrice").val()===""&&$("#searchKeyword").val()!==""){
-		console.log("키워드만 입력");
-		let searchKeyword = $("#searchKeyword").val();
-		console.log(searchKeyword);
-		
-		location.href = "/searchItem.item?searchKeyword="+searchKeyword;
-				
-	//가격범위와 키워드 입력
-	}else if($("#minPrice").val()!==""&&$("#maxPrice").val()!==""&&$("#searchKeyword").val()!==""){
-		 
-		if(!regexPrice.test($("#minPrice").val())&&!regexPrice.test($("#maxPrice").val())){
-			alert("숫자로 입력해주세요.");
-			return;
-		}	
-
-		let minPrice = $("#minPrice").val();
-		let maxPrice = $("#maxPrice").val();
-		let searchKeyword = $("#searchKeyword").val();
-		
-		console.log(minPrice+" : "+maxPrice+" : "+searchKeyword); 
-		
-		location.href = "/searchPriceItem.item?searchKeyword="+searchKeyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice;
-			
-	} */
-	
-	
-	function selectPriceAndName(data){
+	function selectPriceAndName(data) {
 	
 		let list = JSON.parse(data);
 		console.log(list);

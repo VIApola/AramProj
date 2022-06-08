@@ -8,11 +8,6 @@
     font-style: normal;
 }
 
-* {
-    font-family: 'Roboto Mono', monospace;
-    font-family: 'GowunBatang-Bold';
-}
-
 /* 로그인 박스 영역*/
 .body {
     text-align: center;
