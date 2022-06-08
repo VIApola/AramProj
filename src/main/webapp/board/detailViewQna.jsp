@@ -222,11 +222,15 @@ textarea {
 			
 			
 			
-		</div> <!-- 콘테이너 끝 -->
+		</div> 
+  <!-- 콘테이너 끝 -->
 		 
 
        
 
+
+
+	<%--풋터영역 --%>
 
 	<jsp:include page="/frame/footer.jsp"></jsp:include>
 	<script>

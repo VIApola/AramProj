@@ -15,17 +15,18 @@ import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import com.aram.dto.ReviewDTO;
 
 public class ReviewDAO {
-private BasicDataSource bds;
 	
-public ReviewDAO() {
-	try {
-		Context iCtx = new InitialContext();
-		Context envCtx = (Context)iCtx.lookup("java:comp/env");
-		bds = (BasicDataSource)envCtx.lookup("jdbc/bds");
-	} catch(Exception e) {
-		e.printStackTrace();
+	private BasicDataSource bds;
+	
+	public ReviewDAO() {
+		try {
+			Context iCtx = new InitialContext();
+			Context envCtx = (Context)iCtx.lookup("java:comp/env");
+			bds = (BasicDataSource)envCtx.lookup("jdbc/bds");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
-}
 	
 	// 리뷰 등록
 	public int insertReview(ReviewDTO dto)throws Exception {
@@ -98,6 +99,8 @@ public ReviewDAO() {
 			return list;
 		}
 	}
+	
+	
 	// 고객 아이디 별 리뷰조회
 	public ArrayList<ReviewDTO> selectAllReviewByUserId(String user_id)throws Exception{
 		String sql = "select * from tbl_review where user_id=? order by write_date desc";
@@ -110,6 +113,7 @@ public ReviewDAO() {
 			ArrayList<ReviewDTO> list = new ArrayList<>();
 			while(rs.next()) {
 				int review_no = rs.getInt("review_no");
+				String nickname = rs.getString("nickname");
 				String title = rs.getString("title");
 				String content = rs.getString("content");
 				String write_date = getStringDate(rs.getDate("write_date"));
@@ -117,8 +121,7 @@ public ReviewDAO() {
 				int item_no = rs.getInt("item_no");
 				int img_no = rs.getInt("img_no");
 				
-				list.add(new ReviewDTO(review_no, title, content, write_date, score, user_id, item_no, img_no));
-				
+				list.add(new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_no, img_no));
 			}
 			return list;
 		}
@@ -140,12 +143,13 @@ public ReviewDAO() {
 				String content = rs.getString("content");
 				String write_date = rs.getString("write_date");
 				int score = rs.getInt("score");
+				String user_id = rs.getString("user_id");
 				int item_no = rs.getInt("item_no");
 				int img_no = rs.getInt("img_no");
 				
-				list.add(new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_no, img_no));
+				return new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_no, img_no);
 			}
-			return list;
+			return null;
 		}
 	}
 	
