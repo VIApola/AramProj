@@ -139,21 +139,22 @@ public class UserController extends HttpServlet {
 								request.getRequestDispatcher("/member/login.jsp").forward(request, response);
 							}
 
-						} else if (blackList == 0) {
-							System.out.println("블랙리스트 회원");
-							request.setAttribute("blackList", true);
-							request.getRequestDispatcher("/member/login.jsp").forward(request, response);
-						}
-
-						else { // db에 유저 정보가 없을 때
-							System.out.println("로그인 실패");
-							request.setAttribute("rs", false);
-							request.getRequestDispatcher("/member/login.jsp").forward(request, response);
-						}
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+						} else if(blackList == 0) {
+ 							System.out.println("블랙리스트 회원");
+ 							request.setAttribute("blackList", true);
+ 							request.getRequestDispatcher("/member/login.jsp").forward(request, response);
+ 						}
+ 				
+ 				}else { // db에 유저 정보가 없을 때
+  					System.out.println("로그인 실패");
+  					request.setAttribute("rs", false);
+  					request.getRequestDispatcher("/member/login.jsp").forward(request, response);
+  					}
+        
+ 				}
+ 				} catch(Exception e) {
+					 e.printStackTrace();
+				
 			}
 		} else if (uri.equals("/kakaoLogin.user")) { // 카카오 로그인
 			String kakaoid = request.getParameter("userid");
