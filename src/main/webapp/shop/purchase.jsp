@@ -48,24 +48,23 @@
 					<div class="col">List 구매리스트</div>
 				</div>
 				<div class="row list-label">
-					<div class="col-1 d-flex justify-content-center">선택</div>
-					<div class="col-8 d-flex justify-content-center">상품명</div>
-					<div class="col-1 d-flex justify-content-center">수량</div>
-					<div class="col-2 d-flex justify-content-center">가격</div>
+					<div class="col-2 col-lg-1 d-flex justify-content-center">선택</div>
+					<div class="col-6 col-lg-8 d-flex justify-content-center">상품명</div>
+					<div class="col-2 col-lg-1 d-flex justify-content-center">수량</div>
+					<div class="col-2 col-lg-2 d-flex justify-content-center">가격</div>
 				</div>
 				<c:forEach items="${cartList}" var="cartItem">
-					<div class="row tbl_list">
+					<div class="row tbl_list ">
 						<div
-							class="col-1 d-flex justify-content-center align-items-center">
+							class="col-2 col-lg-1 d-flex justify-content-center align-items-center">
 							<input type="checkbox">
 						</div>
-						<div class="col-2">
-							<img src="/resources/images/items/${cartItem.item_name}.png">
+						<div class="col-6 col-lg-8 d-flex justify-content-evenly align-items-center">
+								<img src="/resources/images/items/${cartItem.item_name}.png" style="width: 100px;">
+								<div style="letter-spacing: 3px;">${cartItem.item_name}</div>	
 						</div>
-
-						<div class="col-6">${cartItem.item_name}</div>
-						<div class="col-1 d-flex justify-content-center">${cartItem.quantity}</div>
-						<div class="col-2 d-flex justify-content-center">${cartItem.price}</div>
+						<div class="col-2 col-lg-1 d-flex justify-content-center align-items-center">${cartItem.quantity}</div>
+						<div class="col-2 col-lg-2 d-flex justify-content-center align-items-center">${cartItem.price}</div>
 					</div>
 				</c:forEach>
 				<div class="row">
@@ -89,7 +88,7 @@
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">주문자명</div>
 						<div class="col-lg-3 col-9">
-							<input type="text" class="form-control" id="order_name" name="order_name" value="${userInfo.username}">
+							<input type="text" class="form-control" id="order_name" name="order_name" value="${loginSession.username}">
 						</div>
 					</div>
 					<!-- 연락처, 이메일 -->
@@ -97,17 +96,16 @@
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">연락처</div>
 						<div class="col-lg-3 col-9 d-flex">
-							<input type="text" class="form-control" value="${userInfo.phone}">
-							- <input type="text" class="form-control"
-								value="${userInfo.phone}"> - <input type="text"
-								class="form-control" id="order_phone" name="order_phone" value="${userInfo.phone}">
+							<input type="text" class="form-control" id="order_phone1" name="order_phone1"> &nbsp;
+							<input type="text" class="form-control" id="order_phone2" name="order_phone2"> &nbsp;
+							<input type="text" class="form-control" id="order_phone3" name="order_phone3">
 						</div>
 					</div>
 					<div class="row">
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">이메일</div>
 						<div class="col-lg-3 col-9 d-flex align-items-center">
-							<input type="text" class="form-control" id="order_email" name="order_email" value="${userInfo.email}">
+							<input type="text" class="form-control" id="order_email" name="order_email" value="${loginSession.email}">
 						</div>
 					</div>
 				</div>
@@ -117,7 +115,7 @@
 				<div class="row titleLabel">
 					<div class="col-lg-2 col-3">배송지 정보</div>
 					<div class="col-lg-10 col-9">
-						<input type="checkbox"> 주문하는 사람과 동일한 배송지
+						<input type="checkbox" id="ckBox"> 주문하는 사람과 동일한 배송지
 					</div>
 
 				</div>
@@ -198,33 +196,7 @@
 				</div>
 
 			</div>
-			<!-- 결제 정보 -->
-			<div class="payMoneyInfo">
-				<div class="row payMoneyInfo-title titleLabel">
-					<span>결제정보</span>
-				</div>
-				<!-- <div class="payMoneyInfo-title border-bottom">
-                    <span>결제 이니시스 소개</span>
-                </div> -->
-				<div class="payment_wrap content">
-					<div class="row">
-						<div
-							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">결제방법</div>
-						<div class="col flex-column align-items-center">
-							<ul class="mb-0">
-								<li class="p-1"><input type="radio" name="payment">
-									무통장입금</li>
-								<li class="p-1"><input type="radio" name="payment">
-									신용카드</li>
-								<li class="p-1"><input type="radio" name="payment">
-									실시간 계좌이체</li>
-								<li class="p-1"><input type="radio" name="payment">
-									핸드폰 결제</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
+
 			<!-- 약관 동의 -->
 			<div class="payMoneyInfo">
 				<div class="row payMoneyInfo-title titleLabel">
@@ -336,6 +308,17 @@
 		      });
 		}
 	})
+	
+	// 휴대폰 번호 셋팅
+		let phone = "${loginSession.phone}";
+		let phone1 = phone.slice(0, 3);
+		let phone2 = phone.slice(3, 7);
+		let phone3 = phone.slice(7);
+
+		// 셀렉트 박스에 default selected값 주기
+		$("#order_phone1").val(phone1).prop("selected", true);
+		$("#order_phone2").val(phone2);
+		$("#order_phone3").val(phone3);
 	
 	// 우편번호 API
 	$("#btnPostcode").on("click", function () {
