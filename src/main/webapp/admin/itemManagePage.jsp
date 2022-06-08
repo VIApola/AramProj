@@ -216,7 +216,7 @@
         </div>
         <!--콘텐츠-->
         <div class="contents-box">
-			<c:choose>
+        	<c:choose>
 				<c:when test="${mngItemList.size() == 0}">
 					<div class="row">
 						<div class="col">
@@ -229,7 +229,7 @@
 						
 							<div class="row contents">
 								<div class="col-1 d-flex align-self-center justify-content-center"> <!-- 체크박스 = id -->
-									<input type="checkbox" class="clsCheckbox" id="${dto.item_no}">
+									<input type="checkbox" name="checked" class="clsCheckbox" value="${dto.item_no}">
 								</div>
 								<div class="col-2 d-flex align-self-center justify-content-center"> <!-- 상품번호 -->
 									<span>${dto.item_no}</span>
@@ -260,15 +260,19 @@
 				</c:otherwise>
 				
 			</c:choose>
+			</div>
+			
+			<div class="bottomBtnBox">
+				<!-- 신규상품등록 버튼 -->
+	            <div class="row box-btn-addItem">
+	                <div class="col d-flex align-self-center justify-content-end">
+	                	<button type="button" id="del-selected" class="cls-lastBtn btn btn-outline-secondary">선택삭제</button>
+	                    <button type="button" id="toItemInput" class="cls-lastBtn btn btn-outline-success">신규상품등록</button>
+	                </div>
+	            </div>
+			</div>
 
-            <!-- 신규상품등록 버튼 -->
-            <div class="row box-btn-addItem">
-                <div class="col d-flex align-self-center justify-content-end">
-                	<!-- <button type="button" id="del-selected" class="cls-lastBtn btn btn-outline-secondary">선택삭제</button>  -->
-                    <button type="button" id="toItemInput" class="cls-lastBtn btn btn-outline-success">신규상품등록</button>
-                </div>
-            </div>
-        </div>
+        
         <!--페이징-->
         <div class="row box-paging">
             <div class="col d-flex align-self-center justify-content-center">
@@ -392,22 +396,46 @@
         	location.href = "/toItemInput.item";
         });
         
-        // 선택된 상품들 삭제 클릭
-        $("#del-selected").on("click", function(){
-        	let selcheck = confirm("정말 삭제하시겠습니까?");
-        	console.log(selcheck);
-        	
-        	if(selcheck){
-        		
-        	} else {
-        		alert("선택된 상품이 없습니다.");
-        		return;
-        	}
-        });
+        
+        // 선택된 상품들 전체 삭제
+         $("#del-selected").on("click", function(){
+        	 
+        	 
+        	 let checkArr = new Array();
+        	 $(".clsCheckbox:checked").each(function(){ // 배열로 체크된 값 담기
+        		 checkArr.push($(this).val());
+        		 console.log(checkArr)
+        	 });
+        	 
+        	 let delCheck = confirm("정말 삭제하시겠습니까?");
+        	 
+        	 if(delCheck) {
+        		 $.ajax({ // 배열 보내주기
+            		 url: "/deleteSelected.item"
+            		 , type: "post"
+            		 , traditional: true // 배열 보낼 때 필요한 것
+            		 , data: {checkArr: checkArr}
+            		 , success: function(data){
+            			 console.log(data);
+            			 if(data === "fail"){
+         					alert("상품 삭제에 실패했습니다.");
+         				} else {
+         					makeList(data);
+         				}
+            		 }, error: function(e){
+            			 console.log(e);
+            		 }
+            	 });
+        	 }
+        	 
+        	 
+         });
+        
         
         
         function makeList(data){ // 전체리스트 다시 뿌려주는 작업 (삭제 시)
         	let list = JSON.parse(data);
+        	console.log(typeof list, list);
         
         	$(".countBox").empty();
         	
@@ -426,13 +454,14 @@
         		
         		row.append(col);
         		$(".contents-box").append(row);
+        		
         	} else { // 상품목록이 있을 때
         		for(let dto of list){
         			
         			let rowCon = $("<div>").addClass("row contents");
         			// 체크박스
         			let colCheckbox = $('<div>').addClass("col-1 d-flex align-self-center justify-content-center");
-        			let inputCheckbox = $("<input>").attr({class: "clsCheckbox", type: "checkbox", id: ""})
+        			let inputCheckbox = $("<input>").attr({class: "clsCheckbox", type: "checkbox", name: "checked", value: dto.item_no});
         			
         			colCheckbox.append(inputCheckbox);
         			rowCon.append(colCheckbox);
@@ -484,60 +513,54 @@
         			rowCon.append(colBtn);
         			$(".contents-box").append(rowCon);
         			
-        			
-        			
-        			
-                    
         		}
-        	
-            	
-        	
         	
         	}
         	
         	
-        	// 개별수정버튼
-        	$(".btn-modify").click(function(){
-        		$(this).parent().submit();
-        	});
+        	// 에이젝스에서 다시 스크립스
         	
-        	
-        	// 개별삭제버튼
-        	$(".btn-delete").click(function(){
-        		let item_no = $(this).val();
-        		let img_no = $(this).prev().val();
-        		console.log(item_no + " : " + img_no);
-        	
-        		
-        		let delCheck = confirm("정말 삭제하시겠습니까?");
-        		
-        		if(delCheck) {
-            		$.ajax({
-            			url : "/delete.item"
-            			, type : "post"
-            			, data : {item_no : item_no, img_no : img_no}
-            			, success : function(data){
-            				console.log(data);
-            				
-            				if(data === "fail"){
-            					alert("상품 삭제에 실패했습니다.");
-            				} else {
-            					makeList(data);
-            				}
-            				
-            			}
-            			, error: function(e){
-            				console.log(e);
-            			}
-            		});
-        		}
-        		
 
-        	});
-        	
-        	
-        	
-        	
+            	// 개별수정버튼
+            	$(".btn-modify").click(function(){
+            		$(this).parent().submit();
+            	});
+            	
+            	
+            	// 개별삭제버튼
+            	$(".btn-delete").click(function(){
+            		let item_no = $(this).val();
+            		let img_no = $(this).prev().val();
+            		console.log(item_no + " : " + img_no);
+            	
+            		
+            		let delCheck = confirm("정말 삭제하시겠습니까?");
+            		
+            		if(delCheck) {
+                		$.ajax({
+                			url : "/delete.item"
+                			, type : "post"
+                			, data : {item_no : item_no, img_no : img_no}
+                			, success : function(data){
+                				console.log(data);
+                				
+                				if(data === "fail"){
+                					alert("상품 삭제에 실패했습니다.");
+                				} else {
+                					makeList(data);
+                				}
+                				
+                			}
+                			, error: function(e){
+                				console.log(e);
+                			}
+                		});
+            		}
+            		
+
+            	});
+                
+                
         }
         
         

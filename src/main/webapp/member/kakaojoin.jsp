@@ -23,7 +23,7 @@
                 <!-- 컨테이너 -->
                 <div class="row header">
                     <!-- 헤더부분 -->
-                    <div class="col">여기는 Header</div>
+             			<jsp:include page="/frame/header.jsp"></jsp:include>
                 </div><!-- 헤더부분 끝 -->
                 <div class="row body">
                                     <!-- 바디부분 -->
@@ -35,7 +35,6 @@
                                 <span>표시는 필수로 작성해주세요.</span>
                             </div>
                         </div>
-
 
 
             <div class="signupInputBox"> <!-- 사용자 입력 박스-->

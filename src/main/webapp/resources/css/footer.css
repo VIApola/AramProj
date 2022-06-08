@@ -5,6 +5,7 @@
     overflow: hidden;
 }
 .ft-ul {
+	margin-top : 10px;
     float: left;
     list-style: none;
     

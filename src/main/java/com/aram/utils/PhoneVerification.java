@@ -8,8 +8,9 @@ import org.json.simple.JSONObject;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
-public class SendPhoneVerification {
-	public static void main(String[] args) {
+public class PhoneVerification {
+	
+	public static String sendPhoneMail(String phone) {
 		String api_key = "NCSELPMVQISJLW9Y";
 		String api_secret = "CHTUPY4HPR5ITLEM7FFXMIPN6LSGJWFP";
 		Message coolSms = new Message(api_key, api_secret);
@@ -17,10 +18,11 @@ public class SendPhoneVerification {
 		// 4 params(to, from, type, text) are mandatory. must be filled
 	    HashMap<String, String> params = new HashMap<String, String>();
 	    
-	    params.put("to", "01051238338");
+	    String randNum = PhoneVerification.randomNumGenerator();
+	    params.put("to", phone);
 	    params.put("from", "01051238338");
 	    params.put("type", "SMS");
-	    params.put("text", "[Aram] [" + randomNumGenerator() + "] 회원가입 인증문자 발송입니다. 회원가입 창에 입력하세요!");
+	    params.put("text", "[Aram] [" + randNum + "] 회원가입 인증문자 발송입니다. 회원가입 창에 입력하세요!");
 	    params.put("app_version", "test app 1.2"); // application name and version
 	
 		try {
@@ -30,6 +32,8 @@ public class SendPhoneVerification {
 			System.out.println(e.getMessage());
 			System.out.println(e.getCode());
 		}
+		
+		return randNum;
 	}
 	
 	public static String randomNumGenerator() {

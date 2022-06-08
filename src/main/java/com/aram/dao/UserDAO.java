@@ -298,8 +298,8 @@ public class UserDAO {
 			if(rs.next()) {
 				return rs.getString(1);
 			}
-			return null;
-			}
+		return "";
+		}
 	}
 	
 	// 이메일 인증 완료 상태로 변경

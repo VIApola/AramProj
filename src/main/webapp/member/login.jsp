@@ -92,10 +92,10 @@
 	</form>
 	<div class="row">
 		<div class="col-12 order-1 col-sm-6">
-			<span><a href="/join.user">회원가입</a></span>
+			<span><a class="linkA" href="/join.user">회원가입</a></span>
 		</div>
 		<div class="col-12 order-2 col-sm-6">
-			<span><a href="/toFinduser.user">ID / PW 찾기</a></span>
+			<span><a class="linkA" href="/toFinduser.user">ID / PW 찾기</a></span>
 		</div>
 	</div>
 	<div class="row">

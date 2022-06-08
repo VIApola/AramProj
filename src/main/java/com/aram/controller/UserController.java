@@ -21,6 +21,7 @@ import com.aram.dao.UserDAO;
 import com.aram.dto.MypageReviewDTO;
 import com.aram.dto.UserDTO;
 import com.aram.utils.EncryptionUtils;
+import com.aram.utils.PhoneVerification;
 import com.google.gson.Gson;
 
 @WebServlet("*.user")
@@ -59,10 +60,10 @@ public class UserController extends HttpServlet {
 				e.printStackTrace();
 			}
 
-		}else if(uri.equals("/join.user")){// 회원가입 페이지 요청
+		} else if(uri.equals("/join.user")){ // 회원가입 페이지 요청
 			response.sendRedirect("/member/join.jsp");
 			
-		}else if(uri.equals("/signup.user")) { // 회원가입 하기
+		} else if(uri.equals("/signup.user")) { // 회원가입 하기
 			String name = request.getParameter("name");
 			String id = request.getParameter("id");
 			String nickname = request.getParameter("nickname");
@@ -83,17 +84,20 @@ public class UserController extends HttpServlet {
 				
 				int rs = dao.signup(new UserDTO(id, password, name, nickname, phone, email, postcode, roadAddr, detailAddr, null, "n", null, "n"));
 				if(rs > 0) {
+					
+					// 회원가입이 완료되면 아이디 값을 가지고 인증메일 보내는 요청으로 이동
+ 					response.sendRedirect("/sendVerify.email?user_id=" + id);
+ 					
 					response.sendRedirect("/login.user"); 
-					//response.sendRedirect("/member/emailSendAction.jsp");
-					//이메일 인증때문에..잠시
-
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-		}else if(uri.equals("/login.user")){ // 로그인창 요청
+			
+		} else if(uri.equals("/login.user")) { // 로그인창 요청
 			response.sendRedirect("/member/login.jsp");
-		}else if(uri.equals("/loginProc.user")) { // 로그인 요청
+			
+		} else if(uri.equals("/loginProc.user")) { // 로그인 요청
 			String id = request.getParameter("id");
 			String pw = request.getParameter("pw");
 			System.out.println(id + " : " + pw);
@@ -103,60 +107,40 @@ public class UserController extends HttpServlet {
 				pw = EncryptionUtils.getSHA512(pw);
 				System.out.println("암호화된 비번 : " + pw);
 				UserDTO dto = dao.isLoginOk(id, pw);
-				// 이메일 인증은 했는지 확인
-//				String checked = dao.getUserEmailChecked(id);
-//				System.out.println(checked);
-				/*
-				if(checked.equals("n")) {
-					System.out.println("이메일 인증이 완료되지 않았습니다. 가입시 입력한 이메일을 확인해주세요.");
-					response.setContentType("text/html;charset=UTF-8");
-					PrintWriter out = response.getWriter();
-					out.println("<script>alert('이메일이 등록 되지 않았습니다. 인증 메일을 확인해야 로그인 할 수 있습니다.'); location.href='/main'</script>");
-					out.flush();
-				} else {
-					// db에 유저 정보가 있을 때
-					if(dto != null) {
-						System.out.println("로그인 성공");
-						request.setAttribute("rs", true);
-						HttpSession session = request.getSession();
-						session.setAttribute("loginSession", dto);
-						
-						// 관리자 인증 먼저 // 로그인 시 관리자인지 아닌지 체크하는 부분
-						if(dto.getIsAdmin().equals("y")) {
-							request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
-						}else {
-							request.getRequestDispatcher("/member/login.jsp").forward(request, response);
-
-						
-					} else { // db에 유저 정보가 없을 때
-						System.out.println("로그인 실패");
-						request.setAttribute("rs", false);
-				}
-				*/
-				if(dto != null) {
-					System.out.println("로그인 성공");
-					request.setAttribute("rs", true);
-					HttpSession session = request.getSession();
-					session.setAttribute("loginSession", dto);
-
-					if(dto.getIsAdmin().equals("n")) { // 일반 회원일 경우
-
-						request.getRequestDispatcher("/member/login.jsp").forward(request, response);
-						//request.getRequestDispatcher("/member/emailSendAction.jsp").forward(request, response);
-					} else { // 관리자일경우
-						request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
-					}
-
-				}else {
-					System.out.println("로그인 실패");
-					request.setAttribute("rs", false);
-					request.getRequestDispatcher("/member/login.jsp").forward(request, response);
-				}
-
 				
-				//request.getRequestDispatcher("/member/emailSendAction.jsp").forward(request, response);
+				// 이메일 인증은 했는지 확인
+ 				String checked = dao.getUserEmailChecked(id);
+ 				System.out.println(checked);
+				
+				// 여기서 부턴 일반회원 검증 절차
+ 				// 이메일 인증 확인
+ 				if (checked.equals("n")) {
+ 					response.setContentType("text/html;charset=UTF-8");
+ 					PrintWriter out = response.getWriter();
+ 					out.println("<script>alert('이메일이 등록 되지 않았습니다. 인증 메일을 확인해야 로그인 할 수 있습니다.'); location.href='/main'</script>");
+ 					out.flush();
+ 				} else {
+ 					// db에 유저 정보가 있을 때
+ 					if(dto != null) {
+ 						System.out.println("로그인 성공");
+ 						request.setAttribute("rs", true);
+ 						HttpSession session = request.getSession();
+ 						session.setAttribute("loginSession", dto);
+
+ 						// 관리자 인증 먼저 // 로그인 시 관리자인지 아닌지 체크하는 부분
+ 						if(dto.getIsAdmin().equals("y")) {
+ 							request.getRequestDispatcher("/toItemPage.admin").forward(request, response);
+ 						}
+ 						request.getRequestDispatcher("/member/login.jsp").forward(request, response);
+
+ 					} else { // db에 유저 정보가 없을 때
+ 						System.out.println("로그인 실패");
+ 						request.setAttribute("rs", false);
+ 						request.getRequestDispatcher("/member/login.jsp").forward(request, response);
+ 					}
+ 				}
         
-			}catch(Exception e) {
+			} catch(Exception e) {
 				e.printStackTrace();
 			}
 		}else if(uri.equals("/kakaoLogin.user")) { // 카카오 로그인
@@ -409,13 +393,23 @@ public class UserController extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		
-			
-			
-			
-			
-			
-			
+		}else if(uri.equals("/pwCheck.user")) { // 패스워드 확인
+			String pwCheck = request.getParameter("pwCheck");
+			try {
+				pwCheck = EncryptionUtils.getSHA512(pwCheck);
+				System.out.println("암호화된 데이터 : " + pwCheck);
+				HttpSession session = request.getSession();
+				// 세션에서 아이디값 꺼내기
+				String session_pw = ((UserDTO)session.getAttribute("loginSession")).getUser_pw();
+				
+				if(pwCheck.equals(session_pw)) {
+					response.getWriter().append("pwOk");
+				}else {
+					response.getWriter().append("pwNo");
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}	
 		}else if(uri.equals("/modify.user")) { // 회원정보 수정 요청
 			
 			HttpSession session = request.getSession();
@@ -432,5 +426,19 @@ public class UserController extends HttpServlet {
 					+ " : " + postcode + " : " + roadAddr + " : " + detailAddr );
 			
 		}
+		
+		
+		if(uri.equals("/sendPhoneVerify.user")) {
+			
+			String phone = request.getParameter("phone");
+			String randNum = PhoneVerification.sendPhoneMail(phone);
+			System.out.println(randNum);
+			
+			Gson gson = new Gson();
+			String rs = gson.toJson(randNum);
+			response.getWriter().append(rs);
+			
+		}
+		
 	}
 }

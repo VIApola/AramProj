@@ -1,8 +1,7 @@
 package com.aram.controller;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,9 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import com.aram.dao.CartDAO;
 import com.aram.dao.OrderDAO;
-import com.aram.dto.CartDTO;
+import com.aram.dto.Cart_ItemDTO;
 import com.aram.dto.OrderDTO;
-import com.aram.dto.OrderItemDTO;
 import com.aram.dto.UserDTO;
 
 @WebServlet("*.order")
@@ -41,7 +39,20 @@ public class OrderController extends HttpServlet {
 			// 주문 페이지 출력
 			HttpSession session = request.getSession();
 			UserDTO user = (UserDTO)session.getAttribute("loginSession");
+			String user_id = user.getUser_id();
 			
+			CartDAO dao = new CartDAO();
+			
+			try {
+				ArrayList<Cart_ItemDTO> cartList = dao.selectByUserId(user_id);
+				
+				request.setAttribute("cartList", cartList);
+				
+				request.getRequestDispatcher("/shop/purchase.jsp").forward(request, response);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		} else if(uri.equals("/complete.order")) {
 			// 주문완료 요청
@@ -79,7 +90,7 @@ public class OrderController extends HttpServlet {
 				// System.out.println(list);
 				
 				// 총 합계 출력
-
+				int order_amount = 0;
 				// 주문서 생성
 				int	orderResult = dao.createOrder(new OrderDTO(order_no, user_id, order_name, order_email, order_phone,
 																null, order_amount, null, delivery_name, delivery_phone, 

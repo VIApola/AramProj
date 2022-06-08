@@ -19,7 +19,7 @@
     <div class="container">
     
         <div class="row header">
-            <div class="col">여기는 Header</div>
+           <jsp:include page="/frame/header.jsp"></jsp:include>
         </div>
         <div class="row body">
         <form id="completeChangePw" action="/completeChangePw.user" method="post">

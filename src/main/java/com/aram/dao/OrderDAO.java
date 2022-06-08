@@ -64,7 +64,7 @@ public class OrderDAO {
 	}
 	
 	// 전체목록 
-	public ArrayList<OrderDTO> selectAllOrder() throws Exception{
+	public ArrayList<OrderDTO> selectAllOrder() throws Exception {
 		String sql = "select * from tbl_order";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
@@ -76,20 +76,25 @@ public class OrderDAO {
 				 int order_no = rs.getInt(1);
 				 String user_id	= rs.getString(2);
 				 String order_name = rs.getString(3);
-				 String order_date = rs.getString(4);
-				 String order_state = rs.getString(5);
-				 String delivery_name = rs.getString(6);
-				 String delivery_addr = rs.getString(7);
-				 String order_msg = rs.getString(8);
-				 String delivery_msg = rs.getString(9);
+				 String order_email = rs.getString(4);
+				 String order_phone = rs.getString(5);
+				 String order_date = rs.getString(6);
+				 int order_amount = rs.getInt(7);
+				 String order_state = rs.getString(8);
+				 String delivery_name = rs.getString(9);
+				 String delivery_phone = rs.getString(10);
+				 String delivery_addr = rs.getString(11);
+				 String order_msg = rs.getString(12);
+				 String delivery_msg = rs.getString(13);
 				
-				 list.add(new OrderDTO(order_no, user_id, order_name, order_date, order_state, delivery_name, delivery_addr, order_msg, delivery_msg));
+				 list.add(new OrderDTO(order_no, user_id, order_name, order_email, order_phone,
+						 				order_date, order_amount, order_state, delivery_name, 
+						 				delivery_phone ,delivery_addr, order_msg, delivery_msg));
 				 
 			}
 			return list;
 		}
 	}
-	
 	
 	
 	// 개별목록
@@ -106,36 +111,43 @@ public class OrderDAO {
 				
 				 String user_id	= rs.getString(2);
 				 String order_name = rs.getString(3);
-				 String order_date = rs.getString(4);
-				 int quantity = rs.getInt(5);
-				 String order_amount = rs.getString(6);
-				 String delivery_addr = rs.getString(7);
-				 String delivery_name = rs.getString(8);
-				 String order_msg = rs.getString(9);
-				 String delivery_msg = rs.getString(10);
-				 return new OrderDTO(order_no, user_id, order_name, order_date, quantity, order_amount, delivery_addr, delivery_name, order_msg, delivery_msg);
+				 String order_email = rs.getString(4);
+				 String order_phone = rs.getString(5);
+				 String order_date = rs.getString(6);
+				 int order_amount = rs.getInt(7);
+				 String order_state = rs.getString(8);
+				 String delivery_name = rs.getString(9);
+				 String delivery_phone = rs.getString(10);
+				 String delivery_addr = rs.getString(11);
+				 String order_msg = rs.getString(12);
+				 String delivery_msg = rs.getString(13);
+				 
+				 return new OrderDTO(order_no, user_id, order_name, order_email, order_phone,
+			 				order_date, order_amount, order_state, delivery_name, 
+			 				delivery_phone ,delivery_addr, order_msg, delivery_msg);
 			}
 			return null;
 		}
 	}
 	
 	// 수정
-	public int modifyOrder(OrderDTO dto)throws Exception{
-		String sql = "update tbl_order set quanity=?,order_amount=?,delivery_addr=?,delivery_name=?,order_msg=?,delivery_msg=? where order_no=?";
-			try(Connection con = bds.getConnection();
-				PreparedStatement pstmt = con.prepareStatement(sql)	
-					){
-				pstmt.setString(2, dto.getOrder_amount());
-				pstmt.setString(3, dto.getDelivery_addr());
-				pstmt.setString(4, dto.getDelivery_name());
-				pstmt.setString(5, dto.getOrder_msg());
-				pstmt.setString(6, dto.getDelivery_msg());
-				pstmt.setInt(7, dto.getOrder_no());
-				
-				int rs = pstmt.executeUpdate();
-				return rs;	
-			}
-	}
+//	public int modifyOrder(OrderDTO dto)throws Exception {
+//		String sql = "update tbl_order set quanity=?, order_amount=?, delivery_addr=?, delivery_name=?, order_msg=?, delivery_msg=? where order_no=?";
+//			try(Connection con = bds.getConnection();
+//				PreparedStatement pstmt = con.prepareStatement(sql)	
+//					){
+//				pstmt.setInt(1, dto.getorder);
+//				pstmt.setString(2, dto.getOrder_amount());
+//				pstmt.setString(3, dto.getDelivery_addr());
+//				pstmt.setString(4, dto.getDelivery_name());
+//				pstmt.setString(5, dto.getOrder_msg());
+//				pstmt.setString(6, dto.getDelivery_msg());
+//				pstmt.setInt(7, dto.getOrder_no());
+//				
+//				int rs = pstmt.executeUpdate();
+//				return rs;	
+//			}
+//	}
 	
 	// 주문서 삭제 (관리자)
 	public int deleteOrder(int order_no)throws Exception{
