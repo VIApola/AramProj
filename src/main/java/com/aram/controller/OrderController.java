@@ -115,8 +115,9 @@ public class OrderController extends HttpServlet {
 					// 주문이 정상적으로 완료
 					System.out.println("주문 담기 완료");
 					
+					String text = "success";
 					Gson gson = new Gson();
-					String result = gson.toJson(success);
+					String result = gson.toJson(text);
 					
 					response.setCharacterEncoding("utf-8");
 					response.getWriter().append(result);

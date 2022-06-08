@@ -209,7 +209,7 @@
 
 				let quantityBox = $("<div>").addClass("col-2 quantityBox d-flex align-items-center justify-content-center");
 				let plus = $("<input>").attr({class:"btnPlus" ,type:"button"}).val('+');
-				let quantity = $("<input>").attr({ class:"p_num", type:"text" , "readonly":true}).val(dto.quantity);
+				let quantity = $("<input>").attr({ class:"qty", type:"text" , "readonly":true}).val(dto.quantity);
 				let minus = $("<input>").attr({class:"btnMinus" , type:"button"}).val('-');
 				let individualPrice = $("<input>").attr({class:"individualPrice", type:"hidden"}).val(dto.quantity * dto.price);
 				let price = $("<input>").attr({class:"price", type:"hidden"}).val(dto.price);				
