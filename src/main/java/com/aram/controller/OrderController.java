@@ -2,7 +2,6 @@ package com.aram.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import com.aram.dao.CartDAO;
 import com.aram.dao.OrderDAO;
 import com.aram.dto.Cart_ItemDTO;
-import com.aram.dto.ItemViewDTO;
 import com.aram.dto.OrderDTO;
 import com.aram.dto.OrderItemDTO;
 import com.aram.dto.UserDTO;
@@ -77,7 +75,7 @@ public class OrderController extends HttpServlet {
 			UserDTO user = (UserDTO)session.getAttribute("loginSession");
 			
 			String user_id = user.getUser_id();
-			String order_no = request.getParameter("order_no"); 
+			String order_no = request.getParameter("order_no");
 			String order_name = request.getParameter("order_name");
 			String order_email = request.getParameter("order_email");
 			String order_phone = request.getParameter("order_phone");

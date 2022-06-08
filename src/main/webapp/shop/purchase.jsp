@@ -96,10 +96,9 @@
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">연락처</div>
 						<div class="col-lg-3 col-9 d-flex">
-							<input type="text" class="form-control" value="${userInfo.phone}">
-							- <input type="text" class="form-control"
-								value="${userInfo.phone}"> - <input type="text"
-								class="form-control" id="order_phone" name="order_phone" value="${userInfo.phone}">
+							<input type="text" class="form-control" id="order_phone1" name="order_phone3" value="${userInfo.phone}"> - 
+							<input type="text" class="form-control" id="order_phone2" name="order_phone3" value="${userInfo.phone}"> - 
+							<input type="text" class="form-control" id="order_phone3" name="order_phone3" value="${userInfo.phone}">
 						</div>
 					</div>
 					<div class="row">
@@ -351,19 +350,20 @@
 	      });
 	}
 	
-	// 주문서 정보 ajax로 요청하기
+	// 주문서 정보 ajax로 전달하기
 	function requestOrder(order_no) {
-		let buyer_addr = $("#postcode").val() + $("#delivery_addr").val() + $("#delivery_detail").val();
+		let buyer_addr = "(" $("#postcode").val() + ") " + $("#delivery_addr").val() + ", " + $("#delivery_detail").val();
+		let order_phone = $("#order_phone1").val() + $("#order_phone2").val() + $("#order_phone3").val();
 		let buyer_phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
 		
 		$.ajax({
 			url:"/complete.order"
 			, type:"post"
 			, data: {
-				order_no: order_no
+				order_no: order_no.toString();
 				, order_name: $("#order_name").val()
 				, order_email: $("#order_email").val()
-				, order_phone: $("#order_phone").val()
+				, order_phone: order_phone
 				, delivery_name: $("#delivery_name").val()
 				, delivery_phone: buyer_phone
 				, delivery_addr: buyer_addr
