@@ -416,7 +416,7 @@ public class UserController extends HttpServlet {
 			
 			HttpSession session = request.getSession();
 			// 세션에서 아이디값 꺼내기
-			String id = (String)session.getAttribute("user_id");
+			String session_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();
 			String nickname = request.getParameter("nickname");
 			String phone = request.getParameter("phone");
 			String email = request.getParameter("email");
@@ -424,8 +424,21 @@ public class UserController extends HttpServlet {
 			String roadAddr = request.getParameter("roadAddr");
 			String detailAddr = request.getParameter("detailAddr");
 			
-			System.out.println(id + " : " + nickname + " : " + phone + " : " + email
+			System.out.println(session_id + " : " + nickname + " : " + phone + " : " + email
 					+ " : " + postcode + " : " + roadAddr + " : " + detailAddr );
+			
+			try {
+				UserDAO dao = new UserDAO();
+				int rs = dao.modifyUser(new UserDTO(session_id, null, null, nickname, phone, email, postcode, roadAddr, detailAddr, null, null, null, null));
+				
+				if(rs > 0) { // 수정 성공
+					response.getWriter().append("y");
+				}else {
+					response.getWriter().append("n");
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			
 		}
 		

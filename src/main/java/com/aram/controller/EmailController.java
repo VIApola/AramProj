@@ -51,7 +51,7 @@ public class EmailController extends HttpServlet {
 			System.out.println(user_id);
 			
 			UserDAO dao = new UserDAO();
-			String host = "http://localhost:8022/";
+			String host = "http://localhost:8090/";
 			String from = "devbontae9@gmail.com";
 			String to= "";
 			
