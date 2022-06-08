@@ -92,34 +92,35 @@ border-top: 1px solid lightgray;
 .list-row:last-child{
 border-bottom: 1px solid lightgray;
 }
-.imgDiv{
 
+.imgDiv{
 padding-left:40px;
 padding-right:0;
-padding-top:10px;
+padding-top:0px;
+height:100%;
 
 }
 .imgDiv>img{
-height:70%;
-
+height:85%;
+width:65%;
 }
 
 .nameDiv{
-margin-top:25px;
+padding-top:25px;
 padding-left:0;
 padding-right:0;
 
-}
-.titleDiv{
-margin-top:25px;
 
 }
+.titleDiv{
+padding-top:25px;
+}
 .scoreDiv{
-margin-top:25px;
+padding-top:25px;
 
 }
 .write_dateDiv{
-margin-top:25px;
+padding-top:25px;
 
 }
 .bottom-line{
@@ -138,21 +139,26 @@ padding-left:25px;
 }
 .scoreDivT{
 text-align:70%;
+margin-right:0px;
 }
 .listTitle>.write_dateDivT{
-padding-left:50px;
+
 text-align:left;
+padding-left:35px;
 }
 
-.list{
+
+.titleDiv > a {
 	margin: 10px;
 	cursor: pointer;
 	color: #000;
 	text-decoration:none;
 }
-.list:visited { color: #000; }
+  
 
-.list::after {
+.titleDiv >a:visited { color: #000; }
+
+.titleDiv >a::after {
 	display: block;
 	content: '';
 	width: 50%;
@@ -161,7 +167,8 @@ text-align:left;
 	transition: transform 250ms ease-in-out;
 }
 
-.list:hover::after {
+
+.titleDiv >a:hover::after {
 	transform: scaleX(1);
 }
 
@@ -169,16 +176,15 @@ text-align:left;
 	margin-top: 20px;
 }
 /* 마이페이지누르면 나오는 이미지*/
-#mypageImg{
+#mypageImg {
 	display : block;
  	width: 300px;
  	margin: 0px auto;
 }
-.mypageMain{
+.mypageMain {
 text-align: center;
 font-size: x-large;
 }
-
 
 
 
@@ -255,13 +261,9 @@ font-size: x-large;
 				</div>
 			</div>
 		</div>
-		<div class="row" id="footer">
-			<jsp:include page="/frame/footer.jsp"></jsp:include>
-		</div>
+	
+		<jsp:include page="/frame/footer.jsp"></jsp:include>
 	</div>
-	
-	
-	
 	
 	<script>
 	
@@ -331,8 +333,9 @@ font-size: x-large;
      /* 리뷰 */
   
      $("#review").on("click", function(){ 
-    	
+
     	 selectByReview();
+
          
      })
      /* 회원정보 수정*/

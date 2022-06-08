@@ -137,6 +137,7 @@ public class ReviewDAO {
 			pstmt.setInt(1, review_no);
 			ResultSet rs = pstmt.executeQuery();
 			
+			ReviewDTO dto = new ReviewDTO();
 			if(rs.next()) {
 				String nickname = rs.getString("nickname");
 				String title = rs.getString("title");

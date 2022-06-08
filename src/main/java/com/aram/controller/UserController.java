@@ -39,6 +39,8 @@ public class UserController extends HttpServlet {
 		System.out.println("요청 uri : " + uri);
     
 		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		
     
 		if (uri.equals("/idCheck.user")) { // 아이디 중복체크 요청
 
