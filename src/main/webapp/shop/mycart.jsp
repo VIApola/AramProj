@@ -142,8 +142,8 @@
 		let ans = confirm("장바구니에 담긴 상품을 주문하시겠습니까?");
 		if(ans) {
 		
-			var qty_arr = [];
-			var no_arr = [];
+			let qty_arr = [];
+			let no_arr = [];
 			// 각 상품들의 최종 수량 배열에 담기 
 			$(".qty").each(function(){
 				//console.log("수량 : " + $(this).val() );
@@ -161,21 +161,20 @@
 			
 		 $.ajax({
 				   
-			url: "/purchase.order"
+			url: "/changeQty.cart"
 		,	method: "post"
 		,	traditional: true
-		,	data: {"item_no":  JSON.stringify(no_arr), "quantity":  JSON.stringify(qty_arr) }
+		,	data: {"item_no": no_arr, "quantity":  qty_arr }
 		,	dataType: "json"
 		,	success: function(data){
 				console.log(data);
+				location.href = "/purchase.order";
 			}
 		,	 error: function(e){
 	    	 console.log(e);
 	    	}		      		    
 				     
 		 });
-
-			//location.href = "/purchase.order";
 		}
 	});
 

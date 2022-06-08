@@ -336,7 +336,7 @@
 	
 	// 주문서 정보 ajax로 전달하기
 	function requestOrder(order_no) {
-		let buyer_addr = "(" $("#postcode").val() + ") " + $("#delivery_addr").val() + ", " + $("#delivery_detail").val();
+		let buyer_addr = "(" + $("#postcode").val() + ") " + $("#delivery_addr").val() + ", " + $("#delivery_detail").val()
 		let order_phone = $("#order_phone1").val() + $("#order_phone2").val() + $("#order_phone3").val();
 		let buyer_phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
 		
@@ -344,7 +344,7 @@
 			url:"/complete.order"
 			, type:"post"
 			, data: {
-				order_no: order_no.toString();
+				order_no: order_no.toString()
 				, order_name: $("#order_name").val()
 				, order_email: $("#order_email").val()
 				, order_phone: order_phone

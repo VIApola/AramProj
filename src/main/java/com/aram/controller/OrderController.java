@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import com.aram.dao.CartDAO;
 import com.aram.dao.OrderDAO;
-import com.aram.dao.UserDAO;
 import com.aram.dto.Cart_ItemDTO;
 import com.aram.dto.OrderDTO;
 import com.aram.dto.OrderItemDTO;
@@ -43,36 +42,19 @@ public class OrderController extends HttpServlet {
 			HttpSession session = request.getSession();
 			UserDTO user = (UserDTO)session.getAttribute("loginSession");
 			String user_id = user.getUser_id();
-			
-			// item_no 배열 / 수량 배열 불러오기
-			 String[] item_no_arr = request.getParameterValues("item_no");
-			 String[] quantity_arr = request.getParameterValues("quantity");
-				 
-			 for(int i = 0; i < item_no_arr.length; i++) {
-				 System.out.println("item_no : " + item_no_arr[i]);
-			 }
-			 for(int i = 0; i < quantity_arr.length; i++) {
-				 System.out.println("quantity : " + quantity_arr[i]);
-			 }
-			 
-			
 			 
 			CartDAO dao = new CartDAO();
-	
 			
 			try {
 				// 구매리스트
 				ArrayList<Cart_ItemDTO> cartList = dao.selectByUserId(user_id);
-				
 				request.setAttribute("cartList", cartList);
-				
-				
 				request.getRequestDispatcher("/shop/purchase.jsp").forward(request, response);
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
+			
 		} else if(uri.equals("/complete.order")) {
 			// 주문완료 요청
 			HttpSession session = request.getSession();

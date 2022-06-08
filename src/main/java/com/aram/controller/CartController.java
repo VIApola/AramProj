@@ -58,7 +58,6 @@ public class CartController extends HttpServlet {
 				System.out.println("총 금액 : " + total);
 				request.setAttribute("total", total);
 				
-				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -93,7 +92,7 @@ public class CartController extends HttpServlet {
 				
 				if(cartDao.existItem(item_no)) { // 현재 장바구니에 없는 아이템 
 					// 장바구니 테이블에 데이터 추가
-					cartDao.addCart(new CartDTO(user_id, item_no, item_name, price ,quantity));
+					cartDao.addCart(new CartDTO(user_id, item_no, quantity));
 				} else {  // 장바구니에 이미 존재하는 아이템
 					cartDao.updateQuantity(quantity, user_id, item_no); //기존 quantity +추가된 quantity
 				}
@@ -136,81 +135,41 @@ public class CartController extends HttpServlet {
 				e.printStackTrace();
 			}
 				 
-		}else if(uri.equals("/purchase.cart")) { //장바구니에서 구매요청
-			HttpSession session = request.getSession();
-			String user_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();	
-			System.out.println("현재 로그인세션 ID : " + user_id);
+		}
+		
+		if(uri.equals("/changeQty.cart")) { // 장바구니 수량 변경
 			
+			// 주문 페이지 출력
+			HttpSession session = request.getSession();
+			UserDTO user = (UserDTO)session.getAttribute("loginSession");
+			String user_id = user.getUser_id();
+			
+			// item_no 배열 / 수량 배열 불러오기
+			String[] item_no_arr = request.getParameterValues("item_no");
+			String[] quantity_arr = request.getParameterValues("quantity");
+			 
 			CartDAO dao = new CartDAO();
+			
+			int rs = 0;
 			try {
-
+				// 장바구니에서 변경된 수량을 우선 적용하고 주문으로 넘어가기
+				for(int i = 0; i < item_no_arr.length; i++) {
+					int item_no = Integer.parseInt(item_no_arr[i]);
+					int quantity = Integer.parseInt(quantity_arr[i]);
+					rs = dao.updateQuantity(quantity, user_id, item_no);
+					System.out.println(rs);
+				}
 				
-				
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		
-		}
-		/*
-		//각 상품별 금액 계산 (individualPrice)
-		if(uri.equals("/individualPrice.cart")) {
-			HttpSession session = request.getSession();
-			String loginSession = ((UserDTO)session.getAttribute("loginSession")).getUser_id();	
-			System.out.println("현재 로그인세션 ID : " + loginSession);
-			
-			int quantity = Integer.parseInt(request.getParameter("number"));
-			int item_no = Integer.parseInt(request.getParameter("item_no"));
-			
-			System.out.println("quantity : " + quantity + " item_no : " + item_no);
-			
-			ItemDAO dao = new ItemDAO();
-			try {
-				int price = dao.selectItemByNo(item_no).getPrice();
-				System.out.println("해당 물품의 가격 : " + price);
-				System.out.println("해당 물품의 총 가격 : " + price * quantity);
-				
-				int individualPrice = price * quantity;
-				
+				String text = "success";
 				Gson gson = new Gson();
-				String rs = gson.toJson(individualPrice);
+				String result = gson.toJson(text);
 				
-				response.getWriter().append(rs);
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().append(result);
 				
-			}catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 		}
-		*/
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
