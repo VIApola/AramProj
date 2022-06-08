@@ -141,7 +141,41 @@
 	$("#btnOrder").on("click", function() {
 		let ans = confirm("장바구니에 담긴 상품을 주문하시겠습니까?");
 		if(ans) {
-			location.href = "/purchase.order";
+		
+			var qty_arr = [];
+			var no_arr = [];
+			// 각 상품들의 최종 수량 배열에 담기 
+			$(".qty").each(function(){
+				//console.log("수량 : " + $(this).val() );
+				qty_arr.push($(this).val());
+				console.log(qty_arr);
+			}); 
+			
+			// 장바구니에 담긴 아이템들 배열에 담기
+			$(".checkBox").each(function(){
+				//console.log("item_no : " + $(this).val() );
+				no_arr.push($(this).val());
+				console.log(no_arr);
+			});
+							
+			
+		 $.ajax({
+				   
+			url: "/purchase.order"
+		,	method: "post"
+		,	traditional: true
+		,	data: {"item_no":  JSON.stringify(no_arr), "quantity":  JSON.stringify(qty_arr) }
+		,	dataType: "json"
+		,	success: function(data){
+				console.log(data);
+			}
+		,	 error: function(e){
+	    	 console.log(e);
+	    	}		      		    
+				     
+		 });
+
+			//location.href = "/purchase.order";
 		}
 	});
 

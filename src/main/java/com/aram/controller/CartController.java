@@ -137,6 +137,21 @@ public class CartController extends HttpServlet {
 				e.printStackTrace();
 			}
 				 
+		}else if(uri.equals("/purchase.cart")) { //장바구니에서 구매요청
+			HttpSession session = request.getSession();
+			String user_id = ((UserDTO)session.getAttribute("loginSession")).getUser_id();	
+			System.out.println("현재 로그인세션 ID : " + user_id);
+			
+			CartDAO dao = new CartDAO();
+			try {
+
+				
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		
 		}
 		/*
 		//각 상품별 금액 계산 (individualPrice)
