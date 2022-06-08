@@ -41,6 +41,19 @@ public class OrderController extends HttpServlet {
 			UserDTO user = (UserDTO)session.getAttribute("loginSession");
 			String user_id = user.getUser_id();
 			
+			// item_no 배열 / 수량 배열 불러오기
+			 String[] item_no_arr = request.getParameterValues("item_no");
+			 String[] quantity_arr = request.getParameterValues("quantity");
+				 
+			 for(int i = 0; i < item_no_arr.length; i++) {
+				 System.out.println("item_no : " + item_no_arr[i]);
+			 }
+			 for(int i = 0; i < quantity_arr.length; i++) {
+				 System.out.println("quantity : " + quantity_arr[i]);
+			 }
+			 
+			
+			 
 			CartDAO dao = new CartDAO();
 			
 			try {
