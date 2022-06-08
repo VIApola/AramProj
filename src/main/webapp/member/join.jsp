@@ -141,11 +141,11 @@
 							</select>
 						</div>
 						<div class="col-3 col-md-1">
-							<input type="number" class="form-control" id="phone2"
+							<input type="text" class="form-control" id="phone2"
 								maxlength="4">
 						</div>
 						<div class="col-3 col-md-1">
-							<input type="number" class="form-control" id="phone3"
+							<input type="text" class="form-control" id="phone3"
 								maxlength="4">
 						</div>
 						<div class="col d-none">
@@ -174,8 +174,18 @@
 						<div class="col-3 col-md-2 align-self-center">
 							<span class="star">*</span> <label for="email">이메일</label>
 						</div>
-						<div class="col-5 col-md-4 ">
+						<div class="col-5 col-md-3 ">
 							<input type="text" class="form-control" id="email" name="email">
+						</div>
+						<div class="col-3 col-md-3">
+							<button type="button" id="emailCheckBtn"
+								class="btn btn-outline-success">중복확인</button>
+						</div>
+						<div class="row clsCheckInfo">
+							<div class="col-3 col-md-2"></div>
+							<div class="col-5 col-md-4 ">
+								<span id="checkEmail"></span>
+							</div>
 						</div>
 					</div>
 					<div class="row clsInputRow">
@@ -779,6 +789,11 @@
 		$("#sendPhoneVerify").on("click", function() {
 			// 전화번호 합쳐서 보내기
 			let phone = $("#phone1 option:selected").val() + $("#phone2").val() + $("#phone3").val();
+			let regexPhone = /^[0-9]{11}$/;
+			if(phone.val == "" || !regexPhone.test(phone)){
+				alert("각각 4자리의 번호를 입력해주세요.");
+				return;
+			}
 			alert("입력하신 번호로 인증번호가 발송되었습니다.");
 			$(".phoneVerify").removeClass("d-none");
 			
@@ -802,6 +817,7 @@
     						$("#phone1").attr("readonly", true);
     						$("#phone2").attr("readonly", true);
     						$("#phone3").attr("readonly", true);
+    						$("#phoneVerifyNum").val("인증완료");
     					} else {
     						alert("인증이 실패했습니다. 다시 발송버튼을 눌러주세요.");
     					}
@@ -831,6 +847,39 @@
     	    	});
     		}
     	});
+    	$("#email").blur(function(){
+    		$("#checkEmail").html("");
+    	});
+    	// 이메일 중복 검사
+    	$("#emailCheckBtn").on("click", function(){
+    		let regexEmail = /^[a-zA-z][\w]+@[a-zA-z]+\.(com|net|co\.kr|or\.kr)$/;
+    		if(!regexEmail.test($("#email").val())){
+    			$("#checkEmail").html("형식에 맞지않는 이메일 입니다. 다시 입력해주세요.");
+    			$("#checkEmail").css("color", "red");
+    			$("#email").val("");
+    			return;
+    		}
+    		$.ajax({
+    			url: "/emailCheck.user"
+    			, type: "post"
+    			, data: {email: $("#email").val()}
+    			, dataType: "text"
+    			, success: function(data){
+    				console.log(data);
+    				if(data === "nope"){
+    					$("#checkEmail").html("이미 사용중인 이메일 입니다.");
+    					$("#checkEmail").css("color", "red");
+    					$("#email").val("");
+    				}else if(data === "ok"){
+    					$("#checkEmail").html("사용가능한 이메일 입니다.");
+    					$("#checkEmail").css("color", "green");
+    				}
+    			}
+    			, error: function(e){
+    				console.log(e);
+    			}
+    		})
+    	})
     	// 아이디 중복 검사
     	$("#idCheckBtn").on("click", function(){
 			// 아이디 유효성 검사
@@ -942,10 +991,16 @@
     		}else if(!regexPhone.test(phone)){ // 숫자 데이터에 대한 별도의 형변환이 필요없음
 				alert("휴대폰번호는 각각 4자리의 숫자로 입력해주세요.");
 				return;
+    		}else if($("#phoneVerifyNum").val() == "" || $("#phoneVerifyNum").val() !== "인증완료"){
+    			alert("휴대폰 본인인증을 해주세요.");
+    			return;
     		}else if(!regexEmail.test($("#email").val())){
     			alert("이메일 형식에 맞게 입력해주세요.");
     			$("#email").focus();
     			return;
+    		}else if($("#checkEmail").html() !=="사용가능한 이메일 입니다."){
+    			alter("이메일 중복확인을 해주세요.")
+    			$("#email").focus();
     		}else if($("#postCode").val() === "" || $("#roadAddr").val() === ""){
 				alert("주소를 입력해 주세요.");
 				return;

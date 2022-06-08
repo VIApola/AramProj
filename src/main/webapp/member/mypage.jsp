@@ -63,12 +63,12 @@ h5 {
 	padding: 5px;
 }
 
-span {
+.list {
 	margin: 10px;
 	cursor: pointer;
 }
 
-span::after {
+.list::after {
 	display: block;
 	content: '';
 	width: 50%;
@@ -77,7 +77,7 @@ span::after {
 	transition: transform 250ms ease-in-out;
 }
 
-span:hover::after {
+.list:hover::after {
 	transform: scaleX(1);
 }
 .reviewImg{
@@ -589,6 +589,12 @@ font-size: x-large;
     					 let anchor =  $("<a>").attr("href", "/detailViewQna.bo?qna_no="+dto.qna_no).html(CheckMaxString(dto.title, 12)).css({"text-decoration" : "none", "color": "black"});
     					 let td3 = $("<td>").html(dto.write_date).css({"padding" : "10px", "border-bottom" : "1px solid grey", "text-align" : "center"});
     					 td2.append(anchor);
+    					 if(dto.answer != null){
+    						 let answer = $("<span>").html("&nbsp;New!").css("color", "red");
+    						 td2.append(answer);
+    					 }
+    					
+    					 
     					 tr.append(td1, td2, td3);
         				 table.append(tr);
     				 }
@@ -837,7 +843,7 @@ font-size: x-large;
          let labelEmail = $("<label>").attr("for", "email").html("이메일");
          let colEmailInput = $("<div>").addClass("col-7 col-md-9");
          let inputEmail = $("<input>").addClass("form-control").attr({"type" : "text",
-             "id" : "email", "name" : "email"}).val("${loginSession.email}");
+             "id" : "email", "name" : "email", "readonly" : "true"}).val("${loginSession.email}");
              colEamil.append(labelEmail);
              colEmailInput.append(inputEmail);
              clsInputRow3.append(colEamil, colEmailInput);
@@ -901,7 +907,7 @@ font-size: x-large;
 				// 유효성 검사
 				let regexNickname = /^[a-zA-z0-9ㄱ-흫]{2,6}$/;
 	    		let regexPw = /^[a-zA-z0-9~!@#$]{6,12}$/;
-	    		let regexEmail = /^[a-zA-z][\w]+@[a-zA-z]+\.(com|net|co\.kr|or\.kr)$/;
+	    		//let regexEmail = /^[a-zA-z][\w]+@[a-zA-z]+\.(com|net|co\.kr|or\.kr)$/;
 				let regexPhone = /^[0-9]{11}$/;
 				let phone = $("#phone1 option:selected").val() + $("#phone2").val() + $("#phone3").val();
 				console.log(phone);
@@ -913,10 +919,6 @@ font-size: x-large;
 		    		}else if(!regexPhone.test(phone)){ // 숫자 데이터에 대한 별도의 형변환이 필요없음
 						alert("휴대폰번호는 각각 4자리의 숫자로 입력해주세요.");
 						return;
-		    		}else if(!regexEmail.test($("#email").val())){
-		    			alert("이메일 형식에 맞게 입력해주세요.");
-		    			$("#email").focus();
-		    			return;
 		    		}else if($("#postcode").val() === "" || $("#roadAddr").val() === ""){
 						alert("주소를 입력해 주세요.");
 						return;

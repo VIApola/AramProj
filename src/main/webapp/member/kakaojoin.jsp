@@ -103,9 +103,19 @@
                         <span class="star">*</span>
                         <label for="email">이메일</label>
                     </div>
-                    <div class="col-7 col-md-9 ">
+                    <div class="col-7 col-md-6 ">
                         <input type="text" class="form-control" id="email" name="email">
                     </div>
+                    <div class="col-3 col-md-3">
+							<button type="button" id="emailCheckBtn"
+								class="btn btn-outline-success">중복확인</button>
+						</div>
+						<div class="row clsCheckInfo">
+							<div class="col-3 col-md-2"></div>
+							<div class="col-5 col-md-4 ">
+								<span id="checkEmail"></span>
+							</div>
+						</div>
                 </div>
                 <div class="row clsInputRow">
                     <div class="col-4 col-md-3 align-self-center">
@@ -704,7 +714,39 @@
     	$("#nickname").blur(function(){
     		$("#checkNickname").html("");
     	});
-  
+    	$("#email").blur(function(){
+    		$("#checkEmail").html("");
+    	});
+    	// 이메일 중복 검사
+    	$("#emailCheckBtn").on("click", function(){
+    		let regexEmail = /^[a-zA-z][\w]+@[a-zA-z]+\.(com|net|co\.kr|or\.kr)$/;
+    		if(!regexEmail.test($("#email").val())){
+    			$("#checkEmail").html("형식에 맞지않는 이메일 입니다. 다시 입력해주세요.");
+    			$("#checkEmail").css("color", "red");
+    			$("#email").val("");
+    			return;
+    		}
+    		$.ajax({
+    			url: "/emailCheck.user"
+    			, type: "post"
+    			, data: {email: $("#email").val()}
+    			, dataType: "text"
+    			, success: function(data){
+    				console.log(data);
+    				if(data === "nope"){
+    					$("#checkEmail").html("이미 사용중인 이메일 입니다.");
+    					$("#checkEmail").css("color", "red");
+    					$("#email").val("");
+    				}else if(data === "ok"){
+    					$("#checkEmail").html("사용가능한 이메일 입니다.");
+    					$("#checkEmail").css("color", "green");
+    				}
+    			}
+    			, error: function(e){
+    				console.log(e);
+    			}
+    		})
+    	})
     	// 약관 동의
     	$("#agreeAll").change(function(){
     		if($("#agreeAll").is(":checked")){
@@ -745,6 +787,9 @@
     			alert("이메일 형식에 맞게 입력해주세요.");
     			$("#email").focus();
     			return;
+    		}else if($("#checkEmail").html() !=="사용가능한 이메일 입니다."){
+    			alter("이메일 중복확인을 해주세요.")
+    			$("#email").focus();
     		}else if($("#postCode").val() === "" || $("#roadAddr").val() === ""){
 				alert("주소를 입력해 주세요.");
 				return;

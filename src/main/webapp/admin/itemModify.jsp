@@ -122,22 +122,22 @@
 </style>
 
 <body>
-    <div class="container">
-        <!--헤더영역-->
-        <div class="row main-header d-flex justify-content-center align-self-center">
-            <!--상단바 로고 영역-->
-            <div class="row d-flex justify-content-center">
-                <div class="header-logo d-flex justify-content-center">
-                    <a href="/main"><img src="/resources/images/Logo_md.png" class="imgLogo d-none d-sm-block" alt="..."></a>
-                    <a href="/main"><img src="/resources/images/Logo_sm.png" class="imgLogo d-block d-sm-none"
-                            style="" alt="..."></a>
-                </div>
-            </div>
-            <!--네비게이션-->
-            <div class="row d-flex justify-content-center">
-                <div class="col-12 col-md-8 col-xl-6 d-flex justify-content-center">
-                    <ul class="nav">
-                        <li class="nav-item">
+	<div class="container">
+		<!--헤더영역-->
+		<div
+			class="row main-header d-flex justify-content-center align-self-center">
+			<!--상단바 로고 영역-->
+			<div class="row d-flex justify-content-center">
+				<div class="header-logo d-flex justify-content-center">
+					<a href="/main"><img src="/resources/images/Logo_md.png" class="imgLogo d-none d-sm-block" alt="..."></a>
+					<a href="/main"><img src="/resources/images/Logo_sm.png" class="imgLogo d-block d-sm-none" style="" alt="..."></a>
+				</div>
+			</div>
+			<!--네비게이션-->
+			<div class="row d-flex justify-content-center">
+				<div class="col-12 col-md-8 col-xl-6 d-flex justify-content-center">
+					<ul class="nav">
+						<li class="nav-item">
                             <a class="nav-link active" style="color: black;" href="/toLogout.user">로그아웃</a>
                         </li>
                         <li class="nav-item">
@@ -152,96 +152,149 @@
                         <li class="nav-item">
                             <a class="nav-link" style="color: black;" href="/main">메인</a>
                         </li>
-                    </ul>
-                </div>
-            </div>
-        </div> <!-- 헤더 끝 -->
-
-
-
-
-
-        <!--콘텐츠 영역-->
-        <div class="item-admin-contents">
-            <!-- 바디타이틀 -->
-            <div class="row box-title">
-                <div class="col-12">
-                    <h2>상품등록 / 수정</h2>
-                </div>
-            </div>
-        </div>
-        <!-- form태그 시작 -->
-        <form id="itemModifyForm" action="/update.item" method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-12">기본정보</div>
-            	<input type="text" id="item_no" class="item_no" name="item_no" value="${dto.item_no}">
-            <div class="col-3">상품명</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 이름을 입력하세요." value="${dto.getItem_name()}" id="itemName" name="itemName"></div>
-        </div>
-        <div class="row">
-            <div class="col-12">상품분류</div>
-            <div class="col-3">카테고리</div>
-            <div class="col-8" ><select id="itemCategory" name="itemCategory">
-              <option value="p100">공기정화식물</option>
-            <option value="p200">실내식물</option>
-              <option value="p300">실외식물</option>
-            </select></div>
-            <input type="text" id="category_select" name="category_name" style="display:none;">
-        </div>
-        <div class="row">
-            <div class="col-12">상품 가격</div>
-            <div class="col-3">판매가격</div>
-            <div class="col-8 input"><input type="number" placeholder="상품의 가격을 입력하세요." name="itemPrice" value="${dto.getPrice()}"></div>
-        </div>
-        <div class="row">
-            <div class="col-12">상품 재고</div>
-            <div class="col-3">재고 개수</div>
-            <div class="col-8 input"><input type="number" placeholder="상품 재고 개수를 입력하세요." id="item_stock" name="itemStock" value="${dto.getItem_stock()}"></div>
-        </div>
-        <div class="row">
-            <div class="col-12">상품 설명/이미지 설정</div>
-            <div class="col-3">설명 정보 입력</div>
-            <div class="col-8 input"><input type="text" placeholder="상품 설명을 입력하세요." id="item_comment" name="itemDetail" value="${dto.getItem_comment()}"></div>
-        </div>
-			<div class="row">
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">이미지 정보</div>
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
-					style="padding: 0px">
-					<div class="short-div">이미지 미리보기</div>
-					<div class="short-div">
-						<input type="text" class="item_no" name="defaultImg" value="${dto.itemImgDTO.img_no}">
-						<img id="preview"
-							src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}">
-						<img id="defaultImg" src="/resources/images/items/${dto.itemImgDTO.sys_name}">
-					</div>
+					</ul>
 				</div>
-				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-					style="padding: 0px">
-					<div class="short-div">이미지 선택</div>
-					<div class="short-div">
-						<input type="file" id="img_title" name="imgFile">
-					</div>
-				</div>
-			</div>
-		</form>
-		<div class="row">
-			<div class="col" style="text-align: end;">
-				<button type="button" id="insertComplete">등록</button>
 			</div>
 		</div>
-	</div>
-	<!--footer 영역-->
-	<div class="row">
-		<div class="col">풋터</div>
+		<!-- 헤더 끝 -->
+
+
+
+
+
+		<!--콘텐츠 영역-->
+		<div class="item-admin-contents">
+			<!-- 바디타이틀 -->
+			<div class="row box-title">
+				<div class="col-12">
+					<h2>상품수정</h2>
+				</div>
+			</div>
+		</div>
+		<!-- form태그 시작 -->
+		<form id="itemModifyForm" action="/update.item" method="post" enctype="multipart/form-data">
+			<div class="row clsBlockRow">
+				<div class="row">
+					<div class="col-12">기본정보</div>
+					<input type="text" id="item_no" class="item_no" name="item_no" value="${dto.item_no}">
+				</div>
+				<div class="row clsInputRow">
+					<div class="col-3 clsLabelCol d-flex justify-content-center">
+						<label for="itemName">상품명</label>
+					</div>
+					<div class="col-8 clsInput">
+						<input type="text" class="form-control" value="${dto.getItem_name()}" id="itemName" name="itemName" placeholder="상품 이름을 입력하세요.">
+					</div>
+				</div>
+			</div>
+			
+			<div class="row clsBlockRow">
+				<div class="row">
+					<div class="col-12">상품분류</div>
+				</div>
+				<div class="row clsInputRow">
+					<div class="col-3 clsLabelCol d-flex justify-content-center">
+						<label for="category">카테고리</label>
+					</div>
+					<div class="col-8 clsInput">
+						<select class="form-select" id="itemCategory" name="itemCategory">
+							<option value="p100">공기정화식물</option>
+							<option value="p200">실내식물</option>
+							<option value="p300">실외식물</option>
+						</select>
+					</div>
+					<input type="text" id="category_select" name="category_name" style="display: none;">
+				</div>
+			</div>
+			
+			<div class="row clsBlockRow">
+				<div class="row">
+					<div class="col-12">상품 가격</div>
+				</div>
+				<div class="row clsInputRow">
+					<div class="col-3 clsLabelCol d-flex justify-content-center">
+						<label for="price">판매가격</label>
+					</div>
+					<div class="col-8 clsInput">
+						<input type="number" class="form-control" id="price" name="itemPrice" value="${dto.getPrice()}" placeholder="상품 가격을 입력하세요.">
+					</div>
+				</div>
+				
+				<div class="row clsBlockRow">
+					<div class="row">
+						<div class="col-12">상품 재고</div>
+					</div>
+					<div class="row clsInputRow">
+						<div class="col-3 clsLabelCol d-flex justify-content-center">
+							<label for="stock">상품 개수</label>
+						</div>
+						<div class="col-8 clsInput">
+							<input type="number" class="form-control" id="item_stock" name="itemStock" value="${dto.getItem_stock()}" placeholder="상품 개수를 입력하세요.">
+						</div>
+					</div>
+				</div>
+			</div>
+				
+				<div class="row clsBlockRow">
+					<div class="row">
+						<div class="col-12">상품 설명 / 이미지 설정</div>
+					</div>
+					<div class="row clsInputRow">
+						<div class="col-3 clsLabelCol d-flex justify-content-center">
+							<label for="itemInfo">상품 설명</label>
+						</div>
+						<div class="col-8 clsInput">
+							<input type="text" class="form-control" id="item_comment" name="itemDetail" value="${dto.getItem_comment()}" placeholder="상품 설명을 입력하세요.">
+						</div>
+					</div>
+				</div>
+				
+				<div class="row clsInputRow clsImgInfo">
+					<div class="clsLabelCol col-lg-3 col-md-3 col-sm-3 col-xs-3 d-flex justify-content-center align-self-center">
+						이미지 정보
+					</div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" style="padding:0px">
+						<div class="row clsImgTitle">
+							<div class="col-5 d-flex justify-content-center align-self-center">이미지 미리보기</div>
+							<div class="col-5 d-flex justify-content-center align-self-center">이미지 선택</div>
+							<div class="col-2 d-flex justify-content-center align-self-center">삭제</div>
+						</div>
+						<div class="row clsImgContent">
+							<div class="col-5 d-flex justify-content-center align-self-center">
+								<input type="text" class="item_no" name="defaultImg" value="${dto.itemImgDTO.img_no}">
+								<img id="preview" src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}">
+								<img id="defaultImg" src="/resources/images/items/${dto.itemImgDTO.sys_name}">
+							</div>
+							<div class="col-5 d-flex justify-content-center align-self-center"><input type="file" id="img_title" name="imgFile"></div>
+							<div class="col-2 d-flex justify-content-center align-self-center"><button type="button" id="btn-deleteItem">삭제</button></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12" style="text-align: end;">
+						<button type="button" class="btn btn-outline-success" id="modifyComplete">수정완료</button>
+					</div>
+				</div>
+		</form>
+	
+		<!--footer 영역-->
+		<div class="row">
+			<div class="col">풋터</div>
+		</div>
 	</div>
 
-    </form>
-    </div>
-    <!--item-container 끝-->
     <script>
     
-  //등록버튼 눌렀을때
-    $("#insertComplete").on("click",function(){
+    // 이미지 삭제버튼 눌렀을 때 
+    $("#btn-deleteItem").on("click", function(){
+    	$("#img_title").val("");
+    	$("#preview").attr("src", "");
+        $("#defaultImg").css("display", "inline");
+        $("#preview").css("display", "none");
+    });
+    
+  //수정완료 버튼 눌렀을때
+    $("#modifyComplete").on("click",function(){
     $("#category_select").val($("#category_name option:selected").val());   
        console.log($("#category_select").val());
        console.log($("#img_title").val());
@@ -269,7 +322,6 @@
     
     $("#itemCategory").val(itemCategory).prop("selected", true);
     </script>
-</body>
 </body>
 	<script type="text/javascript"> // 이미지 미리보기 (프리뷰)
         $(function() {

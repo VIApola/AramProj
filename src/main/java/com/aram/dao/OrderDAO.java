@@ -32,7 +32,7 @@ public class OrderDAO {
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
-			pstmt.setInt(1, dto.getOrder_no());
+			pstmt.setString(1, dto.getOrder_no());
 			pstmt.setString(2, dto.getUser_id());
 			pstmt.setString(3, dto.getOrder_name());
 			pstmt.setString(4, dto.getOrder_email());
@@ -53,7 +53,7 @@ public class OrderDAO {
 		String sql = "insert into tbl_order_item values (?,?,?,?,?)";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)){
-			pstmt.setInt(1, dto.getOrder_no());
+			pstmt.setString(1, dto.getOrder_no());
 			pstmt.setInt(2, dto.getItem_no());
 			pstmt.setString(3, dto.getItem_name());
 			pstmt.setInt(4, dto.getPrice());
@@ -73,7 +73,7 @@ public class OrderDAO {
 			
 			ArrayList<OrderDTO> list = new ArrayList<>();
 			while(rs.next()) {
-				 int order_no = rs.getInt(1);
+				 String order_no = rs.getString(1);
 				 String user_id	= rs.getString(2);
 				 String order_name = rs.getString(3);
 				 String order_email = rs.getString(4);
@@ -98,12 +98,12 @@ public class OrderDAO {
 	
 	
 	// 개별목록
-	public OrderDTO selectOrder(int order_no) throws Exception{
+	public OrderDTO selectOrder(String order_no) throws Exception{
 		String sql = "select * from tbl_order where order_no = ?";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
-			pstmt.setInt(1, order_no);
+			pstmt.setString(1, order_no);
 			
 			ResultSet rs = pstmt.executeQuery();
 			
@@ -150,12 +150,12 @@ public class OrderDAO {
 //	}
 	
 	// 주문서 삭제 (관리자)
-	public int deleteOrder(int order_no)throws Exception{
+	public int deleteOrder(String order_no)throws Exception{
 		String sql = "delete from tbl_order where order_no = ?";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
-			pstmt.setInt(1, order_no);
+			pstmt.setString(1, order_no);
 			return pstmt.executeUpdate();
 		}
 	}
