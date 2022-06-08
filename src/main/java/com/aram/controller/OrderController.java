@@ -2,6 +2,7 @@ package com.aram.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,8 +14,11 @@ import javax.servlet.http.HttpSession;
 import com.aram.dao.CartDAO;
 import com.aram.dao.OrderDAO;
 import com.aram.dto.Cart_ItemDTO;
+import com.aram.dto.ItemViewDTO;
 import com.aram.dto.OrderDTO;
+import com.aram.dto.OrderItemDTO;
 import com.aram.dto.UserDTO;
+import com.google.gson.Gson;
 
 @WebServlet("*.order")
 public class OrderController extends HttpServlet {
@@ -86,26 +90,42 @@ public class OrderController extends HttpServlet {
 				
 				int order_no = dao.getOrderNo();
 				
-				// ArrayList<Cart_ItemDTO> list = cartDao.selectByUserId(user_id);
+				ArrayList<Cart_ItemDTO> cartList = cartDao.selectByUserId(user_id);
 				// System.out.println(list);
 				
 				// 총 합계 출력
-				int order_amount = 0;
+				int order_amount = cartDao.totalPrice(user_id);
 				// 주문서 생성
 				int	orderResult = dao.createOrder(new OrderDTO(order_no, user_id, order_name, order_email, order_phone,
 																null, order_amount, null, delivery_name, delivery_phone, 
 																delivery_addr, order_msg, delivery_msg));
 				// 카트에 담긴 상품 주문대기로 이동
 				int addOrder = 0;
+				for (Cart_ItemDTO item : cartList) {
+					int item_no = item.getItem_no();
+					String item_name = item.getItem_name();
+					int price = item.getPrice();
+					int quantity = item.getQuantity();
+					
+					OrderItemDTO orderItem =  new OrderItemDTO(order_no, item_no, item_name, price, quantity);
+					addOrder = dao.cartToOrder(orderItem);
+				}
 
 				if(orderResult > 0 && addOrder > 0) {
 					// 주문이 정상적으로 완료
 					System.out.println("주문 담기 완료");
-					response.sendRedirect("/shop/successOrder.jsp");
+					
+					Gson gson = new Gson();
+					String result = gson.toJson(success);
+					
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(result);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		} else if(uri.equals("/success.order")) {
+			response.sendRedirect("/shop/successOrder.jsp");
 		}
 	}
 

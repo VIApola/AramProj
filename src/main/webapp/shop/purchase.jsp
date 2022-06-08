@@ -272,7 +272,7 @@
 
 	<script>
 	// 주문서 유효성 검사
-	$("#btnOrder").on("click", function(){
+	$("#btnOrder").on("click", function() {
 		if($("#order_name").val() == ""){
 			alert("주문자명을 적어주세요");
 			$("#order_name").focus();
@@ -297,45 +297,91 @@
 			alert("검색된 배송지가 없습니다. 배송지를 등록하세요");
 			$("#postcode").focus();
 			return;
-		} else if($("#detailAddr").val() == "") {
+		} else if($("#delivery_detail").val() == "") {
 			alert("상세 주소가 없습니다. 상세주소를 입력하새요.");
-			$("#detailAddr").focus();
+			$("#delivery_detail").focus();
 			return;
 		} else if($("#TermsAccept").is(":checked") == false) {
 			alert("구매 약관에 동의해주세요");
 			$("#TermsAccept").focus();
 			return;
 		}
+		console.log("eee");
+		
 		IMP.init("imp86984194");
-		requestPay();
+		requestPay("ord1113", "관나무 외 6개", 100, $("#order_email").val(), $("#delivery_name").val(), $("#delivery_phone").val(), $("#delivery_addr").val(), $("#postcode").val());
 		
-		// 아임포트 결제 모듈 실행
 		
-		function requestPay() {
-		// IMP.request_pay(param, callback) 결제창 호출
-			IMP.request_pay({ // param
-				pg: "html5_inicis",
-				pay_method: "card",
-				merchant_uid: "ORD20180131-0000011",
-				name: "노르웨이 회전 의자",
-				amount: 64900,
-				buyer_email: "gildong@gmail.com",
-				buyer_name: "홍길동",
-				buyer_tel: "010-4242-4242",
-				buyer_addr: "서울특별시 강남구 신사동",
-				buyer_postcode: "01181"
-			}, function (rsp) { // callback
-					if (rsp.success) {
-						console.log("success");
-						$("#orderForm").submit();
-						// 결제 성공 시 로직,
-					} else {
-						console.log("fail!");
-						// 결제 실패 시 로직,
-					}
-		      });
-		}
 	})
+	
+	function requestOrder() {
+		let buyer_addr = $("#postcode").val() + $("#delivery_addr").val() + $("#delivery_detail").val();
+		let buyer_phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
+		
+		$.ajax({
+			url:"/complete.order"
+			, type:"post"
+			, data: {
+				order_name: $("#order_name").val()
+				, order_email: $("#order_email").val()
+				, order_phone: $("#order_phone").val()
+				, delivery_name: $("#delivery_name").val()
+				, delivery_phone: buyer_phone
+				, delivery_addr: buyer_addr
+				, order_msg: $("#order_msg").val()
+				, delivery_msg: $("#delivery_msg").val()
+			}
+			, success: function(data) {
+				if(data == "success") {
+					location.href = "/shop/success.order";
+				} else {
+					alert("예기치 않은 오류로 인해 주문이 취소되었습니다.");
+				}
+			}
+			, error: function(e) {
+				console.log(e);
+			}
+		})	
+		
+	}
+	
+	// 아임포트 결제 모듈 실행
+	function requestPay(order_no, name, amount, buyer_email, buyer_name, buyer_tel, buyer_addr, buyer_postcode) {
+		buyer_addr = $("#delivery_addr").val() + $("#delivery_detail").val();
+		buyer_phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
+					
+		console.log($("#order_email").val());
+		console.log($("#delivery_name").val());
+		console.log(buyer_phone);
+		console.log($("#delivery_addr").val());
+		console.log($("#postcode").val())
+		
+	// IMP.request_pay(param, callback) 결제창 호출
+		IMP.request_pay({ // param
+			pg: "html5_inicis",
+			pay_method: "card",
+			merchant_uid: order_no,
+			name: name,
+			amount: amount,
+			buyer_email: buyer_email,
+			buyer_name: buyer_name,
+			buyer_tel: buyer_phone,
+			buyer_addr: buyer_addr,
+			buyer_postcode: buyer_postcode
+		}, function (rsp) { // callback
+				console.log(rsp);
+		
+				if (rsp.success) {
+					// 결제 성공 시 로직,
+					console.log("success");
+					requestOrder();
+				} else {
+					// 결제 실패 시 로직,
+					alert("결제 과정에서 오류가 발생했습니다. 다시 시도해주세요.")
+					console.log("fail!");
+				}
+	      });
+	}
 	
 	// 우편번호 API
 	$("#btnPostcode").on("click", function () {
