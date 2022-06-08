@@ -7,10 +7,10 @@
    font-style: normal;
    }
 
-   *{box-sizing: border-box;
-     margin: auto;
+   *{
      font-family: 'Roboto Mono', monospace;
-     font-family: 'GowunDodum-Regular';}
+     font-family: 'GowunDodum-Regular';
+     }
 
 html, body {
 	width: 100%;
@@ -29,21 +29,16 @@ html, body {
 
 /*noticeBox*/
 .noticeBox {
-	height: 50px;
-	z-index: 2;
-	border-bottom: 1px solid lightgray;
+	height: 60px;
+	padding-top: 2px;
+	padding-bottom: 2px;
 }
 
-.noticeBox h5 {
-	margin: 0;
-}
 
 .resSearchBox * {
 	height: 36px;
+	z-index: 0;
 
-}
-#resSearchBtn{
-	z-index: 2;
 }
 
 /*searchBox*/
@@ -62,9 +57,15 @@ html, body {
 	height: 300px;
 }
 
+.boardBox a{
+	text-decoration : none;
+	color: black;	
+}
+
 .boardBox>.row {
 	padding-top: 2px;
 	padding-bottom: 2px;
+	border-top: 1px solid lightgray;
 	border-bottom: 1px solid lightgray;
 }
 
