@@ -479,13 +479,11 @@ font-size: x-large;
 						 $("#content").empty();
 					        let h3 = $("<h5>").html("Review");
 					        let row = $("<div>").addClass('row');
-					        let col = $("<div>").addClass("col-12").css("margin", "10px");
+					        let col = $("<div>").addClass("col-12").css("text-align", "center");
 					        let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 리뷰입니다.");
-					        let p2 = $("<p>").html("* 제목을 클릭하시면, 게시글의 내용을 확인 할 수 있습니다.").css({"font-size": "small", "text-align" : "left"})
 					        let tableRow = $("<div>").addClass('row');
 					        let tableCol = $("<div>").addClass("col-12 bottom-line").css("text-align", "center");
 					        col.append(p);
-					        col.append(p2);
 				            row.append(col);       
 				            tableRow.append(tableCol);
 				            $("#content").append(h3); 
@@ -494,42 +492,42 @@ font-size: x-large;
 				            
 				            let listTitle = $("<div>").addClass("row listTitle"); 
 				       
-				            let nameDivT = $("<div>").addClass("col-4 nameDivT").html("상품");
-				            let titleDivT =  $("<div>").addClass("col-3 titleDivT").html("제목");
-				            let scoreDivT = $("<div>").addClass("col-2 scoreDivT").html("평점");
-				            let write_dateDivT = $("<div>").addClass("col-3 write_dateDivT").html("날짜");
+				            let nameDivT = $("<div>").addClass("col-3 col-lg-4 nameDivT").html("상품");
+				            let titleDivT =  $("<div>").addClass("col-3 col-lg-3 titleDivT").html("제목");
+				            let scoreDivT = $("<div>").addClass("col-3 col-lg-2 scoreDivT").html("평점");
+				            let write_dateDivT = $("<div>").addClass("col-3 col-lg-3 write_dateDivT").html("날짜");
 				            listTitle.append(nameDivT, titleDivT, scoreDivT, write_dateDivT);
 				            $("#content").append(listTitle);  
 					
 						for(let dto of data){
 							
 							let list = $("<div>").addClass("row list-row");
-         				
-         				let imgDiv =  $("<div>").addClass("col-2 imgDiv");
-         				
-         				let img = $("<img>").attr({class:"reviewImg", src:"/resources/images/items/"+ dto.sys_name});
-         				imgDiv.append(img);
+          				
+          				let imgDiv =  $("<div>").addClass("col-1 imgDiv  d-none d-md-none d-lg-block");
+          				
+          				let img = $("<img>").attr({class:"reviewImg", src:"/resources/images/items/"+ dto.sys_name});
+          				imgDiv.append(img);
 
-         				let nameDiv = $("<div>").addClass("col-2 nameDiv");
-         				let nameSpan = $("<span>").html(CheckMaxString(dto.item_name, 10));
-         				nameDiv.append(nameSpan);
+          				let nameDiv = $("<div>").addClass("col-3 col-lg-3 nameDiv");
+          				let nameSpan = $("<span>").html(CheckMaxString(dto.item_name, 10));
+          				nameDiv.append(nameSpan);
 
-         				let titleDiv = $("<div>").addClass("col-3 titleDiv");
-         				let title = $("<a>").attr("href","/detail.item?item_no="+dto.item_no).html(CheckMaxString(dto.title, 12));
-         				titleDiv.append(title);
-         				
-         				let scoreDiv = $("<div>").addClass("col-2 scoreDiv");
-         				let score = $("<span>").html(dto.score);
-         				scoreDiv.append(score);
-         				
-         				let write_dateDiv = $("<div>").addClass("col-2 write_dateDiv");
-         				let write_date = $("<span>").html(dto.write_date);
-         				write_dateDiv.append(write_date);
-         				
-         				list.append(imgDiv,nameDiv, titleDiv, scoreDiv, write_dateDiv);
-         				
-         				$("#content").append(list);           			
-   	
+          				let titleDiv = $("<div>").addClass("col-3 titleDiv col-lg-3");
+          				let title = $("<a>").attr("href","/detail.item?item_no="+dto.item_no).html(CheckMaxString(dto.title, 10));
+          				titleDiv.append(title);
+          				
+          				let scoreDiv = $("<div>").addClass("col-2 col-lg-2 scoreDiv");
+          				let score = $("<span>").html(dto.score);
+          				scoreDiv.append(score);
+          				
+          				let write_dateDiv = $("<div>").addClass("col-3 col-lg-3 write_dateDiv");
+          				let write_date = $("<span>").html(dto.write_date);
+          				write_dateDiv.append(write_date);
+          				
+          				list.append(imgDiv,nameDiv, titleDiv, scoreDiv, write_dateDiv);
+          				
+          				$("#content").append(list);           			
+    	
 						}
 									
 				
