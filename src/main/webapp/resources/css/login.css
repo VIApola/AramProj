@@ -20,23 +20,24 @@
 }
 
 /* 회원가입, ID/PW 찾기 a 태그*/
-a {
+.linkA{
 	text-decoration: none;
 	color: black;
 }
 
-a:hover {
+.linkA:hover{
 	color: black;
 }
 
 /* 버튼 */
-button {
+#loginBtn {
     width: 200px;
     margin: 10px;
 }
 
 /* 로그인 글씨 */
 h3 {
+	padding-top: 15px;
 	border-bottom: 2px solid lightgray;
 	padding-bottom: 15px;
 }
@@ -83,8 +84,4 @@ h3 {
     font-size: 0px;
     line-height: 0px;
     margin: 0px 16px;
-}
-
-li {
-    list-style: none;
 }

@@ -25,7 +25,7 @@
 				<li>주소 : 서울특별시 영등포구 선유동2로 57 <br>이레빌딩(구관) 19F, 20F
 				</li>
 				<li>FAX : 02-1234-5678</li>
-				<li>E-MAIL : aram@aram.co.kr</li>
+				<li>E-MAIL : aramproj@gmail.com</li>
 			</ul>
 		</div>
 		<div class="col-2 d-none d-sm-block">
@@ -43,7 +43,7 @@
 				<li>김당산</li>
 				<li>서울특별시 영등포구 선유동2로 57 이레빌딩(구관) 19F, 20F</li>
 				<li>02-1234-5678</li>
-				<li>aram@aram.co.kr</li>
+				<li>aramproj@gmail.com</li>
 			</ul>
 		</div>
 		<div class="col-2 d-none d-sm-block">
@@ -57,8 +57,8 @@
 			<ul class="ft-ul">
 				<li><strong>C/S</strong></li>
 				<li>1234-5678</li>
-				<li>상담시간:AM 10시~PM 05시</li>
-				<li>점심시간:PM 12시~PM 01시</li>
+				<li>상담시간 : AM 10시~PM 05시</li>
+				<li>점심시간 : PM 12시~PM 01시</li>
 			</ul>
 		</div>
 	</div>

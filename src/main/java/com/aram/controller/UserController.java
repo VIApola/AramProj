@@ -393,7 +393,23 @@ public class UserController extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
+		}else if(uri.equals("/pwCheck.user")) { // 패스워드 확인
+			String pwCheck = request.getParameter("pwCheck");
+			try {
+				pwCheck = EncryptionUtils.getSHA512(pwCheck);
+				System.out.println("암호화된 데이터 : " + pwCheck);
+				HttpSession session = request.getSession();
+				// 세션에서 아이디값 꺼내기
+				String session_pw = ((UserDTO)session.getAttribute("loginSession")).getUser_pw();
+				
+				if(pwCheck.equals(session_pw)) {
+					response.getWriter().append("pwOk");
+				}else {
+					response.getWriter().append("pwNo");
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}	
 		}else if(uri.equals("/modify.user")) { // 회원정보 수정 요청
 			
 			HttpSession session = request.getSession();
