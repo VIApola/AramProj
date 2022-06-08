@@ -153,7 +153,8 @@ public class UserController extends HttpServlet {
  					}
  				}
         
-			} catch(Exception e) {
+ 					}
+ 				} catch(Exception e) {
 				e.printStackTrace();
 			}
 		}else if(uri.equals("/kakaoLogin.user")) { // 카카오 로그인
