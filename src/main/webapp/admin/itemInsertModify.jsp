@@ -123,10 +123,8 @@ label {
 			<!--상단바 로고 영역-->
 			<div class="row d-flex justify-content-center">
 				<div class="header-logo d-flex justify-content-center">
-					<a href="/main"><img src="/resources/images/Logo_md.png"
-						class="imgLogo d-none d-sm-block" alt="..."></a> <a href="/main"><img
-						src="/resources/images/Logo_sm.png"
-						class="imgLogo d-block d-sm-none" style="" alt="..."></a>
+					<a href="/main"><img src="/resources/images/Logo_md.png" class="imgLogo d-none d-sm-block" alt="..."></a>
+					<a href="/main"><img src="/resources/images/Logo_sm.png" class="imgLogo d-block d-sm-none" style="" alt="..."></a>
 				</div>
 			</div>
 			<!--네비게이션-->
@@ -163,115 +161,149 @@ label {
 			<!-- 바디타이틀 -->
 			<div class="row box-title">
 				<div class="col-12">
-					<h2>상품등록 / 수정</h2>
+					<h2>상품등록</h2>
 				</div>
 			</div>
 		</div>
 		<!-- form태그 시작 -->
-		<form id="itemUploadForm" action="/insert.item" method="post"
-			enctype="multipart/form-data">
-			<div class="row">
-				<div class="col-12">기본정보</div>
-				<div class="col-3">상품명</div>
-				<div class="col-8 input">
-					<input type="text" placeholder="상품 이름을 입력하세요." id="itemName"
-						name="itemName">
+		<form id="itemUploadForm" action="/insert.item" method="post" enctype="multipart/form-data">
+			<div class="row clsBlockRow">
+				<div class="row">
+					<div class="col-12">기본정보</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-12">상품분류</div>
-				<div class="col-3">카테고리</div>
-				<div class="col-8">
-					<select name="itemCategory">
-						<option value="p100">공기정화식물</option>
-						<option value="p200">실내식물</option>
-						<option value="p300">실외식물</option>
-					</select>
-				</div>
-				<input type="text" id="category_select" name="category_name"
-					style="display: none;">
-			</div>
-			<div class="row">
-				<div class="col-12">상품 가격</div>
-				<div class="col-3">판매가격</div>
-				<div class="col-8 input">
-					<input type="number" placeholder="상품의 가격을 입력하세요." name="itemPrice">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12">상품 재고</div>
-				<div class="col-3">재고 개수</div>
-				<div class="col-8 input">
-					<input type="number" placeholder="상품 재고 개수를 입력하세요." id="item_stock"
-						name="itemStock">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12">상품 설명/이미지 설정</div>
-				<div class="col-3">설명 정보 입력</div>
-				<div class="col-8 input">
-					<input type="text" placeholder="상품 설명을 입력하세요." id="item_comment"
-						name="itemDetail">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">이미지 정보</div>
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
-					style="padding: 0px">
-					<div class="short-div">이미지 미리보기</div>
-					<div class="short-div">
-						<img id="preview"
-							src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}">
+				<div class="row clsInputRow">
+					<div class="col-3 clsLabelCol d-flex justify-content-center">
+						<label for="itemName">상품명</label>
 					</div>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-					style="padding: 0px">
-					<div class="short-div">이미지 선택</div>
-					<div class="short-div">
-						<input type="file" id="img_title" name="imgFile">
+					<div class="col-8 clsInput">
+						<input type="text" class="form-control" id="itemName" name="itemName" placeholder="상품 이름을 입력하세요.">
 					</div>
 				</div>
 			</div>
+			
+			<div class="row clsBlockRow">
+				<div class="row">
+					<div class="col-12">상품분류</div>
+				</div>
+				<div class="row clsInputRow">
+					<div class="col-3 clsLabelCol d-flex justify-content-center">
+						<label for="category">카테고리</label>
+					</div>
+					<div class="col-8 clsInput">
+						<select name="itemCategory" class="form-select" id="category">
+							<option value="p100">공기정화식물</option>
+							<option value="p200">실내식물</option>
+							<option value="p300">실외식물</option>
+						</select>
+					</div>
+					<input type="text" id="category_select" name="category_name" style="display: none;">
+				</div>
+			</div>
+			
+			<div class="row clsBlockRow">
+				<div class="row">
+					<div class="col-12">상품 가격</div>
+				</div>
+				<div class="row clsInputRow">
+					<div class="col-3 clsLabelCol d-flex justify-content-center">
+						<label for="price">판매가격</label>
+					</div>
+					<div class="col-8 clsInput">
+						<input type="number" class="form-control" name="itemPrice" id="price" placeholder="상품 가격을 입력하세요.">
+					</div>
+				</div>
+				
+				<div class="row clsBlockRow">
+					<div class="row">
+						<div class="col-12">상품 재고</div>
+					</div>
+					<div class="row clsInputRow">
+						<div class="col-3 clsLabelCol d-flex justify-content-center">
+							<label for="stock">상품 개수</label>
+						</div>
+						<div class="col-8 clsInput">
+							<input type="number" class="form-control" name="itemStock" id="item_stock" placeholder="상품 개수를 입력하세요.">
+						</div>
+					</div>
+				</div>
+			</div>
+				
+				<div class="row clsBlockRow">
+					<div class="row">
+						<div class="col-12">상품 설명 / 이미지 설정</div>
+					</div>
+					<div class="row clsInputRow">
+						<div class="col-3 clsLabelCol d-flex justify-content-center">
+							<label for="itemInfo">상품 설명</label>
+						</div>
+						<div class="col-8 clsInput">
+							<input type="text" class="form-control" id="item_comment" name="itemDetail" placeholder="상품 설명을 입력하세요.">
+						</div>
+					</div>
+				</div>
+				
+				<div class="row clsInputRow clsImgInfo">
+					<div class="clsLabelCol col-lg-3 col-md-3 col-sm-3 col-xs-3 d-flex justify-content-center align-self-center">
+						이미지 정보
+					</div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" style="padding:0px">
+						<div class="row clsImgTitle">
+							<div class="col-5 d-flex justify-content-center align-self-center">이미지 미리보기</div>
+							<div class="col-5 d-flex justify-content-center align-self-center">이미지 선택</div>
+							<div class="col-2 d-flex justify-content-center align-self-center">삭제</div>
+						</div>
+						<div class="row clsImgContent">
+							<div class="col-5 d-flex justify-content-center align-self-center"><img id="preview" src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}"></div>
+							<div class="col-5 d-flex justify-content-center align-self-center"><input type="file" id="img_title" name="imgFile"></div>
+							<div class="col-2 d-flex justify-content-center align-self-center"><button type="button" id="btn-deleteItem">삭제</button></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12" style="text-align: end;">
+						<button type="button" class="btn btn-outline-success" id="insertComplete">등록</button>
+					</div>
+				</div>
 		</form>
+	
+		<!--footer 영역-->
 		<div class="row">
-			<div class="col" style="text-align: end;">
-				<button type="button" id="insertComplete">등록</button>
-			</div>
+			<div class="col">풋터</div>
 		</div>
 	</div>
-	<!--footer 영역-->
-	<div class="row">
-		<div class="col">풋터</div>
-	</div>
 
-	</form>
-	</div>
-	<!--item-container 끝-->
 
 	<script>
     
-  //등록버튼 눌렀을때
-    $("#insertComplete").on("click",function(){
-    $("#category_select").val($("#category_name option:selected").val());   
-       console.log($("#category_select").val());
-       console.log($("#img_title").val());
-       
-    if($("#item_name").val() == ""){
-       alert("상품 이름을 입력하세요")
-       return;
-    }else if($("#price").val() == ""){
-       alert("상품 가격을 입력하세요.")
-       return;
-    }else if($("#item_stock").val() == ""){
-       alert("상품 재고 개수를 입력하세요.")
-       return;
-    }else if($("#item_comment").val() == ""){
-       alert("상품 설명을 입력하세요.")
-       return;
-    }
-   $("#itemUploadForm").submit();
+	  //등록버튼 눌렀을때
+	    $("#insertComplete").on("click",function(){
+	    $("#category_select").val($("#category_name option:selected").val());   
+	       console.log($("#category_select").val());
+	       console.log($("#img_title").val());
+	       
+	    if($("#item_name").val() == ""){
+	       alert("상품 이름을 입력하세요")
+	       return;
+	    }else if($("#price").val() == ""){
+	       alert("상품 가격을 입력하세요.")
+	       return;
+	    }else if($("#item_stock").val() == ""){
+	       alert("상품 재고 개수를 입력하세요.")
+	       return;
+	    }else if($("#item_comment").val() == ""){
+	       alert("상품 설명을 입력하세요.")
+	       return;
+	    }
+	   $("#itemUploadForm").submit();
+	    
+	    })
+	    
+	    // 이미지 삭제버튼 눌렀을 때 
+	    $("#btn-deleteItem").on("click", function(){
+	    	$("#img_title").val("");
+	    	$("#preview").attr("src", "");
+	    });
     
-    })
     </script>
 </body>
 	<script type="text/javascript"> // 이미지 미리보기 (프리뷰)
