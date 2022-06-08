@@ -85,7 +85,6 @@
 </style>
 </head>
 <body>
-	주문이 완료 되었습니다! 메인화면으로 돌아갑니다.
 	<div class="container">
 		<%-- 헤더 부분 --%>
 		<jsp:include page="/frame/header.jsp"></jsp:include>

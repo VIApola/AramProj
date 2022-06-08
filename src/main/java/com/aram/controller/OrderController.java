@@ -12,9 +12,12 @@ import javax.servlet.http.HttpSession;
 
 import com.aram.dao.CartDAO;
 import com.aram.dao.OrderDAO;
+import com.aram.dao.UserDAO;
 import com.aram.dto.Cart_ItemDTO;
 import com.aram.dto.OrderDTO;
+import com.aram.dto.OrderItemDTO;
 import com.aram.dto.UserDTO;
+import com.google.gson.Gson;
 
 @WebServlet("*.order")
 public class OrderController extends HttpServlet {
@@ -41,12 +44,28 @@ public class OrderController extends HttpServlet {
 			UserDTO user = (UserDTO)session.getAttribute("loginSession");
 			String user_id = user.getUser_id();
 			
+			// item_no 배열 / 수량 배열 불러오기
+			 String[] item_no_arr = request.getParameterValues("item_no");
+			 String[] quantity_arr = request.getParameterValues("quantity");
+				 
+			 for(int i = 0; i < item_no_arr.length; i++) {
+				 System.out.println("item_no : " + item_no_arr[i]);
+			 }
+			 for(int i = 0; i < quantity_arr.length; i++) {
+				 System.out.println("quantity : " + quantity_arr[i]);
+			 }
+			 
+			
+			 
 			CartDAO dao = new CartDAO();
+	
 			
 			try {
+				// 구매리스트
 				ArrayList<Cart_ItemDTO> cartList = dao.selectByUserId(user_id);
 				
 				request.setAttribute("cartList", cartList);
+				
 				
 				request.getRequestDispatcher("/shop/purchase.jsp").forward(request, response);
 				
@@ -60,6 +79,7 @@ public class OrderController extends HttpServlet {
 			UserDTO user = (UserDTO)session.getAttribute("loginSession");
 			
 			String user_id = user.getUser_id();
+			String order_no = request.getParameter("order_no");
 			String order_name = request.getParameter("order_name");
 			String order_email = request.getParameter("order_email");
 			String order_phone = request.getParameter("order_phone");
@@ -84,28 +104,43 @@ public class OrderController extends HttpServlet {
 			
 			try {
 				
-				int order_no = dao.getOrderNo();
-				
-				// ArrayList<Cart_ItemDTO> list = cartDao.selectByUserId(user_id);
+				ArrayList<Cart_ItemDTO> cartList = cartDao.selectByUserId(user_id);
 				// System.out.println(list);
 				
 				// 총 합계 출력
-				int order_amount = 0;
+				int order_amount = cartDao.totalPrice(user_id);
 				// 주문서 생성
 				int	orderResult = dao.createOrder(new OrderDTO(order_no, user_id, order_name, order_email, order_phone,
 																null, order_amount, null, delivery_name, delivery_phone, 
 																delivery_addr, order_msg, delivery_msg));
 				// 카트에 담긴 상품 주문대기로 이동
 				int addOrder = 0;
+				for (Cart_ItemDTO item : cartList) {
+					int item_no = item.getItem_no();
+					String item_name = item.getItem_name();
+					int price = item.getPrice();
+					int quantity = item.getQuantity();
+					
+					OrderItemDTO orderItem =  new OrderItemDTO(order_no, item_no, item_name, price, quantity);
+					addOrder = dao.cartToOrder(orderItem);
+				}
 
 				if(orderResult > 0 && addOrder > 0) {
 					// 주문이 정상적으로 완료
 					System.out.println("주문 담기 완료");
-					response.sendRedirect("/shop/successOrder.jsp");
+					
+					String text = "success";
+					Gson gson = new Gson();
+					String result = gson.toJson(text);
+					
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(result);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		} else if(uri.equals("/success.order")) {
+			response.sendRedirect("/shop/successOrder.jsp");
 		}
 	}
 

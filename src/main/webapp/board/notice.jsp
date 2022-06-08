@@ -103,7 +103,7 @@
 				</div>
 			</div>
 		</div>
-		<c:if test="${not empty loginSession.user_id}">
+		<c:if test="${loginSession.isAdmin eq 'y'}">
 			<div class="row">
 				<div class="col-md-12">
 					<div
