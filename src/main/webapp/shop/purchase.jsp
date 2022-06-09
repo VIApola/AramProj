@@ -95,9 +95,9 @@
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">연락처</div>
 						<div class="col-lg-3 col-9 d-flex">
-							<input type="text" class="form-control" id="order_phone1" name="order_phone3" value="${userInfo.phone}"> &nbsp;
-							<input type="text" class="form-control" id="order_phone2" name="order_phone3" value="${userInfo.phone}"> &nbsp;
-							<input type="text" class="form-control" id="order_phone3" name="order_phone3" value="${userInfo.phone}">
+							<input type="text" class="form-control" id="order_phone1" name="order_phone1" > &nbsp;
+							<input type="text" class="form-control" id="order_phone2" name="order_phone2" > &nbsp;
+							<input type="text" class="form-control" id="order_phone3" name="order_phone3" >
 						</div>
 					</div>
 					<div class="row">
@@ -132,9 +132,9 @@
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">연락처</div>
 						<div class="col-lg-3 col-9 d-flex">
-							<input type="text" class="form-control" id="phone1"> - <input
-								type="text" class="form-control" id="phone2"> - <input
-								type="text" class="form-control" id="phone3">
+							<input type="text" class="form-control" id="phone1"> 
+							<input type="text" class="form-control" id="phone2">
+							<input type="text" class="form-control" id="phone3">
 						</div>
 					</div>
 					<!-- 주소 -->
@@ -205,13 +205,52 @@
 					<div class="row mt-2 mb-2">
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">약관동의</div>
-						<div class="col-lg-8 col-9">
+						<div class="col-lg-10 col-9">
+							<%-- 
 							<textarea class="form-control" name="" id=""></textarea>
+							--%>
+							 
+							<table style="font-size: 5px; border: 1px solid lightgray;">
+								<thead style="text-align: center;">
+									<tr>
+										<td>목적</td>
+										<td>항목</td>
+										<td>보유기간</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>주문자 정보 확인,<br>주문 내역 안내,<br>주문 내역 조회</td>
+										<td>주문자 정보<br>(이름, 연락처, 이메일)</td>
+										<td rowspan="2">주문일로부터 90일까지 보유하며, 관계 법령에 따라 5년간 보관</td>
+									</tr>
+									<tr>
+										<td>상품 배송(구매/환불/취소/교환)을 위한 수취인 정보</td>
+										<td>수취인 정보<br>(이름, 연락처1, 주소)</td>
+									</tr>
+								</tbody>
+							</table>
+							<%-- 
+							<div class = "agreeBox">
+								<div class = "row">
+									<div class ="col-4">목적</div>
+									<div class ="col-4">항목</div>
+									<div class ="col-4">보유기간</div>
+								</div>
+								<div class="row">
+									<div class="col-4">주문자 정보 확인, 주문 내역 안내, 주문 내역 조회</div>
+									<div class="col-4">주문자 정보(이름, 연락처, 이메일)</div>
+								</div>
+								<div class="row">
+									<div class="col-4">상품 배송(구매/환불/취소/교환)을 위한 수취인 정보</div>
+									<div class="col-4">수취인 정보(이름, 연락처1, 연락처2, 주소)</div>
+									<div class="col-4">주문일로부터 90일까지 보유하며, 관계 법령에 따라 5년간 보관</div>
+								</div>
+							</div>--%>
 						</div>
 					</div>
 					<div class="row mt-2 mb-2">
-						<div
-							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">
+						<div class="col-lg-2 col-3 d-flex justify-content-center align-items-center">
 							주문동의</div>
 						<div class="col-lg-10 col-9">
 							<input type="checkbox" id="TermsAccept">상기 결제정보를 확인하였으며, 구매 진행에 동의합니다.
@@ -242,6 +281,41 @@
 		
 
 	<script>
+	
+	// 휴대폰 번호 셋팅
+		let phone = "${loginSession.phone}";
+		let phone1 = phone.slice(0, 3);
+		let phone2 = phone.slice(3, 7);
+		let phone3 = phone.slice(7);
+
+		// 셀렉트 박스에 default selected값 주기
+		$("#order_phone1").val(phone1);
+		$("#order_phone2").val(phone2);
+		$("#order_phone3").val(phone3);
+		
+	// ckBox활성화시 정보 가져오기
+		let name = "${loginSession.username}";
+		
+		$("#ckBox").click(function(){
+			
+			/* 사용할 수 도 있음
+			if($(선택자).is(":checked") == true){
+			    console.log('체크된 상태');
+			}
+			 
+			if($(선택자).is(":checked") == false){
+			    console.log('체크 안 된 상태');
+			}*/
+			
+			$("#delivery_name").val(name);
+			$("#phone1").val(phone1);
+			$("#phone2").val(phone2);
+			$("#phone3").val(phone3);
+			return;
+		});
+	
+		
+		
 	// 주문서 유효성 검사
 	$("#btnOrder").on("click", function() {
 		if($("#order_name").val() == ""){
@@ -284,17 +358,9 @@
 		
 		
 	})
-	
-	// 휴대폰 번호 셋팅
-		let phone = "${loginSession.phone}";
-		let phone1 = phone.slice(0, 3);
-		let phone2 = phone.slice(3, 7);
-		let phone3 = phone.slice(7);
 
-		// 셀렉트 박스에 default selected값 주기
-		$("#order_phone1").val(phone1).prop("selected", true);
-		$("#order_phone2").val(phone2);
-		$("#order_phone3").val(phone3);
+	
+		
 
 	// 아임포트 결제 모듈 실행
 	function requestPay(order_no, name, amount, buyer_email, buyer_name, buyer_tel, buyer_addr, buyer_postcode) {
