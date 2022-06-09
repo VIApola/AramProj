@@ -52,7 +52,7 @@
 	</div>
 	<div class="body-list">
 		<c:forEach items="${list}" var="dto">
-			<c:if test="${loginSession eq dto.user_id}">
+			<c:if test="${loginSession.user_id eq dto.user_id}">
 			<div class="row list-row m-2">
 				<div class="col-1 d-flex align-items-center justify-content-center">
 					<input class="form-check-input checkBox" type="checkbox"

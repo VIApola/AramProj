@@ -43,8 +43,6 @@ public class CartController extends HttpServlet {
 			String loginSession = ((UserDTO)session.getAttribute("loginSession")).getUser_id();
 			System.out.println("현재 로그인세션 ID : " + loginSession);
 			
-			request.setAttribute("loginSession", loginSession);
-			
 			CartDAO dao = new CartDAO();
 			
 			try {
@@ -115,6 +113,7 @@ public class CartController extends HttpServlet {
 			String[] checkVals = request.getParameterValues("checkVals");
 			CartDAO dao = new CartDAO();
 			
+		
 			for(int i = 0 ; i <  dao.length(checkVals); i++) {
 				  System.out.println("checkVals : " + checkVals[i]);
 				  try {

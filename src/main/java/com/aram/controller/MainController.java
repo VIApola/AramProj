@@ -42,6 +42,8 @@ public class MainController extends HttpServlet {
 		}else if(uri.equals("/toMycart.main")) {//장바구니페이지
 			response.sendRedirect("/shop/mycart.jsp");
 			
+		}else if(uri.equals("/error.main")){ // 에러 발생시 에러페이지로
+			response.sendRedirect("/error.jsp");
 		}
 		
 	}
