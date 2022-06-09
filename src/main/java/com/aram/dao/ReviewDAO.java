@@ -48,6 +48,16 @@ public class ReviewDAO {
 		}
 	}
 	
+	// 오라클 날짜 -> 자바 String
+	// 년/월/일 24시:분:초
+	// 자바에서 hh -> default 12시간 기준으로 표기됨
+	// 자바에서 24시간 : HH
+	public String parseDate(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yy년/MM/dd HH:mm:ss");
+		return sdf.format(date);
+	}
+
+	
 	// 전체 리뷰 조회
 	public ArrayList<ReviewDTO> selectAllReview() throws Exception{
 		String sql = "select * from tbl_review";
@@ -62,7 +72,8 @@ public class ReviewDAO {
 				String nickname = rs.getString("nickname");
 				String title = rs.getString("title");
 				String content = rs.getString("content");
-				String write_date = rs.getString("write_date");
+				//String write_date = rs.getString("write_date");
+				String write_date = parseDate(rs.getDate("write_date"));
 				int score = rs.getInt("score");
 				String user_id = rs.getString("user_id");
 				int item_no = rs.getInt("item_no");

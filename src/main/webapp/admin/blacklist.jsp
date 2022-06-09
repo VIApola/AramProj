@@ -56,39 +56,36 @@
             </div>
         </div>
 
-
-        <!--상단바 목록/검색창-->
-        <div class="row header">
-            <div class="row">
-                <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
-                    <a href="/toReviewManage.admin" class="header-menu">리뷰관리</a>
-                </div>
-                <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
-                    <a href="/toQnAManagePage.admin" class="header-menu">Q&A관리</a>
-                </div>
-                <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
-                    <a href="/toUserManage.admin" class="header-menu">계정관리</a>
-                </div>
-                
-                <div class="col-2 col-xl-1 d-flex align-self-center justify-content-end" style="display:block; text-align: justify;">
-                    <select id="searchSelect">
-                        <option value="아이디">아이디</option>
-                        <option value="이름">이름</option>
-                        <option value="이메일">이메일</option>
-                    </select>
-                </div>
-                <div class="col-4 col-xl-3">
-                    <nav class="navbar">
-                        <div class="search">
-                            <input id="searchInput" style="height:30px;" type="text" placeholder="검색어 입력">
-                            <img id="searchBtn" style="width: 20px; cursor:pointer;" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+                    <!--상단바 목록/검색창-->
+                    <div class="row header">
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
+                                <a href="/toReviewManage.admin" class="header-menu">리뷰관리</a>
+                            </div>
+                            <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
+                                <a href="/toQnAManagePage.admin" class="header-menu">Q&A관리</a>
+                            </div>
+                            <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
+                                <a href="/toUserManage.admin" class="header-menu">계정관리</a>
+                            </div>
+    						<div class="d-none d-xl-block col-xl-5 d-flex align-self-center"></div>
+                            <div class="col-4 col-sm-2 col-xl-1 d-flex align-self-center justify-content-end" style="display:block; text-align: justify;">
+                                <select id="searchSelect">
+                                    <option value="아이디">아이디</option>
+                                    <option value="이름">이름</option>
+                                    <option value="이메일">이메일</option>
+                                </select>
+                            </div>
+                            <div class="col-5 col-sm-4 col-xl-3">
+                                <nav class="navbar">
+                                    <div class="search">
+                                        <input id="searchInput" style="height:30px;" type="text" placeholder="검색어 입력">
+                                        <img id="searchBtn" style="width: 20px; cursor:pointer;" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+                                    </div>
+                                </nav>
+                            </div>
                         </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-
-
+                    </div>
         
         <!--콘텐츠 타이틀-->
         <div class="contents-header-box">

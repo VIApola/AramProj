@@ -151,10 +151,12 @@ public class UserController extends HttpServlet {
   					request.getRequestDispatcher("/member/login.jsp").forward(request, response);
   					}
         
+
  				}
  				} catch(Exception e) {
 					 e.printStackTrace();
 				
+
 			}
 		} else if (uri.equals("/kakaoLogin.user")) { // 카카오 로그인
 			String kakaoid = request.getParameter("userid");
