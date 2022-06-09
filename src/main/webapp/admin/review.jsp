@@ -171,7 +171,7 @@
     						<div class="d-none d-xl-block col-xl-5 d-flex align-self-center"></div>
                             <div class="col-4 col-sm-2 col-xl-1 d-flex align-self-center justify-content-end" style="display:block; text-align: justify;">
                                 <select id="searchSelect">
-                                    <option value="번호">번호</option>
+                                    <!-- <option value="번호">번호</option>  -->
                                     <option value="아이디">아이디</option>
                                     <option value="내용">내용</option>
                                 </select>
@@ -179,7 +179,7 @@
                             <div class="col-5 col-sm-4 col-xl-3">
                                 <nav class="navbar">
                                     <div class="search">
-                                        <input id="searchInput" style="height:30px;" type="text" placeholder="검색어 입력">
+                                        <input id="searchInput" style="height:30px;" id="searchInput" type="text" placeholder="검색어 입력">
                                         <img id="searchBtn" style="width: 20px; cursor:pointer;" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
                                     </div>
                                 </nav>
@@ -198,10 +198,10 @@
                             <div class="col-2 d-flex align-self-center justify-content-center">
                                 <span>아이디</span>
                             </div>
-                            <div class="col-1 d-flex align-self-center justify-content-center">
+                            <!-- <div class="col-1 d-flex align-self-center justify-content-center">
                                 <span>첨부사진</span>
-                            </div>
-                            <div class="col-5 d-flex align-self-center justify-content-center">
+                            </div>  -->
+                            <div class="col-6 d-flex align-self-center justify-content-center">
                                 <span>내용</span>
                             </div>
                             <div class="col-1 d-flex align-self-center justify-content-center">
@@ -212,8 +212,8 @@
     
     
                     <!--콘텐츠-->
-                    <div class="row">
-                        <form id="ReviewlistForm" action="/deleteReviewlist.admin" method="post">
+                    <div class="row reviewListBox">
+                        
                             <c:choose>
                                 <c:when test="${empty ReviewList}">
                                     <div class="col d-flex align-self-center justify-content-center">
@@ -225,18 +225,18 @@
                                         <div class="contents-box">
                                             <div class="row contents">
                                                 <div class="col-1 d-flex align-self-center justify-content-center">
-                                                    <input type="checkbox" class="clicks" name="review_no" value="${reviewList.review_no}">
+                                                    <input type="checkbox" class="clsCheckbox" name="review_no" value="${reviewList.review_no}">
                                                 </div>
-                                                <div class="col-1 d-flex align-self-center justify-content-center">
+                                                <div class="col-2 d-flex align-self-center justify-content-center">
                                                     <span>${reviewList.review_no}</span>
                                                 </div>
                                                 <div class="col-2 d-flex align-self-center justify-content-center">
                                                     <span>${reviewList.user_id}</span>
                                                 </div>
-                                                <div class="col-1 d-flex align-self-center justify-content-center">
+                                                <!-- <div class="col-1 d-flex align-self-center justify-content-center">
                                                     <img src="" style="width:50px height:50px">
-                                                </div>
-                                                <div class="col-4 d-flex align-self-center justify-content-center">
+                                                </div>  -->
+                                                <div class="col-6 d-flex align-self-center justify-content-center">
                                                     <span><a href="">${reviewList.content}</a></span>
                                                 </div>
                                                 <div class="col-1 d-flex align-self-center justify-content-center">
@@ -247,12 +247,12 @@
                                     </c:forEach>
                                 </c:otherwise>
                             </c:choose>
-                        </form>
+                        
                     </div>
-                    <!-- 신규상품등록 버튼 -->
+                    <!-- 삭제 버튼 -->
                     <div class="row box-btn-addItem">
                         <div class="col d-flex align-self-center justify-content-end">
-                            <button type="button" id="toItemInput" class="btn btn-outline-success">삭제</button>
+                            <button type="button" id="btnDelete" class="btn btn-outline-success">삭제</button>
                         </div>
                     </div>
 
@@ -273,50 +273,159 @@
             </div>
 
             <script>
+            
+            // 검색버튼을 클릭했을 때
+            $("#searchBtn").on("click", function(){
+            	let searchInput = $("#searchInput").val();
+            	
+            	if (searchInput === ""){
+            		location.href = "";
+            		return;
+            	}
+            	
+            	let select = $("#searchSelect option:selected").val();
+            	
+            	console.log(select + " : " + searchInput);
+            	
+            	if (select === "아이디") { // 아이디로 검색
+            		
+                    $.ajax({
+                        url: "/searchReviewMng.admin?user_id=" + searchInput
+                        , type: "get"
+                        , success: function (data) {
+                            console.log(data);
+                            makeList(data);
+                        }
+                        , error: function (e) {
+                            console.log(e);
+                        }
+                    });
+
+            	} else if (select === "내용") { // 제목+내용으로 검색
+            		
+                    $.ajax({
+                        url: "/searchReviewMng.admin?content=" + searchInput
+                        , type: "get"
+                        , success: function (data) {
+                            console.log(data);
+                            makeList(data);
+                        }
+                        , error: function (e) {
+                            console.log(e);
+                        }
+                    });
+
+            	}
+            	
+            	
+            });
+            
+            
 
                 // 전체체크
                 $("#checkAll").change(function () {
                     if ($("#checkAll").is(":checked")) {
-                        $(".clicks").prop("checked", true);
+                        $(".clsCheckbox").prop("checked", true);
                     } else {
-                        $(".clicks").prop("checked", false);
+                        $(".clsCheckbox").prop("checked", false);
                     }
                 });
 
-
-                //체크박스에 체크된 id값만 가져오기
-                $(".clicks:checked").each(function () {
-                    let id = $(this).val();
-                    console.log(id);
-
+                
+                // 삭제 클릭 시
+                $("#btnDelete").on("click", function(){
+                	
+               	 let checkArr = new Array();
+            	 $(".clsCheckbox:checked").each(function(){ // 배열로 체크된 값 담기
+            		 checkArr.push($(this).val());
+            		 console.log(checkArr)
+            	 });
+            	 
+            	 let delCheck = confirm("정말 삭제하시겠습니까?");
+            	 
+            	 if(delCheck) {
+            		 $.ajax({ // 배열 보내주기
+                		 url: "/deleteReviewlist.admin"
+                		 , type: "post"
+                		 , traditional: true // 배열 보낼 때 필요한 것
+                		 , data: {checkArr: checkArr}
+                		 , success: function(data){
+                			 console.log(data);
+                			 if(data === "fail"){
+             					alert("상품 삭제에 실패했습니다.");
+             				} else {
+             					console.log("done");
+             					makeList(data);
+             				}
+                		 }, error: function(e){
+                			 console.log(e);
+                		 }
+                	 });
+            	 }
+            	 
                 });
-
-
-                //checkBox가 선택되지않은 경우
-                if ($(".clicks").val() === "") {
-                    alert("삭제할 리뷰를 선택해 주세요.");
-                    return;
-                };
-
-
-                //확인창 띄우기
-                let anwser = confirm("선택한 리뷰를 삭제하시겠습니까?");
-                if (anwser) {
-                    $("#ReviewlistForm").submit();
-
-                    //리뷰 추가된 행 삭제하기
-                    $(".clicks:checked").each(function (e) {
-                        let check = $(this);
-                        check.parent().parent().remove();
-                    })
-                };
                 
                 
                 
-                // 전체 리스트 다시 뿌려주는 작업 (삭제 시)
+                function makeList(data){
                 	let list = JSON.parse(data);
                 	console.log(typeof list, list);
-    		
+                	
+                	$(".reviewListBox").empty();
+                	
+                	if(list.length == 0){ // 리뷰목록이 없을 때
+                		let col = $("<div>").addClass("col d-flex align-self-center justify-content-center");
+                		let h2 = $("<h2>").html("등록된 리뷰가 없습니다.");
+                		
+                		col.append(h2);
+                		$(".reviewListBox").append(col);
+                		
+                	} else { // 리뷰목록이 있을 때
+                		for(let dto of list) {
+                			let cttBox = $("<div>").addClass("contents-box");
+                			let rowCon = $("<div>").addClass("row contents");
+                			
+                			// 체크박스
+                			let colCheck =  $("<div>").addClass("col-1 d-flex align-self-center justify-content-center");
+                			let inputCheck = $("<input>").attr({type: "checkbox", class:"clsCheckbox", name: "review_no", value: dto.review_no});
+                			colCheck.append(inputCheck);
+                			rowCon.append(colCheck);
+                			
+                			// 리뷰 글번호
+                			let colno = $("<div>").addClass("col-2 d-flex align-self-center justify-content-center");
+                			let spanno = $("<span>").html(dto.review_no);
+                			colno.append(spanno);
+                			rowCon.append(colno);
+                			
+                			// 아이디
+                			let colid = $("<div>").addClass("col-2 d-flex align-self-center justify-content-center");
+                			let spanid = $("<span>").html(dto.user_id);
+                			colid.append(spanid);
+                			rowCon.append(colid);
+                			
+                			// 리뷰 내용
+                			let colctt = $("<div>").addClass("col-6 d-flex align-self-center justify-content-center");
+                			let spanctt = $("<span>").html(dto.content);
+                			colctt.append(spanctt);
+                			rowCon.append(colctt);
+                			
+                			// 별점
+                			let colsc = $("<div>").addClass("col-1 d-flex align-self-center justify-content-center");
+                			let spansc = $("<span>").html(dto.score);
+                			colsc.append(spansc);
+                			rowCon.append(colsc);
+                			
+                			cttBox.append(rowCon);
+                			$(".reviewListBox").append(cttBox);
+                			
+                		}
+                	}
+                	
+                }
+                
+                
+
+
 
             </script>
         </body>
