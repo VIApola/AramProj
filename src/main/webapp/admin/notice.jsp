@@ -158,19 +158,16 @@
                             <a class="nav-link active" style="color: black;" href="/toLogout.user">로그아웃</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: black;" href="/toUserManage.admin">고객관리</a>
+                            <a class="nav-link" style="color: black;" href="/toReviewManage.admin">고객/게시판관리</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" style="color: black;" href="/toItemPage.admin">상품관리</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: black;" href="/toNoticeManage.admin">게시판 관리</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" style="color: black;" href="/main">메인</a>
                         </li>
                     </ul>    
-              </div>
+            </div>
             </div>
         </div> <!-- 헤더 끝 -->
 
