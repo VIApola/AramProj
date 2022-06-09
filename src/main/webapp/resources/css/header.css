@@ -99,7 +99,7 @@ position : absolute;
 
 .search-menuH > span {
     padding: 0px;
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 20px;
     font-weight: bold;
 }
@@ -123,4 +123,7 @@ position : absolute;
 .fromLeft:after{  transform-origin:  0% 50%; }
 .search-menuH .bottom{
     margin-top: 20px;
+}
+#searchBtn{
+	cursor:pointer;
 }
