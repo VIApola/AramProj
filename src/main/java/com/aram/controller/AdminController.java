@@ -520,8 +520,25 @@ public class AdminController extends HttpServlet {
 			
 		}else if(uri.equals("/modifyReply.admin")) { //detailViewQna에서 댓글 수정버튼을 눌렀을때
 			int qna_no = Integer.parseInt(request.getParameter("qna_no"));
-			System.out.println("수정요청 댓글 게시글번호 :"+qna_no);
+			String answer = request.getParameter("answer");
 			
+			System.out.println("수정요청 댓글 게시글번호 :"+qna_no +" 수정요청 댓글 : "+answer);
+			
+			QnaDAO QnaDAO = new QnaDAO();
+			 
+			 try {
+				 
+				 int rs = QnaDAO.modifyReply(qna_no, answer);
+				 if(rs>0) {
+					 System.out.println("댓글수정 성공");
+					 response.sendRedirect("/detailViewQna.bo?qna_no=" + qna_no);
+				 }else {
+					 System.out.println("댓글수정 실패");
+				 }
+
+			 }catch(Exception e) {
+				 e.printStackTrace();
+			 }
 			
 			
 		}else if(uri.equals("/deleteReply.admin")) { ////detailViewQna에서 댓글 삭제버튼을 눌렀을때

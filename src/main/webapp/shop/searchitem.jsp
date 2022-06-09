@@ -79,7 +79,7 @@
 							<img src="/resources/images/items/${dto.itemImgDTO.sys_name}" class="card-img-top">
 						</a>
 						<div class="card-body">
-						    <h5 class="card-text">${dto.item_name}</h5>
+						    <h5 class="card-title">${dto.item_name}</h5>
 						    <p class="card-text col-12 ">${dto.price}</p>
 						</div>
 					</div>
@@ -195,12 +195,12 @@
 		  }else{ //등록된 게시물이 있을때
 			  for(let dto of list){
 					 let col = $("<div>").addClass('col-6 col-lg-3 d-flex justify-content-center');
-					 let card = $("<div>").addClass('card').css({"width":"16rem"}); 
+					 let card = $("<div>").addClass('card'); 
 					 let a = $("<a>").attr("href","/detail.item?item_no="+dto.item_no);
 					 let img = $("<img>").attr("src","/resources/images/items/"+dto.itemImgDTO.sys_name).addClass('card-img-top');
 					 
 					 let card2 = $("<div>").addClass('card-body');
-					 let h5 = $("<h5>").addClass('card-text').html(dto.item_name);
+					 let h5 = $("<h5>").addClass('card-title').html(dto.item_name);
 					 let p = $("<p>").addClass('card-text col-12').html(dto.price);
 					 
 					 card2.append(h5,p);
