@@ -19,28 +19,34 @@
 	crossorigin="anonymous"></script>
 
 <!--폰트-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-	
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap"
+	rel="stylesheet">
+
 <!-- css -->
 <link
 	href="${pageContext.request.contextPath}/resources/css/purchase.css"
 	rel="stylesheet" type="text/css">
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<link href="${pageContext.request.contextPath}/resources/css/purchase.css" rel="stylesheet" type="text/css">
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <!-- iamport.payment.js -->
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
-<title> 주문 결제 페이지</title>
+<script type="text/javascript"
+	src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+<title>주문 결제 페이지</title>
 </head>
 <body>
 	<div class="container">
 		<!--헤더영역-->
 		<jsp:include page="/frame/header.jsp"></jsp:include>
+		
 		<!-- order / payment-->
 		<div class="row titleLabel">
-			<span>ORDER / PAYMENT</span>
+			<h3>ORDER / PAYMENT</h3>
 		</div>
+		
+		<%-- page-content --%>
 		<div class="page-content">
 			<!-- 구매 리스트 -->
 			<div class="contentList">
@@ -59,12 +65,19 @@
 							class="col-2 col-lg-1 d-flex justify-content-center align-items-center">
 							<input type="checkbox">
 						</div>
-						<div class="col-6 col-lg-8 d-flex justify-content-evenly align-items-center">
-								<img src="/resources/images/items/${cartItem.item_name}.png" style="width: 100px;">
-								<div style="letter-spacing: 3px;">${cartItem.item_name}</div>	
+						<div
+							class="col-3 col-lg-3 d-flex justify-content-center align-items-center">
+							<img src="/resources/images/items/${cartItem.item_name}.png"
+								style="width: 50%;">
 						</div>
-						<div class="col-2 col-lg-1 d-flex justify-content-center align-items-center">${cartItem.quantity}</div>
-						<div class="col-2 col-lg-2 d-flex justify-content-center align-items-center">${cartItem.price}</div>
+						<div
+							class="col-3 col-lg-5 d-flex justify-content-start align-items-center">
+							<div style="letter-spacing: 2px;">${cartItem.item_name}</div>
+						</div>
+						<div
+							class="col-2 col-lg-1 d-flex justify-content-center align-items-center">${cartItem.quantity}</div>
+						<div
+							class="col-2 col-lg-2 d-flex justify-content-center align-items-center">${cartItem.price}</div>
 					</div>
 				</c:forEach>
 				<div class="row">
@@ -76,6 +89,7 @@
 					</div>
 				</div>
 			</div>
+			
 			<!-- 주문자 정보 -->
 			<div class="orderInfo">
 				<div class=" row titleLabel">
@@ -87,7 +101,8 @@
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">주문자명</div>
 						<div class="col-lg-3 col-9">
-							<input type="text" class="form-control" id="order_name" name="order_name" value="${loginSession.username}">
+							<input type="text" class="form-control" id="order_name"
+								name="order_name" value="${loginSession.username}">
 						</div>
 					</div>
 					<!-- 연락처, 이메일 -->
@@ -95,16 +110,19 @@
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">연락처</div>
 						<div class="col-lg-3 col-9 d-flex">
-							<input type="text" class="form-control" id="order_phone1" name="order_phone1" > &nbsp;
-							<input type="text" class="form-control" id="order_phone2" name="order_phone2" > &nbsp;
-							<input type="text" class="form-control" id="order_phone3" name="order_phone3" >
+							<input type="text" class="form-control" id="order_phone1"
+								name="order_phone1"> &nbsp; <input type="text"
+								class="form-control" id="order_phone2" name="order_phone2">
+							&nbsp; <input type="text" class="form-control" id="order_phone3"
+								name="order_phone3">
 						</div>
 					</div>
 					<div class="row">
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">이메일</div>
 						<div class="col-lg-3 col-9 d-flex align-items-center">
-							<input type="text" class="form-control" id="order_email" name="order_email" value="${loginSession.email}">
+							<input type="text" class="form-control" id="order_email"
+								name="order_email" value="${loginSession.email}">
 						</div>
 					</div>
 				</div>
@@ -114,7 +132,7 @@
 				<div class="row titleLabel">
 					<div class="col-lg-2 col-3">배송지 정보</div>
 					<div class="col-lg-10 col-9">
-						<input type="checkbox" id="ckBox"> 주문하는 사람과 동일한 배송지
+						<input type="checkbox" id="ckBox"> 주문하는 사람과 동일한 이름, 연락처
 					</div>
 
 				</div>
@@ -124,7 +142,8 @@
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">받는사람</div>
 						<div class="col-lg-3 col-9">
-							<input type="text" class="form-control" id="delivery_name" name="delivery_name">
+							<input type="text" class="form-control" id="delivery_name"
+								name="delivery_name">
 						</div>
 					</div>
 					<!-- 연락처 -->
@@ -132,9 +151,9 @@
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">연락처</div>
 						<div class="col-lg-3 col-9 d-flex">
-							<input type="text" class="form-control" id="phone1"> 
-							<input type="text" class="form-control" id="phone2">
-							<input type="text" class="form-control" id="phone3">
+							<input type="text" class="form-control" id="phone1">
+							&nbsp; <input type="text" class="form-control" id="phone2">
+							&nbsp; <input type="text" class="form-control" id="phone3">
 						</div>
 					</div>
 					<!-- 주소 -->
@@ -143,8 +162,9 @@
 							<!-- 주소 -->
 							<div
 								class="col-lg-2 col-3 d-flex justify-content-center align-items-center">주소</div>
-							<div class="col-lg-3 col-3">
-								<input type="text" class="form-control" id="postcode" name="postcode" readonly>
+							<div class="col-lg-1 col-3">
+								<input type="text" class="form-control text-center" id="postcode"
+									name="postcode" readonly>
 							</div>
 							<!-- 우편번호 검색 -->
 							<div class="col-lg-3 col-6">
@@ -155,7 +175,8 @@
 						<div class="row mt-2 mb-2">
 							<div class="col-lg-2 col-3"></div>
 							<div class="col-lg-4 col-4">
-								<input type="text" class="form-control" id="delivery_addr" name="delivery_addr" readonly>
+								<input type="text" class="form-control" id="delivery_addr"
+									name="delivery_addr" readonly>
 							</div>
 							<div class="col-lg-4 col-5">
 								<input type="text" class="form-control" id="delivery_detail">
@@ -167,7 +188,8 @@
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">주문메세지</div>
 						<div class="col-lg-8 col-9">
-							<textarea class="form-control" placeholder="주문메세지를 입력해주세요" id="order_msg" name="order_msg"></textarea>
+							<textarea class="form-control" placeholder="주문메세지를 입력해주세요"
+								id="order_msg" name="order_msg"></textarea>
 						</div>
 					</div>
 					<!-- 배송 메세지 -->
@@ -175,7 +197,8 @@
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">배송메세지</div>
 						<div class="col-lg-8 col-9">
-							<textarea class="form-control" placeholder="배송메세지를 입력해주세요" id="delivery_msg" name="delivery_msg"></textarea>
+							<textarea class="form-control" placeholder="배송메세지를 입력해주세요"
+								id="delivery_msg" name="delivery_msg"></textarea>
 						</div>
 					</div>
 				</div>
@@ -193,7 +216,15 @@
 						<div class="col-3 d-flex justify-content-center">결제 예정금액</div>
 					</div>
 				</div>
-
+				<div class="row">
+					<div
+						class=" payMoneyInfo-content d-flex justify-content-between align-items-center ">
+						<div class="col-3 d-flex justify-content-center">${cartItem.price}</div>
+						<div class="col-3 d-flex justify-content-center"></div>
+						<div class="col-3 d-flex justify-content-center">${cartItem.price}</div>
+					</div>
+				</div>
+	
 			</div>
 
 			<!-- 약관 동의 -->
@@ -206,54 +237,88 @@
 						<div
 							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">약관동의</div>
 						<div class="col-lg-10 col-9">
-							<%-- 
-							<textarea class="form-control" name="" id=""></textarea>
-							--%>
-							 
-							<table style="font-size: 5px; border: 1px solid lightgray;">
-								<thead style="text-align: center;">
-									<tr>
-										<td>목적</td>
-										<td>항목</td>
-										<td>보유기간</td>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>주문자 정보 확인,<br>주문 내역 안내,<br>주문 내역 조회</td>
-										<td>주문자 정보<br>(이름, 연락처, 이메일)</td>
-										<td rowspan="2">주문일로부터 90일까지 보유하며, 관계 법령에 따라 5년간 보관</td>
-									</tr>
-									<tr>
-										<td>상품 배송(구매/환불/취소/교환)을 위한 수취인 정보</td>
-										<td>수취인 정보<br>(이름, 연락처1, 주소)</td>
-									</tr>
-								</tbody>
-							</table>
-							<%-- 
-							<div class = "agreeBox">
-								<div class = "row">
-									<div class ="col-4">목적</div>
-									<div class ="col-4">항목</div>
-									<div class ="col-4">보유기간</div>
-								</div>
-								<div class="row">
-									<div class="col-4">주문자 정보 확인, 주문 내역 안내, 주문 내역 조회</div>
-									<div class="col-4">주문자 정보(이름, 연락처, 이메일)</div>
-								</div>
-								<div class="row">
-									<div class="col-4">상품 배송(구매/환불/취소/교환)을 위한 수취인 정보</div>
-									<div class="col-4">수취인 정보(이름, 연락처1, 연락처2, 주소)</div>
-									<div class="col-4">주문일로부터 90일까지 보유하며, 관계 법령에 따라 5년간 보관</div>
-								</div>
-							</div>--%>
+							<textarea class="textarea" style="width:100%; height: 300px; resize: none;"readonly>
+							
+[개인정보 수집항목]
+
+회사는 회원가입, 쇼핑몰 이용, 서비스 신청 및 제공 등을 위해 다음과 같은 개인정보를 수집하고 있습니다. 회사는 개인의 주민등록번호 및 아이핀 정보를 받지 않습니다.
+가. 개인정보 항목
+회원 필수항목: 전자우편주소, 페이스북 ID 및 페이스북에서 제공하는 정보, 트위터 ID 및 트위터에서 제공하는 정보, 구글+ ID 및 구글에서 제공하는 정보
+비회원 필수항목: 주문자 이름, 주문 결제자 주소, 수취인 이름, 배송지 정보, 연락처, 고객메모
+부가항목: 주문자 이름, 주문 결제자 주소, 수취인 이름, 배송지 정보, 연락처, 환불요청 시 환불계좌번호
+다만, 서비스 이용과정에서 서비스 이용기록, 접속 로그, 쿠키, 접속 IP 정보, 결제기록 등이 생성되어 수집될 수 있습니다.
+나. 수집방법: 쇼핑몰 회원가입 시의 회원가입 정보 및 고객센터를 통한 전화 및 온라인 상담
+
+ 
+
+[개인정보 수집이용 목적]
+
+회사의 개인정보 수집 목적은 최적화된 맞춤화 서비스를 제공하기 위함이며, 회사는 서비스 제공을 원활하게 하기 위해 필요한 최소한의 정보만을 수집하고 있습니다.
+서비스 이용에 따른 대금결제, 물품배송 및 환불 등에 필요한 정보를 추가로 수집할 수 있습니다.
+회사는 개인정보를 수집, 이용목적 이외에 다른 용도로 이용하거나 회원의 동의 없이 제3자에게 이를 제공하지 않습니다.
+
+ 
+
+[개인정보 보유 및 이용기간]
+
+회사는 원칙적으로 개인정보 수집 및 이용목적이 달성된 후에는 해당 개인정보를 지체 없이 파기합니다.
+단, 관계법령의 규정에 의하여 보존할 필요가 있는 경우 회사는 아래와 같이 관계법령에서 정한 일정한 기간 동안 회원 개인정보를 보관합니다.
+
+가. 상법 등 법령에 따라 보존할 필요성이 있는 경우
+
+① 표시 • 광고에 관한 기록
+보존근거: 전자상거래 등에서의 소비자보호에 관한 법률
+보존기간: 6개월
+
+② 계약 또는 청약철회 등에 관한 기록
+보존근거: 전자상거래 등에서의 소비자보호에 관한 법률
+보존기간: 5년
+
+③ 대금결제 및 재화 등의 공급에 관한 기록
+보존근거: 전자상거래 등에서의 소비자보호에 관한 법률
+보존기간: 5년
+
+④ 소비자의 불만 또는 분쟁처리에 관한 기록
+보존근거: 전자상거래 등에서의 소비자보호에 관한 법률
+보존기간: 3년
+
+⑤ 신용정보의 수집, 처리 및 이용 등에 관한 기록
+보존근거: 신용정보의 이용 및 보호에 관한 법률
+보존기간: 3년
+
+⑥ 본인확인에 관한 기록보존
+보존근거: 정보통신망 이용촉진 및 정보보호에 관한 법률 제44조의5 및 시행령 제29조
+보존기간: 6개월
+
+⑦ 접속에 관한 기록보존
+보존근거: 통신비밀보호법 제15조의2 및 시행령 제41조
+보존기간: 3개월
+
+나. 기타, 회원의 개별적인 동의가 있는 경우에는 개별 동의에 따른 기간까지 보관합니다.
+
+ 
+
+[개인정보 제3자 제공]
+
+가. 회사는 회원들의 개인정보를 개인정보의 수집이용 목적에서 고지한 범위 내에서 사용하며, 회원의 사전 동의 없이 동 범위를 초과하여 이용하거나 원칙적으로 회원의 개인정보를 제 3자에게 제공하지 않습니다. 단, 아래의 경우에는 예외로 합니다.
+① 회원들이 사전에 공개 또는 제3자 제공에 동의한 경우
+② 법령의 규정에 의거하나, 수사, 조사 목적으로 법령에 정해진 절차와 방법에 따라 수사기관 및 감독 당국의 요구가 있는 경우
+
+나. 회사가 제공하는 서비스를 통하여 주문 및 결제가 이루어진 경우, 상담 등 거래 당사자간 원활한 의사소통 및 배송 등 거래이행을 위하여 관련된 정보를 필요한 범위 내에서 거래 당사자에게 제공합니다.
+① CJ대한통운 택배사: 주문자 이름, 수취인 이름 배송지 정보, 연락처
+그 밖에 개인정보 제3자 제공이 필요한 경우에는 합당한 절차를 통한 회원의 동의를 얻어 제3자에게 개인정보를 제공할 수 있습니다.
+							</textarea>
+
+
 						</div>
 					</div>
 					<div class="row mt-2 mb-2">
-						<div class="col-lg-2 col-3 d-flex justify-content-center align-items-center">
+						<div
+							class="col-lg-2 col-3 d-flex justify-content-center align-items-center">
 							주문동의</div>
 						<div class="col-lg-10 col-9">
-							<input type="checkbox" id="TermsAccept">상기 결제정보를 확인하였으며, 구매 진행에 동의합니다.
+							<input type="checkbox" id="TermsAccept">상기 결제정보를 확인하였으며,
+							구매 진행에 동의합니다.
 						</div>
 					</div>
 				</div>
@@ -261,14 +326,16 @@
 		</div>
 		<!-- 최종 결제 금액 -->
 
-        <div class="finalAmount p-4 d-flex">
-            <div class="col-lg-2 col-3 d-flex justify-content-center align-items-center">
-                <span>최종결제 금액</span>
-            </div>
-            <div class="col-lg-10 col-3 d-flex justify-content-start align-items-center">
-                <span>20.000원</span>
-            </div>
-        </div>
+		<div class="finalAmount p-4 d-flex">
+			<div
+				class="col-lg-2 col-3 d-flex justify-content-center align-items-center">
+				<span>최종결제 금액</span>
+			</div>
+			<div
+				class="col-lg-10 col-3 d-flex justify-content-start align-items-center">
+				<span>20.000원</span>
+			</div>
+		</div>
 		<!-- 버튼 -->
 		<div class="btnBox d-flex justify-content-center">
 			<button type="button" class="btn btn-outline-dark">취소하기</button>
@@ -277,12 +344,11 @@
 		<%--풋터영역 --%>
 		<jsp:include page="/frame/footer.jsp"></jsp:include>
 	</div>
-		
-		
+
+
 
 	<script>
-	
-	// 휴대폰 번호 셋팅
+		// 휴대폰 번호 셋팅
 		let phone = "${loginSession.phone}";
 		let phone1 = phone.slice(0, 3);
 		let phone2 = phone.slice(3, 7);
@@ -292,102 +358,107 @@
 		$("#order_phone1").val(phone1);
 		$("#order_phone2").val(phone2);
 		$("#order_phone3").val(phone3);
-		
-	// ckBox활성화시 정보 가져오기
+
+		// ckBox활성화시 정보 가져오기
 		let name = "${loginSession.username}";
-		
-		$("#ckBox").click(function(){
-			
-			/* 사용할 수 도 있음
-			if($(선택자).is(":checked") == true){
-			    console.log('체크된 상태');
+
+		$("#ckBox").click(function() {
+			if ($("#ckBox").is(":checked") == true) {
+
+				$("#delivery_name").val(name);
+				$("#phone1").val(phone1);
+				$("#phone2").val(phone2);
+				$("#phone3").val(phone3);
+				return;
 			}
-			 
-			if($(선택자).is(":checked") == false){
-			    console.log('체크 안 된 상태');
-			}*/
-			
-			$("#delivery_name").val(name);
-			$("#phone1").val(phone1);
-			$("#phone2").val(phone2);
-			$("#phone3").val(phone3);
-			return;
+
+			if ($("#ckBox").is(":checked") == false) {
+
+				$("#delivery_name").val("");
+				$("#phone1").val("");
+				$("#phone2").val("");
+				$("#phone3").val("");
+				return;
+			}
+
 		});
-	
-		
-		
-	// 주문서 유효성 검사
-	$("#btnOrder").on("click", function() {
-		if($("#order_name").val() == ""){
-			alert("주문자명을 적어주세요");
-			$("#order_name").focus();
-			return;
-		} else if($("#order_phone").val() == "") {
-			alert("주문자 연락처를 적어주세요");
-			$("#order_phone").focus();
-			return;
-		} else if($("#order_email").val() == "") {
-			alert("주문자 이메일을 적어주세요");
-			$("#order_email").focus();
-			return;
-		} else if($("#delivery_name").val() == "") {
-			alert("배송자명을 적어주세요");
-			$("#delivery_name").focus();
-			return;
-		} else if($("#delivery_phone").val() == "") {
-			alert("배송 연락처를 적어주세요");
-			$("#phone").focus();
-			return;
-		} else if($("#postcode").val() == "") {
-			alert("검색된 배송지가 없습니다. 배송지를 등록하세요");
-			$("#postcode").focus();
-			return;
-		} else if($("#delivery_detail").val() == "") {
-			alert("상세 주소가 없습니다. 상세주소를 입력하새요.");
-			$("#delivery_detail").focus();
-			return;
-		} else if($("#TermsAccept").is(":checked") == false) {
-			alert("구매 약관에 동의해주세요");
-			$("#TermsAccept").focus();
-			return;
-		}
-		console.log("eee");
-		
-		IMP.init("imp86984194");
-		requestPay(orderNO(), "관나무 외 6개", 100, $("#order_email").val(), $("#delivery_name").val(), $("#delivery_phone").val(), $("#delivery_addr").val(), $("#postcode").val());
-		
-		
-	})
 
-	
-		
+		// 주문서 유효성 검사
+		$("#btnOrder").on(
+				"click",
+				function() {
+					if ($("#order_name").val() == "") {
+						alert("주문자명을 적어주세요");
+						$("#order_name").focus();
+						return;
+					} else if ($("#order_phone").val() == "") {
+						alert("주문자 연락처를 적어주세요");
+						$("#order_phone").focus();
+						return;
+					} else if ($("#order_email").val() == "") {
+						alert("주문자 이메일을 적어주세요");
+						$("#order_email").focus();
+						return;
+					} else if ($("#delivery_name").val() == "") {
+						alert("배송자명을 적어주세요");
+						$("#delivery_name").focus();
+						return;
+					} else if ($("#delivery_phone").val() == "") {
+						alert("배송 연락처를 적어주세요");
+						$("#phone").focus();
+						return;
+					} else if ($("#postcode").val() == "") {
+						alert("검색된 배송지가 없습니다. 배송지를 등록하세요");
+						$("#postcode").focus();
+						return;
+					} else if ($("#delivery_detail").val() == "") {
+						alert("상세 주소가 없습니다. 상세주소를 입력하새요.");
+						$("#delivery_detail").focus();
+						return;
+					} else if ($("#TermsAccept").is(":checked") == false) {
+						alert("구매 약관에 동의해주세요");
+						$("#TermsAccept").focus();
+						return;
+					}
+					console.log("eee");
 
-	// 아임포트 결제 모듈 실행
-	function requestPay(order_no, name, amount, buyer_email, buyer_name, buyer_tel, buyer_addr, buyer_postcode) {
-		buyer_addr = $("#delivery_addr").val() + $("#delivery_detail").val();
-		buyer_phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
-					
-		console.log($("#order_email").val());
-		console.log($("#delivery_name").val());
-		console.log(buyer_phone);
-		console.log($("#delivery_addr").val());
-		console.log($("#postcode").val())
-		
-	// IMP.request_pay(param, callback) 결제창 호출
-		IMP.request_pay({ // param
-			pg: "html5_inicis",
-			pay_method: "card",
-			merchant_uid: order_no,
-			name: name,
-			amount: amount,
-			buyer_email: buyer_email,
-			buyer_name: buyer_name,
-			buyer_tel: buyer_phone,
-			buyer_addr: buyer_addr,
-			buyer_postcode: buyer_postcode
-		}, function (rsp) { // callback
+					IMP.init("imp86984194");
+					requestPay(orderNO(), "관나무 외 6개", 100, $("#order_email")
+							.val(), $("#delivery_name").val(), $(
+							"#delivery_phone").val(),
+							$("#delivery_addr").val(), $("#postcode").val());
+
+				})
+
+		// 아임포트 결제 모듈 실행
+		function requestPay(order_no, name, amount, buyer_email, buyer_name,
+				buyer_tel, buyer_addr, buyer_postcode) {
+			buyer_addr = $("#delivery_addr").val()
+					+ $("#delivery_detail").val();
+			buyer_phone = $("#phone1").val() + $("#phone2").val()
+					+ $("#phone3").val();
+
+			console.log($("#order_email").val());
+			console.log($("#delivery_name").val());
+			console.log(buyer_phone);
+			console.log($("#delivery_addr").val());
+			console.log($("#postcode").val())
+
+			// IMP.request_pay(param, callback) 결제창 호출
+			IMP.request_pay({ // param
+				pg : "html5_inicis",
+				pay_method : "card",
+				merchant_uid : order_no,
+				name : name,
+				amount : amount,
+				buyer_email : buyer_email,
+				buyer_name : buyer_name,
+				buyer_tel : buyer_phone,
+				buyer_addr : buyer_addr,
+				buyer_postcode : buyer_postcode
+			}, function(rsp) { // callback
 				console.log(rsp);
-		
+
 				if (rsp.success) {
 					// 결제 성공 시 로직,
 					console.log("success");
@@ -397,93 +468,109 @@
 					alert("결제 과정에서 오류가 발생했습니다. 다시 시도해주세요.")
 					console.log("fail!");
 				}
-	      });
-	}
-	
-	// 주문서 정보 ajax로 전달하기
-	function requestOrder(order_no) {
-		let buyer_addr = "(" + $("#postcode").val() + ") " + $("#delivery_addr").val() + ", " + $("#delivery_detail").val()
-		let order_phone = $("#order_phone1").val() + $("#order_phone2").val() + $("#order_phone3").val();
-		let buyer_phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
-		
-		$.ajax({
-			url:"/complete.order"
-			, type:"post"
-			, data: {
-				order_no: order_no.toString()
-				, order_name: $("#order_name").val()
-				, order_email: $("#order_email").val()
-				, order_phone: order_phone
-				, delivery_name: $("#delivery_name").val()
-				, delivery_phone: buyer_phone
-				, delivery_addr: buyer_addr
-				, order_msg: $("#order_msg").val()
-				, delivery_msg: $("#delivery_msg").val()
-			}
-			, success: function(data) {
-				location.href = "/success.order";
-			}
-			, error: function(e) {
-				console.log(e);
-			}
-		})	
-		
-	}
-	
-	// 주문번호 생성하는 함수
-	function orderNO() {
-		let today = new Date();
-		let year = (today.getFullYear()).toString();
-		let month = today.getMonth() + 1;
-		if(month < 10) {
-			month = "0" + month;
+			});
 		}
-		let date = today.getDate();
-		if(date < 10) {
-			date = "0" + (date + 1);
+
+		// 주문서 정보 ajax로 전달하기
+		function requestOrder(order_no) {
+			let buyer_addr = "(" + $("#postcode").val() + ") "
+					+ $("#delivery_addr").val() + ", "
+					+ $("#delivery_detail").val()
+			let order_phone = $("#order_phone1").val()
+					+ $("#order_phone2").val() + $("#order_phone3").val();
+			let buyer_phone = $("#phone1").val() + $("#phone2").val()
+					+ $("#phone3").val();
+
+			$.ajax({
+				url : "/complete.order",
+				type : "post",
+				data : {
+					order_no : order_no.toString(),
+					order_name : $("#order_name").val(),
+					order_email : $("#order_email").val(),
+					order_phone : order_phone,
+					delivery_name : $("#delivery_name").val(),
+					delivery_phone : buyer_phone,
+					delivery_addr : buyer_addr,
+					order_msg : $("#order_msg").val(),
+					delivery_msg : $("#delivery_msg").val()
+				},
+				success : function(data) {
+					location.href = "/success.order";
+				},
+				error : function(e) {
+					console.log(e);
+				}
+			})
+
 		}
-		
-		let orderNo = year + month + date + Math.floor(Math.random()*(9000)) + 1;
-		
-		return orderNo;
-	}
-	
-	// 우편번호 API
-	$("#btnPostcode").on("click", function () {
-		new daum.Postcode({
-	  	theme: {
-	          searchBgColor: "#7CC09C", //검색창 배경색
-	          queryTextColor: "#FFFFFF" //검색창 글자색
-	      }
-	      , oncomplete: function(data) {
-	
-	          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-	
-	          // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-	          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-	          var roadAddr = data.roadAddress; // 도로명 주소 변수
-	          var extraRoadAddr = ''; // 참고 항목 변수
-	
-	          // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-	          // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-	          if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-	              extraRoadAddr += data.bname;
-	          }
-	          // 건물명이 있고, 공동주택일 경우 추가한다.
-	          if(data.buildingName !== '' && data.apartment === 'Y'){
-	             extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-	          }
-	          // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-	          if(extraRoadAddr !== ''){
-	              extraRoadAddr = ' (' + extraRoadAddr + ')';
-	          }
-	
-	          // 우편번호와 주소 정보를 해당 필드에 넣는다.
-	          document.getElementById('postcode').value = data.zonecode;
-	          document.getElementById('delivery_addr').value = roadAddr;
-	      }
-	  }).open();
-	});
+
+		// 주문번호 생성하는 함수
+		function orderNO() {
+			let today = new Date();
+			let year = (today.getFullYear()).toString();
+			let month = today.getMonth() + 1;
+			if (month < 10) {
+				month = "0" + month;
+			}
+			let date = today.getDate();
+			if (date < 10) {
+				date = "0" + (date + 1);
+			}
+
+			let orderNo = year + month + date
+					+ Math.floor(Math.random() * (9000)) + 1;
+
+			return orderNo;
+		}
+
+		// 우편번호 API
+		$("#btnPostcode")
+				.on(
+						"click",
+						function() {
+							new daum.Postcode(
+									{
+										theme : {
+											searchBgColor : "#7CC09C", //검색창 배경색
+											queryTextColor : "#FFFFFF" //검색창 글자색
+										},
+										oncomplete : function(data) {
+
+											// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+											// 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+											// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+											var roadAddr = data.roadAddress; // 도로명 주소 변수
+											var extraRoadAddr = ''; // 참고 항목 변수
+
+											// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+											// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+											if (data.bname !== ''
+													&& /[동|로|가]$/g
+															.test(data.bname)) {
+												extraRoadAddr += data.bname;
+											}
+											// 건물명이 있고, 공동주택일 경우 추가한다.
+											if (data.buildingName !== ''
+													&& data.apartment === 'Y') {
+												extraRoadAddr += (extraRoadAddr !== '' ? ', '
+														+ data.buildingName
+														: data.buildingName);
+											}
+											// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+											if (extraRoadAddr !== '') {
+												extraRoadAddr = ' ('
+														+ extraRoadAddr + ')';
+											}
+
+											// 우편번호와 주소 정보를 해당 필드에 넣는다.
+											document.getElementById('postcode').value = data.zonecode;
+											document
+													.getElementById('delivery_addr').value = roadAddr;
+										}
+									}).open();
+						});
 	</script>
 </body>
 </html>
