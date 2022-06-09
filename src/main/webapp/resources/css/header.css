@@ -16,13 +16,14 @@
 }
 
 .main-header {
+	padding-top : 30px;
 	box-sizing: border-box;
 	margin: auto;
 	font-family: 'Roboto Mono', monospace;
 	font-family: 'GowunDodum-Regular';
+	padding-bottom : 10px;
 }
 
-/*
 /* 상단바 cart 영역 */
 .header-left {
 	margin: 0px;
@@ -69,13 +70,13 @@
 }
 
 /* 상단 네비바의 검색창 */
-/*
-.search {
+
+.searchH {
 	position: relative;
  	width: 250px;
 }
 
-.search input {
+.searchH input {
  	width: 100%;
  	border: 1px solid #bbb;
 	border-radius: 8px;
@@ -83,7 +84,7 @@
  	font-size: 14px;
 }
 
-.search img {
+.searchH img {
 position : absolute;
  width: 17px;
  top: 13px;
@@ -91,26 +92,26 @@ position : absolute;
  margin: 0;
 }
 
-.search-menu a {
+.search-menuH a {
     padding: 0px;
     margin-top: 15px;
 }
 
-.search-menu > span {
+.search-menuH > span {
     padding: 0px;
     margin-top: 20px;
     font-size: 20px;
     font-weight: bold;
 }
 
-.search-menu a span {
+.search-menuH a span {
 	color: #000;
 	display:inline-block; 
 	margin:0;
  	text-transform:uppercase;
 }
 
-.search-menu a span:after {
+.search-menuH a span:after {
 	display:block;
 	content: '';
 	border-bottom: solid 2px #7cc09c;  
@@ -118,8 +119,8 @@ position : absolute;
 	transition: transform 250ms ease-in-out;
 }
 
-.search-menu a span:hover:after { transform: scaleX(1); }
+.search-menuH a span:hover:after { transform: scaleX(1); }
 .fromLeft:after{  transform-origin:  0% 50%; }
-.search-menu .bottom{
+.search-menuH .bottom{
     margin-top: 20px;
-}*/
+}

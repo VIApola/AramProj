@@ -111,7 +111,7 @@
 	<!--카카오 로그인-->
 	<div class="row">
 		<div class="col-12 col-md-12">
-			<ul>
+			<ul class="kakaoLogin">
 				<a class="btn btnkakao" id="kakao-login-btn"
 					href="javascript:kakaoLogin()"> <img
 					src="//k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"

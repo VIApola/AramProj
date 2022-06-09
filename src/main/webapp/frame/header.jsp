@@ -19,14 +19,14 @@
 				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 				<nav class="navbar d-flex justify-content-center">
 					<!--네비 검색창-->
-					<div class="search">
+					<div class="searchH">
 						<input type="text" placeholder="상품명을 입력하세요" id="searchKeyword">
 						<a><img id="searchBtn"
 							src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></a>
 					</div>
 				</nav>
 				<!--네비 메뉴-->
-				<div class="row search-menu">
+				<div class="row search-menuH">
 					<span>Shop</span> 
 					<a href="/category.item?category_id=p100&page=1" class="fromLeft"><span>공기정화 (Air Purifying)</span></a> 
 					<a href="/category.item?category_id=p200&page=1" class="fromLeft"><span>실내식물 (Indoor Plants)</span></a> 

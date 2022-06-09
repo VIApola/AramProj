@@ -185,14 +185,21 @@ padding-left:35px;
 text-align: center;
 font-size: x-large;
 }
-
+/* 컨텐트 부분 */
+#contentBox{
+	margin-top : 30px;
+	margin-bottom : 50px;
+}
 
 
 </style>
 </head>
 <body>
 	<div class="container">
-		<jsp:include page="/frame/header.jsp"></jsp:include>
+		<div class="row header">
+			<!-- 헤더부분 -->
+			<jsp:include page="/frame/header.jsp"></jsp:include>
+		</div>
 		<div class="row">
 			
 			<div class="col-12 d-md-none">
@@ -212,7 +219,7 @@ font-size: x-large;
 					<h3>MY PAGE</h3>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" id="contentBox">
 				<div class="col d-none d-md-block col-md-3">
 					<div class="row">
 						<div class="col">
@@ -979,7 +986,14 @@ font-size: x-large;
  }).open();
 });
      }
+   //상단바 sm크기에서 생기는 navbar
+     function openNav() {
+       document.getElementById("mySidenav").style.width = "100%";
+     }
 
+     function closeNav() {
+       document.getElementById("mySidenav").style.width = "0";
+     }
     </script>
 </body>
 </html>

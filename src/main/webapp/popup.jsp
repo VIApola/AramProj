@@ -16,7 +16,7 @@
 
     function closePopup() {
         if (document.getElementById("check").value) {
-            setCookie("popupYN", "N", 7); //1은 하루 7은 일주일
+            setCookie("popupYN", "N", 1); //1은 하루 7은 일주일
             self.close();
         }
     }
@@ -26,7 +26,8 @@
     <img src="/resources/images/Event.png"><br/>
     <div style="text-align: center;">
     <input type="checkbox" id="check" onclick="closePopup();">
-    <fontsize=3> <b>일주일동안 보지않기</b> </fontsize>
+    <fontsize=3> <b>하루동안 보지않기</b> </fontsize>
     </div>
+    
 </body>
 </html>
