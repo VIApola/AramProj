@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,7 +52,7 @@
 			<!-- 구매 리스트 -->
 			<div class="contentList">
 				<div class="row">
-					<div class="col">List 구매리스트</div>
+					<div class="col"><span style="font-size: 20px">List 구매리스트</span></div>
 				</div>
 				<div class="row list-label">
 					<div class="col-2 col-lg-1 d-flex justify-content-center">선택</div>
@@ -85,7 +86,7 @@
 						<span>총 가격 : </span>
 					</div>
 					<div class="col-2">
-						<span>${totalPrice}</span>
+						<span>${totalPrice} 원</span>
 					</div>
 				</div>
 			</div>
@@ -93,7 +94,7 @@
 			<!-- 주문자 정보 -->
 			<div class="orderInfo">
 				<div class=" row titleLabel">
-					<span>주문자 정보</span>
+					<span style="font-size: 20px">주문자 정보</span>
 				</div>
 				<div class="content">
 					<!-- 주문자명 -->
@@ -130,7 +131,7 @@
 			<!-- 배송지 정보 -->
 			<div class="deliveryInfo">
 				<div class="row titleLabel">
-					<div class="col-lg-2 col-3">배송지 정보</div>
+					<div class="col-lg-2 col-3"><span style="font-size: 20px">배송지 정보</span></div>
 					<div class="col-lg-10 col-9">
 						<input type="checkbox" id="ckBox"> 주문하는 사람과 동일한 이름, 연락처
 					</div>
@@ -206,31 +207,38 @@
 			<!-- 배송비 및 할인 정보 -->
 			<div class="payMoneyInfo">
 				<div class="row payMoneyInfo-title titleLabel">
-					<span>배송비 및 할인정보</span>
+					<span style="font-size: 20px">배송비 및 할인정보</span>
 				</div>
 				<div class="row">
 					<div
-						class=" payMoneyInfo-content d-flex justify-content-between align-items-center ">
-						<div class="col-3 d-flex justify-content-center">상품금액</div>
-						<div class="col-3 d-flex justify-content-center">배송비</div>
-						<div class="col-3 d-flex justify-content-center">결제 예정금액</div>
+						class="payMoneyInfo-content d-flex justify-content-between align-items-center">
+						<div class="col-4 d-flex justify-content-center">상품금액</div>
+						<div class="col-4 d-flex justify-content-center">배송비</div>
+						<div class="col-4 d-flex justify-content-center">결제 예정금액</div>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row d-flex justify-content-between align-items-center">
 					<div
 						class=" payMoneyInfo-content d-flex justify-content-between align-items-center ">
-						<div class="col-3 d-flex justify-content-center">${cartItem.price}</div>
-						<div class="col-3 d-flex justify-content-center"></div>
-						<div class="col-3 d-flex justify-content-center">${cartItem.price}</div>
+						<div class="col-4 d-flex justify-content-center">${totalPrice} 원</div>
+						<c:choose>
+              <c:when test="${totalPrice > 50000}">
+                <div class="col-4 d-flex justify-content-center">배송비 무료</div>
+                <div class="col-4 d-flex justify-content-center">${totalPrice}</div>
+              </c:when>
+              <c:otherwise>
+                <div class="col-4 d-flex justify-content-center">3000 원</div>
+                <div class="col-4 d-flex justify-content-center">${totalPrice + 3000} 원</div>
+              </c:otherwise>
+					</c:choose>
 					</div>
 				</div>
-	
 			</div>
 
 			<!-- 약관 동의 -->
 			<div class="payMoneyInfo">
 				<div class="row payMoneyInfo-title titleLabel">
-					<span>주문자 약관동의</span>
+					<span style="font-size: 20px">주문자 약관동의</span>
 				</div>
 				<div class="payment_wrap content">
 					<div class="row mt-2 mb-2">
@@ -325,17 +333,21 @@
 			</div>
 		</div>
 		<!-- 최종 결제 금액 -->
-
-		<div class="finalAmount p-4 d-flex">
-			<div
-				class="col-lg-2 col-3 d-flex justify-content-center align-items-center">
-				<span>최종결제 금액</span>
-			</div>
-			<div
-				class="col-lg-10 col-3 d-flex justify-content-start align-items-center">
-				<span>20.000원</span>
-			</div>
-		</div>
+        <div class="finalAmount p-4 d-flex">
+            <div class="col-lg-2 col-3 d-flex justify-content-center align-items-center">
+                <span>최종결제 금액</span>
+            </div>
+            <div class="col-lg-10 col-3 d-flex justify-content-start align-items-center">
+            	<c:choose>
+	            	<c:when test="${totalPrice > 50000}">
+	            		<span>${totalPrice} 원</span>
+					</c:when>
+					<c:otherwise>
+						<span>${totalPrice + 3000} 원</span>
+					</c:otherwise>
+				</c:choose>
+            </div>
+        </div>
 		<!-- 버튼 -->
 		<div class="btnBox d-flex justify-content-center">
 			<button type="button" class="btn btn-outline-dark">취소하기</button>
@@ -382,45 +394,61 @@
 			}
 
 		});
-
-		// 주문서 유효성 검사
-		$("#btnOrder").on(
-				"click",
-				function() {
-					if ($("#order_name").val() == "") {
-						alert("주문자명을 적어주세요");
-						$("#order_name").focus();
-						return;
-					} else if ($("#order_phone").val() == "") {
-						alert("주문자 연락처를 적어주세요");
-						$("#order_phone").focus();
-						return;
-					} else if ($("#order_email").val() == "") {
-						alert("주문자 이메일을 적어주세요");
-						$("#order_email").focus();
-						return;
-					} else if ($("#delivery_name").val() == "") {
-						alert("배송자명을 적어주세요");
-						$("#delivery_name").focus();
-						return;
-					} else if ($("#delivery_phone").val() == "") {
-						alert("배송 연락처를 적어주세요");
-						$("#phone").focus();
-						return;
-					} else if ($("#postcode").val() == "") {
-						alert("검색된 배송지가 없습니다. 배송지를 등록하세요");
-						$("#postcode").focus();
-						return;
-					} else if ($("#delivery_detail").val() == "") {
-						alert("상세 주소가 없습니다. 상세주소를 입력하새요.");
-						$("#delivery_detail").focus();
-						return;
-					} else if ($("#TermsAccept").is(":checked") == false) {
-						alert("구매 약관에 동의해주세요");
-						$("#TermsAccept").focus();
-						return;
-					}
-					console.log("eee");
+	
+		
+	// 주문서 유효성 검사
+	$("#btnOrder").on("click", function() {
+		if($("#order_name").val() == ""){
+			alert("주문자명을 적어주세요");
+			$("#order_name").focus();
+			return;
+		} else if($("#order_phone").val() == "") {
+			alert("주문자 연락처를 적어주세요");
+			$("#order_phone").focus();
+			return;
+		} else if($("#order_email").val() == "") {
+			alert("주문자 이메일을 적어주세요");
+			$("#order_email").focus();
+			return;
+		} else if($("#delivery_name").val() == "") {
+			alert("배송자명을 적어주세요");
+			$("#delivery_name").focus();
+			return;
+		} else if($("#delivery_phone").val() == "") {
+			alert("배송 연락처를 적어주세요");
+			$("#phone").focus();
+			return;
+		} else if($("#postcode").val() == "") {
+			alert("검색된 배송지가 없습니다. 배송지를 등록하세요");
+			$("#postcode").focus();
+			return;
+		} else if($("#delivery_detail").val() == "") {
+			alert("상세 주소가 없습니다. 상세주소를 입력하새요.");
+			$("#delivery_detail").focus();
+			return;
+		} else if($("#TermsAccept").is(":checked") == false) {
+			alert("구매 약관에 동의해주세요");
+			$("#TermsAccept").focus();
+			return;
+		}
+		
+		IMP.init("imp86984194");
+		
+		// 금액에 따라 배송비를 더하는 로직
+	/* 	let totalPrice = 0;
+		if(${totalPrice > 50000}) {
+			totalPrice = ${totalPrice}
+		} else {
+			totalPrice = ${totalPrice + 3000}
+		} */
+		
+		// 실제 결제를 진행하기 전에 금액 검증
+		let totalPrice = parseInt(payValidation("${loginSession.user_id}", ${totalPrice}));
+		
+		// 실제 결제와 주문서 생성을 검증
+		requestPay(orderNO(), $("#itemName").html() + "외 " + ${fn:length(cartList)} + "개", 100, $("#order_email").val(), $("#delivery_name").val(), $("#delivery_phone").val(), $("#delivery_addr").val(), $("#postcode").val());
+		
+	})
 
 					IMP.init("imp86984194");
 					requestPay(orderNO(), "관나무 외 6개", 100, $("#order_email")
@@ -471,40 +499,6 @@
 			});
 		}
 
-		// 주문서 정보 ajax로 전달하기
-		function requestOrder(order_no) {
-			let buyer_addr = "(" + $("#postcode").val() + ") "
-					+ $("#delivery_addr").val() + ", "
-					+ $("#delivery_detail").val()
-			let order_phone = $("#order_phone1").val()
-					+ $("#order_phone2").val() + $("#order_phone3").val();
-			let buyer_phone = $("#phone1").val() + $("#phone2").val()
-					+ $("#phone3").val();
-
-			$.ajax({
-				url : "/complete.order",
-				type : "post",
-				data : {
-					order_no : order_no.toString(),
-					order_name : $("#order_name").val(),
-					order_email : $("#order_email").val(),
-					order_phone : order_phone,
-					delivery_name : $("#delivery_name").val(),
-					delivery_phone : buyer_phone,
-					delivery_addr : buyer_addr,
-					order_msg : $("#order_msg").val(),
-					delivery_msg : $("#delivery_msg").val()
-				},
-				success : function(data) {
-					location.href = "/success.order";
-				},
-				error : function(e) {
-					console.log(e);
-				}
-			})
-
-		}
-
 		// 주문번호 생성하는 함수
 		function orderNO() {
 			let today = new Date();
@@ -512,6 +506,33 @@
 			let month = today.getMonth() + 1;
 			if (month < 10) {
 				month = "0" + month;
+
+	      });
+	}
+	
+	// 주문서 정보 ajax로 전달하기
+	function requestOrder(order_no) {
+		let buyer_addr = "(" + $("#postcode").val() + ") " + $("#delivery_addr").val() + ", " + $("#delivery_detail").val()
+		let order_phone = $("#order_phone1").val() + $("#order_phone2").val() + $("#order_phone3").val();
+		let buyer_phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
+		
+		$.ajax({
+			url:"/complete.order"
+			, type:"post"
+			, data: {
+				order_no: order_no.toString()
+				, order_name: $("#order_name").val()
+				, order_email: $("#order_email").val()
+				, order_phone: order_phone
+				, delivery_name: $("#delivery_name").val()
+				, delivery_phone: buyer_phone
+				, delivery_addr: buyer_addr
+				, order_msg: $("#order_msg").val()
+				, delivery_msg: $("#delivery_msg").val()
+			}
+			, success: function(data) {
+				location.href = "/success.order?order_no=" + order_no;
+
 			}
 			let date = today.getDate();
 			if (date < 10) {
@@ -523,54 +544,73 @@
 
 			return orderNo;
 		}
-
-		// 우편번호 API
-		$("#btnPostcode")
-				.on(
-						"click",
-						function() {
-							new daum.Postcode(
-									{
-										theme : {
-											searchBgColor : "#7CC09C", //검색창 배경색
-											queryTextColor : "#FFFFFF" //검색창 글자색
-										},
-										oncomplete : function(data) {
-
-											// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-											// 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-											// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-											var roadAddr = data.roadAddress; // 도로명 주소 변수
-											var extraRoadAddr = ''; // 참고 항목 변수
-
-											// 법정동명이 있을 경우 추가한다. (법정리는 제외)
-											// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-											if (data.bname !== ''
-													&& /[동|로|가]$/g
-															.test(data.bname)) {
-												extraRoadAddr += data.bname;
-											}
-											// 건물명이 있고, 공동주택일 경우 추가한다.
-											if (data.buildingName !== ''
-													&& data.apartment === 'Y') {
-												extraRoadAddr += (extraRoadAddr !== '' ? ', '
-														+ data.buildingName
-														: data.buildingName);
-											}
-											// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-											if (extraRoadAddr !== '') {
-												extraRoadAddr = ' ('
-														+ extraRoadAddr + ')';
-											}
-
-											// 우편번호와 주소 정보를 해당 필드에 넣는다.
-											document.getElementById('postcode').value = data.zonecode;
-											document
-													.getElementById('delivery_addr').value = roadAddr;
-										}
-									}).open();
-						});
+		
+		let orderNo = year + month + date + Math.floor(Math.random()*(9000)) + 1;
+		
+		return orderNo;
+	}
+	
+	// 최종금액과 실제 DB에 있는 금액을 비교해서 검증하는 작업
+	function payValidation(user_id, totalPrice) {
+		let resultPrice;
+		$.ajax({
+			url:"/orderValidation.order"
+			, type:"post"
+			, data: {
+				user_id : user_id
+				, totalPrice: totalPrice
+			}
+			, async: false
+			, success: function(data) {
+				if(data == "-1") {
+					alert("결제 검증과정에서 문제가 생겼습니다. 결제를 다시 시도하세요");
+					return;
+				}
+				resultPrice = data;
+			}
+			, error: function(e) {
+				console.log(e);
+			}
+		});
+		return resultPrice;
+	}
+	
+	// 우편번호 API
+	$("#btnPostcode").on("click", function () {
+		new daum.Postcode({
+	  	theme: {
+	          searchBgColor: "#7CC09C", //검색창 배경색
+	          queryTextColor: "#FFFFFF" //검색창 글자색
+	      }
+	      , oncomplete: function(data) {
+	
+	          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	
+	          // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+	          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	          var roadAddr = data.roadAddress; // 도로명 주소 변수
+	          var extraRoadAddr = ''; // 참고 항목 변수
+	
+	          // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+	          // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+	          if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	              extraRoadAddr += data.bname;
+	          }
+	          // 건물명이 있고, 공동주택일 경우 추가한다.
+	          if(data.buildingName !== '' && data.apartment === 'Y'){
+	             extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	          }
+	          // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+	          if(extraRoadAddr !== ''){
+	              extraRoadAddr = ' (' + extraRoadAddr + ')';
+	          }
+	
+	          // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	          document.getElementById('postcode').value = data.zonecode;
+	          document.getElementById('delivery_addr').value = roadAddr;
+	      }
+	  }).open();
+	});
 	</script>
 </body>
 </html>

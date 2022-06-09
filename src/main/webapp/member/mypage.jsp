@@ -306,33 +306,9 @@ font-size: x-large;
     })
     /* 주문내역, 배송 조회*/
      $("#shopping").on("click", function(){
-        $("#content").empty();
-        let h3 = $("<h5>").html("주문내역 & 배송 조회");
-        let row = $("<div>").addClass('row');
-        let col = $("<div>").addClass("col-12").css("text-align", "center");;
-        let p =  $("<p>").html("${loginSession.nickname}님이 쇼핑몰에서 주문한 내역입니다.");
-        let tableRow = $("<div>").addClass('row');
-        let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
-        let table = $("<table>");
-        let tr1 = $("<tr>");
-        let thNum = $("<th>").html("번호");
-        let thDate = $("<th>").html("주문일자");
-        let thProduct = $("<th>").html("상품명");
-        let thPrice = $("<th>").html("결제금액");
-        let thDelivery = $("<th>").html("배송현황");
-        let tr2 = $("<tr>");
-        // 조건문 돌려서 주문내역 있으면 td 생성
-            col.append(p);
-            row.append(col);
-            tr1.append(thNum, thDate, thProduct, thPrice, thDelivery);
-            table.append(tr1);
-            tableCol.append(table);
-            tableRow.append(tableCol);
-            $("#content").append(h3); 
-            $("#content").append(row);
-            $("#content").append(tableRow);
+    	 selectByOrder();
+	})
 
-     });
      /* Q & A*/
      $("#qa").on("click", function(){
     	 selectByQnA();
@@ -353,7 +329,7 @@ font-size: x-large;
         let col = $("<div>").addClass("col-12 col-md-12").css("text-align", "center");
         let img = $("<img>").addClass('d-none d-md-block').attr("src", "/resources/images/password.png").css({"width": "200px", "margin": "0px auto"});
         let p =  $("<p>").html("<br>본인확인을 위해 비밀번호를 입력해주세요.");
-        let p2 =  $("<p>").addClass("kakao").html("카카오 로그인은 여기를 눌러주세요.").css({"cursor": "pointer", "color": "#ffd600", "font-size" : "15px"});
+        let p2 =  $("<p>").addClass("kakao").html("카카오 회원은 [여기]를 눌러주세요.").css({"cursor": "pointer", "color": "#9e6b6f", "font-size" : "15px"});
         let div = $("<div>").addClass("d-flex justify-content-center");
         let input = $("<input>").addClass('form-control pw').attr({'type':'password', 'name' : 'pw', "placeholder" : "비밀번호를 입력해주세요"}).css({"margin-left": "10px", "width" : "50%"});
         let btn = $("<button>").addClass('btn btn-secondary pwBtn').html('비밀번호 확인').css("margin", "10px").attr("type", "button");
@@ -375,7 +351,7 @@ font-size: x-large;
             		modifyUser();
    	
             }else{
-            	alert("카카오 회원이 아닙니다.");
+            	alert("일반회원은 이용 불가합니다.");
             }	
             
             });
@@ -409,7 +385,7 @@ font-size: x-large;
          if(str == 1){
             location.href= "/toMypage.user";
          }else if(str == 2){
-            alert("shop"); // 예시...
+        	 selectByOrder();
          }else if(str == 3){
         	 selectByQnA();
          }else if(str == 4){
@@ -421,7 +397,7 @@ font-size: x-large;
              let col = $("<div>").addClass("col-12").css("text-align", "center");
              let img = $("<img>").addClass('d-none d-md-block').attr("src", "/resources/images/password.png").css({"width": "200px", "margin": "0px auto"});
              let p =  $("<p>").html("<br>본인확인을 위해 비밀번호를 입력해주세요.");
-             let p2 =  $("<p>").addClass("kakao").html("카카오 로그인은 여기를 눌러주세요.").css({"cursor": "pointer", "color": "#ffd600", "font-size" : "15px"});
+             let p2 =  $("<p>").addClass("kakao").html("카카오 회원은 [여기]를 눌러주세요.").css({"cursor": "pointer", "color": "#9e6b6f", "font-size" : "15px"});
              let input = $("<input>").addClass('form-control pw').attr({'type':'password', 'name' : 'pw', "placeholder" : "비밀번호를 입력해주세요"}).css("margin-left", "10px");
              let btn = $("<button>").addClass('btn btn-secondary pwBtn').html('비밀번호 확인').css("margin", "10px").attr("type", "button");
                  col.append(img);
@@ -469,6 +445,72 @@ font-size: x-large;
         	  deleteUser();  
           }
      }
+     /* 주문 조회 */
+     function selectByOrder(){
+    	 $("#content").empty();
+         let h3 = $("<h5>").html("주문내역 & 배송 조회");
+         let row = $("<div>").addClass('row');
+         let col = $("<div>").addClass("col-12").css("margin", "10px");
+         let p =  $("<p>").html("${loginSession.nickname}님이 쇼핑몰에서 주문한 내역입니다.");
+         let p2 = $("<p>").html("* 주문번호를 클릭하시면, 주문하신 내용을 확인 할 수 있습니다.").css({"font-size": "small", "text-align" : "left"})
+         let tableRow = $("<div>").addClass('row');
+         let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
+         let table = $("<table>").css({"width" : "100%", "border-top" : "1px solid grey", "border-collapse" : "collapse"});;
+         let tr1 = $("<tr>").css("background-color", "#E1F2E3");
+         let thNum = $("<th>").html("번호").css({"padding" : "10px", "border-bottom" : "1px solid grey"});
+         let thName = $("<th>").html("주문자 ID").css({"padding" : "10px", "border-bottom" : "1px solid grey"});
+         let thPrice = $("<th>").html("결제금액").css({"padding" : "10px", "border-bottom" : "1px solid grey"});
+         let thDate = $("<th>").html("주문일자").css({"padding" : "10px", "border-bottom" : "1px solid grey"});
+         let thDelivery = $("<th>").html("주문현황").css({"padding" : "10px", "border-bottom" : "1px solid grey"});
+         // 조건문 돌려서 주문내역 있으면 td 생성
+             col.append(p);
+             col.append(p2);
+             row.append(col);
+             tr1.append(thNum, thName, thPrice, thDate, thDelivery);
+             table.append(tr1);
+             tableCol.append(table);
+             tableRow.append(tableCol);
+             $("#content").append(h3); 
+             $("#content").append(row);
+             $("#content").append(tableRow);
+             let user_id = "${loginSession.user_id}";
+ 	          console.log(user_id);
+ 	        
+ 		$.ajax({
+ 		 url: "/selectUserOrder.order?user_id=" + user_id
+ 		 , type: "get"
+ 		 , dataType: "json"
+ 		 , success: function(data){
+ 			 
+ 			 if(data.length == 0){
+ 				 let tr = $("<tr>");
+ 				 let td = $("<td>").attr("colspan", "5").html("주문하신 상품이 없습니다.").css({"padding" : "10px", "border-bottom" : "1px solid grey"});
+ 				 tr.append(td);
+ 				 table.append(tr); 
+ 			 }else{
+ 				 for(let dto of data){
+ 					 let tr = $("<tr>");
+ 					 let td1 = $("<td>").css({"padding" : "10px", "border-bottom" : "1px solid grey"});
+ 					 let anchor =  $("<a>").attr("href", "/success.order?order_no="+dto.order_no).html(dto.order_no).css({"text-decoration" : "none", "color": "black"});
+ 					 let td2 = $("<td>").html(dto.user_id).css({"padding" : "10px", "border-bottom" : "1px solid grey", "text-align" : "center"});
+ 					 let td3 = $("<td>").html(dto.order_amount).css({"padding" : "10px", "border-bottom" : "1px solid grey", "text-align" : "center"});
+ 					 let td4 = $("<td>").html(dto.order_date).css({"padding" : "10px", "border-bottom" : "1px solid grey", "text-align" : "center"});
+ 					 let td5 = $("<td>").html(dto.order_state).css({"padding" : "10px", "border-bottom" : "1px solid grey", "text-align" : "center"});
+ 					 
+ 					 td1.append(anchor);
+ 					
+ 					 
+ 					 tr.append(td1, td2, td3, td4, td5);
+ 					 table.append(tr);
+ 				 }
+ 			 }
+ 			 
+ 		 }
+ 		 ,error: function(e){
+ 			 console.log(e);
+ 		 }
+     })
+     }
      /* 리뷰 조회 */
      function selectByReview(){
     	 $.ajax({
@@ -506,6 +548,7 @@ font-size: x-large;
 				            listTitle.append(nameDivT, titleDivT, scoreDivT, write_dateDivT);
 				            $("#content").append(listTitle);  
 					
+				    
 						for(let dto of data){
 							
 							let list = $("<div>").addClass("row list-row");
@@ -622,7 +665,7 @@ font-size: x-large;
          let img = $("<img>").addClass('d-none d-md-block').attr("src", "/resources/images/sad.png").css({"width": "150px", "margin": "0px auto"});
          let h4 =  $("<h4>").html("정말 탈퇴하시겠어요?").css('margin', '10px');
          let p =  $("<p>").html("본인 확인을 위해 회원정보를 입력해주세요.").css('margin', '10px');
-         let p2 =  $("<p>").addClass("kakao").html("카카오 로그인은 여기를 눌러주세요.").css({"cursor": "pointer", "color": "#ffd600", "font-size" : "15px"});
+         let p2 =  $("<p>").addClass("kakao").html("카카오 로그인은 [여기]를 눌러주세요.").css({"cursor": "pointer", "color": "#9e6b6f", "font-size" : "15px"});
          let div = $("<div>").addClass("d-flex justify-content-center");
          let idInput = $("<input>").addClass('form-control id').attr({'type':'text', 
                          'name' : 'id', "placeholder" : "ID를 입력해주세요"}).css({"margin-left": "10px", "margin-top": "10px", "width" : "50%"});
@@ -985,14 +1028,6 @@ font-size: x-large;
      }
  }).open();
 });
-     }
-   //상단바 sm크기에서 생기는 navbar
-     function openNav() {
-       document.getElementById("mySidenav").style.width = "100%";
-     }
-
-     function closeNav() {
-       document.getElementById("mySidenav").style.width = "0";
      }
     </script>
 </body>

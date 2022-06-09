@@ -1,8 +1,10 @@
 package com.aram.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.naming.Context;
@@ -63,6 +65,30 @@ public class OrderDAO {
 		}
 	}
 	
+	// 주문대기 테이블에서 주문번호 기준으로 상품리스트 가져오기
+	public ArrayList<OrderItemDTO> selectOrderedItems(String order_no) throws Exception {
+		String sql = "select * from tbl_order_item where order_no=?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			pstmt.setString(1, order_no);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			ArrayList<OrderItemDTO> orderList = new ArrayList<OrderItemDTO>();
+			
+			while (rs.next()) {
+				int item_no = rs.getInt("item_no");
+				String item_name = rs.getString("item_name");
+				int price = rs.getInt("price");
+				int quantity = rs.getInt("quantity");
+				
+				orderList.add(new OrderItemDTO(order_no, item_no, item_name, price, quantity));
+			}
+			return orderList;
+		}
+	}
+	
+	
 	// 전체목록 
 	public ArrayList<OrderDTO> selectAllOrder() throws Exception {
 		String sql = "select * from tbl_order";
@@ -95,7 +121,44 @@ public class OrderDAO {
 			return list;
 		}
 	}
-	
+	// 유저아이디에 따라 목록 뿌려주기
+	public ArrayList<OrderDTO> selectUserOrder(String id) throws Exception {
+		String sql = "select * from tbl_order where user_id = ?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);){
+			
+			pstmt.setString(1, id);
+			ResultSet rs= pstmt.executeQuery();
+			
+			ArrayList<OrderDTO> list = new ArrayList<>();
+			while(rs.next()) {
+				 String order_no = rs.getString(1);
+				 String user_id	= rs.getString(2);
+				 String order_name = rs.getString(3);
+				 String order_email = rs.getString(4);
+				 String order_phone = rs.getString(5);
+				 String order_date = getStringDate(rs.getDate(6));
+				 int order_amount = rs.getInt(7);
+				 String order_state = rs.getString(8);
+				 String delivery_name = rs.getString(9);
+				 String delivery_phone = rs.getString(10);
+				 String delivery_addr = rs.getString(11);
+				 String order_msg = rs.getString(12);
+				 String delivery_msg = rs.getString(13);
+				
+				 list.add(new OrderDTO(order_no, user_id, order_name, order_email, order_phone,
+						 				order_date, order_amount, order_state, delivery_name, 
+						 				delivery_phone ,delivery_addr, order_msg, delivery_msg));
+				 
+			}
+			return list;
+		}
+	}
+	//날짜 String으로 변환
+		public String getStringDate(Date date) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			return sdf.format(date);
+		}
 	
 	// 개별목록
 	public OrderDTO selectOrder(String order_no) throws Exception{

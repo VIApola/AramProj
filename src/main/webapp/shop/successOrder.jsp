@@ -105,16 +105,16 @@
 						<div class="col-1 d-flex justify-content-center">수량</div>
 						<div class="col-2 d-flex justify-content-center">가격</div>
 					</div>
-					<c:forEach items="${cartList}" var="cartItem">
+					<c:forEach items="${itemList}" var="item">
 						<div class="row tbl_list">
 							<div class="col-3 d-flex justify-content-center">
-								<img src="/resources/images/items/${cartItem.item_name}.png">
+								<img style="width: 50%;" src="/resources/images/items/${item.item_name}.png">
 							</div>
 							<div class="col-6">
-								<a href="">${cartItem.item_name}</a>
+								<a href="">${item.item_name}</a>
 							</div>
-							<div class="col-1 d-flex justify-content-center">${cartItem.quantity}</div>
-							<div class="col-2 d-flex justify-content-center">${cartItem.price}</div>
+							<div class="col-1 d-flex justify-content-center">${item.quantity}</div>
+							<div class="col-2 d-flex justify-content-center">${item.price}</div>
 						</div>
 					</c:forEach>
 				</div>
@@ -131,7 +131,7 @@
 								class="col-lg-2 col-3 d-flex justify-content-center align-items-center">받는사람</div>
 							<div class="col-lg-3 col-9">
 								<!-- 받는 사람 -->
-								<p></p>
+								<p>${order.delivery_name}</p>
 							</div>
 						</div>
 						<!-- 연락처 -->
@@ -140,7 +140,7 @@
 								class="col-lg-2 col-3 d-flex justify-content-center align-items-center">연락처</div>
 							<div class="col-lg-3 col-9 d-flex">
 								<!-- 연락처 칸 -->
-								<p></p>
+								<p>${order.delivery_phone}</p>
 							</div>
 						</div>
 						<!-- 주소 -->
@@ -152,7 +152,7 @@
 								<!-- 우편번호 -->
 								<div class="col-lg-3 col-3">
 									<!-- 우편번호 -->
-									<p></p>
+									<p>${order.delivery_addr}</p>
 								</div>
 							</div>
 							<div class="row mt-2 mb-2">
@@ -169,7 +169,7 @@
 								class="col-lg-2 col-3 d-flex justify-content-center align-items-center">주문메세지</div>
 							<!-- 주문 메세지 입력하기 -->
 							<div class="col-lg-8 col-9">
-								<p></p>
+								<p>${order.order_msg}</p>
 							</div>
 						</div>
 						<!-- 배송 메세지 -->
@@ -178,7 +178,7 @@
 								class="col-lg-2 col-3 d-flex justify-content-center align-items-center">배송메세지</div>
 							<!-- 배송 메세지 입력하기 -->
 							<div class="col-lg-8 col-9">
-								<p></p>
+								<p>${order.delivery_msg}</p>
 							</div>
 						</div>
 						<!-- 결제방법 -->
@@ -187,13 +187,13 @@
 								class="col-lg-2 col-3 d-flex justify-content-center align-items-center">결제방법</div>
 							<div class="col-lg-3 col-3 d-flex align-items-center text-center">
 								<!-- 결제방법 -->
-								<p class="m-0"></p>
+								<p class="m-0">신용카드</p>
 							</div>
 							<div
 								class="col-lg-2 col-3 d-flex justify-content-center align-items-center">결제금액</div>
 							<div class="col-lg-3 col-3 d-flex align-items-center text-center">
 								<!-- 최종 금액 -->
-								<p class="m-0"></p>
+								<p class="m-0">${order.order_amount} (배송비 미포함 금액)</p>
 							</div>
 						</div>
 
@@ -207,5 +207,7 @@
 			</div>
 			<%--풋터영역 --%>
 			<jsp:include page="/frame/footer.jsp"></jsp:include>
+		</div>
+	</div>
 </body>
 </html>

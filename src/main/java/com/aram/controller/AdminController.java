@@ -415,9 +415,83 @@ public class AdminController extends HttpServlet {
 
 		}else if(uri.equals("/deleteReviewlist.admin")) {// 리뷰 삭제
 			
+			String[] checkArr = request.getParameterValues("checkArr"); // 배열로 받아주기
+			
+			ReviewDAO dao = new ReviewDAO();
+			
+			for(int i = 0; i < checkArr.length; i++) {
+				System.out.println(checkArr[i]);
+				
+				try {
+					int rs = dao.deleteReview(Integer.parseInt(checkArr[i]));
+					if(rs >0) { // 삭제 성공
+						System.out.println("삭제 완료");
+					} else {
+						response.getWriter().append("fail");
+					}
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			try {
+				ArrayList<ReviewDTO> list = dao.selectAllReview();
+				
+				Gson gson = new Gson();
+				String result = gson.toJson(list);
+				
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().append(result);
 
-			response.sendRedirect("/admin/review.jsp");
-		}else if(uri.equals("/QnADeleteProc.admin")) { //QnA 삭제 요청
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			
+		} else if(uri.equals("/searchReviewMng.admin")) {
+			
+			String user_id = request.getParameter("user_id");
+			String content = request.getParameter("content");
+			
+			System.out.println("아이디 : " + user_id + " / 내용 : " + content);
+			
+			if (user_id != null && content == null) { // 아이디로 검색
+				ReviewDAO dao = new ReviewDAO();
+				
+				try{
+					ArrayList<ReviewDTO> list = dao.rvSrcByIdMng(user_id);
+					System.out.println(list);
+					
+					Gson gson = new Gson();
+					String rs = gson.toJson(list);
+					System.out.println(rs);
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(rs);
+					
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			} else if (user_id == null && content != null) { // 제목+내용으로 검색
+				ReviewDAO dao = new ReviewDAO();
+				
+				try{
+					ArrayList<ReviewDTO> list = dao.rvSrcByCttMng(content);
+					System.out.println(list);
+					
+					Gson gson = new Gson();
+					String rs = gson.toJson(list);
+					System.out.println(rs);
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(rs);
+					
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+			
+		} else if(uri.equals("/QnADeleteProc.admin")) { //QnA 삭제 요청
 			String[] qna_num = request.getParameterValues("qna_no");
 			
 			int[] qua_no = new int[qna_num.length];

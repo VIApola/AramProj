@@ -58,7 +58,7 @@
       
   </script>
 </head>
-<body  onLoad="javascript:openPopup('popup.jsp')"><!--  -->
+<body  onLoad="javascript:openPopup('popup.jsp')">
     <div class="container main-container">
 		<jsp:include page="/frame/header.jsp"></jsp:include>
   
@@ -97,7 +97,7 @@
           </div>
         </div>
         <div class="row main-content d-flex justify-content-center" data-aos="fade-up" data-aos-duration="1000">
-            <div class="col-12 col-md-5 m-2 d-flex align-items-center">
+            <div class="col-12 col-md-5 content-extra-box2">
                 <img src="/resources/images/content-0.png" alt="..."> 
             </div>
             <div class="col-12 col-md-5 content-text">
@@ -135,15 +135,26 @@
         <!--사이트 대표사진, 설명영역 끝-->
         <!--카테고리 영역 시작-->
         <div class="row main-category d-flex justify-content-center" data-aos="fade-up" data-aos-duration="1000">
-            <div class="col-4 text-center">
+            <div class="col-4 d-none d-md-block">
                 <a href="/category.item?category_id=p100&page=1"><img src="/resources/images/category_Air.png" alt="..." style="width:90%"></a>
             </div>
-            <div class="col-4 text-center">
+            <div class="col-4 d-none d-md-block">
                 <a href="/category.item?category_id=p200&page=1"><img src="/resources/images/category_In.png" alt="..." style="width:90%"></a>
             </div>
-            <div class="col-4 text-center">
+            <div class="col-4 d-none d-md-block">
                 <a href="/category.item?category_id=p300&page=1"><img src="/resources/images/category_Out.png" alt="..." style="width:90%"></a>
               </div>
+        </div>
+        <div class="row main-category d-flex justify-content-center" data-aos="fade-up" data-aos-duration="1000">
+          <div class="col-4 d-block d-sm-none d-flex justify-content-center">
+			<a href="/category.item?category_id=p100&page=1"><span>[ 공기정화 ]</span></a>
+		</div>
+		<div class="col-4 d-block d-sm-none d-flex justify-content-center">
+			<a href="/category.item?category_id=p200&page=1"><span>[ 실내식물 ]</span></a>
+		</div>
+		<div class="col-4 d-block d-sm-none d-flex justify-content-center">
+			<a href="/category.item?category_id=p300&page=1"><span>[ 실외식물 ]</span></a>
+		</div>
         </div>
         <!--카테고리 영역 끝-->
         <!--전체 상품 설명 영역 시작-->
@@ -155,9 +166,9 @@
         </div>
         <%--전체 상품 설명 영역 끝--%>
        <%--상품 재고별 1~8위 --%>
-        <div class="row row-cols-2 row-cols-md-4 g-4">
+        <div class="row row-cols-4 row-cols-md-4 g-4" data-aos="fade-up" data-aos-duration="1000">
         <c:forEach items="${itemList}" var="itemList">
-            <div class="col-3">
+            <div class="col-6 col-lg-3 d-flex justify-content-center">
               <div class="card toSpecific border-0">
                 <a href="/detail.item?item_no=${itemList.item_no}"><img src="/resources/images/items/${itemList.itemImgDTO.sys_name}" class="card-img-top" alt="..."></a>
                 <div class="card-body">
@@ -181,12 +192,12 @@
       <script>
       	//네비바 검색창 -> 상품검색페이지
       	$("#searchBtn").on("click",function(){
-      		let searchKeyword = $("#searchKeyword").val();
+      		let keyword = $("#searchKeyword").val();
       		if($("#searchKeyword").val()==""){
       			alert("검색어를 입력해 주세요");
       			return;
       		}else{
-      			location.href ="/searchItem.item?searchKeyword="+searchKeyword;
+      			location.href ="/searchit.item?minPrice=&maxPrice=&keyword="+keyword;
       		}
       		
       	})
