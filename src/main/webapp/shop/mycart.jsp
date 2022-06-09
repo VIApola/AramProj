@@ -190,7 +190,7 @@
 	});
 
 	$("#btnShopping").on("click", function() {
-		location.href="/air.item";
+		location.href="/category.item";
 	});
 
 
@@ -292,7 +292,7 @@
 		$(".body-list").empty();
 		
 		for(let dto of list) {
-				
+
 				let list = $("<div>").addClass("row list-row");
 				
 				let col_1 =  $("<div>").addClass("col-1 d-flex align-items-center justify-content-center");
@@ -326,7 +326,7 @@
 				
 				$(".body-list").append(list);           				
 	
-		}
+			}
 	}
 
 </script>

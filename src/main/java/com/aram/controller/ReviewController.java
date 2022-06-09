@@ -71,29 +71,35 @@ public class ReviewController extends HttpServlet {
 			
 			
 		} else if(uri.equals("/modify.re")) { // 리뷰 수정 요청
+			response.setCharacterEncoding("utf-8");
+			request.setCharacterEncoding("utf-8");
+			
 			String title = request.getParameter("title");
-			int score = Integer.parseInt(request.getParameter("score"));
+			//int score = Integer.parseInt(request.getParameter("score"));
 			String content = request.getParameter("content");
 			int item_no = Integer.parseInt(request.getParameter("item_no"));
 			
 			System.out.println(title);
-			System.out.println(score);
+			//System.out.println(score);
 			System.out.println(content);
 			
 			ReviewDAO dao = new ReviewDAO();
 			
 			try {
-				int rs = dao.modifyReview(new ReviewDTO(0, null, title, content, null, score, null, 0, 0));
+				int rs = dao.modifyReview(new ReviewDTO(0, null, title, content, null, 5, null, 0, 0));				
 				if (rs > 0) {
 					
-					ArrayList<ReviewDTO> reviewList = dao.selectAllReviewByItem(item_no);
+					System.out.println("리뷰 수정 완료");
 					
-					Gson gson = new Gson();
-					String reviewData = gson.toJson(reviewList);
-					System.out.println(reviewData);
-					response.setCharacterEncoding("utf-8");
-					response.getWriter().append(reviewData);
+					//ArrayList<ReviewDTO> reviewList = dao.selectAllReviewByItem(item_no);
+					
+					//Gson gson = new Gson();
+					//String reviewData = gson.toJson(reviewList);
+					//System.out.println(reviewData);
+					//response.setCharacterEncoding("utf-8");
+					//response.getWriter().append(reviewData);
 				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

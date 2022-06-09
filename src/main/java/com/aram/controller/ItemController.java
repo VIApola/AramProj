@@ -91,10 +91,11 @@ public class ItemController extends HttpServlet {
 				// 상품에 달린 리뷰 가져오기
 				ArrayList<ReviewDTO> reviewList = reviewDao.selectAllReviewByItem(item_no);
 				System.out.println(reviewList);
-				
+	
 				request.setAttribute("item", itemDto);
 				request.setAttribute("itemImg", imgDto);
 				request.setAttribute("reviewList", reviewList);
+				
 				
 				request.getRequestDispatcher("/shop/detail.jsp").forward(request, response);
 			} catch (Exception e) {

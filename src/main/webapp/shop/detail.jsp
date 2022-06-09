@@ -102,7 +102,8 @@
 						<input name="item_no" value="${item.item_no}">
 					</div>
 					<div class="col-2">
-						<button type="button" id="btnWriteReview">WRITE</button>
+						<button type="button" id="btnWriteReview">글쓰기</button>
+						<button type="button" id="btnModifyReview" style="display:none">수정완료</button>
 					</div>
 				</div>
 				<div class="row">
@@ -112,7 +113,7 @@
 		</div>
 		<!-------------------------------- 리뷰 게시판 -------------------------------------->
 		<div class="review-board d-flex justify-content-center">
-			<table class="m-4">
+			<table class="m-4" id="reviewTable">
 				<thead class="border-top border-bottom">
 					<tr class="text-center">
 						<th class="p-2" style="width: 200px">닉네임</th>
@@ -130,7 +131,7 @@
 						<c:forEach items="${reviewList}" var="review">
 							<tr class="p-2">
 								<td class="nickname">${review.nickname}</td>
-								<td class="title"><span style="padding-right: 2em">${review.title}</span>
+								<td class="title"><span class="titleSpan" style="padding-right: 2em">${review.title}</span>
 									<c:if test="${loginSession.user_id eq review.user_id}">
 										<button type="button" id="btnReviewModify"
 											value="${review.review_no}">수정</button>
@@ -140,6 +141,9 @@
 									</c:if></td>
 								<td class="score">${review.score}</td>
 							</tr>
+						 <tr class="p-2" class="contentTr" id="contentTr" style="display:none"><td class="contentTd" id="contentTd">
+						 <span id="contentSpan" class="contentSpan">${review.content}</span>
+						 </td></tr>
 						</c:forEach>
 					</c:if>
 				</tbody>
@@ -211,8 +215,50 @@
 		}
     })
     
+     //제목 클릭 시 내용 보이기
+    	 $(".titleSpan").each(function(){
+    	$(this).on("click", function(){
+    		console.log($(this).html());		
+    	
+    		 $(this).parent().parent().next().toggle();		
+    	})
+    })
+    
+    // 리뷰 수정
+     $(".review-board").on("click", "#btnReviewModify", function(){
+    	console.log($(this).val());
+    	
+    	$("#btnWriteReview").css({"display":"none"});
+    	$("#btnModifyReview").css({"display":""});
+    	
+    	console.log(	$(this).prev().html() );
+    	$("#title").val( $(this).prev().html() ); // 제목
+    	
+    	console.log( $(this).parent().parent().next().children().children().html()  ); // 내용
+    	$("#content").html( $(this).parent().parent().next().children().children().html() );
+    	
+    	console.log( $(this).parent().next().html() ); //별점
+    	$("#myform").val(  $(this).parent().next().html() );
+    	 
+    		// 수정완료 버튼 클릭이벤트
+    		$("#btnModifyReview").on("click", function(){
+    			$(this).prev().html( $("#content").html() ); // 제목 최신화
+    			$(this).parent().parent().next().children().children().html( $("#title").val() ); // 내용 최신화
+    			  
+    			modifyForm($("#reviewForm"));
+    		})
+    	
+    });
+    
+    function modifyForm(form){
+    	form.action="/modify.re";
+    	form.submit();
+    	return true;
+    }
     
     
+    
+    // 리뷰 삭제
     $(".review-board").on("click", "#btnReviewDelete", function(){
     	let answer = confirm("리뷰를 삭제하시겠습니까?");
     	if(answer) {
@@ -254,7 +300,7 @@
 			alert("장바구니에 추가되었습니다.");
     	}
     });
-    
+	
 	// 리뷰 목록 뿌려주는 함수
 	function printReviewList(data) {
 		console.log(data)
@@ -276,7 +322,7 @@
 				
 				let nickname = $("<td>").addClass("nickname").html(dto.nickname);
 				let title = $("<td>").addClass("title")
-				let titleSpan = $("<span>").css({"padding-right":"2em"}).html(dto.title);
+				let titleSpan = $("<span>").addClass("titleSpan").css({"padding-right":"2em"}).html(dto.title);
 				title.append(titleSpan)
 				
 				let modifyBtn;
@@ -296,7 +342,17 @@
 				tr.append(title)
 				tr.append(score)
 				
+				
+				let tr2 = $("<tr>").addClass("p-2");
+				let contentTd = $("<td>").addClass("contentTd").attr("id","contentTd").css({"display":"none"});
+				let contentSpan = $("<span>").addClass("contentSpan").html(dto.content);
+				
+				content.append(contentSpan)
+				tr2.append(contentTd)
+	
+				
 				$(".reviewList").append(tr);
+				$(".reviewList").append(tr2);
 			}
 		}
 	}
