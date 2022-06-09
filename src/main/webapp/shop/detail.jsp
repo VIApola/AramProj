@@ -39,9 +39,9 @@
 							</tr>
 							<tr>
 								<td colspan="2"><span>상품수</span></td>
-								<td><input type='button' onclick='count("plus")' value='+' />
+								<td><input type='button' onclick='count("minus")' value='-' />
 									<input type="text" id="qty" value="1" name="qty">
-									<input type='button' onclick='count("minus")' value='-' /></td>
+									<input type='button' onclick='count("plus")' value='+' /></td>
 							</tr>
 						</table>
 					</div>
@@ -53,7 +53,7 @@
 						<input type="text" name="item_no" id="item_no" class="d-none"
 							value="${item.item_no}">
 						<button class="m-2" id="btnCart" type="button">장바구니</button>
-						<button class="m-2" type="button">구매하기</button>
+						<button class="m-2" id="btnBuy" type="button">구매하기</button>
 					</div>
 				</div>
 				<div class="col-12 imgDesc d-flex justify-content-center p-5 m-3">${item.item_comment}</div>
@@ -61,9 +61,7 @@
 		</form>
 		<!---------------------------------- 상품 리뷰 영역 ------------------------------->
 		<div class="itemReviewBox">
-			<div class="review-title p-3" style="background-color: lightgray;">
-				<h1>Review</h1>
-			</div>
+			<img src="/resources/images/Board_Review.png" class="d-block w-100">
 		</div>
 		<div class="review-inputBox border-bottom">
 			<form id="reviewForm" action="/write.re" method="post">
@@ -75,7 +73,6 @@
 					<div class="col-lg-1 col-2 d-flex justify-content-center align-items-center">평점</div>
 					<div class="col-lg-3 col-6 d-flex align-items-center" name="myform" id="myform">
 						<fieldset>
-																						
 								<input type="radio" name="score" value="1" id="rate1"> <label for="rate1">⭐</label>
 								<input type="radio" name="score" value="2" id="rate2"> <label for="rate2">⭐</label>
 								<input type="radio" name="score" value="3" id="rate3"> <label for="rate3">⭐</label>
@@ -175,7 +172,7 @@
 	  $("#qty").val(number);
 	  $("#totalPrice").html(${item.price} * number);
   }
-//리뷰 데이터 유효값 검사
+	// 리뷰 데이터 유효값 검사
     $("#btnWriteReview").on("click", function() {
     	if("${loginSession}" == "") {
     		alert("로그인 된 유저만 리뷰를 등록할 수 있습니다.");
@@ -216,7 +213,6 @@
 			$("#title").val("")
 			$("#content").val("")
 		}
-    	
     })
     
      //제목 클릭 시 내용 보이기
@@ -281,12 +277,20 @@
 			})
     	}
     });
+	
+	// 바로 구매할 때
+	$("#btnBuy").on("click", function() {
+		let con = confirm("이 상품을 구매하시겠습니까?");
+		if(con){
+			$("#cartForm").attr("action", "/toOrderPage.order");
+			$("#cartForm").submit();
+		}
+	})
     
+	// 장바구니에 담을 때
     $("#btnCart").on("click", function() {
     	let con = confirm("장바구니에 담으시겠습니까?");
     	if(con){
-    		console.log($("#item_no").val());
-    		console.log($("#qty").val());
     		if(${empty loginSession}) {
     			alert("장바구니를 사용하기 위해 로그인이 필요합니다.");
     			location.href = "/login.user";

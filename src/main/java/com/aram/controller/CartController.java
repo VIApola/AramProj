@@ -2,7 +2,6 @@ package com.aram.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -81,12 +80,15 @@ public class CartController extends HttpServlet {
 			
 			ArrayList<ItemDTO> list = new ArrayList<>(); // 장바구니에 담긴 아이템들 리스트
 			
-			ItemDAO dao = new ItemDAO(); 
+			ItemDAO dao = new ItemDAO();
+			CartDAO cartDao = new CartDAO();
 			try {
+				// 일단 장바구니를 비움
+				cartDao.emptyCart(user_id);
+				
 				ItemDTO item = dao.selectItemByNo(item_no);
 				System.out.println("선택된 아이템 정보 : " + item);
 				list.add(item);
-				CartDAO cartDao = new CartDAO();
 				
 				System.out.println("장바구니에 있는지 유무(없으면 true) : " + cartDao.existItem(item_no));
 				

@@ -63,7 +63,7 @@
 		<!--상단바 로고 영역-->
 		<div class="header-logo col-9 d-flex justify-content-center">
 			<a href="/main"><img src="/resources/images/Logo_md.png"class="d-none d-sm-block" alt="..."></a>
-			<a href="/main"><img src="/resources/images/Logo_sm.png" class="d-block d-sm-none" alt="..."></a>
+			<a href="/main"><img src="/resources/images/Logo_sm.png" class="d-block d-sm-none" alt="..." style="margin-left:40px;"></a>
 		</div>
 		<!-- 상단바 cart 영역-->
 		<div class="col-2 d-md-none header-left">
@@ -117,5 +117,30 @@
 			</ul>
 		</div>
 	</div>
+	<script>
+	//상단바 sm크기에서 생기는 navbar
+	function openNav() {
+	  document.getElementById("mySidenav").style.width = "100%";
+	}
+
+	function closeNav() {
+	  document.getElementById("mySidenav").style.width = "0";
+	}
+	
+	
+	//네비바 검색창 -> 상품검색페이지
+  	$("#searchBtn").on("click",function(){
+  		let keyword = $("#searchKeyword").val();
+  		if($("#searchKeyword").val()==""){
+  			alert("검색어를 입력해 주세요");
+  			return;
+  		}else{
+  			location.href ="/searchit.item?minPrice=&maxPrice=&keyword="+keyword;
+  		}
+  		
+  	})
+	
+	
+	</script>
 </body>
 </html>

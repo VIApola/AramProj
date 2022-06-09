@@ -158,6 +158,16 @@ public class CartDAO {
 		}
 	}
 	
+	// 바로 구매를 하거나 주문완료를 했을 때 회원이 장바구니를 비우는 함수
+	public int emptyCart(String user_id) throws Exception {
+		String sql = "delete from tbl_cart where user_id=?";
+		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
+			pst.setString(1, user_id);
+			
+			return pst.executeUpdate();
+		}
+	}
+	
 	
 	// 장바구니 수량 추가
 	public int updateQuantity(int quantity, String user_id, int item_no) throws Exception {

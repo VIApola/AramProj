@@ -16,44 +16,56 @@
 
 <body>
 <div class="container">
-	<jsp:include page="/frame/header.jsp"></jsp:include>
-	<div class="row" id="category">
-		<div class="col-4">
-			<a href="/category.item?category_id=p100&page=1"><img src="/resources/images/category_Air.png"></a>
+	<div class="row header">
+			<!-- 헤더부분 -->
+			<jsp:include page="/frame/header.jsp"></jsp:include>
 		</div>
-		<div class="col-4">
-			<a href="/category.item?category_id=p200&page=1"><img src="/resources/images/category_In.png"></a>
+	<div class="row" id="categoryMD">
+		<div class="col-4 d-none d-md-block ">
+			<a href="/category.item?category_id=p100&page=1"><img src="/resources/images/category_Air.png" style="width:100%"></a>
 		</div>
-		<div class="col-4">
-			<a href="/category.item?category_id=p300&page=1"><img src="/resources/images/category_Out.png"></a>
+		<div class="col-4 d-none d-md-block">
+			<a href="/category.item?category_id=p200&page=1"><img src="/resources/images/category_In.png" style="width:100%"></a>
+		</div>
+		<div class="col-4 d-none d-md-block">
+			<a href="/category.item?category_id=p300&page=1"><img src="/resources/images/category_Out.png" style="width:100%"></a>
+		</div>
+	</div>
+	<div class="row" id="categorySM">
+		<div class="col-4 d-block d-sm-none d-flex justify-content-center">
+			<a href="/category.item?category_id=p100&page=1"><span>[ 공기정화 ]</span></a>
+		</div>
+		<div class="col-4 d-block d-sm-none d-flex justify-content-center">
+			<a href="/category.item?category_id=p200&page=1"><span>[ 실내식물 ]</span></a>
+		</div>
+		<div class="col-4 d-block d-sm-none d-flex justify-content-center">
+			<a href="/category.item?category_id=p300&page=1"><span>[ 실외식물 ]</span></a>
 		</div>
 	</div>
 	<div class="row" id="links">
-		<div class="col-9 countBox">
+		<div class="col-6 countBox">
 			<span id="count">총 ${count}개의 상품이 검색되었습니다.</span>
 		</div>
-		<div class="col-1 search">
-			<a id="lowPrice">낮은 가격</a>
-		</div>
-		<div class="col-1 search">
-			<a id="highPrice">높은 가격</a>
-		</div>
-		<div class="col-1 search">
-			<a id="itemName">제품명</a>
-		</div>
+		<div class="col-6 search justify-content-end">
+                <a id="lowPrice">낮은 가격</a>
+          		<span>|</span>
+                <a id="highPrice">높은 가격</a>
+           		<span>|</span>
+                <a id="itemName">제품명</a>
+            </div>
 	</div>
 	<div class="contentBox">
 	<div class="row content-body">
 		<c:forEach items="${itemList}" var="dto">
-			<div class="col-2 item border-0">
-				<div class="card" style="width: 10rem; height: 20rem;">
+			<div class="col-6 col-lg-3 d-flex justify-content-center">
+				<div class="card">
 					<a href="/detail.item?item_no=${dto.item_no}"> <img
 						src="/resources/images/items/${dto.itemImgDTO.sys_name}"
 						class="card-img-top">
 					</a>
 					<div class="card-body">
-						<p class="card-text">${dto.item_name}</p>
-						<p class="price">Price :${dto.price}</p>
+						<h5 class="card-text">${dto.item_name}</h5>
+						<p class="price">${dto.price}</p>
 					</div>
 				</div>
 			</div>
@@ -159,7 +171,7 @@
 			  
 			  for(let dto of list){
 					 let col = $("<div>").addClass('col-6 col-lg-3 d-flex justify-content-center');
-					 let card = $("<div>").addClass('card').css({"width":"16rem"}); 
+					 let card = $("<div>").addClass('card'); 
 					 let a = $("<a>").attr("href","/detail.item?item_no="+dto.item_no);
 					 let img = $("<img>").attr("src","/resources/images/items/"+dto.itemImgDTO.sys_name).addClass('card-img-top');
 					 

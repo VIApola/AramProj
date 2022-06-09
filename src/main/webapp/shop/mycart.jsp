@@ -30,15 +30,20 @@
 </head>
 <body>
 <div class="container">
+<%-- 헤더 --%>
 <jsp:include page="/frame/header.jsp"></jsp:include>
-	<div class="row" style="margin-bottom: 20px;">
-		<div class="col-10">
-			<h3>SHOPPING CART</h3>
+
+<%-- title --%>
+	<div class="row d-flex justify-content-between align-items-center mb-2">
+		<div class="col-7 col-lg-8">
+			<h3 id="title_h3">SHOPPING CART</h3>
 		</div>
-		<div class="col-2">
-			<button type="button" class="btn btn-secondary" id="btnDelete">삭제</button>
+		<div class="col-5 col-lg-4">
+			<button type="button" class="btn btn-outline-secondary " id="btnDelete">삭제</button>
 		</div>
 	</div>
+	
+<%-- title_talbe --%>
 	<div class="row title-row">
 		<div class="col-8 d-flex align-items-center justify-content-center">
 			<span>product</span>
@@ -50,6 +55,8 @@
 			<span>Price</span>
 		</div>
 	</div>
+	
+<%-- body-list --%>
 	<div class="body-list">
 		<c:forEach items="${list}" var="dto">
 			<c:if test="${loginSession.user_id eq dto.user_id}">
@@ -58,10 +65,10 @@
 					<input class="form-check-input checkBox" type="checkbox"
 							id="${dto.price}" name="checkBox" value="${dto.item_no}">
 				</div>
-				<div class="col-2">
-					<img src="/resources/images/items/${dto.item_name}.png" style="width: 100px">
+				<div class="col-3 col-lg-3 d-flex align-items-center justify-content-center">
+					<img src="/resources/images/items/${dto.item_name}.png" id="itemImg" style="width: 50%;">
 				</div>
-				<div class="col-5 itemName d-flex align-items-center">
+				<div class="col-4 col-lg-4 itemName d-flex align-items-center">
 					<span>${dto.item_name}</span>
 				</div>
 				<div class="col-2 quantityBox d-flex align-items-center justify-content-center">
@@ -78,15 +85,19 @@
 			</c:if>
 		</c:forEach>
 	</div>
-	<div class="row price-row">
-		<div class="col">총 가격<h1 id="totalPrice">0</h1></div>
+	
+<%-- 총가격 --%>
+	<div class="row price-row ">
+		<div class="col amountPart">총 가격 : <span id="totalPrice">0</span></div>
 	</div>
+	
+<%-- 제출버튼 --%>
 	<div class="row button-row">
 		<div class="col btnRow">
-			<button type="button" class="btn btn-secondary btn-lg"
+			<button type="button" class="btn btn-outline-secondary btn-lg"
 				id="btnShopping">쇼핑 계속하기</button>
-			<button type="button" class="btn btn-secondary btn-lg" id="btnOrder">
-				&nbsp&nbsp&nbsp주문하기&nbsp&nbsp&nbsp</button>
+			<button type="button" class="btn btn-outline-secondary btn-lg" id="btnOrder">
+				주문하기</button>
 		</div>
 	</div>
 	<jsp:include page="/frame/footer.jsp"></jsp:include>
@@ -210,58 +221,58 @@
         			
         			printCartList(data);
       			  			
-        	// 물품 삭제 후 남은 물품들에 대한 수량부분, 총금액 계산
-			let total = 0;
-   		    for(let i = 0; i < list.length; i++){
-    		
-    		let price = parseInt($(".price").eq(i).val());
-    		let quantity = parseInt($(".qty").eq(i).val());
-    		let individualPrice = parseInt(price * quantity);  
-   
-    		total = total + (price * quantity);
-    		
-    		$("#totalPrice").html(total);
-    		
-    		// 삭제 후 수량 +
-    		$(".btnPlus").eq(i).on("click",function(){
-    			
-    			if(quantity > 4) {
-    	  			alert("5개 이상 담을 수 없습니다.");
-    	  			return;
-    			}
-
-				total = parseInt($("#totalPrice").html());
-				quantity = quantity + 1;
-				console.log(quantity);
-				$(".qty").eq(i).val(quantity);
-				
-				total = total + parseInt(price);
-				$("#totalPrice").html(total);
-				console.log(total);	
-				console.log("total after : " + total);
-				
-			});					
+	        	// 물품 삭제 후 남은 물품들에 대한 수량부분, 총금액 계산
+				let total = 0;
+	   		    for(let i = 0; i < list.length; i++){
+	    		
+		    		let price = parseInt($(".price").eq(i).val());
+		    		let quantity = parseInt($(".qty").eq(i).val());
+		    		let individualPrice = parseInt(price * quantity);  
+		   
+		    		total = total + (price * quantity);
+		    		
+		    		$("#totalPrice").html(total);
+		    		
+		    		// 삭제 후 수량 +
+		    		$(".btnPlus").eq(i).on("click",function(){
+		    			
+		    			if(quantity > 4) {
+		    	  			alert("5개 이상 담을 수 없습니다.");
+		    	  			return;
+		    			}
 		
-			// 삭제 후 수량 -
-			$(".btnMinus").eq(i).on("click",function(){
+						total = parseInt($("#totalPrice").html());
+						quantity = quantity + 1;
+						console.log(quantity);
+						$(".qty").eq(i).val(quantity);
 						
-			if(quantity <= 1){
-				quantity = 1;
-				return false;
-			}
-	     		total = parseInt($("#totalPrice").html());			
-				quantity = quantity - 1;
-				console.log(quantity);
-				$(".qty").eq(i).val(quantity);
+						total = total + parseInt(price);
+						$("#totalPrice").html(total);
+						console.log(total);	
+						console.log("total after : " + total);
+						
+					});					
 			
-				total = total - parseInt(price);
-				$("#totalPrice").html(total);
-
-			});	
+					// 삭제 후 수량 -
+					$(".btnMinus").eq(i).on("click",function(){
+								
+					if(quantity <= 1){
+						quantity = 1;
+						return false;
+					}
+			     		total = parseInt($("#totalPrice").html());			
+						quantity = quantity - 1;
+						console.log(quantity);
+						$(".qty").eq(i).val(quantity);
+					
+						total = total - parseInt(price);
+						$("#totalPrice").html(total);
+		
+					});	
 			
-    	}	    
+    			}	    
     	
-    	alert("총 "+ checkVals.length + "개의 물품이 삭제되었습니다.");
+    				alert("총 "+ checkVals.length + "개의 물품이 삭제되었습니다.");
 	
         		}, error:function(e) {
         				console.log(e);
@@ -281,7 +292,7 @@
 		$(".body-list").empty();
 		
 		for(let dto of list) {
-						
+
 				let list = $("<div>").addClass("row list-row");
 				
 				let col_1 =  $("<div>").addClass("col-1 d-flex align-items-center justify-content-center");

@@ -290,7 +290,7 @@ public class ItemController extends HttpServlet {
 				System.out.println(checkArr[i]); // 배열 출력
 				
 				try {
-					int count = dao.countAllItems();
+					
 					int rs = dao.deleteItem(Integer.parseInt(checkArr[i]));
 					int rsFile = imgDao.delete_imgByTitle(Integer.parseInt(checkArr[i]));
 					if (rs > 0 && rsFile>0) { // 삭제 성공, 상품목록 응답
@@ -306,6 +306,7 @@ public class ItemController extends HttpServlet {
 			}
 			
 			try {
+				int count = dao.countAllItems();
 				ArrayList<ItemViewDTO> list = dao.mngItemList();
 				
 				Gson gson = new Gson();
@@ -313,6 +314,9 @@ public class ItemController extends HttpServlet {
 				
 				response.setCharacterEncoding("utf-8");
 				response.getWriter().append(result);
+				
+				//request.setAttribute("count", count);
+				//request.getRequestDispatcher("/admin/itemManagePage.jsp").forward(request, response);
 
 			} catch(Exception e) {
 				e.printStackTrace();
