@@ -267,9 +267,7 @@ label {
 		</form>
 	
 		<!--footer 영역-->
-		<div class="row">
-			<div class="col">풋터</div>
-		</div>
+		<jsp:include page="/frame/footer.jsp"></jsp:include>
 	</div>
 
 

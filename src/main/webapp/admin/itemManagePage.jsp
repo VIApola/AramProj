@@ -165,9 +165,7 @@
         <!--상단바 목록/검색창-->
         <div class="row body-header">
             <div class="row">
-                <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
-                    
-                </div>
+                <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center"></div>
                 <div class="col-xs-6 col-sm-4 col-xl-2 d-flex align-self-center justify-content-center"></div>
                 <div class="d-none d-xl-block col-xl-5 d-flex align-self-center"></div>
                 <div class="col-2 col-xl-1 d-flex align-self-center justify-content-end" style="display:block; text-align: justify;">
@@ -190,7 +188,7 @@
         
         <div class="row countBox">
         	<div class="col">
-        		등록된 상품 ${count}건
+        		<!-- 등록된 상품 ${count}건  -->
         	</div>
         </div>
         
@@ -284,9 +282,7 @@
         </div>
         <!--풋터-->
         <div class="row">
-            <div class="col">
-                풋터
-            </div>
+            <jsp:include page="/frame/footer.jsp"></jsp:include>
         </div>
     </div>
 
