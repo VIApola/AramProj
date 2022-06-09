@@ -139,6 +139,68 @@ public class ReviewDAO {
 	}
 	
 	
+	// 리뷰 검색 (내용)
+	public ArrayList<ReviewDTO> rvSrcByCttMng(String input) throws Exception {
+		String sql = "select * from tbl_review where title like '%'||?||'%' or content like '%'||?||'%'";
+		
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, input);
+			pstmt.setString(2, input);
+			
+			ResultSet rs = pstmt.executeQuery();
+			ArrayList<ReviewDTO> list = new ArrayList<>();
+			
+			while (rs.next()) {
+				int review_no = rs.getInt("review_no");
+				String nickname = rs.getString("nickname");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String write_date = getStringDate(rs.getDate("write_date"));
+				int score = rs.getInt("score");
+				String user_id = rs.getString("use_id");
+				int item_no = rs.getInt("item_no");
+				int img_no = rs.getInt("img_no");
+				
+				list.add(new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_no, img_no));
+			}
+			return list;
+			
+		}
+	}
+	
+	
+	// 리뷰 검색 (아이디)
+	public ArrayList<ReviewDTO> rvSrcByIdMng(String input) throws Exception {
+		String sql = "select * from tbl_review where user_id like '%'||?||'%'";
+		
+		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
+			
+			pstmt.setString(1, input);
+			
+			ResultSet rs = pstmt.executeQuery();
+			ArrayList<ReviewDTO> list = new ArrayList<>();
+			
+			while (rs.next()) {
+				int review_no = rs.getInt("review_no");
+				String nickname = rs.getString("nickname");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String write_date = getStringDate(rs.getDate("write_date"));
+				int score = rs.getInt("score");
+				String user_id = rs.getString("user_id");
+				int item_no = rs.getInt("item_no");
+				int img_no = rs.getInt("img_no");
+				
+				list.add(new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_no, img_no));
+			}
+			return list;
+			
+		}
+	}
+	
+	
 	// 개별 리뷰 조회
 	public ReviewDTO selectReviewByNo(int review_no)throws Exception {
 		String sql = "select * from tbl_review where review_no = ?";

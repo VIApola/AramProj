@@ -441,7 +441,7 @@
         	$(".contents-box").empty();
         	
 			let rowCount = $("<div>").addClass("row countBox");
-			let colCount = $("<div>").addClass("col").html("등록된 상품 ${count}건");
+			let colCount = $("<div>").addClass("col").html("");
 			
 			rowCount.append(colCount);
 			$(".countBox").append(rowCount);
@@ -449,7 +449,7 @@
         	
         	if(list.length == 0){ // 상품목록이 없을 때
         		let row = $("<div>").addClass("row");
-        		let col = $("<div>").addClass("col").html("등록된 상품이 없습니다.");
+        		let col = $("<div>").addClass("col d-flex align-self-center justify-content-center").html("등록된 상품이 없습니다.");
         		
         		row.append(col);
         		$(".contents-box").append(row);

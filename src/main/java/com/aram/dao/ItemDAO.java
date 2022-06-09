@@ -415,7 +415,7 @@ public class ItemDAO {
 	}
 	
 	
-	public ArrayList<ItemViewDTO> searchByNameMng(String input) throws Exception { // 관리자 페이지 : 상품검색-상품명, 이름
+	public ArrayList<ItemViewDTO> searchByNameMng(String input) throws Exception { // 관리자 페이지 : 상품검색-상품명, 이름순
 		
 		String sql = "select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no where item_name like '%'||?||'%' order by 2";
 		
