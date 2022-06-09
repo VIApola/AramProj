@@ -123,7 +123,7 @@ public class CartController extends HttpServlet {
 			}
 			
 			try {
-				ArrayList<Cart_ItemDTO> list = dao.selectAll();
+				ArrayList<Cart_ItemDTO> list = dao.selectByUserId(user_id);
 				Gson gson = new Gson();
 				String result = gson.toJson(list);
 			

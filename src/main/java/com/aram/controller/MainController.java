@@ -29,7 +29,7 @@ public class MainController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		String uri = request.getRequestURI();
-		System.out.println("uri" + uri);
+		System.out.println("uri : " + uri);
 		
 		if(uri.equals("/toQnA.main")) {//네비게이션 QnA 페이지로
 			response.sendRedirect("/board/qna.jsp");
