@@ -30,15 +30,20 @@
 </head>
 <body>
 <div class="container">
+<%-- 헤더 --%>
 <jsp:include page="/frame/header.jsp"></jsp:include>
-	<div class="row" style="margin-bottom: 20px;">
-		<div class="col-10">
-			<h3>SHOPPING CART</h3>
+
+<%-- title --%>
+	<div class="row d-flex justify-content-between align-items-center mb-2">
+		<div class="col-7 col-lg-8">
+			<h3 id="title_h3">SHOPPING CART</h3>
 		</div>
-		<div class="col-2">
-			<button type="button" class="btn btn-secondary" id="btnDelete">삭제</button>
+		<div class="col-5 col-lg-4">
+			<button type="button" class="btn btn-outline-secondary " id="btnDelete">삭제</button>
 		</div>
 	</div>
+	
+<%-- title_talbe --%>
 	<div class="row title-row">
 		<div class="col-8 d-flex align-items-center justify-content-center">
 			<span>product</span>
@@ -50,6 +55,8 @@
 			<span>Price</span>
 		</div>
 	</div>
+	
+<%-- body-list --%>
 	<div class="body-list">
 		<c:forEach items="${list}" var="dto">
 			<c:if test="${loginSession.user_id eq dto.user_id}">
@@ -58,10 +65,10 @@
 					<input class="form-check-input checkBox" type="checkbox"
 							id="${dto.price}" name="checkBox" value="${dto.item_no}">
 				</div>
-				<div class="col-2">
-					<img src="/resources/images/items/${dto.item_name}.png" style="width: 100px">
+				<div class="col-3 col-lg-3 d-flex align-items-center justify-content-center">
+					<img src="/resources/images/items/${dto.item_name}.png" id="itemImg" style="width: 50%;">
 				</div>
-				<div class="col-5 itemName d-flex align-items-center">
+				<div class="col-4 col-lg-4 itemName d-flex align-items-center">
 					<span>${dto.item_name}</span>
 				</div>
 				<div class="col-2 quantityBox d-flex align-items-center justify-content-center">
@@ -78,15 +85,19 @@
 			</c:if>
 		</c:forEach>
 	</div>
-	<div class="row price-row">
-		<div class="col">총 가격<h1 id="totalPrice">0</h1></div>
+	
+<%-- 총가격 --%>
+	<div class="row price-row ">
+		<div class="col amountPart">총 가격 : <span id="totalPrice">0</span></div>
 	</div>
+	
+<%-- 제출버튼 --%>
 	<div class="row button-row">
 		<div class="col btnRow">
-			<button type="button" class="btn btn-secondary btn-lg"
+			<button type="button" class="btn btn-outline-secondary btn-lg"
 				id="btnShopping">쇼핑 계속하기</button>
-			<button type="button" class="btn btn-secondary btn-lg" id="btnOrder">
-				&nbsp&nbsp&nbsp주문하기&nbsp&nbsp&nbsp</button>
+			<button type="button" class="btn btn-outline-secondary btn-lg" id="btnOrder">
+				주문하기</button>
 		</div>
 	</div>
 	<jsp:include page="/frame/footer.jsp"></jsp:include>

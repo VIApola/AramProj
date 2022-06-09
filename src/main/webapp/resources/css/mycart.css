@@ -3,7 +3,17 @@
 * {
 	border: 0px solid black;
 }
+/* title_1 */
 
+#title_h3{
+	margin: 0;
+}
+
+#btnDelete{
+	font-size:small;
+}
+
+/* 42줄 _ Table 시작 */
 .title-row {
 	border-top: 1px solid gray;
 	border-bottom: 1px solid gray;
@@ -18,10 +28,9 @@ p {
     float: right;
 }
 
-.itemImg {
-    height: 120px;
-    width: 100px;
-}
+/* body-list */
+
+
 #selectBox {
     margin-top: 25px;
     margin-right: 50px;
@@ -34,15 +43,33 @@ p {
 	width: 20px;
 	text-align:center;
 }
+
+/* 총 가격 */
 .price-row {
     border-top: 1px solid gray;
-    margin-top: 50px;
+    
+    margin-bottom: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
     text-align: right;
 }
+.price-row .amountPart{
+	margin-top: 5px;
+	font-size: larger;
+}
+
+/* 제출 버튼 */
 .button-row {
-    margin-top: 50px;
-    margin-bottom: 50px;
     text-align: center;
+}
+.button-row button{
+	margin-left: 10px;
+	margin-right: 10px;
+	width: 22%;
+	height: 130%;
+	padding: 3px;
+	font-size: medium;
+	
 }
 .total{
 	font-size: larger;
