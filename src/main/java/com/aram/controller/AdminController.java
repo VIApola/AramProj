@@ -89,7 +89,6 @@ public class AdminController extends HttpServlet {
 			System.out.println("관리자여부 : " + isadmin);
 			
 			if(isadmin.equals("n")) { // 관리자가 아닐경우
-				
 				return;
 			}
 			
