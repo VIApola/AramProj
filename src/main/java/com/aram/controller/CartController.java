@@ -83,8 +83,6 @@ public class CartController extends HttpServlet {
 			ItemDAO dao = new ItemDAO();
 			CartDAO cartDao = new CartDAO();
 			try {
-				// 일단 장바구니를 비움
-				cartDao.emptyCart(user_id);
 				
 				ItemDTO item = dao.selectItemByNo(item_no);
 				System.out.println("선택된 아이템 정보 : " + item);

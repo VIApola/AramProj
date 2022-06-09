@@ -394,7 +394,6 @@
 			}
 
 		});
-	
 		
 	// 주문서 유효성 검사
 	$("#btnOrder").on("click", function() {
@@ -448,15 +447,11 @@
 		// 실제 결제와 주문서 생성을 검증
 		requestPay(orderNO(), $("#itemName").html() + "외 " + ${fn:length(cartList)} + "개", 100, $("#order_email").val(), $("#delivery_name").val(), $("#delivery_phone").val(), $("#delivery_addr").val(), $("#postcode").val());
 		
-	})
 
-					IMP.init("imp86984194");
-					requestPay(orderNO(), "관나무 외 6개", 100, $("#order_email")
-							.val(), $("#delivery_name").val(), $(
-							"#delivery_phone").val(),
-							$("#delivery_addr").val(), $("#postcode").val());
+		IMP.init("imp86984194");
+		requestPay(orderNO(), "관나무 외 6개", 100, $("#order_email").val(), $("#delivery_name").val(), $("#delivery_phone").val(), $("#delivery_addr").val(), $("#postcode").val());
 
-				})
+	});
 
 		// 아임포트 결제 모듈 실행
 		function requestPay(order_no, name, amount, buyer_email, buyer_name,
@@ -503,12 +498,18 @@
 		function orderNO() {
 			let today = new Date();
 			let year = (today.getFullYear()).toString();
+			let date = today.getDate();
 			let month = today.getMonth() + 1;
 			if (month < 10) {
 				month = "0" + month;
-
-	      });
-	}
+	      	}
+			if (date < 10) {
+				date = "0" + (date + 1);
+			}
+			let orderNo = year + month + date + Math.floor(Math.random()*(9000)) + 1;
+			
+			return orderNo;
+		}
 	
 	// 주문서 정보 ajax로 전달하기
 	function requestOrder(order_no) {
@@ -532,21 +533,11 @@
 			}
 			, success: function(data) {
 				location.href = "/success.order?order_no=" + order_no;
-
 			}
-			let date = today.getDate();
-			if (date < 10) {
-				date = "0" + (date + 1);
+			, error: function(e) {
+				console.log(e);
 			}
-
-			let orderNo = year + month + date
-					+ Math.floor(Math.random() * (9000)) + 1;
-
-			return orderNo;
-		}
-		
-		let orderNo = year + month + date + Math.floor(Math.random()*(9000)) + 1;
-		
+		});
 		return orderNo;
 	}
 	
