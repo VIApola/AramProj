@@ -269,10 +269,26 @@ public class QnaDAO {
 		}
 		
 		//게시글 관리자 댓글 수정
+		public int modifyReply(int qna_no, String answer) throws Exception{
+			String sql = "update tbl_qna set answer=? where qna_no = ?";
+			
+			try(Connection con = bds.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql)){
+				
+				pstmt.setString(1, answer);
+				pstmt.setInt(2, qna_no);
+				
+				return pstmt.executeUpdate();
+				
+				
+			}
+		}
+		
+		
 		
 		//게시글 관리자 댓글 삭제
 		public int deleteReply(int qna_no) throws Exception{
-			String sql = "update tbl_qna set answer_yn ='n',answer=null,answer_date = sysdate where qna_no = ?";
+			String sql = "update tbl_qna set answer_yn ='n',answer=null where qna_no = ?";
 			
 			try(Connection con = bds.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)){

@@ -113,6 +113,9 @@ textarea {
  #answerContent{
  border:none;
  }
+ .body-btnAfter-reply{
+ 	display:none;
+ }
 
 </style>
 </head>
@@ -238,24 +241,51 @@ textarea {
 			</form>
             <c:if test="${loginSession.isAdmin eq 'y'}">
 
-            <div class="col-3 body-btnDefault-reply">
-							<button type="button" class="btn btn-warning modify-reply">수정</button>
-							<button type="button" class="btn btn-danger delete-reply" value="${reply.seq_reply}">삭제</button>
+                        <div class="col-3 body-btnDefault-reply">
+							<button type="button" class="modify-reply">수정</button>
+							<button type="button" class="delete-reply">삭제</button>
 						</div>
 						<div class="col-3 body-btnAfter-reply">
-							<button type="button" class="btn btn-secondary cancel-reply">취소</button>
-							<button type="button" class="btn btn-primary complete-reply" value="${reply.seq_reply}">완료</button>
+							<button type="button" class="cancel-reply">취소</button>
+							<button type="button" class="complete-reply">완료</button>
 						</div>
             
             
 			<script>
-            $("#deleteReplyBtn").on("click", function(){ //삭제 버튼을 눌렀을때 시퀀스 번호도 가져감 
-                let answer = confirm("Q&A에대한 댓글을 삭제하시겠습니까?");
+			//수정버튼을 눌렀을 때
+			$(".replyContent").on("click",".modify-reply",function(e){
+				$("#answerContent").attr("readonly", false).focus();
+				$(e.target).parent(".body-btnDefault-reply").css("display","none");
+				$(e.target).parent().next(".body-btnAfter-reply").css("display","block");
+				
+			});
+			
+			//삭제버튼을 눌렀을 때
+			$(".replyContent").on("click",".delete-reply",function(){
+				let answer = confirm("Q&A에대한 댓글을 삭제하시겠습니까?");
                 if(answer){
                 	location.href = "/deleteReply.admin?qna_no=${dto.qna_no}";
                 }
-          	});
-            
+			});
+			
+			//수정 후 완료버튼을 눌렀을때
+			$(".replyContent").on("click",".complete-reply",function(){
+				let regist = confirm("댓글을 수정 하시겠습니까?")
+				if(regist){
+				$("#modifyReplyForm").submit();
+					
+				}
+			});
+			
+			//수정에서 완료버튼을 눌렀을때
+			$(".replyContent").on("click",".cancel-reply",function(){
+				location.href = "/detailViewQna.bo?qna_no=${dto.qna_no}";
+			});	
+			
+			
+			
+			
+      
             </script>
              </c:if>
         </div>
