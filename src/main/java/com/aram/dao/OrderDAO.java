@@ -63,6 +63,30 @@ public class OrderDAO {
 		}
 	}
 	
+	// 주문대기 테이블에서 주문번호 기준으로 상품리스트 가져오기
+	public ArrayList<OrderItemDTO> selectOrderedItems(String order_no) throws Exception {
+		String sql = "select * from tbl_order_item where order_no=?";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			pstmt.setString(1, order_no);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			ArrayList<OrderItemDTO> orderList = new ArrayList<OrderItemDTO>();
+			
+			while (rs.next()) {
+				int item_no = rs.getInt("item_no");
+				String item_name = rs.getString("item_name");
+				int price = rs.getInt("price");
+				int quantity = rs.getInt("quantity");
+				
+				orderList.add(new OrderItemDTO(order_no, item_no, item_name, price, quantity));
+			}
+			return orderList;
+		}
+	}
+	
+	
 	// 전체목록 
 	public ArrayList<OrderDTO> selectAllOrder() throws Exception {
 		String sql = "select * from tbl_order";

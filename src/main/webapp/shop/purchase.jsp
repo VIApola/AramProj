@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,7 +46,7 @@
 			<!-- 구매 리스트 -->
 			<div class="contentList">
 				<div class="row">
-					<div class="col">List 구매리스트</div>
+					<div class="col"><span style="font-size: 20px">List 구매리스트</span></div>
 				</div>
 				<div class="row list-label">
 					<div class="col-2 col-lg-1 d-flex justify-content-center">선택</div>
@@ -61,7 +62,7 @@
 						</div>
 						<div class="col-6 col-lg-8 d-flex justify-content-evenly align-items-center">
 								<img src="/resources/images/items/${cartItem.item_name}.png" style="width: 100px;">
-								<div style="letter-spacing: 3px;">${cartItem.item_name}</div>	
+								<div style="letter-spacing: 3px;"><span id="itemName">${cartItem.item_name}</span></div>	
 						</div>
 						<div class="col-2 col-lg-1 d-flex justify-content-center align-items-center">${cartItem.quantity}</div>
 						<div class="col-2 col-lg-2 d-flex justify-content-center align-items-center">${cartItem.price}</div>
@@ -72,14 +73,14 @@
 						<span>총 가격 : </span>
 					</div>
 					<div class="col-2">
-						<span>${totalPrice}</span>
+						<span>${totalPrice} 원</span>
 					</div>
 				</div>
 			</div>
 			<!-- 주문자 정보 -->
 			<div class="orderInfo">
 				<div class=" row titleLabel">
-					<span>주문자 정보</span>
+					<span style="font-size: 20px">주문자 정보</span>
 				</div>
 				<div class="content">
 					<!-- 주문자명 -->
@@ -112,7 +113,7 @@
 			<!-- 배송지 정보 -->
 			<div class="deliveryInfo">
 				<div class="row titleLabel">
-					<div class="col-lg-2 col-3">배송지 정보</div>
+					<div class="col-lg-2 col-3"><span style="font-size: 20px">배송지 정보</span></div>
 					<div class="col-lg-10 col-9">
 						<input type="checkbox" id="ckBox"> 주문하는 사람과 동일한 배송지
 					</div>
@@ -183,15 +184,28 @@
 			<!-- 배송비 및 할인 정보 -->
 			<div class="payMoneyInfo">
 				<div class="row payMoneyInfo-title titleLabel">
-					<span>배송비 및 할인정보</span>
+					<span style="font-size: 20px">배송비 및 할인정보</span>
 				</div>
 				<div class="row">
 					<div
-						class=" payMoneyInfo-content d-flex justify-content-between align-items-center ">
-						<div class="col-3 d-flex justify-content-center">상품금액</div>
-						<div class="col-3 d-flex justify-content-center">배송비</div>
-						<div class="col-3 d-flex justify-content-center">결제 예정금액</div>
+						class="payMoneyInfo-content d-flex justify-content-between align-items-center">
+						<div class="col-4 d-flex justify-content-center">상품금액</div>
+						<div class="col-4 d-flex justify-content-center">배송비</div>
+						<div class="col-4 d-flex justify-content-center">결제 예정금액</div>
 					</div>
+				</div>
+				<div class="row d-flex justify-content-between align-items-center">
+					<div class="col-4 d-flex justify-content-center">${totalPrice} 원</div>
+					<c:choose>
+						<c:when test="${totalPrice > 50000}">
+							<div class="col-4 d-flex justify-content-center">배송비 무료</div>
+							<div class="col-4 d-flex justify-content-center">${totalPrice}</div>
+						</c:when>
+						<c:otherwise>
+							<div class="col-4 d-flex justify-content-center">3000 원</div>
+							<div class="col-4 d-flex justify-content-center">${totalPrice + 3000} 원</div>
+						</c:otherwise>
+					</c:choose>
 				</div>
 
 			</div>
@@ -199,7 +213,7 @@
 			<!-- 약관 동의 -->
 			<div class="payMoneyInfo">
 				<div class="row payMoneyInfo-title titleLabel">
-					<span>주문자 약관동의</span>
+					<span style="font-size: 20px">주문자 약관동의</span>
 				</div>
 				<div class="payment_wrap content">
 					<div class="row mt-2 mb-2">
@@ -266,7 +280,14 @@
                 <span>최종결제 금액</span>
             </div>
             <div class="col-lg-10 col-3 d-flex justify-content-start align-items-center">
-                <span>20.000원</span>
+            	<c:choose>
+	            	<c:when test="${totalPrice > 50000}">
+	            		<span>${totalPrice} 원</span>
+					</c:when>
+					<c:otherwise>
+						<span>${totalPrice + 3000} 원</span>
+					</c:otherwise>
+				</c:choose>
             </div>
         </div>
 		<!-- 버튼 -->
@@ -351,16 +372,25 @@
 			$("#TermsAccept").focus();
 			return;
 		}
-		console.log("eee");
 		
 		IMP.init("imp86984194");
-		requestPay(orderNO(), "관나무 외 6개", 100, $("#order_email").val(), $("#delivery_name").val(), $("#delivery_phone").val(), $("#delivery_addr").val(), $("#postcode").val());
+		
+		// 금액에 따라 배송비를 더하는 로직
+	/* 	let totalPrice = 0;
+		if(${totalPrice > 50000}) {
+			totalPrice = ${totalPrice}
+		} else {
+			totalPrice = ${totalPrice + 3000}
+		} */
+		
+		// 실제 결제를 진행하기 전에 금액 검증
+		let totalPrice = parseInt(payValidation("${loginSession.user_id}", ${totalPrice}));
+		
+		// 실제 결제와 주문서 생성을 검증
+		requestPay(orderNO(), $("#itemName").html() + "외 " + ${fn:length(cartList)} + "개", 100, $("#order_email").val(), $("#delivery_name").val(), $("#delivery_phone").val(), $("#delivery_addr").val(), $("#postcode").val());
 		
 		
 	})
-
-	
-		
 
 	// 아임포트 결제 모듈 실행
 	function requestPay(order_no, name, amount, buyer_email, buyer_name, buyer_tel, buyer_addr, buyer_postcode) {
@@ -421,7 +451,7 @@
 				, delivery_msg: $("#delivery_msg").val()
 			}
 			, success: function(data) {
-				location.href = "/success.order";
+				location.href = "/success.order?order_no=" + order_no;
 			}
 			, error: function(e) {
 				console.log(e);
@@ -446,6 +476,31 @@
 		let orderNo = year + month + date + Math.floor(Math.random()*(9000)) + 1;
 		
 		return orderNo;
+	}
+	
+	// 최종금액과 실제 DB에 있는 금액을 비교해서 검증하는 작업
+	function payValidation(user_id, totalPrice) {
+		let resultPrice;
+		$.ajax({
+			url:"/orderValidation.order"
+			, type:"post"
+			, data: {
+				user_id : user_id
+				, totalPrice: totalPrice
+			}
+			, async: false
+			, success: function(data) {
+				if(data == "-1") {
+					alert("결제 검증과정에서 문제가 생겼습니다. 결제를 다시 시도하세요");
+					return;
+				}
+				resultPrice = data;
+			}
+			, error: function(e) {
+				console.log(e);
+			}
+		});
+		return resultPrice;
 	}
 	
 	// 우편번호 API

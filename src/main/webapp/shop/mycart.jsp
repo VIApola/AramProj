@@ -210,58 +210,58 @@
         			
         			printCartList(data);
       			  			
-        	// 물품 삭제 후 남은 물품들에 대한 수량부분, 총금액 계산
-			let total = 0;
-   		    for(let i = 0; i < list.length; i++){
-    		
-    		let price = parseInt($(".price").eq(i).val());
-    		let quantity = parseInt($(".qty").eq(i).val());
-    		let individualPrice = parseInt(price * quantity);  
-   
-    		total = total + (price * quantity);
-    		
-    		$("#totalPrice").html(total);
-    		
-    		// 삭제 후 수량 +
-    		$(".btnPlus").eq(i).on("click",function(){
-    			
-    			if(quantity > 4) {
-    	  			alert("5개 이상 담을 수 없습니다.");
-    	  			return;
-    			}
-
-				total = parseInt($("#totalPrice").html());
-				quantity = quantity + 1;
-				console.log(quantity);
-				$(".qty").eq(i).val(quantity);
-				
-				total = total + parseInt(price);
-				$("#totalPrice").html(total);
-				console.log(total);	
-				console.log("total after : " + total);
-				
-			});					
+	        	// 물품 삭제 후 남은 물품들에 대한 수량부분, 총금액 계산
+				let total = 0;
+	   		    for(let i = 0; i < list.length; i++){
+	    		
+		    		let price = parseInt($(".price").eq(i).val());
+		    		let quantity = parseInt($(".qty").eq(i).val());
+		    		let individualPrice = parseInt(price * quantity);  
+		   
+		    		total = total + (price * quantity);
+		    		
+		    		$("#totalPrice").html(total);
+		    		
+		    		// 삭제 후 수량 +
+		    		$(".btnPlus").eq(i).on("click",function(){
+		    			
+		    			if(quantity > 4) {
+		    	  			alert("5개 이상 담을 수 없습니다.");
+		    	  			return;
+		    			}
 		
-			// 삭제 후 수량 -
-			$(".btnMinus").eq(i).on("click",function(){
+						total = parseInt($("#totalPrice").html());
+						quantity = quantity + 1;
+						console.log(quantity);
+						$(".qty").eq(i).val(quantity);
 						
-			if(quantity <= 1){
-				quantity = 1;
-				return false;
-			}
-	     		total = parseInt($("#totalPrice").html());			
-				quantity = quantity - 1;
-				console.log(quantity);
-				$(".qty").eq(i).val(quantity);
+						total = total + parseInt(price);
+						$("#totalPrice").html(total);
+						console.log(total);	
+						console.log("total after : " + total);
+						
+					});					
 			
-				total = total - parseInt(price);
-				$("#totalPrice").html(total);
-
-			});	
+					// 삭제 후 수량 -
+					$(".btnMinus").eq(i).on("click",function(){
+								
+					if(quantity <= 1){
+						quantity = 1;
+						return false;
+					}
+			     		total = parseInt($("#totalPrice").html());			
+						quantity = quantity - 1;
+						console.log(quantity);
+						$(".qty").eq(i).val(quantity);
+					
+						total = total - parseInt(price);
+						$("#totalPrice").html(total);
+		
+					});	
 			
-    	}	    
+    			}	    
     	
-    	alert("총 "+ checkVals.length + "개의 물품이 삭제되었습니다.");
+    				alert("총 "+ checkVals.length + "개의 물품이 삭제되었습니다.");
 	
         		}, error:function(e) {
         				console.log(e);
@@ -281,8 +281,6 @@
 		$(".body-list").empty();
 		
 		for(let dto of list) {
-			
-			if("${loginSession}" == dto.user_id) { 
 				
 				let list = $("<div>").addClass("row list-row");
 				
@@ -317,7 +315,6 @@
 				
 				$(".body-list").append(list);           				
 	
-			}
 		}
 	}
 
