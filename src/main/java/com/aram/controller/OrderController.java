@@ -123,6 +123,25 @@ public class OrderController extends HttpServlet {
 			}
 		} else if(uri.equals("/success.order")) {
 			response.sendRedirect("/shop/successOrder.jsp");
+		}else if(uri.equals("/selectUserOrder.order")) {// 유저아이디에 따른 구매목록
+			HttpSession session = request.getSession();
+            session.getAttribute("loginSession");
+            String session_id = request.getParameter("user_id");
+			System.out.println("세션 아이디값 : " + session_id);
+			
+			OrderDAO dao = new OrderDAO();
+			try {
+				if(session_id != null) {
+					ArrayList<OrderDTO> list = dao.selectUserOrder(session_id);
+					Gson gson = new Gson();
+					String rs = gson.toJson(list);
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(rs);
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
 	}
 
