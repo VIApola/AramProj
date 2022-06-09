@@ -32,13 +32,10 @@
                             <a class="nav-link active" style="color: black;" href="/toLogout.user">로그아웃</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: black;" href="/toUserManage.admin">고객관리</a>
+                            <a class="nav-link" style="color: black;" href="/toReviewManage.admin">고객/게시판관리</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" style="color: black;" href="/toItemPage.admin">상품관리</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" style="color: black;" href="/toQnAManagePage.admin">게시판 관리</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" style="color: black;" href="/main">메인</a>
@@ -55,7 +52,6 @@
                 <h2>고객관리</h2>
             </div>
         </div>
-
                     <!--상단바 목록/검색창-->
                     <div class="row header">
                         <div class="row">
@@ -66,7 +62,7 @@
                                 <a href="/toQnAManagePage.admin" class="header-menu">Q&A관리</a>
                             </div>
                             <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
-                                <a href="/toUserManage.admin" class="header-menu">계정관리</a>
+                                <a href="/toUserManage.admin" class="header-menu">고객관리</a>
                             </div>
     						<div class="d-none d-xl-block col-xl-5 d-flex align-self-center"></div>
                             <div class="col-4 col-sm-2 col-xl-1 d-flex align-self-center justify-content-end" style="display:block; text-align: justify;">

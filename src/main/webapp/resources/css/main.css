@@ -14,116 +14,16 @@
 	font-family: 'Roboto Mono', monospace;
 	font-family: 'GowunDodum-Regular';
 }
-
-/*상단바 cart 영역*/
-.header-left {
-	margin: 0px;
-	padding: 0px;
-}
-
-/*상단바 sm에서 생기는 navbar*/
-.sidenav {
-	height: 100%;
-	width: 0;
-	position: fixed;
-	z-index: 1;
-	top: 0;
-	left: 0;
-	background-color: white;
-	overflow-x: hidden;
-	transition: 0.5s;
-	padding-top: 60px;
-	text-align: center;
-}
-
-.sidenav a {
-	padding: 8px 8px 8px 32px;
-	text-decoration: none;
-	color: #111;
-	display: block;
-	transition: 0.3s;
-}
-
-.sidenav .closebtn {
-	position: absolute;
-	top: 0;
-	right: 25px;
-	font-size: 36px;
-	margin-left: 50px;
-}
-
-@media screen and (max-height: 450px) {
-	.sidenav {
-		padding-top: 15px;
-	}
-	.sidenav a {
-		font-size: 18px;
-	}
-}
-/*상단 네비바의 검색창*/
-.search {
-	position: relative;
-	width: 250px;
-}
-
-.search input {
-	width: 100%;
-	border: 1px solid #bbb;
-	border-radius: 8px;
-	padding: 10px 12px;
-	font-size: 14px;
-}
-
-.search img {
-	position: absolute;
-	width: 17px;
-	top: 13px;
-	right: 12px;
-	margin: 0;
-}
-
-.search-menu a {
-	padding: 0px;
-	margin-top: 15px;
-}
-
-.search-menu>span {
-	padding: 0px;
-	margin-top: 20px;
-	font-size: 20px;
-	font-weight: bold;
-}
-
-.search-menu a span {
-	color: #000;
-	display: inline-block;
-	margin: 0;
-	text-transform: uppercase;
-}
-
-.search-menu a span:after {
-	display: block;
-	content: '';
-	border-bottom: solid 2px #7cc09c;
-	transform: scaleX(0);
-	transition: transform 250ms ease-in-out;
-}
-
-.search-menu a span:hover:after {
-	transform: scaleX(1);
-}
-
-.fromLeft:after {
-	transform-origin: 0% 50%;
-}
-
-.search-menu .bottom {
-	margin-top: 20px;
+/*카테고리*/
+.main-category a{
+	text-decoration-line: none;
+    color: black;
 }
 
 /*콘텐츠 영역*/
 .main-content {
-	padding: 50px;
+	
+	margin-bottom:50px;
 }
 
 .main-content img {
@@ -135,8 +35,12 @@
 	text-align: justify;
 	text-align: center;
 }
+.content-extra-box2{
+	padding:10px;
+}
 
 .content-extra-box {
+	padding:10px;
 	display: grid;
 	grid-template-columns: 150px 150px 150px;
 	grid-template-rows: 150px 150px 150px;
@@ -179,28 +83,3 @@
     text-align: center;
 }
 
-/*footer 영역*/
-.footer {
-	border-top: 2px solid #7cc09c;
-	overflow: hidden;
-}
-
-.ft-ul {
-	float: left;
-	list-style: none;
-}
-
-.ft-ul a {
-	color: black;
-	text-decoration: none;
-}
-
-.footer-small {
-	border-top: 2px solid #7cc09c;
-	padding: 30px;
-}
-
-.footer-small .ft-ul {
-	text-align: center;
-	margin-left: 50px;
-}
