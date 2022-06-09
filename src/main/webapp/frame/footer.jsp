@@ -23,7 +23,7 @@
 		<div class="col-12 d-sm-none footer-small">
 			<ul class="ft-ul">
 				<li>Aram 대표자 : 김당산</li>
-				<li>주소 : 서울특별시 영등포구 선유동2로 57 <br>이레빌딩(구관) 19F, 20F
+				<li>주소 : 서울특별시 영등포구 선유동2로 57 <br>이레빌딩(구관) 19F
 				</li>
 				<li>FAX : 02-1234-5678</li>
 				<li>E-MAIL : aramproj@gmail.com</li>
@@ -42,7 +42,7 @@
 			<ul class="ft-ul">
 				<li>Aram[아람]</li>
 				<li>김당산</li>
-				<li>서울특별시 영등포구 선유동2로 57 이레빌딩(구관) 19F, 20F</li>
+				<li>서울특별시 영등포구 선유동2로 57 이레빌딩(구관) 19F</li>
 				<li>02-1234-5678</li>
 				<li>aramproj@gmail.com</li>
 			</ul>

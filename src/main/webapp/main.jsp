@@ -30,14 +30,14 @@
     
 
       //팝업창 스크립트
-      /*
+      
       function getCookie(name) {
-          let cookie = document.cookie;
+          var cookie = document.cookie;
           
           if (document.cookie != "") {
               let cookie_array = cookie.split("; ");
               for ( var index in cookie_array) {
-                  let cookie_name = cookie_array[index].split("=");
+            	  var cookie_name = cookie_array[index].split("=");
                   
                   if (cookie_name[0] == "popupYN") {
                       return cookie_name[1];
@@ -55,10 +55,10 @@
           if (cookieCheck != "N")
               window.open("popup.jsp", "EVENT", 'width=430,height=530,left=0,top=0')
       }
-      */
+      
   </script>
 </head>
-<body><!--  onLoad="javascript:pop()" -->
+<body  onLoad="javascript:openPopup('popup.jsp')"><!--  -->
     <div class="container main-container">
 		<jsp:include page="/frame/header.jsp"></jsp:include>
   
@@ -179,14 +179,6 @@
         <jsp:include page="/frame/footer.jsp"></jsp:include>
 	</div>
       <script>
-      //팝업창
-      /*
-      function pop()
-    	{
-    	window.open("popup.jsp", "EVENT", "width=430,height=530,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
-      }
-	  */
-      	
       	//네비바 검색창 -> 상품검색페이지
       	$("#searchBtn").on("click",function(){
       		let searchKeyword = $("#searchKeyword").val();
