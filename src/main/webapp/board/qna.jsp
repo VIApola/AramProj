@@ -57,7 +57,9 @@
 		<div class="qnaBox">
 			<div class="row d-flex align-items-center">
 				<div class="col-4 col-md-none d-flex align-items-center">
-					
+					<a href="/qna.bo" style="color: black; text-decoration-line:none;"><Strong>Q&A</Strong></a>
+					<span style="margin-right:10px; margin-left:10px;">|</span>
+					<a href="/notice.bo" style="color: black; text-decoration-line:none;">Notice</a>
 				</div>
 				<div class="col-8 d-md-12 mt-2">
 					<div
@@ -85,8 +87,9 @@
 				<div class="boardBox">
 					<div class="row">
 						<div class="col-1 d-none d-md-block">No.</div>
-						<div class="col-3 d-none d-md-block">title</div>
-						<div class="col-4 d-none d-md-block">content</div>
+
+						<div class="col-2 d-none d-md-block">title</div>
+						<div class="col-5 d-none d-md-block">content</div>
 						<div class="col-2 d-none d-md-block">id</div>
 						<div class="col-2 d-none d-md-block">date</div>
 					</div>
@@ -103,8 +106,7 @@
 									<div class="row">
 										<div class="col-1 d-none d-md-block">${dto.qna_no}</div>
 										<div class="col-3 d-none d-md-block">${dto.title}</div>
-
-										 <div class="col-12 col-md-4">
+										 <div class="col-12 col-md-5">
 											<a href="/detailViewQna.bo?qna_no=${dto.qna_no}">
 											${dto.content}
 											</a>

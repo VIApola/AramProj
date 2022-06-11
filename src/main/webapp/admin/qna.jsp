@@ -177,7 +177,7 @@
                                 <a href="/toQnAManagePage.admin" class="header-menu">Q&A관리</a>
                             </div>
                             <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
-                                <a href="/toUserManage.admin" class="header-menu">계정관리</a>
+                                <a href="/toUserManage.admin" class="header-menu">고객관리</a>
                             </div>
     						<div class="d-none d-xl-block col-xl-5 d-flex align-self-center"></div>
                             <div class="col-4 col-sm-2 col-xl-1 d-flex align-self-center justify-content-end" style="display:block; text-align: justify;">
@@ -204,10 +204,10 @@
                 <div class="col-1 d-flex align-self-center justify-content-center">
                     <input type="checkbox" id="checkAll">
                 </div>
-                <div class="col-2 d-flex align-self-center justify-content-center">
-                    <span>게시글번호</span>
-                </div>
                 <div class="col-1 d-flex align-self-center justify-content-center">
+                    <span>번호</span>
+                </div>
+                <div class="col-2 d-flex align-self-center justify-content-center">
                     <span>카테고리</span>
                 </div>
                 <div class="col-4 d-flex align-self-center justify-content-center">
@@ -238,10 +238,10 @@
                 <div class="col-1 d-flex align-self-center justify-content-center">
                     <input type="checkbox" class="clicks" name="qna_no" value="${list.qna_no}">
                 </div>
-                <div class="col-2 d-flex align-self-center justify-content-center">
+                <div class="col-1 d-flex align-self-center justify-content-center">
                     <span>${list.qna_no}</span>
                 </div>
-                <div class="col-1 d-flex align-self-center justify-content-center">
+                <div class="col-2 d-flex align-self-center justify-content-center">
                     <span>${list.title}</span>
                 </div>
                 <div class="col-4 d-flex align-self-center justify-content-center">
@@ -266,18 +266,8 @@
                 </div>
             </div>
         </div>
-        <!--페이징-->
-        <div class="row box-paging">
-            <div class="col d-flex align-self-center justify-content-center">
-                페이징
-            </div>
-        </div>
-        <!--풋터-->
-        <div class="row">
-            <div class="col">
-                풋터
-            </div>
-        </div>
+       
+
     </div>
 
     <script>

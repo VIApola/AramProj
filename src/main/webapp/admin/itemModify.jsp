@@ -285,8 +285,6 @@
 				</div>
 		</form>
 	
-		<!--footer 영역-->
-		<jsp:include page="/frame/footer.jsp"></jsp:include>
 	</div>
 
     <script>

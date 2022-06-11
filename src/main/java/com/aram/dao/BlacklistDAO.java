@@ -223,7 +223,7 @@ public class BlacklistDAO {
 	}
 	// tbl_user에서 이름으로 검색하기
 	public ArrayList<UserDTO> selectUserlistByUserName(String name) throws Exception{
-		String sql = "select * from tbl_user where username like '%'||?||'%'";
+		String sql = "select * from tbl_user a left join tbl_blacklist b on a.user_id = b.user_id where b.user_id is null and isadmin = 'n' and username like '%'||?||'%'";
 		
 		ArrayList<UserDTO> list = new ArrayList<>();
 		try(Connection con = bds.getConnection();
@@ -245,9 +245,10 @@ public class BlacklistDAO {
 		
 	}
 	
-	// tbl_user에서 이메일로 검색하기
-	public ArrayList<UserDTO> selectUserlistByEmail(String userEmail) throws Exception {
-		String sql = "select * from tbl_user where email like '%'||?||'%'";
+
+	//tbl_user에서 이메일로 검색하기
+	public ArrayList<UserDTO> selectUserlistByEmail(String userEmail) throws Exception{
+		String sql = "select * from tbl_user a left join tbl_blacklist b on a.user_id = b.user_id where b.user_id is null and isadmin = 'n' and email like '%'||?||'%'";
 		
 		ArrayList<UserDTO> list = new ArrayList<>();
 		try(Connection con = bds.getConnection();
