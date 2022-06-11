@@ -1,6 +1,8 @@
 package com.aram.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,13 +16,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.aram.dao.ImgFileDAO;
 import com.aram.dao.ItemDAO;
 import com.aram.dao.ItemSearchDAO;
-import com.aram.dao.ReviewDAO;
 import com.aram.dto.ItemDTO;
 import com.aram.dto.ItemViewDTO;
 import com.aram.dto.ItemimgDTO;
-import com.google.gson.Gson;
+
 import com.aram.dto.ReviewDTO;
+
+import com.google.gson.Gson;
+
 import com.aram.utils.Pagination;
+import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -77,26 +82,41 @@ public class ItemController extends HttpServlet {
 
 
 			System.out.println("상품번호 : " + item_no);
+			
+//			ItemDAO dao = new ItemDAO();
+//			ImgFileDAO imgDao = new ImgFileDAO();
+//			ReviewDAO reviewDao = new ReviewDAO();
+			
 			ItemDAO dao = new ItemDAO();
-			ImgFileDAO imgDao = new ImgFileDAO();
-			ReviewDAO reviewDao = new ReviewDAO();
+			// ReviewDAO reviewDao = new ReviewDAO();
 			
 			try {
-				ItemDTO itemDto = dao.selectItemByNo(item_no);
-				System.out.println(itemDto);
-				// 이미지 번호를 통해 이미지 경로값 가져오기
-				int img_no = itemDto.getImg_no();
-				ItemimgDTO imgDto = imgDao.select_img(img_no);
 				
-				// 상품에 달린 리뷰 가져오기
-				ArrayList<ReviewDTO> reviewList = reviewDao.selectAllReviewByItem(item_no);
-				System.out.println(reviewList);
-	
+				HashMap<String, Object> itemInfo = dao.selectItemInfo(item_no);
+				ItemDTO itemDto =  (ItemDTO)itemInfo.get("itemDto");
+				ItemimgDTO imgDto = (ItemimgDTO)itemInfo.get("imgDto");
+				// ReviewDTO reviewDto = (ReviewDTO)itemInfo.get("reviewDto");
+				//ArrayList<ReviewDTO> reviewList = reviewDao.selectAllReviewByItem(item_no);
+				
 				request.setAttribute("item", itemDto);
 				request.setAttribute("itemImg", imgDto);
-				request.setAttribute("reviewList", reviewList);
+				// request.setAttribute("reviewList", reviewList);
 				
-				
+//				ItemDTO itemDto = dao.selectItemByNo(item_no);
+//				System.out.println(itemDto);
+//				// 이미지 번호를 통해 이미지 경로값 가져오기
+//				int img_no = itemDto.getImg_no();
+//				ItemimgDTO imgDto = imgDao.select_img(img_no);
+//				
+//				// 상품에 달린 리뷰 가져오기
+				// ArrayList<ReviewDTO> reviewList = reviewDao.selectAllReviewByItem(item_no);
+//				System.out.println(reviewList);
+//	
+//				request.setAttribute("item", itemDto);
+//				request.setAttribute("itemImg", imgDto);
+//				request.setAttribute("reviewList", reviewList);
+//				
+//				
 				request.getRequestDispatcher("/shop/detail.jsp").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -104,9 +124,13 @@ public class ItemController extends HttpServlet {
 		} else if(uri.equals("/toItemInput.item")) { // 상품 입력 페이지 이동 
 			response.sendRedirect("/admin/itemInsertModify.jsp");
 			
+			
+			
 		} else if(uri.equals("/insert.item")) { // 상품등록 요청 (관리자)
 			
+			
 			String filePath = request.getServletContext().getRealPath("/resources/images/items");
+			
 			System.out.println(filePath);
 			
 			File dir = new File(filePath);
@@ -126,6 +150,11 @@ public class ItemController extends HttpServlet {
 			int item_stock = Integer.parseInt(multi.getParameter("itemStock"));
 			String category_id = multi.getParameter("itemCategory");
 			
+			File oldFile = new File(filePath + "\\" + sys_name);
+			File renameFile = new File(filePath + "\\" + item_name + ".png");
+			oldFile.renameTo(renameFile);
+			sys_name = item_name + ".png";
+			
 			System.out.println(item_name + ":" + category_id + ":" + price + ":" + item_stock + ":" + item_comment);
 			System.out.println(ori_name + ":" + sys_name + ":" + category_id);
 			
@@ -140,6 +169,29 @@ public class ItemController extends HttpServlet {
 				int rsFile = imgDao.insert_img(new ItemimgDTO(img_no, item_no, "type", ori_name, sys_name));
 				if(rs > 0 && rsFile > 0) {
 					System.out.println("등록 완료");
+					
+					/*
+					// 서버에 업로드된 파일을 프로젝트 내의 폴더로 복사하기
+					String prjPath = "E:\\project\\aram_workspace\\AramProj\\src\\main\\webapp\\resources\\images\\items";
+					File newFile = new File(filePath + "\\" + sys_name);
+					//File newFileItemName = new File(filePath + "\\" + item_name);
+					File copyFile = new File(prjPath + "\\" + item_name + ".png");
+					
+					FileInputStream input = new FileInputStream(newFile);
+					FileOutputStream output = new FileOutputStream(copyFile);
+					
+					byte[] buf = new byte[1024*1024*10];
+					
+					int readData;
+					while((readData = input.read(buf)) > 0) {
+						output.write(buf, 0, readData);
+					}
+					
+					input.close();
+					output.close();
+					*/
+					
+					
 					response.sendRedirect("/toItemPage.admin");
 				}
 			} catch (Exception e) {
@@ -151,42 +203,58 @@ public class ItemController extends HttpServlet {
 			String filePath = request.getServletContext().getRealPath("/resources/images/items");
 			System.out.println(filePath);
 			
-			
+			ItemDAO dao = new ItemDAO();
+			ImgFileDAO imgDao = new ImgFileDAO();
+						
 			int maxSize = 1024*1024*10;
 			
 			MultipartRequest multi = new MultipartRequest(request, filePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
 			
 			String ori_name = multi.getOriginalFileName("imgFile");
 			String sys_name = multi.getFilesystemName("imgFile");
-
+			
+			int item_no = Integer.parseInt(multi.getParameter("item_no"));
+			/*
+			String dftItem_name = null;
+			try { // 변경 전 상품이름 가져오기
+				dftItem_name = dao.selectByItemNo(item_no).getItem_name();
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+			*/
 			String item_name = multi.getParameter("itemName");
 			int price = Integer.parseInt(multi.getParameter("itemPrice"));
 			String item_comment = multi.getParameter("itemDetail");
 			int item_stock = Integer.parseInt(multi.getParameter("itemStock"));
 			String category_id = multi.getParameter("itemCategory");
-			int item_no = Integer.parseInt(multi.getParameter("item_no"));
+			
 			int img_no = Integer.parseInt(multi.getParameter("defaultImg"));
+			String dftSys_name = null;
+			try { // 기존파일 sys_name 가져오기
+				dftSys_name = imgDao.select_img(img_no).getSys_name();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
 			
 			System.out.println(item_no + " : " + item_name + ":" + category_id + ":" + price + ":" + item_stock + ":" + item_comment);
 			System.out.println(ori_name + ":" + sys_name + ":" + category_id);
 			System.out.println("이미지 넘버 : " + img_no);
 			
-			ItemDAO dao = new ItemDAO();
-			ImgFileDAO imgDao = new ImgFileDAO();
 			
-			// 기존 이미지파일 경로값 가져오기
+			// 서버의 기존 이미지파일 경로값 가져오기
 			String dftFile = null;
+
 			try {
-				String dftFileName = imgDao.select_img(img_no).getSys_name(); // 서버에 저장된 기존파일의 이름
-				dftFile = filePath + "\\" + dftFileName; // 기존파일경로
-				System.out.println("기존파일경로 : " + dftFile);
+				dftFile = filePath + "\\" + dftSys_name; // 서버의 기존파일경로
+				System.out.println("기존서버파일경로 : " + dftFile);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
 			
 			// 이미지를 새로 첨부하지 않았을경우
 			if(ori_name == null) {
-				System.out.println("이미지가 null값입니다");
+				System.out.println(">> 새로운 이미지를 첨부하지 않았습니다.");
 
 				try {
 					int rs = dao.updateItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no));
@@ -201,19 +269,56 @@ public class ItemController extends HttpServlet {
 			} else { // 이미지를 새로 첨부했을 경우
 				try {
 					
+					// 기존이미지 실제파일 삭제
+					File file = new File(dftFile);
+					if(file.exists()) {
+						file.delete();
+						System.out.println("실제 기존파일 삭제 완료");
+					} else {
+						System.out.println("기존파일이 존재하지 않습니다.");
+					}
+					
+					// 업로드한 파일명을 상품명으로 변경
+					File oldFile = new File(filePath + "\\" + sys_name);
+					File renameFile = new File(filePath + "\\" + item_name + ".png");
+					oldFile.renameTo(renameFile);
+					sys_name = item_name + ".png";
+					
 					int rs = dao.updateItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no));
 					int rsFile = imgDao.modify_img(new ItemimgDTO(img_no, item_no, "type", ori_name, sys_name));
 					if(rs > 0 && rsFile > 0) {
 						System.out.println("수정 완료");
+
 						
-						// 기존이미지 실제파일 삭제
-						File file = new File(dftFile);
-						if(file.exists()) {
-							file.delete();
-							System.out.println("실제 기존파일 삭제 완료");
+						/*
+						// 프로젝트 플더 내 기존이미지 삭제
+						String prjPath = "E:\\project\\aram_workspace\\AramProj\\src\\main\\webapp\\resources\\images\\items";
+						String prjDftFileName = prjPath + "\\" + dftItem_name + ".png";
+						
+						File prjDftFile = new File(prjDftFileName);
+						if(prjDftFile.exists()) {
+							prjDftFile.delete();
 						} else {
-							System.out.println("기존파일이 존재하지 않습니다.");
+							
 						}
+						
+						// 서버에 업로드된 파일을 프로젝트 내의 폴더로 복사하기
+						File newFile = new File(filePath + "\\" + sys_name);
+						File copyFile = new File(prjPath + "\\" + item_name + ".png");
+						
+						FileInputStream input = new FileInputStream(newFile);
+						FileOutputStream output = new FileOutputStream(copyFile);
+						
+						byte[] buf = new byte[1024*1024*10];
+						
+						int readData;
+						while((readData = input.read(buf)) > 0) {
+							output.write(buf, 0, readData);
+						}
+						
+						input.close();
+						output.close();
+						*/
 						
 						response.sendRedirect("/toItemPage.admin");
 					}
@@ -238,12 +343,20 @@ public class ItemController extends HttpServlet {
 			ItemDAO dao = new ItemDAO();
 			ImgFileDAO imgDao = new ImgFileDAO();
 			
+			String item_name = null;
+			
+			
 			// 기존 이미지파일 경로값 가져오기
 			String dftFile = null;
+			String dftFileName = null;
 			try {
-				String dftFileName = imgDao.select_img(img_no).getSys_name(); // 서버에 저장된 기존파일의 이름
+				dftFileName = imgDao.select_img(img_no).getSys_name(); // 서버에 저장된 기존파일의 이름
 				dftFile = filePath + "\\" + dftFileName; // 기존파일경로
 				System.out.println("기존파일경로 : " + dftFile);
+				
+				item_name = dao.selectByItemNo(item_no).getItem_name(); // 상품명 불러오기
+				System.out.println(item_name);
+				
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -263,6 +376,20 @@ public class ItemController extends HttpServlet {
 					} else {
 						System.out.println("기존파일이 존재하지 않습니다.");
 					}
+					
+					/*
+					// 프로젝트 플더 내 기존이미지 삭제
+					
+					String prjPath = "E:\\project\\aram_workspace\\AramProj\\src\\main\\webapp\\resources\\images\\items";
+					String prjDftFileName = prjPath + "\\" + item_name + ".png";
+					
+					File prjDftFile = new File(prjDftFileName);
+					if(prjDftFile.exists()) {
+						prjDftFile.delete();
+					} else {
+						
+					}
+					*/
 
 					ArrayList<ItemViewDTO> list = dao.mngItemList();
 					Gson gson = new Gson();
@@ -287,15 +414,54 @@ public class ItemController extends HttpServlet {
 			ImgFileDAO imgDao = new ImgFileDAO();
 			
 			for(int i = 0; i<checkArr.length; i++) {
+				
 				System.out.println(checkArr[i]); // 배열 출력
 				
 				try {
+					// 이미지 삭제 준비
+					int item_no = Integer.parseInt(checkArr[i]);
+					int img_no = dao.selectByItemNo(item_no).getItemImgDTO().getImg_no();
+					System.out.println("상품번호 : " + item_no + " / 이미지번호 : " + img_no);
 					
+					String filePath = request.getServletContext().getRealPath("/resources/images/items");
+					
+					String item_name = dao.selectByItemNo(item_no).getItem_name(); // 상품명 불러오기
+					System.out.println("상품명 : " + item_name);
+					
+					// 기존 이미지파일 경로값 가져오기
+					String dftFileName = imgDao.select_img(img_no).getSys_name(); // 서버에 저장된 기존파일의 이름
+					String dftFile = filePath + "\\" + dftFileName; // 기존파일경로
+					System.out.println("기존 이미지파일 : " + dftFile);
+					
+					// 기존이미지 실제파일 삭제
+					File file = new File(dftFile);
+					if(file.exists()) {
+						file.delete();
+						System.out.println("실제 기존파일 삭제 완료");
+					} else {
+						System.out.println("기존파일이 존재하지 않습니다.");
+					}
+					
+					/*
+					// 프로젝트 플더 내 기존이미지 삭제
+					
+					String prjPath = "E:\\project\\aram_workspace\\AramProj\\src\\main\\webapp\\resources\\images\\items";
+					String prjDftFileName = prjPath + "\\" + item_name + ".png";
+					
+					File prjDftFile = new File(prjDftFileName);
+					if(prjDftFile.exists()) {
+						prjDftFile.delete();
+					} else {
+						
+					}
+					*/
+					
+					// 상품 삭제 실행
 					int rs = dao.deleteItem(Integer.parseInt(checkArr[i]));
 					int rsFile = imgDao.delete_imgByTitle(Integer.parseInt(checkArr[i]));
 					if (rs > 0 && rsFile>0) { // 삭제 성공, 상품목록 응답
 						System.out.println("삭제완료");
-						// response.sendRedirect("/toItemPage.admin");
+						
 					} else { // 삭제 실패
 						response.getWriter().append("fail");
 						return;
@@ -446,32 +612,6 @@ public class ItemController extends HttpServlet {
 			}
 		}
 		
-		/*
-		if(uri.equals("/dummy.item")) {
-			ItemDAO dao = new ItemDAO();
-			ImgFileDAO imgDao = new ImgFileDAO();
-			
-			for(int i=0; i<100; i++) {
-				String item_name = "111";
-				int price = 100;
-				String item_comment = "111";
-				int item_stock = 10;
-				String category_id = "200";
-				
-				try {
-					
-					int item_no = dao.getItemNo();
-					int img_no = imgDao.getImgFileNo();
-					
-					int rs = dao.insertItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no));
-					int rsFile = imgDao.insert_img(new ItemimgDTO(img_no, item_no, null, "111", "323"));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-		}
-		*/
 	 }
 
 }

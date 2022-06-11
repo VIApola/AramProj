@@ -117,6 +117,18 @@
             
     
 </style>
+<script>
+	window.onload = function(){
+		if(${empty loginSession}){
+			alert("관리자 계정으로 로그인해주세요.");
+			location.href = "/login.user";
+		}else if ("${loginSession.getIsAdmin()}" === "n") {
+			alert("관리자 계정으로 로그인해주세요.");
+			location.href = "/login.user";
+		}
+	};
+</script>
+
 <body>
     <div class="container">
         <!--헤더영역-->
@@ -236,7 +248,7 @@
 									<span>${dto.category_id}</span>
 								</div>
 								<div class="col-2 d-flex align-self-center justify-content-center"> <!-- 이미지 -->
-	                            	<img src="/resources/images/items/${dto.itemImgDTO.sys_name}" class="card-img-top">
+	                            	<img src="/resources/images/items/${dto.sys_name}" class="card-img-top">
 								</div>
 								<div class="col-3 d-flex align-self-center justify-content-center"> <!-- 상품명 -->
 									<span>${dto.item_name}</span>
@@ -248,7 +260,7 @@
 									</form>
 									<form>
 										<input type="number" class="cls-item_no" id="${dto.item_no}" name="item_no" value="${dto.item_no}"readonly>
-										<input type="text" class="cls-item_no" id="${dto.itemImgDTO.img_no}" value="${dto.itemImgDTO.img_no}" name="img_no">
+										<input type="text" class="cls-item_no" id="${dto.sys_name}" value="${dto.sys_name}" name="sys_name">
 										<button type="button" id="deleteItem${dto.item_no}" value="${dto.item_no}" class="btn-delete btn btn-secondary">삭제</button>
 									</form>
 								</div>
@@ -271,17 +283,6 @@
 			</div>
 
         
-        <!--페이징-->
-        <div class="row box-paging">
-            <div class="col d-flex align-self-center justify-content-center">
-                페이징
-            </div>
-        </div>
-        <!--풋터-->
-        <div class="row">
-            <jsp:include page="/frame/footer.jsp"></jsp:include>
-        </div>
-    </div>
 
     <script>
     
@@ -478,7 +479,7 @@
         			
         			// 이미지
         			let colImg = $("<div>").addClass("col-2 d-flex align-self-center justify-content-center");
-        			let img = $("<img>").attr("src", "/resources/images/items/"+dto.itemImgDTO.sys_name).addClass("card-img-top");
+        			let img = $("<img>").attr("src", "/resources/images/items/"+dto.sys_name).addClass("card-img-top");
         			
         			colImg.append(img);
         			rowCon.append(colImg);
@@ -501,7 +502,7 @@
         			
         			let formDeleteBtn = $("<form>");
         			let inputDelete = $("<input>").attr({type: "number", class:  "cls-item_no", id: dto.item_no, name: "item_no", value: dto.item_no, readonly: true});
-        			let inputDeleteImg = $("<input>").attr({type: "text", class: "cls-item_no", id: dto.itemImgDTO.img_no, name: "img_no", value: dto.itemImgDTO.img_no});
+        			let inputDeleteImg = $("<input>").attr({type: "text", class: "cls-item_no", id: dto.img_no, name: "img_no", value: dto.img_no});
         			let btnDelete = $("<button>").attr({type: "button", id: "deleteItem"+dto.item_no, value: dto.item_no, class: "btn-delete btn btn-secondary"}).html("삭제");
         			
         			formDeleteBtn.append(inputDelete).append(inputDeleteImg).append(btnDelete);

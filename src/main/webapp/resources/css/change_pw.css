@@ -29,6 +29,9 @@
             margin: 15px;
             width: 200px;
         }
+        .btn{
+        	margin-top: 20px;
+        }
 
         /* 비밀번호 변경 마진 설정 */
         .boxChangePwAction {

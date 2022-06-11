@@ -1,12 +1,9 @@
 package com.aram.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -14,9 +11,11 @@ import javax.naming.InitialContext;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import com.aram.dto.NoticeDTO;
+import com.aram.utils.StringDateFormatter;
 
 public class NoticeDAO {
-	private BasicDataSource bds;
+	
+	private BasicDataSource bds = null;
 	
 	public NoticeDAO() {
 		try {
@@ -27,6 +26,20 @@ public class NoticeDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	/* NoticeDAO (공지사항 게시판)
+	 * 
+	 * 게시글 작성 write
+	 * 게시글 삭제 delete
+	 * 게시글 수정 modify
+	 * 상세검색 - 글쓴이로 검색 searchByAuthor
+	 * 상세검색 - 제목으로 탐색 searhByTitle
+	 * 게시글 전체 조회 selectAll
+	 * 번호로 게시글 조회 selectBySeq
+	 * 게시글 조회수 증가체크 updateView_count
+	 * 
+	 * */
+	
 	// Notice 게시글 작성
 	public int write(NoticeDTO dto) throws Exception{
 		String sql = "INSERT INTO tbl_notice VALUES(seq_notice.nextval, ?, ?, ?, sysdate, ?, default)";
@@ -79,7 +92,7 @@ public class NoticeDAO {
 	
 	// 글쓴이와 타이틀로 상세검색
 	// 글쓴이로 검색
-	public ArrayList<NoticeDTO> searchByAuthor(String searchAuthor) throws Exception{
+	public ArrayList<NoticeDTO> searchByAuthor(String searchAuthor) throws Exception {
 		String sql = "SELECT * FROM tbl_notice WHERE author = ? order by 1 desc";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)){
@@ -93,7 +106,7 @@ public class NoticeDAO {
 				String user_id = rs.getString("user_id");
 				String title = rs.getString("title");
 				String author = rs.getString("author");
-				String write_date = getStringDate(rs.getDate("write_date"));
+				String write_date = StringDateFormatter.getStringDate(rs.getDate("write_date"));
 				String content = rs.getString("content");
 				int board_views = rs.getInt("board_views");
 				list.add(new NoticeDTO(notice_no, user_id, title, author, write_date, content, board_views));
@@ -119,7 +132,7 @@ public class NoticeDAO {
 				String user_id = rs.getString("user_id");
 				String title = rs.getString("title");
 				String author = rs.getString("author");
-				String write_date = getStringDate(rs.getDate("write_date"));
+				String write_date = StringDateFormatter.getStringDate(rs.getDate("write_date"));
 				String content = rs.getString("content");
 				int board_views = rs.getInt("board_views");
 				list.add(new NoticeDTO(notice_no, user_id, title, author, write_date, content, board_views));
@@ -149,7 +162,7 @@ public class NoticeDAO {
 				String user_id = rs.getString("user_id");
 				String title = rs.getString("title");
 				String author = rs.getString("author");
-				String write_date = getStringDate(rs.getDate("write_date"));
+				String write_date = StringDateFormatter.getStringDate(rs.getDate("write_date"));
 				String content = rs.getString("content");
 				int board_views = rs.getInt("board_views");
 				
@@ -175,7 +188,7 @@ public class NoticeDAO {
 				String user_id = rs.getString("user_id");
 				String title = rs.getString("title");
 				String author = rs.getString("author");
-				String write_date = getStringDate(rs.getDate("write_date"));
+				String write_date = StringDateFormatter.getStringDate(rs.getDate("write_date"));
 				String content = rs.getString("content");
 				int board_views = rs.getInt("board_views");
 				NoticeDTO dto = new NoticeDTO(notice_no, user_id, title, author, write_date, content, board_views);
@@ -184,11 +197,7 @@ public class NoticeDAO {
 			return null;
 		}
 	}
-	}
-	// 날짜 String으로 변환
-	public String getStringDate(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
-		return sdf.format(date);
+
 	}
 	
 	//조회수 check

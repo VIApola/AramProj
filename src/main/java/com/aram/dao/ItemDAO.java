@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -15,6 +16,7 @@ import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import com.aram.dto.ItemDTO;
 import com.aram.dto.ItemViewDTO;
 import com.aram.dto.ItemimgDTO;
+import com.aram.dto.ReviewDTO;
 
 public class ItemDAO {
 	private BasicDataSource bds;
@@ -24,6 +26,7 @@ public class ItemDAO {
 			Context iCtx = new InitialContext();
 			Context envCtx = (Context)iCtx.lookup("java:comp/env");
 			bds = (BasicDataSource)envCtx.lookup("jdbc/bds");
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -31,65 +34,54 @@ public class ItemDAO {
 
 	//메인에서 뿌려줄 재고 적은 순으로 1~8위
 	public ArrayList<ItemViewDTO> selectByStock() throws Exception {
-		String sql ="select * from (select * from tbl_items order by item_stock) where rownum <=8";
+		String sql ="select * from (select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no order by item_stock) where rownum <=8";
 		
 		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
 			
 			try(ResultSet rs = pstmt.executeQuery()){
-						
-			ImgFileDAO dao = new ImgFileDAO();
-			
-			ArrayList<ItemViewDTO> list = new ArrayList<>();
-			while(rs.next()) {
-				int item_no = rs.getInt("item_no");
-				String item_name = rs.getString("item_name");
-				int price = rs.getInt("price");
-				String item_comment = rs.getString("item_comment");
-				String item_regdate = getStringDate(rs.getDate("item_regdate"));
-				int item_stock = rs.getInt("item_stock");
-				String category_id = rs.getString("category_id");
-				int img_no = rs.getInt("img_no");
-				ItemimgDTO itemImgDto = dao.select_img(img_no);
-				
-				list.add(new ItemViewDTO(item_no, item_name, price, item_comment, item_regdate, item_stock, category_id, itemImgDto));
-				
-			}
-			return list;
+				ArrayList<ItemViewDTO> list = new ArrayList<>();
+				while(rs.next()) {
+					int item_no = rs.getInt("item_no");
+					String item_name = rs.getString("item_name");
+					int price = rs.getInt("price");
+					String item_comment = rs.getString("item_comment");
+					String item_regdate = getStringDate(rs.getDate("item_regdate"));
+					int item_stock = rs.getInt("item_stock");
+					String category_id = rs.getString("category_id");
+					int img_no = rs.getInt("img_no");
+					String sys_name = rs.getString("sys_name");
+					
+					list.add(new ItemViewDTO(item_no, item_name, price, item_comment, item_regdate, item_stock, category_id, img_no, sys_name));
+				}
+				return list;
 			}
 		}
 	}
 	
-	//제품이름 검색 요청
-	public ArrayList<ItemViewDTO> searchByTitle(String searchKeyword) throws Exception{
+	// 제품이름 검색 요청
+	public ArrayList<ItemViewDTO> searchByTitle(String searchKeyword) throws Exception {
 		String sql="select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no where item_name like '%'||?||'%' order by 1 desc";
 		
 			try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
 			
 			pstmt.setString(1, searchKeyword);
-			
-			try(ResultSet rs = pstmt.executeQuery()){
-				
-	
-			
-			ImgFileDAO dao = new ImgFileDAO();
-			
-			ArrayList<ItemViewDTO> list = new ArrayList<>();
-			while(rs.next()) {
-				int item_no = rs.getInt("item_no");
-				String item_name = rs.getString("item_name");
-				int price = rs.getInt("price");
-				String item_comment = rs.getString("item_comment");
-				String item_regdate = getStringDate(rs.getDate("item_regdate"));
-				int item_stock = rs.getInt("item_stock");
-				String category_id = rs.getString("category_id");
-				int img_no = rs.getInt("img_no");
-				ItemimgDTO itemImgDto = dao.select_img(img_no);
-				
-				list.add(new ItemViewDTO(item_no, item_name, price, item_comment, item_regdate, item_stock, category_id, itemImgDto));
-				
-			}
-			return list;
-			
+
+			try(ResultSet rs = pstmt.executeQuery()) {
+				ArrayList<ItemViewDTO> list = new ArrayList<>();
+				while(rs.next()) {
+					int item_no = rs.getInt("item_no");
+					String item_name = rs.getString("item_name");
+					int price = rs.getInt("price");
+					String item_comment = rs.getString("item_comment");
+					String item_regdate = getStringDate(rs.getDate("item_regdate"));
+					int item_stock = rs.getInt("item_stock");
+					String category_id = rs.getString("category_id");
+					int img_no = rs.getInt("img_no");
+					String sys_name = rs.getString("sys_name");
+					
+					list.add(new ItemViewDTO(item_no, item_name, price, item_comment, item_regdate, item_stock, category_id, img_no ,sys_name));		
+				}
+				return list;
 		}
 	 }
 	}
@@ -99,68 +91,59 @@ public class ItemDAO {
 		String sql = "select count(*) from tbl_items where item_name like '%'||?||'%'";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)){
+      
 			pstmt.setString(1, searchKeyword);
+      
 			try(ResultSet rs = pstmt.executeQuery()){
-				
-			
-			rs.next();
-			return rs.getInt(1);
-
+			  rs.next();
+			  return rs.getInt(1);
 			}
 		}
 	}
 	
 	
-	//가격대 범위안의 아이템 조회하기
-	public ArrayList<ItemViewDTO> searchByPrice (int minPrice, int maxPrice) throws Exception{
-		String sql = "select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no where price between ? and ?";
-		
-		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
-			
-			pstmt.setInt(1,minPrice);
-			pstmt.setInt(2,maxPrice);
-		
-			try(ResultSet rs = pstmt.executeQuery()){
-				
-
-			ImgFileDAO dao = new ImgFileDAO();
-			
-			ArrayList<ItemViewDTO> list = new ArrayList<>();
-			while(rs.next()) {
-				int item_no = rs.getInt("item_no");
-				String item_name = rs.getString("item_name");
-				int price = rs.getInt("price");
-				String item_comment = rs.getString("item_comment");
-				String item_regdate = getStringDate(rs.getDate("item_regdate"));
-				int item_stock = rs.getInt("item_stock");
-				String category_id = rs.getString("category_id");
-				int img_no = rs.getInt("img_no");
-				ItemimgDTO itemImgDto = dao.select_img(img_no);
-				
-				list.add(new ItemViewDTO(item_no, item_name, price, item_comment, item_regdate, item_stock, category_id, itemImgDto));
-				
-			}
-			return list;
-			}
-		}
-	}
-	//가격대 범위안의 아이템 카운트
-	public int countSearchItems(int minPrice, int maxPrice) throws Exception {
-		String sql = "select count(*) from tbl_items where price between ? and ?";
-		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql)){
-			pstmt.setInt(1,minPrice);
-			pstmt.setInt(2,maxPrice);
-			
-			try(ResultSet rs = pstmt.executeQuery()){
-				
-			rs.next();
-			return rs.getInt(1);
-
-			
-			}
-		}
-	}
+//	//가격대 범위안의 아이템 조회하기
+//	public ArrayList<ItemViewDTO> searchByPrice (int minPrice, int maxPrice) throws Exception{
+//		String sql = "select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no where price between ? and ?";
+//		
+//		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
+//			
+//			pstmt.setInt(1,minPrice);
+//			pstmt.setInt(2,maxPrice);
+//			
+//			try(ResultSet rs = pstmt.executeQuery();) {
+//				ArrayList<ItemViewDTO> list = new ArrayList<>();
+//				while(rs.next()) {
+//					int item_no = rs.getInt("item_no");
+//					String item_name = rs.getString("item_name");
+//					int price = rs.getInt("price");
+//					String item_comment = rs.getString("item_comment");
+//					String item_regdate = getStringDate(rs.getDate("item_regdate"));
+//					int item_stock = rs.getInt("item_stock");
+//					String category_id = rs.getString("category_id");
+//					String sys_name = rs.getString("sys_name");
+//					
+//					list.add(new ItemViewDTO(item_no, item_name, price, item_comment, item_regdate, item_stock, category_id, sys_name));
+//					
+//				}
+//				return list;
+//			}
+//		}
+//	}
+//	//가격대 범위안의 아이템 카운트
+//	public int countSearchItems(int minPrice, int maxPrice) throws Exception {
+//		String sql = "select count(*) from tbl_items where price between ? and ?";
+//		try(Connection con = bds.getConnection();
+//			PreparedStatement pstmt = con.prepareStatement(sql)){
+//			pstmt.setInt(1,minPrice);
+//			pstmt.setInt(2,maxPrice);
+//			
+//			ResultSet rs = pstmt.executeQuery();
+//			rs.next();
+//			return rs.getInt(1);
+//
+//		}
+//	}
 	
 	
 	
@@ -168,13 +151,12 @@ public class ItemDAO {
 	public ArrayList<ItemViewDTO> selectAllItems() {
 		System.out.println("selectAll");
 		String sql = "select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no";
+
 		try(Connection con = bds.getConnection();
 			PreparedStatement pst = con.prepareStatement(sql)){
 			try(ResultSet rs = pst.executeQuery()){
 			
-				System.out.println("selectAll connection created ");
 			ArrayList<ItemViewDTO> itemList = new ArrayList<>();
-
 
 			while(rs.next()) {
 				int item_no = rs.getInt("item_no");
@@ -184,21 +166,67 @@ public class ItemDAO {
 				String item_regdate = getStringDate(rs.getDate("item_regdate"));
 				int item_stock = rs.getInt("item_stock");
 				String category_id = rs.getString("category_id");
-				
-				int img_no = rs.getInt("img_no");
-				String img_type = rs.getString("img_type");
-				String ori_name = rs.getString("ori_name");
+        
+        int img_no = rs.getInt("img_no");
 				String sys_name = rs.getString("sys_name");
+        
+        itemList.add(new ItemViewDTO(item_no, item_name, price, item_comment,
+							item_regdate, item_stock, category_id, img_no ,sys_name));
+        }
 				
-				itemList.add(new ItemViewDTO(item_no, item_name, price, item_comment,
-						item_regdate, item_stock, category_id, new ItemimgDTO(img_no,item_no,img_type, ori_name, sys_name)));
+				System.out.println(" 보내기 전 list (ItemDTO) : " + itemList);
+				
+				return itemList;
 			}
-			System.out.println(" 보내기 전 list (ItemDTO) : " + itemList);
-			System.out.println("selectAllItems 실행완료");
-			return itemList;
-			}
+		
 		}catch(Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	// select product all (세부 상품 조회 부분 테스트)
+	public HashMap<String, Object> selectItemInfo(int item_no) throws Exception {
+		String sql = "SELECT * FROM tbl_items i INNER JOIN tbl_item_img g on(i.ITEM_NO = g.ITEM_NO) "
+				+ "FULL OUTER join tbl_review r on(g.item_no = r.ITEM_NO) WHERE i.ITEM_NO = ?";
+		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
+			pst.setInt(1, item_no);
+			
+			try(ResultSet rs = pst.executeQuery()) {
+				if(rs.next()) {
+					// String item_no = rs.getString("item_no");
+					String item_name = rs.getString("item_name");
+					int price = rs.getInt("price");
+					String item_comment = rs.getString("item_comment");
+					//String item_regdate = (String)rs.getDate("item_regdate");
+					int item_stock = rs.getInt("item_stock");
+					String category_id = rs.getString("category_id");
+					
+					int img_no = rs.getInt("img_no");
+					String ori_name = rs.getString("ori_name");
+					String sys_name = rs.getString("sys_name");
+					
+					int review_no = rs.getInt("review_no");
+					String nickname = rs.getString("nickname");
+					String title = rs.getString("title");
+					String content = rs.getString("content");
+					// String write_date = getStringDate(rs.getDate("write_date"));
+					int score = rs.getInt("score");
+					String user_id = rs.getString("user_id");
+					
+					ItemDTO itemDto = new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no);
+					ItemimgDTO imgDto = new ItemimgDTO(img_no, item_no, null, ori_name, sys_name);
+					ReviewDTO reviewDto = new ReviewDTO(review_no, nickname, title, content, null, score,
+							user_id, item_no, img_no);
+					
+					HashMap<String, Object> itemInfo = new HashMap<String, Object>();
+					
+					itemInfo.put("itemDto", itemDto);
+					itemInfo.put("imgDto", imgDto);
+					itemInfo.put("reviewDto", reviewDto);
+					
+					return itemInfo;
+				}
+			}
 		}
 		return null;
 	}
@@ -208,24 +236,21 @@ public class ItemDAO {
 		String sql = "select * from tbl_items where item_no = ?";
 		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
 			pst.setInt(1, item_no);
-			try(ResultSet rs = pst.executeQuery()){
-				
 			
-		
-			
-			if(rs.next()) {
-				// String item_no = rs.getString("item_no");
-				String item_name = rs.getString("item_name");
-				int price = rs.getInt("price");
-				String item_comment = rs.getString("item_comment");
-				//String item_regdate = (String)rs.getDate("item_regdate");
-				int item_stock = rs.getInt("item_stock");
-				String category_id = rs.getString("category_id");
-				int img_no = rs.getInt("img_no");
-				
-				return new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no);
-			}
-			return null;
+			try(ResultSet rs = pst.executeQuery()) {
+				if(rs.next()) {
+					// String item_no = rs.getString("item_no");
+					String item_name = rs.getString("item_name");
+					int price = rs.getInt("price");
+					String item_comment = rs.getString("item_comment");
+					//String item_regdate = (String)rs.getDate("item_regdate");
+					int item_stock = rs.getInt("item_stock");
+					String category_id = rs.getString("category_id");
+					int img_no = rs.getInt("img_no");
+					
+					return new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no);
+				}
+				return null;
 		}
 		}	
 	}
@@ -237,29 +262,26 @@ public class ItemDAO {
 			pst.setString(1, category_id);	
 			
 			try(ResultSet rs = pst.executeQuery()){
-				
+
 			ArrayList<ItemViewDTO> itemList = new ArrayList<>();
 
-			while(rs.next()) {
+				while(rs.next()) {
+					
+					int item_no = rs.getInt("item_no");
+					String item_name = rs.getString("item_name");
+					int price = rs.getInt("price");
+					String item_comment = rs.getString("item_comment");
+					String item_regdate = getStringDate(rs.getDate("item_regdate"));
+					int item_stock = rs.getInt("item_stock");
+					int img_no = rs.getInt("img_no");
+					String sys_name = rs.getString("sys_name");
+					
+					itemList.add(new ItemViewDTO(item_no, item_name, price, item_comment,
+							item_regdate, item_stock, category_id, img_no ,sys_name));
+				}
+				System.out.println(" 보내기 전 list (ItemDTO) : " + itemList);
 				
-				int item_no = rs.getInt("item_no");
-				String item_name = rs.getString("item_name");
-				int price = rs.getInt("price");
-				String item_comment = rs.getString("item_comment");
-				String item_regdate = getStringDate(rs.getDate("item_regdate"));
-				int item_stock = rs.getInt("item_stock");
-				
-				int img_no = rs.getInt("img_no");
-				String img_type = rs.getString("img_type");
-				String ori_name = rs.getString("ori_name");
-				String sys_name = rs.getString("sys_name");
-				
-				itemList.add(new ItemViewDTO(item_no, item_name, price, item_comment,
-						item_regdate, item_stock, category_id, new ItemimgDTO(img_no,item_no,img_type, ori_name, sys_name)));
-			}
-			System.out.println(" 보내기 전 list (ItemDTO) : " + itemList);
-			
-			return itemList;
+				return itemList;
 			}
 		}
 	}
@@ -270,6 +292,7 @@ public class ItemDAO {
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)){
 			pstmt.setString(1, category_id);
+      
 			try(ResultSet rs = pstmt.executeQuery()){
 			rs.next();
 			return rs.getInt(1);
@@ -283,8 +306,9 @@ public class ItemDAO {
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)){
 			try(ResultSet rs = pstmt.executeQuery()){
+
 			rs.next();
-			
+        
 			return rs.getInt(1);
 			}
 		}
@@ -296,7 +320,6 @@ public class ItemDAO {
 		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
 			
 			try(ResultSet rs = pstmt.executeQuery()){
-			
 			ArrayList<ItemDTO> list = new ArrayList<>();
 			while(rs.next()) {
 				int item_no = rs.getInt("item_no");
@@ -309,22 +332,19 @@ public class ItemDAO {
 				int img_no = rs.getInt("img_no");
 				list.add(new ItemDTO (item_no,item_name,price,item_comment,item_regdate,item_stock,category_id, img_no));
 				
+				}
+				return list;
 			}
-			return list;
-			
 		}
 		}
-		
-	}
 	
 	// 등록되어있는 전체상품 카운트
 	public int countAllItems() throws Exception{
-		String sql = "select count(*) from tbl_items";
-		
+		String sql = "select count(*) from tbl_items";	
 		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
 			try(ResultSet rs = pstmt.executeQuery()){
+
 			rs.next();
-			System.out.println("countAll 실행완료");
 			return rs.getInt(1);
 		}
 	}
@@ -334,7 +354,7 @@ public class ItemDAO {
    // 최신순으로 전체 아이템 조회 + 이미지 포함
    public ArrayList<ItemViewDTO> selectRecentPagingAll(int start, int end) throws Exception{
 		String sql = "SELECT * FROM\n"
-				+ "(SELECT item.ITEM_NO, ITEM_NAME, PRICE, SYS_NAME, row_number() over(order by item.item_no desc) AS num\n"
+				+ "(SELECT item.ITEM_NO, ITEM_NAME, PRICE, IMG_NO, SYS_NAME, row_number() over(order by item.item_no desc) AS num\n"
 				+ "FROM tbl_items item join tbl_item_img img on item.img_no=img.img_no) WHERE num BETWEEN ? AND ?";
 		
 		try(Connection con = bds.getConnection();
@@ -345,19 +365,21 @@ public class ItemDAO {
 			
 			try(ResultSet rs = pstmt.executeQuery()){
 			ArrayList<ItemViewDTO> list = new ArrayList<>();
-			
-			while(rs.next()) {
-				int item_id = rs.getInt("item_no");
-				String item_name = rs.getString("item_name");
-				int price = rs.getInt("price");
-				String sys_name = rs.getString("sys_name");
 				
-				list.add(new ItemViewDTO(item_id, item_name, price, null, null , 0, null, new ItemimgDTO(0,0,null,null, sys_name)));
+				while(rs.next()) {
+					int item_id = rs.getInt("item_no");
+					String item_name = rs.getString("item_name");
+					int price = rs.getInt("price");
+					int img_no = rs.getInt("img_no");
+					String sys_name = rs.getString("sys_name");
+					
+					list.add(new ItemViewDTO(item_id, item_name, price, null, null , 0, null, img_no, sys_name));
+				}
+				return list;
 			}
-			return list;
 		}	
 	}
-   }
+    
    // 최신순으로 전체 아이템 조회 + 이미지 포함
    public ArrayList<ItemDTO> selectPagingAll(int start, int end) throws Exception{
 		String sql = "select * from (select tbl_items.*, row_number() over(order by item_id desc) as num from tbl_items) where num between ? and ?";
@@ -380,11 +402,12 @@ public class ItemDAO {
 				String category_id = rs.getString("category_id");
 				int img_no = rs.getInt("img_no");
 				list.add(new ItemDTO (item_id,item_name,price,item_comment,item_regdate,item_stock,category_id, img_no));
+				}
+				return list;
 			}
-			return list;
 		}	
 	}  
-   }
+ 
 	
 	// Date형을 String형으로
 	public String getStringDate(Date date) {
@@ -421,12 +444,10 @@ public class ItemDAO {
 				}
 				
 				int img_no = rs.getInt("img_no");
-				String img_type = rs.getString("img_type");
-				String ori_name = rs.getString("ori_name");
 				String sys_name = rs.getString("sys_name");
 				
 				list.add(new ItemViewDTO(item_no, item_name, price, item_comment,
-						item_regdate, item_stock, category_id, new ItemimgDTO(img_no,item_no,img_type, ori_name, sys_name)));
+						item_regdate, item_stock, category_id, img_no ,sys_name));
 
 			}
 			return list;
@@ -465,12 +486,10 @@ public class ItemDAO {
 				}
 				
 				int img_no = rs.getInt("img_no");
-				String img_type = rs.getString("img_type");
-				String ori_name = rs.getString("ori_name");
 				String sys_name = rs.getString("sys_name");
 				
 				list.add(new ItemViewDTO(item_no, item_name, price, item_comment,
-						item_regdate, item_stock, category_id, new ItemimgDTO(img_no,item_no,img_type, ori_name, sys_name)));
+						item_regdate, item_stock, category_id, img_no ,sys_name));
 
 			}
 			return list;
@@ -478,8 +497,6 @@ public class ItemDAO {
 		}
 		
 	}
-	
-	
 	
 	
 	public ArrayList<ItemViewDTO> searchByNoMng(String input) throws Exception { // 관리자 페이지 : 상품검색-상품번호, 번호순
@@ -511,12 +528,10 @@ public class ItemDAO {
 				}
 				
 				int img_no = rs.getInt("img_no");
-				String img_type = rs.getString("img_type");
-				String ori_name = rs.getString("ori_name");
 				String sys_name = rs.getString("sys_name");
 				
 				list.add(new ItemViewDTO(item_no, item_name, price, item_comment,
-						item_regdate, item_stock, category_id, new ItemimgDTO(img_no,item_no,img_type, ori_name, sys_name)));
+						item_regdate, item_stock, category_id, img_no, sys_name));
 
 			}
 			return list;
@@ -524,9 +539,6 @@ public class ItemDAO {
 		}
 		
 	}
-	
-	
-
 	
 	public ItemViewDTO selectByItemNo(int num) throws Exception { // 관리자 페이지 : 상품번호로 데이터 조회 (상품수정페이지)
 		
@@ -548,12 +560,10 @@ public class ItemDAO {
 				int item_stock = rs.getInt("item_stock");
 				String category_id = rs.getString("category_id");
 				int img_no = rs.getInt("img_no");
-				String img_type = rs.getString("img_type");
-				String ori_name = rs.getString("ori_name");
 				String sys_name = rs.getString("sys_name");
 				
 				ItemViewDTO dto = new ItemViewDTO(item_no, item_name, price, item_comment,
-						item_regdate, item_stock, category_id, new ItemimgDTO(img_no,item_no,img_type, ori_name, sys_name));
+						item_regdate, item_stock, category_id, img_no, sys_name);
 				
 				return dto;
 			}

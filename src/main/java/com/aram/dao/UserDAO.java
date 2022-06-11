@@ -16,17 +16,6 @@ import com.aram.dto.MypageReviewDTO;
 import com.aram.dto.UserDTO;
 
 public class UserDAO {
-	private BasicDataSource bds;
-	
-	public UserDAO() {
-		try {
-			Context iCtx = new InitialContext();
-			Context envCtx = (Context)iCtx.lookup("java:comp/env");
-			bds = (BasicDataSource)envCtx.lookup("jdbc/bds");
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
 	
 	/* UserDAO 순서
 	 * - 회원가입 signUP
@@ -39,6 +28,19 @@ public class UserDAO {
 	 * - 일반 화원탈퇴
 	 * - 카카오 회원탈퇴
 	 * */
+	
+	private BasicDataSource bds = null;
+	
+	public UserDAO() {
+		try {
+			Context iCtx = new InitialContext();
+			Context envCtx = (Context)iCtx.lookup("java:comp/env");
+			bds = (BasicDataSource)envCtx.lookup("jdbc/bds");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	// 회원가입
 	public int signup(UserDTO dto) throws Exception{
@@ -438,9 +440,6 @@ public class UserDAO {
 	}
 	}
 	*/
-	
-	
-	
 	
 		// 관리자인지 아닌지
 //		public boolean isAdmin(String id, String pw) throws Exception{

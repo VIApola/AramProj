@@ -12,7 +12,7 @@ import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import com.aram.dto.CartDTO;
 import com.aram.dto.Cart_ItemDTO;
-import com.aram.dto.ItemDTO;
+
 
 public class CartDAO {
 	private BasicDataSource bds;
@@ -26,7 +26,6 @@ public class CartDAO {
 			e.printStackTrace();
 		}
 	}
-
 	
 	//user_id로 cart에 담겨져있는 총 상품 개수 출력
 	public int QuantityById(String user_id) throws Exception{
@@ -139,7 +138,7 @@ public class CartDAO {
 	
 	
 	// 해당 물품이 장바구니에 있는 물품인지 확인 - 없을 시 true, 있으면 false
-	public boolean existItem(int item_no)throws Exception {
+	public boolean existItem(int item_no) throws Exception {
 		String sql = "select count(*) as count from tbl_cart where item_no = ?";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
@@ -169,7 +168,19 @@ public class CartDAO {
 	}
 	
 	
-	// 장바구니 수량 추가
+	// 장바구니 중복 물품 수량 추가
+	public int plusQuantity(int quantity, String user_id, int item_no) throws Exception {
+		String sql = "update tbl_cart set quantity=quantity+? where user_id=? and item_no=?";
+		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
+				
+			pstmt.setInt(1, quantity);
+			pstmt.setString(2, user_id);
+			pstmt.setInt(3, item_no);
+			
+			return pstmt.executeUpdate();
+		}
+	}
+	
 	public int updateQuantity(int quantity, String user_id, int item_no) throws Exception {
 		String sql = "update tbl_cart set quantity=? where user_id=? and item_no=?";
 		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
@@ -181,7 +192,6 @@ public class CartDAO {
 			return pstmt.executeUpdate();
 		}
 	}
-	
 	
 	public int length(String[] checkVals) {
 		if(checkVals == null) {

@@ -16,7 +16,7 @@ import com.aram.dto.OrderDTO;
 import com.aram.dto.OrderItemDTO;
 
 public class OrderDAO {
-	private BasicDataSource bds;
+	private BasicDataSource bds = null;
 	
 	public OrderDAO() {
 		try {
@@ -123,7 +123,7 @@ public class OrderDAO {
 	}
 	// 유저아이디에 따라 목록 뿌려주기
 	public ArrayList<OrderDTO> selectUserOrder(String id) throws Exception {
-		String sql = "select * from tbl_order where user_id = ?";
+		String sql = "select * from tbl_order where user_id = ? order by 1 desc";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);){
 			

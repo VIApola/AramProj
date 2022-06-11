@@ -145,18 +145,16 @@ public class UserController extends HttpServlet {
  							request.getRequestDispatcher("/member/login.jsp").forward(request, response);
  						}
  				
- 				}else { // db에 유저 정보가 없을 때
-  					System.out.println("로그인 실패");
-  					request.setAttribute("rs", false);
-  					request.getRequestDispatcher("/member/login.jsp").forward(request, response);
-  					}
+					} else { // db에 유저 정보가 없을 때
+						System.out.println("로그인 실패");
+						request.setAttribute("rs", false);
+						request.getRequestDispatcher("/member/login.jsp").forward(request, response);
+					}
         
 
  				}
- 				} catch(Exception e) {
-					 e.printStackTrace();
-				
-
+ 			} catch(Exception e) {
+ 				e.printStackTrace();
 			}
 		} else if (uri.equals("/kakaoLogin.user")) { // 카카오 로그인
 			String kakaoid = request.getParameter("userid");
@@ -299,9 +297,17 @@ public class UserController extends HttpServlet {
 
 			String session_id = ((UserDTO) session.getAttribute("loginSession")).getUser_id();
 			System.out.println("현재 로그인세션 ID :" + session_id);
-			request.setAttribute("loginSession", session.getAttribute("loginSession"));
-
-			request.getRequestDispatcher("/member/mypage.jsp").forward(request, response);
+			UserDAO dao = new UserDAO();
+			try {
+				UserDTO dto = dao.kakaoLogin(session_id); // 아이디로 조회해서 dto 가져오는 메서드가 kakaoLogin 메서드랑 똑같아서 그냥 사용...
+				request.setAttribute("dto", dto);
+				request.setAttribute("loginSession", session.getAttribute("loginSession"));
+				request.getRequestDispatcher("/member/mypage.jsp").forward(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
 
 		} else if (uri.equals("/delete.user")) { // 회원탈퇴 요청
 
