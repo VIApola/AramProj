@@ -170,7 +170,7 @@
         <c:forEach items="${itemList}" var="itemList">
             <div class="col-6 col-lg-3 d-flex justify-content-center">
               <div class="card toSpecific border-0">
-                <a href="/detail.item?item_no=${itemList.item_no}"><img src="/resources/images/items/${itemList.itemImgDTO.sys_name}" class="card-img-top" alt="..."></a>
+                <a href="/detail.item?item_no=${itemList.item_no}"><img src="/resources/images/items/${itemList.sys_name}" class="card-img-top" alt="..."></a>
                 <div class="card-body">
                   <h5 class="card-title">${itemList.item_name}</h5>
                   <p class="card-text">${itemList.price}</p>

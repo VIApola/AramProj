@@ -750,12 +750,10 @@
 			</form>
 		</div>
 		<!-- 바디부분 끝 -->
-
-
 	</div>
 	<!-- 컨테이너 끝 -->
 	<script>
-
+    
     	// 닉네임 조건 밑에 뜨게
     	$("#nickname").focus(function(){
 
@@ -843,7 +841,7 @@
     			$("#email").focus();
     			return;
     		}else if($("#checkEmail").html() !=="사용가능한 이메일 입니다."){
-    			alter("이메일 중복확인을 해주세요.")
+    			alert("이메일 중복확인을 해주세요.");
     			$("#email").focus();
     		}else if($("#postCode").val() === "" || $("#roadAddr").val() === ""){
 				alert("주소를 입력해 주세요.");

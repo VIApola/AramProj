@@ -201,7 +201,6 @@ font-size: x-large;
 			<jsp:include page="/frame/header.jsp"></jsp:include>
 		</div>
 		<div class="row">
-			
 			<div class="col-12 d-md-none">
 				<select id="selectbox" class="form-select"
 					aria-label="Default select example"
@@ -264,7 +263,7 @@ font-size: x-large;
 				</div>
 				<div class="col-12 col-md-9" id="content">
 						<img src="/resources/images/mypageImg001.png" id="mypageImg">
-						<p class="mypageMain">${loginSession.nickname}님, 환영합니다.</p>
+						<p class="mypageMain">${dto.nickname}님, 환영합니다.</p>
 				</div>
 			</div>
 		</div>
@@ -432,6 +431,7 @@ font-size: x-large;
                  		   modifyUser();
                  	   }else if(pwCheck === "pwNo"){
                  		   alert("비밀번호가 틀렸습니다. 다시입력해주세요.");
+                 		   input.val("");
                  		   input.focus();
                  	   }
                     }, error: function(e){
@@ -451,7 +451,7 @@ font-size: x-large;
          let h3 = $("<h5>").html("주문내역 & 배송 조회");
          let row = $("<div>").addClass('row');
          let col = $("<div>").addClass("col-12").css("margin", "10px");
-         let p =  $("<p>").html("${loginSession.nickname}님이 쇼핑몰에서 주문한 내역입니다.");
+         let p =  $("<p>").html("${dto.nickname}님이 쇼핑몰에서 주문한 내역입니다.");
          let p2 = $("<p>").html("* 주문번호를 클릭하시면, 주문하신 내용을 확인 할 수 있습니다.").css({"font-size": "small", "text-align" : "left"})
          let tableRow = $("<div>").addClass('row');
          let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
@@ -529,7 +529,7 @@ font-size: x-large;
 					        let h3 = $("<h5>").html("Review");
 					        let row = $("<div>").addClass('row');
 					        let col = $("<div>").addClass("col-12").css("text-align", "center");
-					        let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 리뷰입니다.");
+					        let p =  $("<p>").html("${dto.nickname}님이 작성하신 리뷰입니다.");
 					        let tableRow = $("<div>").addClass('row');
 					        let tableCol = $("<div>").addClass("col-12 bottom-line").css("text-align", "center");
 					        col.append(p);
@@ -596,7 +596,7 @@ font-size: x-large;
          let h3 = $("<h5>").html("Q & A");
          let row = $("<div>").addClass('row');
          let col = $("<div>").addClass("col-12").css("margin", "10px");
-         let p =  $("<p>").html("${loginSession.nickname}님이 작성하신 Q & A 입니다.");
+         let p =  $("<p>").html("${dto.nickname}님이 작성하신 Q & A 입니다.");
          let p2 = $("<p>").html("* 제목을 클릭하시면, 게시글의 내용을 확인 할 수 있습니다.").css({"font-size": "small", "text-align" : "left"})
           let tableRow = $("<div>").addClass('row');
     		        let tableCol = $("<div>").addClass("col-12").css("text-align", "center");;
@@ -838,7 +838,7 @@ font-size: x-large;
          let labelNickname = $("<label>").attr("for", "nickname").html("닉네임");
          let colNickInput = $("<div>").addClass("col-7 col-md-9");
          let inputNickname = $("<input>").addClass("form-control").attr({"type" : "text",
-             "id" : "nickname", "name" : "nickname"}).val("${loginSession.nickname}");
+             "id" : "nickname", "name" : "nickname"}).val("${dto.nickname}");
          clsInputRow.append(colNicknmae);
          colNicknmae.append(labelNickname);
          clsInputRow.append(colNickInput);
@@ -846,7 +846,7 @@ font-size: x-large;
          form.append(clsInputRow);
 
              // 휴대폰번호 값 쪼개서 넣기(셋팅)
-     	let phone = "${loginSession.phone}"
+     	let phone = "${dto.phone}"
      	let phone1 = phone.slice(0, 3);
      	let phone2 = phone.slice(3, 7);
      	let phone3 = phone.slice(7);
@@ -893,7 +893,7 @@ font-size: x-large;
          let labelEmail = $("<label>").attr("for", "email").html("이메일");
          let colEmailInput = $("<div>").addClass("col-7 col-md-9");
          let inputEmail = $("<input>").addClass("form-control").attr({"type" : "text",
-             "id" : "email", "name" : "email", "readonly" : "true"}).val("${loginSession.email}");
+             "id" : "email", "name" : "email", "readonly" : "true"}).val("${dto.email}");
              colEamil.append(labelEmail);
              colEmailInput.append(inputEmail);
              clsInputRow3.append(colEamil, colEmailInput);
@@ -905,7 +905,7 @@ font-size: x-large;
          let labelPostcode = $("<label>").attr("for", "postcode").html("우편번호");
          let colPostcodeInput =  $("<div>").addClass("col-5 col-md-4");
          let inputPostcode = $("<input>").addClass("form-control").attr({"type" : "text",
-             "id" : "postcode", "name" : "postcode", "readonly" : true}).val("${loginSession.post_no}");
+             "id" : "postcode", "name" : "postcode", "readonly" : true}).val("${dto.post_no}");
          
          let colPostcodeBtn =  $("<div>").addClass("col-4 col-md-5");
          let PostcodeBtn = $("<button>").addClass("btn btn-outline-success").attr({"id": "btnPostcode", "type" : "button"}).html("우편번호 검색");
@@ -921,7 +921,7 @@ font-size: x-large;
          let labelRoadAddr = $("<label>").attr("for", "roadAddr").html("주소");
          let colRoadAddrInput =  $("<div>").addClass("col-7 col-md-9");
          let inputRoadAddr = $("<input>").addClass("form-control").attr({"type" : "text",
-             "id" : "roadAddr", "name" : "roadAddr", "readonly" : true, "placeholder" : "도로명주소"}).val("${loginSession.addr}");
+             "id" : "roadAddr", "name" : "roadAddr", "readonly" : true, "placeholder" : "도로명주소"}).val("${dto.addr}");
              colRoadAddr.append(labelRoadAddr);
              colRoadAddrInput.append(inputRoadAddr);
              clsInputRow5.append(colRoadAddr, colRoadAddrInput);
@@ -932,7 +932,7 @@ font-size: x-large;
          let labelDetailAddr = $("<label>").attr("for", "detailAddr").html("상세주소");
          let colDetailAddrInput =  $("<div>").addClass("col-7 col-md-9");
          let inputDetailAddr = $("<input>").addClass("form-control").attr({"type" : "text",
-             "id" : "detailAddr", "name" : "detailAddr", "placeholder" : "도로명주소"}).val("${loginSession.addr_detail}");
+             "id" : "detailAddr", "name" : "detailAddr", "placeholder" : "도로명주소"}).val("${dto.addr_detail}");
              colDetailAddr.append(labelDetailAddr);
              colDetailAddrInput.append(inputDetailAddr);
              clsInputRow6.append(colDetailAddr, colDetailAddrInput);

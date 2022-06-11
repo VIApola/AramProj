@@ -994,7 +994,7 @@
     	});
     	// 취소 버튼을 눌렀을때
     	$("#backBtn").on("click", function(){
-    		location.href="";
+    		location.href="/login.user";
     	});
     	// 회원가입 버튼을 눌렀을때
     	$("#joinBtn").on("click", function(){

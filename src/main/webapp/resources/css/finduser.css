@@ -27,8 +27,12 @@
 
                 /* 버튼 크기 및 마진설정 */
                 button {
+                	
                     margin: 15px;
                     width: 200px;
+                }
+                .btn{
+                	margin-top: 20px;
                 }
 
                 /* 아이디찾기 / 비밀번호찾기 마진 설정 */
