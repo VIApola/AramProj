@@ -13,11 +13,11 @@ import javax.naming.InitialContext;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import com.aram.dto.ItemViewDTO;
-import com.aram.dto.ItemimgDTO;
 import com.aram.utils.SearchQuery;
 
 public class ItemSearchDAO {
-private BasicDataSource bds;
+	
+	private BasicDataSource bds = null;
 	
 	public ItemSearchDAO() {
 		try {
@@ -27,6 +27,7 @@ private BasicDataSource bds;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	// 검색 조건에 맞는 쿼리문을 가져와서 DB에서 검색 정보를 가져옴
@@ -49,12 +50,10 @@ private BasicDataSource bds;
 				String category_id = rs.getString("category_id");
 				
 				int img_no = rs.getInt("img_no");
-				String img_type = rs.getString("img_type");
-				String ori_name = rs.getString("ori_name");
 				String sys_name = rs.getString("sys_name");
 		
 				itemList.add(new ItemViewDTO(item_no, item_name, price, item_comment,
-				item_regdate, item_stock, category_id, new ItemimgDTO(img_no,item_no,img_type, ori_name, sys_name)));
+				item_regdate, item_stock, category_id, img_no, sys_name));
 			}
 			System.out.println(" 보내기 전 list (ItemDTO) : " + itemList);
 				return itemList;
@@ -80,12 +79,10 @@ private BasicDataSource bds;
 				int item_stock = rs.getInt("item_stock");
 				
 				int img_no = rs.getInt("img_no");
-				String img_type = rs.getString("img_type");
-				String ori_name = rs.getString("ori_name");
 				String sys_name = rs.getString("sys_name");
 		
 				itemList.add(new ItemViewDTO(item_no, item_name, price, item_comment,
-				item_regdate, item_stock, category_id, new ItemimgDTO(img_no,item_no,img_type, ori_name, sys_name)));
+				item_regdate, item_stock, category_id, img_no, sys_name));
 			}
 			System.out.println(" 보내기 전 list (ItemDTO) : " + itemList);
 				return itemList;

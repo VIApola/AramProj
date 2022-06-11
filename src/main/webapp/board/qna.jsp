@@ -87,6 +87,7 @@
 				<div class="boardBox">
 					<div class="row">
 						<div class="col-1 d-none d-md-block">No.</div>
+
 						<div class="col-2 d-none d-md-block">title</div>
 						<div class="col-5 d-none d-md-block">content</div>
 						<div class="col-2 d-none d-md-block">id</div>
@@ -104,8 +105,7 @@
 								<c:forEach items="${qnalist}" var="dto">
 									<div class="row">
 										<div class="col-1 d-none d-md-block">${dto.qna_no}</div>
-										<div class="col-2 d-none d-md-block">${dto.title}</div>
-
+										<div class="col-3 d-none d-md-block">${dto.title}</div>
 										 <div class="col-12 col-md-5">
 											<a href="/detailViewQna.bo?qna_no=${dto.qna_no}">
 											${dto.content}
@@ -192,11 +192,11 @@
     					for(let dto of data){
     						let row = $("<div class='row'>");
     						let col1 = $("<div class='col-1 d-none d-md-block'>").html(dto.qna_no);
-    						let col2 = $("<div class='col-2 d-none d-md-block'>").html(dto.title);
-    						let col3 = $("<div class='col-12 col-md-3'>");
+    						let col2 = $("<div class='col-3 d-none d-md-block'>").html(dto.title);
+    						let col3 = $("<div class='col-12 col-md-4'>");
     						let a = $("<a href=''>").html(dto.content);
     						let col4 = $("<div class='col-12 col-md-2'>").html(dto.user_id);
-    						let col5 = $("<div class='col-3 d-none d-md-block'>").html(dto.write_date);
+    						let col5 = $("<div class='col-2 d-none d-md-block'>").html(dto.write_date);
     						
     						col3.append(a);
     						row.append(col1, col2, col3, col4, col5);

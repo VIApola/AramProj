@@ -1,7 +1,5 @@
 @charset "UTF-8";
-/* *{
-    font-size: small;
-} */
+
 /*searchBox*/
 .searchBox {
     width: auto;
@@ -35,6 +33,17 @@
     height: 25px;
 }
 
+.card img {
+	width: 12rem;
+}
+
+.card-body {
+	width: 192px;
+}
+
+.card-title {
+	word-break: keep-all;
+}
 
 /*classifyBox*/
 .classifyBox {

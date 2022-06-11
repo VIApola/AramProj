@@ -45,7 +45,9 @@
 	
 <%-- title_talbe --%>
 	<div class="row title-row">
-		<div class="col-8 d-flex align-items-center justify-content-center">
+		<div class="col-1 d-flex align-items-center justify-content-center">
+		</div>
+		<div class="col-7 d-flex align-items-center justify-content-center">
 			<span>product</span>
 		</div>
 		<div class="col-2 d-flex align-items-center justify-content-center">
@@ -58,6 +60,11 @@
 	
 <%-- body-list --%>
 	<div class="body-list">
+		<c:if test="${empty list}">
+			<div class="d-flex justify-content-center p-3">
+				장바구니에 담긴 상품이 없습니다.
+			</div>		
+		</c:if>
 		<c:forEach items="${list}" var="dto">
 			<c:if test="${loginSession.user_id eq dto.user_id}">
 			<div class="row list-row m-2">
@@ -65,10 +72,10 @@
 					<input class="form-check-input checkBox" type="checkbox"
 							id="${dto.price}" name="checkBox" value="${dto.item_no}">
 				</div>
-				<div class="col-3 col-lg-3 d-flex align-items-center justify-content-center">
+				<div class="col-3 col-lg-2 d-flex align-items-center justify-content-start">
 					<img src="/resources/images/items/${dto.item_name}.png" id="itemImg" style="width: 50%;">
 				</div>
-				<div class="col-4 col-lg-4 itemName d-flex align-items-center">
+				<div class="col-4 col-lg-5 itemName d-flex align-items-center">
 					<span>${dto.item_name}</span>
 				</div>
 				<div class="col-2 quantityBox d-flex align-items-center justify-content-center">
@@ -148,6 +155,12 @@
 		$("#totalPrice").html(total);
 	}
 	
+	// 쇼핑 계속하기 눌렀을 때
+	$("#btnShopping").on("click", function(){
+		location.href = "/toSearchPage.item?curPage=1";
+	})
+	
+	
 	// 장바구니 주문 버튼 눌렀을 때
 	$("#btnOrder").on("click", function() {
 		let ans = confirm("장바구니에 담긴 상품을 주문하시겠습니까?");
@@ -187,10 +200,6 @@
 				     
 		 });
 		}
-	});
-
-	$("#btnShopping").on("click", function() {
-		location.href="/category.item";
 	});
 
 
@@ -293,7 +302,7 @@
 		
 		for(let dto of list) {
 
-				let list = $("<div>").addClass("row list-row");
+				let list = $("<div>").addClass("row list-row m-2");
 				
 				let col_1 =  $("<div>").addClass("col-1 d-flex align-items-center justify-content-center");
 				let checkBox = $("<input>").attr({class:"form-check-input checkBox", type:"checkbox"}).val(dto.item_no);
@@ -301,7 +310,7 @@
 				
 				let col_2 = $("<div>").addClass("col-2");
  				let img = $("<img>").attr({ src:"/resources/images/items/"+ dto.item_name +".png"});
- 				img.css("width","100px")
+ 				img.css("width","50%")
  				col_2.append(img);
  			
 				

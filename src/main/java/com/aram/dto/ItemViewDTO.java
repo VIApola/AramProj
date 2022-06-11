@@ -1,6 +1,7 @@
 package com.aram.dto;
 
 public class ItemViewDTO {
+	
 	private int item_no;
 	private String item_name;
 	private int price;
@@ -8,13 +9,13 @@ public class ItemViewDTO {
 	private String item_regdate;
 	private int item_stock;
 	private String category_id;
-	
-	private ItemimgDTO itemImgDTO;
+	private int img_no;
+	private String sys_name;
 	
 	public ItemViewDTO() {}
 
 	public ItemViewDTO(int item_no, String item_name, int price, String item_comment, String item_regdate,
-			int item_stock, String category_id, ItemimgDTO itemImgDTO) {
+			int item_stock, String category_id, int img_no, String sys_name) {
 		super();
 		this.item_no = item_no;
 		this.item_name = item_name;
@@ -23,7 +24,8 @@ public class ItemViewDTO {
 		this.item_regdate = item_regdate;
 		this.item_stock = item_stock;
 		this.category_id = category_id;
-		this.itemImgDTO = itemImgDTO;
+		this.img_no = img_no;
+		this.sys_name = sys_name;
 	}
 
 	public int getItem_no() {
@@ -82,19 +84,27 @@ public class ItemViewDTO {
 		this.category_id = category_id;
 	}
 
-	public ItemimgDTO getItemImgDTO() {
-		return itemImgDTO;
+	public int getImg_no() {
+		return img_no;
 	}
 
-	public void setItemImgDTO(ItemimgDTO itemImgDTO) {
-		this.itemImgDTO = itemImgDTO;
+	public void setImg_no(int img_no) {
+		this.img_no = img_no;
+	}
+
+	public String getSys_name() {
+		return sys_name;
+	}
+
+	public void setSys_name(String sys_name) {
+		this.sys_name = sys_name;
 	}
 
 	@Override
 	public String toString() {
 		return "ItemViewDTO [item_no=" + item_no + ", item_name=" + item_name + ", price=" + price + ", item_comment="
 				+ item_comment + ", item_regdate=" + item_regdate + ", item_stock=" + item_stock + ", category_id="
-				+ category_id + ", itemImgDTO=" + itemImgDTO + "]";
+				+ category_id + ", img_no=" + img_no + ", sys_name=" + sys_name + "]";
 	}
 
 }

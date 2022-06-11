@@ -107,9 +107,9 @@
         }
         
         </script>
-                <div class="row footer">
-            <div class="col">여기는 Footer</div>
-        </div>
+             
+			<jsp:include page="/frame/footer.jsp"></jsp:include>
+
     </div>
         
 </body>
