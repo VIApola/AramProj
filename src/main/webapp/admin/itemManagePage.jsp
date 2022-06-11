@@ -260,7 +260,7 @@
 									</form>
 									<form>
 										<input type="number" class="cls-item_no" id="${dto.item_no}" name="item_no" value="${dto.item_no}"readonly>
-										<input type="text" class="cls-item_no" id="${dto.sys_name}" value="${dto.sys_name}" name="sys_name">
+										<input type="text" class="cls-item_no" id="${dto.img_no}" value="${dto.img_no}" name="img_no">
 										<button type="button" id="deleteItem${dto.item_no}" value="${dto.item_no}" class="btn-delete btn btn-secondary">삭제</button>
 									</form>
 								</div>

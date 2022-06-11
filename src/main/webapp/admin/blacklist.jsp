@@ -314,7 +314,7 @@
   		  let col6 = $("<div>").addClass("col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center");
   		  let a2 = $("<a>").attr({href:""}).addClass("header-menu").html("Q&A관리");
   		  let col7 = $("<div>").addClass("col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center");
-  		  let a3 = $("<a>").attr({href:""}).addClass("header-menu").html("계정관리");
+  		  let a3 = $("<a>").attr({href:""}).addClass("header-menu").html("고객관리");
   		  col5.append(a1);
   		  col6.append(a2);
   		  col7.append(a3);

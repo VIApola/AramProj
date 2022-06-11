@@ -1,8 +1,6 @@
 package com.aram.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.aram.dao.ImgFileDAO;
 import com.aram.dao.ItemDAO;
 import com.aram.dao.ItemSearchDAO;
+import com.aram.dao.ReviewDAO;
 import com.aram.dto.ItemDTO;
 import com.aram.dto.ItemViewDTO;
 import com.aram.dto.ItemimgDTO;
@@ -25,7 +24,6 @@ import com.aram.dto.ReviewDTO;
 import com.google.gson.Gson;
 
 import com.aram.utils.Pagination;
-import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -75,32 +73,24 @@ public class ItemController extends HttpServlet {
 		
 		else if(uri.equals("/detail.item")) { // 상품 상세페이지 로딩
 			
-
-			//int item_no = 105;
-		int item_no = Integer.parseInt(request.getParameter("item_no"));
-
-
+			int item_no = Integer.parseInt(request.getParameter("item_no"));
 
 			System.out.println("상품번호 : " + item_no);
 			
-//			ItemDAO dao = new ItemDAO();
-//			ImgFileDAO imgDao = new ImgFileDAO();
-//			ReviewDAO reviewDao = new ReviewDAO();
-			
 			ItemDAO dao = new ItemDAO();
-			// ReviewDAO reviewDao = new ReviewDAO();
+			ReviewDAO reviewDao = new ReviewDAO();
 			
 			try {
 				
 				HashMap<String, Object> itemInfo = dao.selectItemInfo(item_no);
 				ItemDTO itemDto =  (ItemDTO)itemInfo.get("itemDto");
 				ItemimgDTO imgDto = (ItemimgDTO)itemInfo.get("imgDto");
-				// ReviewDTO reviewDto = (ReviewDTO)itemInfo.get("reviewDto");
-				//ArrayList<ReviewDTO> reviewList = reviewDao.selectAllReviewByItem(item_no);
+				ReviewDTO reviewDto = (ReviewDTO)itemInfo.get("reviewDto");
+				ArrayList<ReviewDTO> reviewList = reviewDao.selectAllReviewByItem(item_no);
 				
 				request.setAttribute("item", itemDto);
 				request.setAttribute("itemImg", imgDto);
-				// request.setAttribute("reviewList", reviewList);
+				request.setAttribute("reviewList", reviewList);
 				
 //				ItemDTO itemDto = dao.selectItemByNo(item_no);
 //				System.out.println(itemDto);

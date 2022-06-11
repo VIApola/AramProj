@@ -407,7 +407,6 @@ public class AdminController extends HttpServlet {
 				ArrayList<ReviewDTO> list = dao.selectAllReview();
 				request.setAttribute("ReviewList", list);
 				
-				
 				ArrayList<ItemDTO> itemList = new ArrayList<>();
 				
 				for (int i = 0; i < list.size(); i++) {
@@ -416,7 +415,7 @@ public class AdminController extends HttpServlet {
 					itemList.add(dto);
 					
 				}
-				System.out.println(itemList.get(1).getItem_name());
+				System.out.println(itemList.get(0).getItem_name());
 				request.setAttribute("itemList", itemList);
 				
 				
