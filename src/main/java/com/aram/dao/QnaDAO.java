@@ -100,7 +100,7 @@ public class QnaDAO {
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)){
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			ArrayList<QnaDTO> list = new ArrayList<>();
 			while(rs.next()) {
@@ -121,6 +121,7 @@ public class QnaDAO {
 			return list;
 		}
 	}
+	}
 	
 	//qna 게시글 조회 _ 부분 (detailview)
 	public QnaDTO selectByNo(int qna_no) throws Exception{
@@ -131,7 +132,7 @@ public class QnaDAO {
 			
 			pstmt.setInt(1, qna_no);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			if(rs.next()) {
 				String user_id = rs.getString("user_id");
@@ -147,7 +148,7 @@ public class QnaDAO {
 			return null;
 		}
 	}
-	
+	}
 	//날짜 String으로 변환
 	public String getStringDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
@@ -164,7 +165,7 @@ public class QnaDAO {
 				
 				pstmt.setString(1, searchByUserId);
 				
-				ResultSet rs = pstmt.executeQuery();
+				try(ResultSet rs = pstmt.executeQuery()){
 				ArrayList<QnaDTO> list = new ArrayList<>();
 				while(rs.next()) {
 					int qna_no = rs.getInt("qna_no");
@@ -185,7 +186,7 @@ public class QnaDAO {
 				return list;
 			}
 		}
-		
+		}
 		// 제목으로 검색
 		public ArrayList<QnaDTO> searchByTitle(String searchTitle) throws Exception{
 			String sql = "select * from tbl_qna where title like '%'||?||'%' order by 1 desc";
@@ -194,7 +195,7 @@ public class QnaDAO {
 				
 				pstmt.setString(1, searchTitle);
 				
-				ResultSet rs = pstmt.executeQuery();
+				try(ResultSet rs = pstmt.executeQuery()){
 				ArrayList<QnaDTO> list = new ArrayList<>();
 				while(rs.next()) {
 					int qna_no = rs.getInt("qna_no");
@@ -217,7 +218,7 @@ public class QnaDAO {
 		
 		}
 		
-		
+		}
 		//관리자페이지 - Q&A관리 내용으로 검색
 		public ArrayList<QnaDTO> searchByContent(String contents) throws Exception{
 			String sql = "select * from tbl_qna where content like '%'||?||'%' order by 1 desc";
@@ -228,7 +229,7 @@ public class QnaDAO {
 				
 				pstmt.setString(1, contents);
 				
-				ResultSet rs = pstmt.executeQuery();
+				try(ResultSet rs = pstmt.executeQuery()){
 				ArrayList<QnaDTO> list = new ArrayList<>();
 				while(rs.next()) {
 					int qna_no = rs.getInt("qna_no");
@@ -249,7 +250,7 @@ public class QnaDAO {
 				return list;
 			}
 			
-			
+			}	
 		}
 		
 		//게시글에 관리자 댓글입력

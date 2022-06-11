@@ -330,6 +330,7 @@ public class ItemController extends HttpServlet {
 			ItemDAO dao = new ItemDAO();
             try {
             	ArrayList<ItemViewDTO> itemList = dao.selectAllItems();
+            	//System.out.println("selectAll complete");
             	int itemCount = dao.countAllItems();
             	
 				System.out.println("list 값 : " + itemList);

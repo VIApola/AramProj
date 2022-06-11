@@ -39,7 +39,7 @@ public class BlacklistDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql)){
 			
 			ArrayList<UserDTO> list = new ArrayList<>();
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			while(rs.next()) {	
 				String user_id = rs.getString("user_id");
@@ -51,6 +51,7 @@ public class BlacklistDAO {
 			return list;
 		}
 	}
+}
 	
 	//블랙리스트에 추가
 	public int insertBlacklist(String user_id, String black_detail) throws Exception{
@@ -75,7 +76,7 @@ public class BlacklistDAO {
 		try(Connection con =bds.getConnection();
 			PreparedStatement pstmt  = con.prepareStatement(sql)){
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			ArrayList<BlacklistDTO> list = new ArrayList<>();
 			while(rs.next()) {
@@ -88,6 +89,7 @@ public class BlacklistDAO {
 			}
 			return list;
 		}
+	}
 	}
 	
 	//블랙리스트에서 삭제
@@ -113,7 +115,7 @@ public class BlacklistDAO {
 			
 				pstmt.setString(1, id);
 			
-				ResultSet rs = pstmt.executeQuery();
+				try(ResultSet rs = pstmt.executeQuery()){
 				
 				ArrayList<BlacklistDTO> list = new ArrayList<>();
 				while(rs.next()) {
@@ -126,7 +128,7 @@ public class BlacklistDAO {
 				}
 				return list;
 			}
-		
+	}
 	}
 	
 	//블랙리스트에서 사유로 검색하기
@@ -138,7 +140,7 @@ public class BlacklistDAO {
 			
 				pstmt.setString(1, detail);
 			
-				ResultSet rs = pstmt.executeQuery();
+				try(ResultSet rs = pstmt.executeQuery()){
 				
 				ArrayList<BlacklistDTO> list = new ArrayList<>();
 				while(rs.next()) {
@@ -152,6 +154,7 @@ public class BlacklistDAO {
 				return list;
 			}
 	}
+	}
 	
 	//블랙리스트에서 등록일 검색하기
 	public ArrayList<BlacklistDTO> selectBlacklistByDate(String date) throws Exception{
@@ -162,7 +165,7 @@ public class BlacklistDAO {
 				
 				pstmt.setString(1, date);
 			
-				ResultSet rs = pstmt.executeQuery();
+				try(ResultSet rs = pstmt.executeQuery()){
 				
 				ArrayList<BlacklistDTO> list = new ArrayList<>();
 				while(rs.next()) {
@@ -175,6 +178,7 @@ public class BlacklistDAO {
 				}
 				return list;
 			}
+	}
 	}
 	
 	//tbl_user에서 아이디로 검색하기
@@ -187,7 +191,7 @@ public class BlacklistDAO {
 			
 			pstmt.setString(1, id);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			while(rs.next()) {
 				String user_id = rs.getString("user_id");
@@ -200,7 +204,7 @@ public class BlacklistDAO {
 			
 		}
 		
-		
+	}
 		
 	}
 	//tbl_user에서 이름으로 검색하기
@@ -213,7 +217,7 @@ public class BlacklistDAO {
 			
 			pstmt.setString(1, name);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			while(rs.next()) {
 				String user_id = rs.getString("user_id");
@@ -226,7 +230,7 @@ public class BlacklistDAO {
 			
 		}
 		
-		
+	}
 	}
 	
 	//tbl_user에서 이메일로 검색하기
@@ -239,7 +243,7 @@ public class BlacklistDAO {
 			
 			pstmt.setString(1, userEmail);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			while(rs.next()) {
 				String user_id = rs.getString("user_id");
@@ -251,7 +255,7 @@ public class BlacklistDAO {
 			return list;
 			
 		}
-		
+		}	
 		
 	}
 	

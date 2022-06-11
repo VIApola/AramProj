@@ -34,7 +34,7 @@ private BasicDataSource bds;
 		String sql = SearchQuery.findQuery(sortBy, keyword, minPrice, maxPrice);
 		System.out.println(sql);
 		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			ArrayList<ItemViewDTO> itemList = new ArrayList<>();
 	
@@ -60,13 +60,14 @@ private BasicDataSource bds;
 				return itemList;
 			}
 	}
+	}
 	
 	// 카테고리 페이지에서 정렬 조건만 사용
 	public ArrayList<ItemViewDTO> searchItems(String sortBy, String category_id) throws Exception {
 		String sql = SearchQuery.findQuery(sortBy, category_id);
 		System.out.println(sql);
 		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			ArrayList<ItemViewDTO> itemList = new ArrayList<>();
 	
@@ -91,7 +92,7 @@ private BasicDataSource bds;
 				return itemList;
 			}
 	}
-	
+	}
 	// 가격대 범위안의 아이템 카운트
 	public int countSearchItems(String sortBy, String keyword, int minPrice, int maxPrice) throws Exception {
 		String sql = SearchQuery.findResultCount(sortBy, keyword, minPrice, maxPrice);
@@ -99,13 +100,13 @@ private BasicDataSource bds;
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)){
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			rs.next();
 			
 			return rs.getInt(1);
 		}
 	}
-	
+	}
    // Date형을 String형으로
 	public String getStringDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
