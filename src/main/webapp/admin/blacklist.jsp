@@ -12,6 +12,18 @@
 </head>
 <!-- style 영역 -->
 <link href="${pageContext.request.contextPath}/resources/css/blacklist.css" rel="stylesheet" type="text/css">
+<script>
+	window.onload = function(){
+		if(${empty loginSession}){
+			alert("관리자 계정으로 로그인해주세요.");
+			location.href = "/login.user";
+		}else if ("${loginSession.getIsAdmin()}" === "n") {
+			alert("관리자 계정으로 로그인해주세요.");
+			location.href = "/login.user";
+		}
+	};
+</script>
+
 <body>
     <div class="container">
         <!--헤더영역-->
