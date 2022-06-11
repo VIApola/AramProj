@@ -2,7 +2,6 @@ package com.aram.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +20,6 @@ import com.google.gson.Gson;
 // 세션 가져오기 : 공지사항 같은 경우 후에 관리자세션으로 연결할 것!
 //HttpSession session = request.getSession();
 //session.getAttribute("loginSession");
-
 
 @WebServlet("*.bo")
 public class BoardController extends HttpServlet {
@@ -379,7 +377,7 @@ public class BoardController extends HttpServlet {
 			String answer= dto.getAnswer();
 			String answer_date = dto.getAnswer_date();
 			
-			QnaDAO dao = new  QnaDAO();
+			QnaDAO dao = new QnaDAO();
 			
 			try {
 				int rs = dao.modify(new QnaDTO(qna_no, user_id, title, content, write_date, answer_yn, answer, answer_date));

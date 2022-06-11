@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.aram.dao.BlacklistDAO;
 import com.aram.dao.ItemDAO;
@@ -39,10 +38,6 @@ public class AdminController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String uri = request.getRequestURI();
 		System.out.println("요청 uri" + uri);
-		
-		
-	
-		
 		
 		
 		if(uri.equals("/itemUpload.admin")) { // 상품등록 (안쓰임!!! /toItemInput.item 으로)
@@ -390,11 +385,11 @@ public class AdminController extends HttpServlet {
 			}
 
 		}else if(uri.equals("/toQnAManagePage.admin")) {//QnA 관리 페이지 요청
-			QnaDAO QnaDAO = new QnaDAO();
+			QnaDAO dao = new QnaDAO();
 			
 			try {
 				
-				ArrayList<QnaDTO> list = QnaDAO.qnaSelectAll();
+				ArrayList<QnaDTO> list = dao.qnaSelectAll();
 				request.setAttribute("QnaList", list);
 				
 				request.getRequestDispatcher("/admin/qna.jsp").forward(request, response);
@@ -500,13 +495,13 @@ public class AdminController extends HttpServlet {
 			}
 			
 			
-			QnaDAO QnaDAO = new QnaDAO();
+			QnaDAO dao = new QnaDAO();
 			
 			try {
 				int rs = 0;
 				for(int i = 0; i<qua_no.length;i++) {
 					System.out.println(qua_no[i]);
-					rs = QnaDAO.deleteByQnA_no(qua_no[i]);
+					rs = dao.deleteByQnA_no(qua_no[i]);
 					
 				}
 				if(rs > 0 ) {
@@ -531,11 +526,11 @@ public class AdminController extends HttpServlet {
 			
 			if(user_id != null && content == null) { //id로검색
 				System.out.println("아이디만으로 검색 : "+user_id);
-				QnaDAO QnaDAO = new QnaDAO();
+				QnaDAO dao = new QnaDAO();
 				
 				try {
 					
-					ArrayList<QnaDTO> list = QnaDAO.searchByUserId(user_id);
+					ArrayList<QnaDTO> list = dao.searchByUserId(user_id);
 					Gson gson = new Gson();
 					String data = gson.toJson(list);
 					response.setCharacterEncoding("utf-8");
@@ -549,11 +544,11 @@ public class AdminController extends HttpServlet {
 				
 			}else if(user_id == null && content != null) { //content으로 검색
 				System.out.println("이름으로 검색 : "+content);
-				QnaDAO QnaDAO = new QnaDAO();
+				QnaDAO dao = new QnaDAO();
 				
 				try {
 					
-					ArrayList<QnaDTO> list = QnaDAO.searchByContent(content);
+					ArrayList<QnaDTO> list = dao.searchByContent(content);
 					Gson gson = new Gson();
 					String data = gson.toJson(list);
 					response.setCharacterEncoding("utf-8");
@@ -571,11 +566,11 @@ public class AdminController extends HttpServlet {
 			
 			System.out.println("게시글번호 : "+qna_no+" 관리자 댓글 : "+answer);
 			
-			 QnaDAO QnaDAO = new QnaDAO();
+			 QnaDAO dao = new QnaDAO();
 			 
 			 try {
 				 
-				 int rs = QnaDAO.insertReply(qna_no, answer);
+				 int rs = dao.insertReply(qna_no, answer);
 				 if(rs>0) {
 					 System.out.println("댓글달기 성공");
 					 response.sendRedirect("/detailViewQna.bo?qna_no=" + qna_no);
@@ -597,11 +592,11 @@ public class AdminController extends HttpServlet {
 			
 			System.out.println("수정요청 댓글 게시글번호 :"+qna_no +" 수정요청 댓글 : "+answer);
 			
-			QnaDAO QnaDAO = new QnaDAO();
+			QnaDAO dao = new QnaDAO();
 			 
 			 try {
 				 
-				 int rs = QnaDAO.modifyReply(qna_no, answer);
+				 int rs = dao.modifyReply(qna_no, answer);
 				 if(rs>0) {
 					 System.out.println("댓글수정 성공");
 					 response.sendRedirect("/detailViewQna.bo?qna_no=" + qna_no);
@@ -618,11 +613,11 @@ public class AdminController extends HttpServlet {
 			int qna_no = Integer.parseInt(request.getParameter("qna_no"));
 			System.out.println("삭제요청 댓글 게시글번호 :"+qna_no);
 			
-			QnaDAO QnaDAO = new QnaDAO();
+			QnaDAO dao = new QnaDAO();
 			 
 			 try {
 				 
-				 int rs = QnaDAO.deleteReply(qna_no);
+				 int rs = dao.deleteReply(qna_no);
 				 if(rs>0) {
 					 System.out.println("댓글삭제 성공");
 					 response.sendRedirect("/detailViewQna.bo?qna_no=" + qna_no);

@@ -60,7 +60,7 @@
 			<div class="col-6 col-lg-3 d-flex justify-content-center">
 				<div class="card">
 					<a href="/detail.item?item_no=${dto.item_no}"> <img
-						src="/resources/images/items/${dto.itemImgDTO.sys_name}"
+						src="/resources/images/items/${dto.sys_name}"
 						class="card-img-top">
 					</a>
 					<div class="card-body">
@@ -173,7 +173,7 @@
 					 let col = $("<div>").addClass('col-6 col-lg-3 d-flex justify-content-center');
 					 let card = $("<div>").addClass('card'); 
 					 let a = $("<a>").attr("href","/detail.item?item_no="+dto.item_no);
-					 let img = $("<img>").attr("src","/resources/images/items/"+dto.itemImgDTO.sys_name).addClass('card-img-top');
+					 let img = $("<img>").attr("src","/resources/images/items/"+dto.sys_name).addClass('card-img-top');
 					 
 					 let card2 = $("<div>").addClass('card-body');
 					 let h5 = $("<h5>").addClass('card-text').html(dto.item_name);

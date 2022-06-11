@@ -16,7 +16,7 @@ import com.aram.dto.OrderDTO;
 import com.aram.dto.OrderItemDTO;
 
 public class OrderDAO {
-	private BasicDataSource bds;
+	private BasicDataSource bds = null;
 	
 	public OrderDAO() {
 		try {

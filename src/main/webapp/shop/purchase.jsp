@@ -350,7 +350,7 @@
         </div>
 		<!-- 버튼 -->
 		<div class="btnBox d-flex justify-content-center">
-			<button type="button" class="btn btn-outline-dark">취소하기</button>
+			<button type="button" class="btn btn-outline-dark" id="btnCancel">취소하기</button>
 			<button type="button" class="btn btn-outline-success" id="btnOrder">주문하기</button>
 		</div>
 		<%--풋터영역 --%>
@@ -395,7 +395,15 @@
 
 		});
 		
-	// 주문서 유효성 검사
+	// 주문 취소하기
+	$("#btnCancel").on("click", function() {
+		let ans = confirm("구매를 취소하시겠습니까?")
+		if(ans) {
+			location.href = "/main";
+		}
+	})
+		
+	// 주문하기 버튼 - 주문서 유효성 검사
 	$("#btnOrder").on("click", function() {
 		if($("#order_name").val() == ""){
 			alert("주문자명을 적어주세요");
@@ -421,10 +429,6 @@
 			alert("검색된 배송지가 없습니다. 배송지를 등록하세요");
 			$("#postcode").focus();
 			return;
-		} else if($("#delivery_detail").val() == "") {
-			alert("상세 주소가 없습니다. 상세주소를 입력하새요.");
-			$("#delivery_detail").focus();
-			return;
 		} else if($("#TermsAccept").is(":checked") == false) {
 			alert("구매 약관에 동의해주세요");
 			$("#TermsAccept").focus();
@@ -445,11 +449,8 @@
 		let totalPrice = parseInt(payValidation("${loginSession.user_id}", ${totalPrice}));
 		
 		// 실제 결제와 주문서 생성을 검증
-		requestPay(orderNO(), $("#itemName").html() + "외 " + ${fn:length(cartList)} + "개", 100, $("#order_email").val(), $("#delivery_name").val(), $("#delivery_phone").val(), $("#delivery_addr").val(), $("#postcode").val());
-		
-
 		IMP.init("imp86984194");
-		requestPay(orderNO(), "관나무 외 6개", 100, $("#order_email").val(), $("#delivery_name").val(), $("#delivery_phone").val(), $("#delivery_addr").val(), $("#postcode").val());
+		requestPay(orderNO(), $("#itemName").html() + "외 " + ${fn:length(cartList)} + "개", 100, $("#order_email").val(), $("#delivery_name").val(), $("#delivery_phone").val(), $("#delivery_addr").val(), $("#postcode").val());
 
 	});
 

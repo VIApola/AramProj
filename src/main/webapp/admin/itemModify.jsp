@@ -260,7 +260,7 @@
 							<div class="col-5 d-flex justify-content-center align-self-center">
 								<input type="text" class="item_no" name="defaultImg" value="${dto.itemImgDTO.img_no}">
 								<img id="preview" src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}">
-								<img id="defaultImg" src="/resources/images/items/${dto.itemImgDTO.sys_name}">
+								<img id="defaultImg" src="/resources/images/items/${dto.sys_name}">
 							</div>
 							<div class="col-5 d-flex justify-content-center align-self-center"><input type="file" id="img_title" name="imgFile"></div>
 							<div class="col-2 d-flex justify-content-center align-self-center"><button type="button" id="btn-deleteItem">삭제</button></div>
