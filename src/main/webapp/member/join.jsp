@@ -1052,6 +1052,7 @@
     		}else if($("#checkEmail").html() !=="사용가능한 이메일 입니다."){
     			alert("이메일 중복확인을 해주세요.");
     			$("#email").focus();
+    			return;
     		}else if($("#postCode").val() === "" || $("#roadAddr").val() === ""){
 				alert("주소를 입력해 주세요.");
 				return;
