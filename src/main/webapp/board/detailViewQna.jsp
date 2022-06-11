@@ -112,6 +112,7 @@ textarea {
  }
  #answerContent{
  border:none;
+ width:500px;
  }
  .body-btnAfter-reply{
  	display:none;
@@ -231,11 +232,11 @@ textarea {
         </div>
         <div class="row">
             <div class="col-2 d-flex justify-content-center">관리자</div>
-            <form id="modifyReplyForm" action="/modifyReply.admin" method="post" style="width:500px">
+            <form id="modifyReplyForm" action="/modifyReply.admin" method="post" style="width:700px">
             <div class="col d-none">
 					<input id="qna_no" type="text" value="${dto.qna_no}" name="qna_no">
 					</div>
-            <div class="col-7 d-flex justify-content-center">
+            <div class="col-10 d-flex justify-content-center">
 					<textarea id="answerContent" class="form-control answer" name="answer" readonly>${dto.answer}</textarea>
 			</div>
 			</form>

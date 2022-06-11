@@ -134,7 +134,7 @@ textarea {
 		</div>
 		<div class="boxBtn">
 				<button type="button" class="btn btn-outline-secondary" id="btnBack">뒤로가기</button>
-			<c:if test="${loginSession.user_id eq dto.user_id}">
+			<c:if test="${loginSession.isAdmin eq 'y'}">
 				<button type="button" id="btnModify" class="btn btn-outline-warning">수정</button>
 				<button type="button" id="btnDelete" class="btn btn-outline-danger">삭제</button>
 			</div>
@@ -151,70 +151,6 @@ textarea {
 		    	</script>
 			</c:if>
 
-		<%-- 
-		<div class="boxBtn">
-       		<button type="button" class="btn btn-secondary" id="btnBack">뒤로가기</button>
-	        <button type="button" id="btnModify" class="btn btn-warning">수정</button>
-	        <button type="button" id="btnDelete" class="btn btn-danger">삭제</button>
-    	</div> --%>
-		<%-- <c:if test="${loginSession.id eq dto.writer_id}">
-				<div class="col-2">
-					<button type="button" class="btn btn-warning" id="btnModify">수정</button>
-				</div>
-				<div class="col-2">
-					<button type="button" class="btn btn-danger" id="btnDelete">삭제</button>
-				</div>
-				<script>
-                    $("#btnModify").on("click", function() { // 수정 페이지 요청
-                        location.href = "/modify.bo?seq_board=${dto.seq_board}";
-                    });
-                    $("#btnDelete").on("click",function() { // 삭제 요청
-                        let answer = confirm("지금 삭제하시면 복구가 불가합니다. 정말 삭제하시겠습니까?");
-                        console.log(answer);
-                        if (answer) {
-                            location.href = "/deleteProc.bo?seq_board=${dto.seq_board}";
-                        }
-                    })
-                </script>
-			</c:if> --%>
-
-
-		<%-- 
-		<div class="row comment">
-			<div class="row">
-				<div class="col align-self-center">
-					<p>댓글</p>
-				</div>
-			</div>
-		--%>
-		<%-- <c:if test="${loginSession.isAdmin eq 'y'}
-            <div class="row">
-                <div class="col">
-                    <button type="button" class="btn btn-success">등록</button>
-                </div>
-            </div>
-        </c:if>
-        </div>
-        <div class="row">
-            <div class="col btns  d-flex justify-content-center">
-                <button type="button" id="backBtn" class="btn btn-secondary">뒤로가기</button>
-                
-             <c:if test="${loginSession.id eq dto.writer_id}">
-	                <button type="button" id="btnModify" class="btn btn-warning">수정</button>
-	                <button type="button" id="btnDelete" class="btn btn-danger">삭제</button>
-	                
-	                <script>
-	                	$("#btnModify").on("click", function(){ <%-- 수정 버튼을 눌렀을때 시퀀스 번호도 가져감
-	                		location.href="/modify.bo?seq_board=${dto.seq_board}";
-	                	});
-	                	$("#btnDelete").on("click", function(){<%-- 삭제 버튼을 눌렀을때 시퀀스 번호도 가져감 
-	                		let answer = confirm("게시글을 삭제하시겠습니까?");
-	                		if(answer){
-	                			location.href = "/delete.bo?seq_board=${dto.seq_board}";
-	                		}
-	                	});
-	                </script>
-                </c:if> --%>
 	</div>
 	<%--풋터영역 --%>
 	<jsp:include page="/frame/footer.jsp"></jsp:include>
@@ -222,15 +158,7 @@ textarea {
 	$("#btnBack").on("click", function(){ // 뒤로가기 버튼을 눌렀을때
 		location.href = "/notice.bo";
 	});
-	/*
-	$("#btnModify").on("click", function(){ // 수정버튼을 눌렀을 때
-		location.href ="/modifyNotice.bo?notice_no=${dto.notice_no}";
-	});
 	
-	$("#btnDelete").on("click", function(){ // 삭제 버튼을 눌렀을 때
-		location.href ="/deleteNotice.bo?notice_no=${dto.notice_no}";
-	});
-	*/
 </script>
 </body>
 </html>
