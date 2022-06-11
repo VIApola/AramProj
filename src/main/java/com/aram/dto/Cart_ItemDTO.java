@@ -13,10 +13,7 @@ public class Cart_ItemDTO {
 	private int item_stock;
 	private String category_id;
 	private int img_no;
-	
-	
-	
-	
+
 	
 	public Cart_ItemDTO() {}
 	public Cart_ItemDTO(String user_id, int item_no, int quantity, String item_name, int price, String item_comment,

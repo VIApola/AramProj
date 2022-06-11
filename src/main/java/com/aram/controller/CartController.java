@@ -91,10 +91,11 @@ public class CartController extends HttpServlet {
 				System.out.println("장바구니에 있는지 유무(없으면 true) : " + cartDao.existItem(item_no));
 				
 				if(cartDao.existItem(item_no)) { // 현재 장바구니에 없는 아이템 
+					System.out.println("already");
 					// 장바구니 테이블에 데이터 추가
 					cartDao.addCart(new CartDTO(user_id, item_no, quantity));
 				} else {  // 장바구니에 이미 존재하는 아이템
-					cartDao.updateQuantity(quantity, user_id, item_no); //기존 quantity +추가된 quantity
+					cartDao.plusQuantity(quantity, user_id, item_no); //기존 quantity +추가된 quantity
 				}
 				response.sendRedirect("/mycart.cart");
 			} catch (Exception e) {

@@ -58,6 +58,11 @@
 	
 <%-- body-list --%>
 	<div class="body-list">
+		<c:if test="${empty list}">
+			<div class="d-flex justify-content-center p-3">
+				장바구니에 담긴 상품이 없습니다.
+			</div>		
+		</c:if>
 		<c:forEach items="${list}" var="dto">
 			<c:if test="${loginSession.user_id eq dto.user_id}">
 			<div class="row list-row m-2">
@@ -148,6 +153,12 @@
 		$("#totalPrice").html(total);
 	}
 	
+	// 쇼핑 계속하기 눌렀을 때
+	$("#btnShopping").on("click", function(){
+		location.href = "/toSearchPage.item?curPage=1";
+	})
+	
+	
 	// 장바구니 주문 버튼 눌렀을 때
 	$("#btnOrder").on("click", function() {
 		let ans = confirm("장바구니에 담긴 상품을 주문하시겠습니까?");
@@ -187,10 +198,6 @@
 				     
 		 });
 		}
-	});
-
-	$("#btnShopping").on("click", function() {
-		location.href="/category.item";
 	});
 
 

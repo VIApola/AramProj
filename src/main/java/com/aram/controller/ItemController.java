@@ -16,11 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.aram.dao.ImgFileDAO;
 import com.aram.dao.ItemDAO;
 import com.aram.dao.ItemSearchDAO;
-import com.aram.dao.ReviewDAO;
 import com.aram.dto.ItemDTO;
 import com.aram.dto.ItemViewDTO;
 import com.aram.dto.ItemimgDTO;
+
 import com.aram.dto.ReviewDTO;
+
+import com.google.gson.Gson;
+
 import com.aram.utils.Pagination;
 import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
@@ -79,26 +82,41 @@ public class ItemController extends HttpServlet {
 
 
 			System.out.println("상품번호 : " + item_no);
+			
+//			ItemDAO dao = new ItemDAO();
+//			ImgFileDAO imgDao = new ImgFileDAO();
+//			ReviewDAO reviewDao = new ReviewDAO();
+			
 			ItemDAO dao = new ItemDAO();
-			ImgFileDAO imgDao = new ImgFileDAO();
-			ReviewDAO reviewDao = new ReviewDAO();
+			// ReviewDAO reviewDao = new ReviewDAO();
 			
 			try {
-				ItemDTO itemDto = dao.selectItemByNo(item_no);
-				System.out.println(itemDto);
-				// 이미지 번호를 통해 이미지 경로값 가져오기
-				int img_no = itemDto.getImg_no();
-				ItemimgDTO imgDto = imgDao.select_img(img_no);
 				
-				// 상품에 달린 리뷰 가져오기
-				ArrayList<ReviewDTO> reviewList = reviewDao.selectAllReviewByItem(item_no);
-				System.out.println(reviewList);
-	
+				HashMap<String, Object> itemInfo = dao.selectItemInfo(item_no);
+				ItemDTO itemDto =  (ItemDTO)itemInfo.get("itemDto");
+				ItemimgDTO imgDto = (ItemimgDTO)itemInfo.get("imgDto");
+				// ReviewDTO reviewDto = (ReviewDTO)itemInfo.get("reviewDto");
+				//ArrayList<ReviewDTO> reviewList = reviewDao.selectAllReviewByItem(item_no);
+				
 				request.setAttribute("item", itemDto);
 				request.setAttribute("itemImg", imgDto);
-				request.setAttribute("reviewList", reviewList);
+				// request.setAttribute("reviewList", reviewList);
 				
-				
+//				ItemDTO itemDto = dao.selectItemByNo(item_no);
+//				System.out.println(itemDto);
+//				// 이미지 번호를 통해 이미지 경로값 가져오기
+//				int img_no = itemDto.getImg_no();
+//				ItemimgDTO imgDto = imgDao.select_img(img_no);
+//				
+//				// 상품에 달린 리뷰 가져오기
+				// ArrayList<ReviewDTO> reviewList = reviewDao.selectAllReviewByItem(item_no);
+//				System.out.println(reviewList);
+//	
+//				request.setAttribute("item", itemDto);
+//				request.setAttribute("itemImg", imgDto);
+//				request.setAttribute("reviewList", reviewList);
+//				
+//				
 				request.getRequestDispatcher("/shop/detail.jsp").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -593,32 +611,6 @@ public class ItemController extends HttpServlet {
 			}
 		}
 		
-		/*
-		if(uri.equals("/dummy.item")) {
-			ItemDAO dao = new ItemDAO();
-			ImgFileDAO imgDao = new ImgFileDAO();
-			
-			for(int i=0; i<100; i++) {
-				String item_name = "111";
-				int price = 100;
-				String item_comment = "111";
-				int item_stock = 10;
-				String category_id = "200";
-				
-				try {
-					
-					int item_no = dao.getItemNo();
-					int img_no = imgDao.getImgFileNo();
-					
-					int rs = dao.insertItem(new ItemDTO(item_no, item_name, price, item_comment, null, item_stock, category_id, img_no));
-					int rsFile = imgDao.insert_img(new ItemimgDTO(img_no, item_no, null, "111", "323"));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-		}
-		*/
 	 }
 
 }
