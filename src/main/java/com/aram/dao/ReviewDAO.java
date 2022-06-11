@@ -242,19 +242,20 @@ public class ReviewDAO {
 			pstmt.setInt(1, review_no);
 			try(ResultSet rs = pstmt.executeQuery()){
 			
-			if(rs.next()) {
-				String nickname = rs.getString("nickname");
-				String title = rs.getString("title");
-				String content = rs.getString("content");
-				String write_date = rs.getString("write_date");
-				int score = rs.getInt("score");
-				String user_id = rs.getString("user_id");
-				int item_no = rs.getInt("item_no");
-				int img_no = rs.getInt("img_no");
-				
-				return new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_no, img_no);
+				if(rs.next()) {
+					String nickname = rs.getString("nickname");
+					String title = rs.getString("title");
+					String content = rs.getString("content");
+					String write_date = rs.getString("write_date");
+					int score = rs.getInt("score");
+					String user_id = rs.getString("user_id");
+					int item_no = rs.getInt("item_no");
+					int img_no = rs.getInt("img_no");
+					
+					return new ReviewDTO(review_no, nickname, title, content, write_date, score, user_id, item_no, img_no);
+				}
+				return null;
 			}
-			return null;
 		}
 	}
 }

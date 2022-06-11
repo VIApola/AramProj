@@ -167,66 +167,67 @@ public class QnaDAO {
 	}
 
 	// Qna 게시판 게시글 검색
-		// id(글쓴이)로 검색
-		public ArrayList<QnaDTO> searchByUserId(String searchByUserId) throws Exception{
-			String sql = "select * from tbl_qna where user_id = ? order by 1 desc";
-			try(Connection con = bds.getConnection();
-				PreparedStatement pstmt = con.prepareStatement(sql)){
+	// id(글쓴이)로 검색
+	public ArrayList<QnaDTO> searchByUserId(String searchByUserId) throws Exception {
+		String sql = "select * from tbl_qna where user_id = ? order by 1 desc";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, searchByUserId);
+			
+			try(ResultSet rs = pstmt.executeQuery()){
 				
-				pstmt.setString(1, searchByUserId);
-				
-				try(ResultSet rs = pstmt.executeQuery()){
 				ArrayList<QnaDTO> list = new ArrayList<>();
 				while(rs.next()) {
 					int qna_no = rs.getInt("qna_no");
 					String user_id = rs.getString("user_id");
 					String title = rs.getString("title");
 					String content = rs.getString("content");
-					String write_date = getStringDate(rs.getDate("write_date"));
+					String write_date = StringDateFormatter.getStringDate(rs.getDate("write_date"));
 					boolean answer_yn = rs.getBoolean("answer_yn");
 					String answer = rs.getString("answer");
-					String answer_date = getStringDate(rs.getDate("answer_date"));
+					String answer_date = StringDateFormatter.getStringDate(rs.getDate("answer_date"));
 
-				list.add(new QnaDTO(qna_no, user_id, title, content, write_date, answer_yn, answer, answer_date));
+					list.add(new QnaDTO(qna_no, user_id, title, content, write_date, answer_yn, answer, answer_date));
 				
-				System.out.println(list);
+					System.out.println(list);
+				}
+				return list;
 			}
-			return list;
 		}
-
-		}
-		// 제목으로 검색
-		public ArrayList<QnaDTO> searchByTitle(String searchTitle) throws Exception{
-			String sql = "select * from tbl_qna where title like '%'||?||'%' order by 1 desc";
-			try(Connection con = bds.getConnection();
-				PreparedStatement pstmt = con.prepareStatement(sql)){
-				
-				pstmt.setString(1, searchTitle);
-				
-				try(ResultSet rs = pstmt.executeQuery()){
-				ArrayList<QnaDTO> list = new ArrayList<>();
+	}
+		
+	// 제목으로 검색
+	public ArrayList<QnaDTO> searchByTitle(String searchTitle) throws Exception {
+		String sql = "select * from tbl_qna where title like '%'||?||'%' order by 1 desc";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			pstmt.setString(1, searchTitle);
+			
+			try(ResultSet rs = pstmt.executeQuery()){
+			ArrayList<QnaDTO> list = new ArrayList<>();
+			
 				while(rs.next()) {
 					int qna_no = rs.getInt("qna_no");
 					String user_id = rs.getString("user_id");
 					String title = rs.getString("title");
 					String content = rs.getString("content");
-					String write_date = getStringDate(rs.getDate("write_date"));
+					String write_date = StringDateFormatter.getStringDate(rs.getDate("write_date"));
 					boolean answer_yn = rs.getBoolean("answer_yn");
 					String answer = rs.getString("answer");
-					String answer_date = getStringDate(rs.getDate("answer_date"));
-	}
-				list.add(new QnaDTO(qna_no, user_id, title, content, write_date, answer_yn, answer, answer_date));
+					String answer_date = StringDateFormatter.getStringDate(rs.getDate("answer_date"));
+					
+					list.add(new QnaDTO(qna_no, user_id, title, content, write_date, answer_yn, answer, answer_date));
+				}
 				
 				System.out.println(list);
+				return list;
 			}
-			return list;
 		}
-	
-	}
-		
-		
 
-		}
+	}
+
 		//관리자페이지 - Q&A관리 내용으로 검색
 		public ArrayList<QnaDTO> searchByContent(String contents) throws Exception{
 			String sql = "select * from tbl_qna where content like '%'||?||'%' order by 1 desc";
@@ -243,10 +244,10 @@ public class QnaDAO {
 					String user_id = rs.getString("user_id");
 					String title = rs.getString("title");
 					String content = rs.getString("content");
-					String write_date = getStringDate(rs.getDate("write_date"));
+					String write_date = StringDateFormatter.getStringDate(rs.getDate("write_date"));
 					boolean answer_yn = rs.getBoolean("answer_yn");
 					String answer = rs.getString("answer");
-					String answer_date = getStringDate(rs.getDate("answer_date"));
+					String answer_date = StringDateFormatter.getStringDate(rs.getDate("answer_date"));
 				
 					list.add(new QnaDTO(qna_no, user_id, title, content, write_date, answer_yn, answer, answer_date));
 					
@@ -305,7 +306,5 @@ public class QnaDAO {
 				
 			}
 		}
-		
-
 		
 }

@@ -547,7 +547,7 @@ public class AdminController extends HttpServlet {
 				for(int i = 0; i<qua_no.length;i++) {
 					System.out.println(qua_no[i]);
 
-					rs = QnaDAO.delete(qua_no[i]);
+					rs = dao.delete(qua_no[i]);
 
 					
 				}

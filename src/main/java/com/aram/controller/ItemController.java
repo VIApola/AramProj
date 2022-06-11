@@ -420,7 +420,7 @@ public class ItemController extends HttpServlet {
 				try {
 					// 이미지 삭제 준비
 					int item_no = Integer.parseInt(checkArr[i]);
-					int img_no = dao.selectByItemNo(item_no).getItemImgDTO().getImg_no();
+					int img_no = dao.selectByItemNo(item_no).getImg_no();
 					System.out.println("상품번호 : " + item_no + " / 이미지번호 : " + img_no);
 					
 					String filePath = request.getServletContext().getRealPath("/resources/images/items");

@@ -148,40 +148,38 @@ public class ItemDAO {
 	
 	
 	// 전체 상품 조회
-	public ArrayList<ItemViewDTO> selectAllItems() {
-		System.out.println("selectAll");
+	public ArrayList<ItemViewDTO> selectAllItems() throws Exception {
 		String sql = "select * from tbl_items a join tbl_item_img b on a.img_no=b.img_no";
 
 		try(Connection con = bds.getConnection();
 			PreparedStatement pst = con.prepareStatement(sql)){
+			
 			try(ResultSet rs = pst.executeQuery()){
 			
-			ArrayList<ItemViewDTO> itemList = new ArrayList<>();
+				ArrayList<ItemViewDTO> itemList = new ArrayList<>();
 
-			while(rs.next()) {
-				int item_no = rs.getInt("item_no");
-				String item_name = rs.getString("item_name");
-				int price = rs.getInt("price");
-				String item_comment = rs.getString("item_comment");
-				String item_regdate = getStringDate(rs.getDate("item_regdate"));
-				int item_stock = rs.getInt("item_stock");
-				String category_id = rs.getString("category_id");
-        
-        int img_no = rs.getInt("img_no");
-				String sys_name = rs.getString("sys_name");
-        
-        itemList.add(new ItemViewDTO(item_no, item_name, price, item_comment,
-							item_regdate, item_stock, category_id, img_no ,sys_name));
-        }
-				
-				System.out.println(" 보내기 전 list (ItemDTO) : " + itemList);
-				
-				return itemList;
-			}
+				while (rs.next()) {
+					int item_no = rs.getInt("item_no");
+					String item_name = rs.getString("item_name");
+					int price = rs.getInt("price");
+					String item_comment = rs.getString("item_comment");
+					String item_regdate = getStringDate(rs.getDate("item_regdate"));
+					int item_stock = rs.getInt("item_stock");
+					String category_id = rs.getString("category_id");
+	        
+					int img_no = rs.getInt("img_no");
+					String sys_name = rs.getString("sys_name");
+	        
+					itemList.add(new ItemViewDTO(item_no, item_name, price, item_comment,
+								item_regdate, item_stock, category_id, img_no ,sys_name));
+				}
+					
+					System.out.println(" 보내기 전 list (ItemDTO) : " + itemList);
+					
+					return itemList;
+				}
 		
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
+			}
 	}
 	
 	// select product all (세부 상품 조회 부분 테스트)

@@ -11,7 +11,7 @@ public class StringDateFormatter {
 		// oracle 월(mm/MM) 분(mi)
 		// java 월(MM) 분(mm)
 		// 1900년 02월 02일 00시 00분 00초
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		return sdf.format(date);
 	}
 }

@@ -28,7 +28,6 @@ public class BlacklistDAO {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	/* BlacklistDAO (관리자 - 고객관리)
@@ -49,7 +48,6 @@ public class BlacklistDAO {
 	
 	//블랙리스트에 추가
 	public int insertBlacklist(String user_id, String black_detail) throws Exception{
-
 		String sql = "insert into tbl_blacklist values(?,sysdate,?)";
 		
 		try(Connection con = bds.getConnection();
@@ -88,17 +86,17 @@ public class BlacklistDAO {
 			ArrayList<UserDTO> list = new ArrayList<>();
 			try(ResultSet rs = pstmt.executeQuery()){
 			
-			while(rs.next()) {	
-				String user_id = rs.getString("user_id");
-				String username = rs.getString("username");
-				String email = rs.getString("email");
-				String join_date = StringDateFormatter.getStringDate(rs.getDate("join_date"));	
-				list.add (new UserDTO(user_id, null, username, null, null, email, null, null, null, null, null, join_date, null));
+				while(rs.next()) {	
+					String user_id = rs.getString("user_id");
+					String username = rs.getString("username");
+					String email = rs.getString("email");
+					String join_date = StringDateFormatter.getStringDate(rs.getDate("join_date"));	
+					list.add (new UserDTO(user_id, null, username, null, null, email, null, null, null, null, null, join_date, null));
+				}
+				return list;
 			}
-			return list;
 		}
 	}
-}
 	
 	// 블랙리스트 전체 조회
 	public ArrayList<BlacklistDTO> selectAllBlacklist() throws Exception{
@@ -110,34 +108,34 @@ public class BlacklistDAO {
 			try(ResultSet rs = pstmt.executeQuery()){
 			
 			ArrayList<BlacklistDTO> list = new ArrayList<>();
-			while(rs.next()) {
-				
-				String user_id = rs.getString("user_id");
-				String black_date = StringDateFormatter.getStringDate(rs.getDate("black_date"));
-				String black_detail = rs.getString("black_detail");
-				
-				list.add(new BlacklistDTO(user_id,black_date,black_detail));
+				while(rs.next()) {
+					
+					String user_id = rs.getString("user_id");
+					String black_date = StringDateFormatter.getStringDate(rs.getDate("black_date"));
+					String black_detail = rs.getString("black_detail");
+					
+					list.add(new BlacklistDTO(user_id,black_date,black_detail));
+				}
+				return list;
 			}
-			return list;
 		}
-	}
 	}
 	
 	
 	
 	// 검색하는 DAO들
 	// 블랙리스트에서 아이디로 검색하기
-	public ArrayList<BlacklistDTO> selectBlacklistById(String id) throws Exception{
+	public ArrayList<BlacklistDTO> selectBlacklistById(String id) throws Exception {
 		String sql = "select * from tbl_blacklist where user_id like '%'||?||'%'";
 		
-		    try(Connection con =bds.getConnection();
-		    	PreparedStatement pstmt  = con.prepareStatement(sql)){
+	    try(Connection con =bds.getConnection();
+	    	PreparedStatement pstmt  = con.prepareStatement(sql)){
+		
+			pstmt.setString(1, id);
+		
+			try(ResultSet rs = pstmt.executeQuery()){
 			
-				pstmt.setString(1, id);
-			
-				try(ResultSet rs = pstmt.executeQuery()){
-				
-				ArrayList<BlacklistDTO> list = new ArrayList<>();
+			ArrayList<BlacklistDTO> list = new ArrayList<>();
 				while(rs.next()) {
 					
 					String user_id = rs.getString("user_id");
@@ -148,20 +146,20 @@ public class BlacklistDAO {
 				}
 				return list;
 			}
-	}
+	    }
 	}
 	
 	// 블랙리스트에서 사유로 검색하기
 	public ArrayList<BlacklistDTO> selectBlacklistByDetail(String detail) throws Exception{
 		String sql = "select * from tbl_blacklist where black_detail like '%'||?||'%'";
 		
-			try(Connection con =bds.getConnection();
-				PreparedStatement pstmt  = con.prepareStatement(sql)){
+		try(Connection con =bds.getConnection();
+			PreparedStatement pstmt  = con.prepareStatement(sql)){
+		
+			pstmt.setString(1, detail);
+		
+			try(ResultSet rs = pstmt.executeQuery()){
 			
-				pstmt.setString(1, detail);
-			
-				try(ResultSet rs = pstmt.executeQuery()){
-				
 				ArrayList<BlacklistDTO> list = new ArrayList<>();
 				while(rs.next()) {
 					
@@ -173,7 +171,7 @@ public class BlacklistDAO {
 				}
 				return list;
 			}
-	}
+		}
 	}
 	
 	// 블랙리스트에서 등록일 검색하기
@@ -265,20 +263,18 @@ public class BlacklistDAO {
 			
 			try(ResultSet rs = pstmt.executeQuery()){
 			
-			while(rs.next()) {
-				String user_id = rs.getString("user_id");
-				String username = rs.getString("username");
-				String email = rs.getString("email");
-				String join_date = StringDateFormatter.getStringDate(rs.getDate("join_date"));	
-				list.add (new UserDTO(user_id, null, username, null, null, email, null, null, null, null, null, join_date, null));
+				while(rs.next()) {
+					String user_id = rs.getString("user_id");
+					String username = rs.getString("username");
+					String email = rs.getString("email");
+					String join_date = StringDateFormatter.getStringDate(rs.getDate("join_date"));	
+					list.add (new UserDTO(user_id, null, username, null, null, email, null, null, null, null, null, join_date, null));
+				}
+				return list;
 			}
-			return list;
-		}
 
 		}	
-		
 	}
-
-	}
+	
 	
 }
