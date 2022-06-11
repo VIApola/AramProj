@@ -214,18 +214,8 @@
 
     </div>
    <!--헤더 콘텐츠 끝-->
-        <!--페이징-->
-        <div class="row box-paging">
-            <div class="col d-flex align-self-center justify-content-center">
-                페이징
-            </div>
-        </div>
-        <!--풋터-->
-        <div class="row">
-            <div class="col">
-                풋터
-            </div>
-        </div>
+        
+
     </div>
 </body>
 </html>

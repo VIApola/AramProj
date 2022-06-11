@@ -506,12 +506,12 @@ public class AdminController extends HttpServlet {
 				int rs = 0;
 				for(int i = 0; i<qua_no.length;i++) {
 					System.out.println(qua_no[i]);
-					rs = QnaDAO.deleteByQnA_no(qua_no[i]);
+					rs = QnaDAO.delete(qua_no[i]);
 					
 				}
 				if(rs > 0 ) {
 					System.out.println("QnA 삭제 성공");
-					
+					response.sendRedirect("/toQnAManagePage.admin");
 					
 				}else {
 					System.out.println("QnA 삭제 실패");

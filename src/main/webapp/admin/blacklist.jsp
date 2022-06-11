@@ -144,7 +144,7 @@
         <!-- 블랙리스트 이유적는 칸 -->
               <div class="row box-blacklist-detail">
                 <div class="col d-flex align-self-center justify-content-end">
-                   <textarea id="blacklistDetail" name="black_detail" style="width:100%; margin-top:10px;" placeholder="블랙리스트에 추가되는 이유를 적어주세요. 회원 한명씩 추가가 가능합니다."></textarea>
+                   <textarea id="blacklistDetail" name="black_detail" style="width:100%; margin-top:10px;" placeholder="블랙리스트에 추가되는 이유를 적어주세요."></textarea>
                 	
                 </div>
             </div>
@@ -162,19 +162,7 @@
                 </div>
             </div>
        
-        <!--페이징-->
-        <div class="row box-paging">
-            <div class="col d-flex align-self-center justify-content-center">
-                페이징
-            </div>
-        </div>
-        <!--풋터-->
-        <div class="row">
-            <div class="col">
-                풋터
-            </div>
-        </div>
-    </div>
+
 
     <script>
     	//검색버튼을 클릭했을 때 - 검색하는게 젤루 무서웡
