@@ -60,7 +60,7 @@ public class ReviewDAO {
 	
 	// 전체 리뷰 조회
 	public ArrayList<ReviewDTO> selectAllReview() throws Exception{
-		String sql = "select * from tbl_review";
+		String sql = "select * from tbl_review order by 5 desc";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);	
 				){
@@ -139,9 +139,9 @@ public class ReviewDAO {
 	}
 	
 	
-	// 리뷰 검색 (내용)
+	// 관리자 : 리뷰 검색 (내용)
 	public ArrayList<ReviewDTO> rvSrcByCttMng(String input) throws Exception {
-		String sql = "select * from tbl_review where title like '%'||?||'%' or content like '%'||?||'%'";
+		String sql = "select * from tbl_review where title like '%'||?||'%' or content like '%'||?||'%' order by 5 desc";
 		
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)){
@@ -171,9 +171,9 @@ public class ReviewDAO {
 	}
 	
 	
-	// 리뷰 검색 (아이디)
+	// 관리자 : 리뷰 검색 (아이디)
 	public ArrayList<ReviewDTO> rvSrcByIdMng(String input) throws Exception {
-		String sql = "select * from tbl_review where user_id like '%'||?||'%'";
+		String sql = "select * from tbl_review where user_id like '%'||?||'%' order by 5 desc";
 		
 		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
 			
