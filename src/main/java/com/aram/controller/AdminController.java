@@ -15,6 +15,7 @@ import com.aram.dao.ItemDAO;
 import com.aram.dao.QnaDAO;
 import com.aram.dao.ReviewDAO;
 import com.aram.dto.BlacklistDTO;
+import com.aram.dto.ItemDTO;
 import com.aram.dto.ItemViewDTO;
 import com.aram.dto.QnaDTO;
 import com.aram.dto.ReviewDTO;
@@ -400,16 +401,60 @@ public class AdminController extends HttpServlet {
 		}else if(uri.equals("/toReviewManage.admin")) {//리뷰 관리 페이지 요청
 
 			ReviewDAO dao = new ReviewDAO();
+			ItemDAO itemDao = new ItemDAO();
+			
 			try {
-				ArrayList<ReviewDTO> list  = dao.selectAllReview();
+				ArrayList<ReviewDTO> list = dao.selectAllReview();
 				request.setAttribute("ReviewList", list);
+				
+				
+				ArrayList<ItemDTO> itemList = new ArrayList<>();
+				
+				for (int i = 0; i < list.size(); i++) {
+					ItemDTO dto = itemDao.selectItemByNo(list.get(i).getItem_no());
+					System.out.println(list.get(i).getItem_no());
+					itemList.add(dto);
+					
+				}
+				System.out.println(itemList.get(1).getItem_name());
+				request.setAttribute("itemList", itemList);
+				
+				
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
+			
 			request.getRequestDispatcher("/admin/review.jsp").forward(request, response);
 
 		}else if(uri.equals("/deleteReviewlist.admin")) {// 리뷰 삭제
+			/*
+			// 리뷰삭제(1) : 삭제된 row만 삭제할 때
+			String[] review_no_list = request.getParameterValues("review_no");
 			
+			ReviewDAO dao = new ReviewDAO();
+			
+			try {
+				int rs = 0;
+				for(int i = 0; i < review_no_list.length; i++) {
+					rs = dao.deleteReview(i);
+				}
+				
+				if (rs>0) {
+					System.out.println("삭제 성공");
+					request.setAttribute("rs", "y");
+				} else {
+					System.out.println("삭제 실패");
+					request.setAttribute("rs", "n");
+				}
+				//request.getRequestDispatcher("/toReviewManage.admin").forward(request, response);
+					
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			*/
+		
+			
+			//리뷰삭제(2) : ajax로 뿌려줄 때 (여러 유형의 객체배열을 반환하지 못함)
 			String[] checkArr = request.getParameterValues("checkArr"); // 배열로 받아주기
 			
 			ReviewDAO dao = new ReviewDAO();
@@ -444,7 +489,7 @@ public class AdminController extends HttpServlet {
 			
 			
 			
-		} else if(uri.equals("/searchReviewMng.admin")) {
+		} else if(uri.equals("/searchReviewMng.admin")) { // 관리자페이지 리뷰검색
 			
 			String user_id = request.getParameter("user_id");
 			String content = request.getParameter("content");
