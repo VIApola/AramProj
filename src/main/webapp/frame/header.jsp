@@ -102,9 +102,11 @@
 							class="nav-link" id="toMypage" style="color: black;">Mypage</a></li>
 					</c:otherwise>
 				</c:choose>
-				<li class="nav-item"><a class="nav-link" style="color: black;"
-					href="/toSearchPage.item?curPage=1">Search</a></li>
-				<li class="nav-item"><c:choose>
+				<li class="nav-item">
+				<a class="nav-link" style="color: black;" href="/notice.bo">Community</a>
+				</li>
+				<li class="nav-item">
+				<c:choose>
 						<c:when test="${not empty loginSession}">
 							<a href="/mycart.cart" class="nav-link" style="color: black;">Cart</a>
 						</c:when>
