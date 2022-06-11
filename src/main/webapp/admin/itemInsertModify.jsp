@@ -114,7 +114,17 @@ label {
 	background-color: lightgray;
 }
 </style>
-
+<script>
+	window.onload = function(){
+		if(${empty loginSession}){
+			alert("관리자 계정으로 로그인해주세요.");
+			location.href = "/login.user";
+		}else if ("${loginSession.getIsAdmin()}" === "n") {
+			alert("관리자 계정으로 로그인해주세요.");
+			location.href = "/login.user";
+		}
+	};
+</script>
 <body>
 	<div class="container">
 		<!--헤더영역-->
@@ -269,6 +279,7 @@ label {
 
 
 	<script>
+
     
 	  //등록버튼 눌렀을때
 	    $("#insertComplete").on("click",function(){
