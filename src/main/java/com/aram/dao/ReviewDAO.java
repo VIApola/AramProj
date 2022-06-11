@@ -97,7 +97,7 @@ public class ReviewDAO {
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);	
 				){
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			ArrayList<ReviewDTO> list = new ArrayList<>();
 			while(rs.next()) {
@@ -116,7 +116,7 @@ public class ReviewDAO {
 			return list;
 		}
 	}
-	
+	}
 	// 상품별 리뷰조회
 	public ArrayList<ReviewDTO> selectAllReviewByItem(int item_no) throws Exception {
 		String sql = "select * from tbl_review where item_no=?";
@@ -124,7 +124,7 @@ public class ReviewDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql);){
 			pstmt.setInt(1, item_no);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			ArrayList<ReviewDTO> list = new ArrayList<>();
 			while(rs.next()) {
@@ -142,7 +142,7 @@ public class ReviewDAO {
 			return list;
 		}
 	}
-	
+	}
 	
 	// 고객 아이디 별 리뷰조회
 	public ArrayList<ReviewDTO> selectAllReviewByUserId(String user_id)throws Exception{
@@ -151,7 +151,7 @@ public class ReviewDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
 			pstmt.setString(1, user_id);
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			ArrayList<ReviewDTO> list = new ArrayList<>();
 			while(rs.next()) {
@@ -169,7 +169,7 @@ public class ReviewDAO {
 			return list;
 		}
 	}
-	
+	}
 	
 	// 관리자 : 리뷰 검색 (내용)
 	public ArrayList<ReviewDTO> rvSrcByCttMng(String input) throws Exception {
@@ -181,7 +181,7 @@ public class ReviewDAO {
 			pstmt.setString(1, input);
 			pstmt.setString(2, input);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			ArrayList<ReviewDTO> list = new ArrayList<>();
 			
 			while (rs.next()) {
@@ -201,7 +201,7 @@ public class ReviewDAO {
 			
 		}
 	}
-	
+	}
 	
 	// 관리자 : 리뷰 검색 (아이디)
 	public ArrayList<ReviewDTO> rvSrcByIdMng(String input) throws Exception {
@@ -211,7 +211,7 @@ public class ReviewDAO {
 			
 			pstmt.setString(1, input);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			ArrayList<ReviewDTO> list = new ArrayList<>();
 			
 			while (rs.next()) {
@@ -232,7 +232,7 @@ public class ReviewDAO {
 		}
 	}
 	
-	
+	}
 	// 개별 리뷰 조회
 	public ReviewDTO selectReviewByNo(int review_no)throws Exception {
 		String sql = "select * from tbl_review where review_no = ?";
@@ -240,7 +240,7 @@ public class ReviewDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
 			pstmt.setInt(1, review_no);
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			if(rs.next()) {
 				String nickname = rs.getString("nickname");
@@ -257,7 +257,4 @@ public class ReviewDAO {
 			return null;
 		}
 	}
-	
-	
-	
 }

@@ -10,6 +10,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <title>상세페이지</title>
 <link href="${pageContext.request.contextPath}/resources/css/detail.css" rel="stylesheet" type="text/css">
+
+
+
+
 </head>
 <body>
 	<div class="container">
@@ -52,8 +56,8 @@
 					<div class="btnBox d-flex justify-content-center">
 						<input type="text" name="item_no" id="item_no" class="d-none"
 							value="${item.item_no}">
-						<button class="m-2" id="btnCart" type="button">장바구니</button>
-						<button class="m-2" id="btnBuy" type="button">구매하기</button>
+						<button class="m-2 btn btn-success" id="btnCart" type="button">장바구니</button>
+						<button class="m-2 btn btn-warning" id="btnBuy" type="button">구매하기</button>
 					</div>
 				</div>
 				<div class="col-12 imgDesc d-flex justify-content-center p-5 m-3">${item.item_comment}</div>
@@ -96,14 +100,15 @@
 				<div class="row">
 					<div class="col-lg-1 col-2 d-flex justify-content-center align-items-center">리뷰</div>
 					<div class="col-7">
-						<textarea class="form-control" id="content" name="content"></textarea>
+						<textarea class="form-control" id="content" name="content" style=resize:none></textarea>
 					</div>
 					<div class="d-none">
 						<input name="item_no" value="${item.item_no}">
 					</div>
-					<div class="col-2">
-						<button type="button" id="btnWriteReview">글쓰기</button>
+					<div class="col-2 btnCol">
+						<button type="button" id="btnWriteReview" class="btn btn-secondary btn-lg">글쓰기</button>
 						<button type="button" id="btnModifyReview" style="display:none">수정완료</button>
+						<input type="hidden" id="review_no" name="review_no" value="">
 					</div>
 				</div>
 				<div class="row">
@@ -117,7 +122,7 @@
 				<thead class="border-top border-bottom">
 					<tr class="text-center">
 						<th class="p-2" style="width: 200px">닉네임</th>
-						<th class="p-2" style="width: 700px">내용</th>
+						<th class="p-2" style="width: 700px">제목 ( 클릭 시 내용 열람이 가능합니다 ) </th>
 						<th class="p-2" style="width: 150px">평점</th>
 					</tr>
 				</thead>
@@ -129,19 +134,19 @@
 					</c:if>
 					<c:if test="${not empty reviewList}">
 						<c:forEach items="${reviewList}" var="review">
-							<tr class="p-2">
+							<tr class="p-2 tr1">
 								<td class="nickname">${review.nickname}</td>
 								<td class="title"><span class="titleSpan" style="padding-right: 2em">${review.title}</span>
 									<c:if test="${loginSession.user_id eq review.user_id}">
-										<button type="button" id="btnReviewModify"
+										<button type="button" id="btnReviewModify" class="btn btn-warning"
 											value="${review.review_no}">수정</button>
 									</c:if> <c:if test="${loginSession.user_id eq review.user_id}">
-										<button type="button" id="btnReviewDelete"
+										<button type="button" id="btnReviewDelete" class="btn btn-danger"
 											value="${review.review_no}">삭제</button>
 									</c:if></td>
 								<td class="score">${review.score}</td>
 							</tr>
-						 <tr class="p-2" class="contentTr" id="contentTr" style="display:none"><td class="contentTd" id="contentTd">
+						 <tr class="p-2 contentTr" id="contentTr" style="display:none"><td class="contentTd" id="contentTd" colspan="3">
 						 <span id="contentSpan" class="contentSpan">${review.content}</span>
 						 </td></tr>
 						</c:forEach>
@@ -154,6 +159,9 @@
 	</div>
 
 	<script>
+	
+  getTitle();
+	
   function count(type) {
 	  let number = $("#qty").val();
 	  if(type === 'plus'){
@@ -204,7 +212,10 @@
     				, item_no:	"${item.item_no}"
     			}
     			, success: function(data) {
-    				printReviewList(data);
+    				printReviewList(data);		
+
+    				getTitle();
+    				
     			}, error: function(e) {
     				console.log(e);
     			}
@@ -215,49 +226,29 @@
 		}
     })
     
-     //제목 클릭 시 내용 보이기
-    	 $(".titleSpan").each(function(){
-    	$(this).on("click", function(){
-    		console.log($(this).html());		
-    	
-    		 $(this).parent().parent().next().toggle();		
-    	})
-    })
-    
     // 리뷰 수정
      $(".review-board").on("click", "#btnReviewModify", function(){
     	console.log($(this).val());
     	
-    	$("#btnWriteReview").css({"display":"none"});
-    	$("#btnModifyReview").css({"display":""});
+    		modify_review($(this));
     	
-    	console.log(	$(this).prev().html() );
-    	$("#title").val( $(this).prev().html() ); // 제목
-    	
-    	console.log( $(this).parent().parent().next().children().children().html()  ); // 내용
-    	$("#content").html( $(this).parent().parent().next().children().children().html() );
-    	
-    	console.log( $(this).parent().next().html() ); //별점
-    	$("#myform").val(  $(this).parent().next().html() );
-    	 
     		// 수정완료 버튼 클릭이벤트
     		$("#btnModifyReview").on("click", function(){
-    			$(this).prev().html( $("#content").html() ); // 제목 최신화
+    					
+    			$(this).prev().html( $("#content").val() ); // 제목 최신화
     			$(this).parent().parent().next().children().children().html( $("#title").val() ); // 내용 최신화
-    			  
-    			modifyForm($("#reviewForm"));
+    			//console.log("수정title:   "+$(this).prev().html()); // 버튼 반응 확인
+    			//console.log("수정content:  "+$(this).parent().parent().next().children().children().html());
+
+    			modifyForm();
+    			
+    			// 비우기
+    			$("#title").val("");
+    			$("#content").val("");
     		})
     	
     });
-    
-    function modifyForm(form){
-    	form.action="/modify.re";
-    	form.submit();
-    	return true;
-    }
-    
-    
-    
+	
     // 리뷰 삭제
     $(".review-board").on("click", "#btnReviewDelete", function(){
     	let answer = confirm("리뷰를 삭제하시겠습니까?");
@@ -271,6 +262,11 @@
     			}
     			, success: function(data) {
     				printReviewList(data);
+		
+    					getTitle();
+    				
+        			$("#title").val("");
+        			$("#content").val("");
     			}, error: function(e) {
     				console.log(e);
     			}
@@ -301,6 +297,44 @@
     	}
     });
 	
+	// 리뷰 수정 함수
+	function modify_review(a){
+    	
+    	$("#btnWriteReview").css({"display":"none"});
+    	$("#btnModifyReview").css({"display":""});
+    	
+    	console.log(a.prev().html());
+    	$("#title").val(a.prev().html()); // 제목
+    	
+    	console.log( a.parent().parent().next().children().children().html()); // 내용
+    	$("#content").val( a.parent().parent().next().children().children().html());
+    	
+    	console.log( a.parent().next().html() ); //별점
+    	$("#myform").val( a.parent().next().html());
+    	 
+    	$("#review_no").val(a.val()); // 리뷰번호 따오기
+    	
+    }
+	
+	
+	// form 2번째 경로로 이동 (수정처리) 함수
+    function modifyForm(){ 
+    	$("#reviewForm").attr("action","/modify.re");
+    	//$("#reviewForm").attr("target","iframe"); // iframe으로 페이지 로드되지 않게(실패)
+    	$("#reviewForm").submit();
+    }
+	
+    // 제목 클릭 시 내용 보이기 함수
+    function getTitle(){
+   	$(".titleSpan").each(function(){
+       	$(this).on("click", function(){
+       		console.log($(this).html());		
+       	
+       		 $(this).parent().parent().next().toggle();		
+       	})
+       })
+	}
+	
 	// 리뷰 목록 뿌려주는 함수
 	function printReviewList(data) {
 		console.log(data)
@@ -318,19 +352,19 @@
 			$(".reviewList").append(tr);
 		} else {
 			for(let dto of list) {
-				let tr = $("<tr>").addClass("p-2")
+				let tr = $("<tr>").addClass("p-2 tr1")
 				
 				let nickname = $("<td>").addClass("nickname").html(dto.nickname);
-				let title = $("<td>").addClass("title")
+				let title = $("<td>").addClass("title");
 				let titleSpan = $("<span>").addClass("titleSpan").css({"padding-right":"2em"}).html(dto.title);
 				title.append(titleSpan)
 				
 				let modifyBtn;
 				let deleteBtn;
 				if(dto.user_id == '${loginSession.user_id}') {
-					modifyBtn = $("<button>").attr("id","btnReviewModify").attr("value",dto.review_no)
+					modifyBtn = $("<button>").addClass("btn btn-warning").attr("id","btnReviewModify").attr("value",dto.review_no)
 					modifyBtn.html("수정")
-					deleteBtn = $("<button>").attr("id","btnReviewDelete").attr("value",dto.review_no)
+					deleteBtn = $("<button>").addClass("btn btn-danger").attr("id","btnReviewDelete").attr("value",dto.review_no)
 					deleteBtn.html("삭제")
 				}
 				title.append(modifyBtn);
@@ -343,14 +377,15 @@
 				tr.append(score)
 				
 				
-				let tr2 = $("<tr>").addClass("p-2");
-				let contentTd = $("<td>").addClass("contentTd").attr("id","contentTd").css({"display":"none"});
-				let contentSpan = $("<span>").addClass("contentSpan").html(dto.content);
+				let tr2 = $("<tr>").addClass("p-2 contentTr").attr("id","contentTr").css({"display":"none"});
+				let contentTd = $("<td>").addClass("contentTd").attr("id","contentTd").attr("colspan","3");
+				let contentSpan = $("<span>").addClass("contentSpan").attr("id","contentSpan").html(dto.content);
+				console.log("contentSpan : " + contentSpan);
 				
-				content.append(contentSpan)
-				tr2.append(contentTd)
+				contentTd.append(contentSpan);
+				tr2.append(contentTd);
 	
-				
+			
 				$(".reviewList").append(tr);
 				$(".reviewList").append(tr2);
 			}

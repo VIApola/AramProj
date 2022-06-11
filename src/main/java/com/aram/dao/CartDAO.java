@@ -35,12 +35,12 @@ public class CartDAO {
 			
 			pstmt.setString(1, user_id);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			rs.next();
 			int quantity = rs.getInt(1);
 			System.out.println("카트에 담긴 상품 개수 : "+quantity);
 			return quantity;
-			
+			}
 		}		
 	}
 
@@ -51,7 +51,7 @@ public class CartDAO {
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			ArrayList<Cart_ItemDTO> list = new ArrayList<>();
 			while(rs.next()) {
@@ -71,7 +71,7 @@ public class CartDAO {
 			return list;
 		}
 	}
-	
+	}
 	// 회원에 따라 장바구니 조회
 	public ArrayList<Cart_ItemDTO> selectByUserId(String user_id) throws Exception{
 		String sql = "select * from tbl_cart join tbl_items on tbl_cart.item_no = tbl_items.item_no where user_id=?";
@@ -79,7 +79,7 @@ public class CartDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql)){
 			pstmt.setString(1, user_id);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			ArrayList<Cart_ItemDTO> list = new ArrayList<>();
 			while(rs.next()) {
@@ -96,7 +96,7 @@ public class CartDAO {
 			return list;
 		}
 	}
-	
+	}
 	// 해당 유저의 장바구니에 담긴 총 금액 조회
 	public int totalPrice(String user_id) throws Exception {
 		String sql = "SELECT sum(price*quantity) FROM tbl_cart JOIN TBL_ITEMS ON tbl_cart.item_no = tbl_items.ITEM_NO WHERE user_id=?";
@@ -104,14 +104,14 @@ public class CartDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql)){
 			pstmt.setString(1, user_id);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			if(rs.next()) {
 				return rs.getInt(1);
 			}
 		}
 		return 0;
 	}
-	
+	}
 		
 	// 장바구니에 제품 담기
 	public int addCart(CartDTO dto) throws Exception {
@@ -145,7 +145,7 @@ public class CartDAO {
 				){
 			pstmt.setInt(1, item_no);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			rs.next();
 			
 			if(rs.getInt("count") == 0) { // 현재 장바구니에 없는 아이템 
@@ -156,7 +156,7 @@ public class CartDAO {
 			
 		}
 	}
-	
+	}
 	// 바로 구매를 하거나 주문완료를 했을 때 회원이 장바구니를 비우는 함수
 	public int emptyCart(String user_id) throws Exception {
 		String sql = "delete from tbl_cart where user_id=?";
@@ -208,7 +208,7 @@ public class CartDAO {
 				){
 			pstmt.setString(1, user_id);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			int total = 0;
 			while(rs.next()) {
@@ -220,4 +220,5 @@ public class CartDAO {
 				return total;
 		}
 	}
+}
 }

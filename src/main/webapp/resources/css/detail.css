@@ -29,7 +29,6 @@
 .review-inputBox .row {
   margin: 10px;
 }
-
 /* 별점 부분 CSS */
 #myform fieldset{
     display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
@@ -56,3 +55,37 @@
 #myform input[type=radio]:checked ~ label{
     text-shadow: 0 0 0 rgb(141, 249, 0); /* 마우스 클릭 체크 */
 }
+
+td{
+	text-align:center;
+	padding:15px;
+}
+.contentTd{
+text-align:center;
+}
+.tr1{
+border-top: 1px solid lightgrey;
+}
+.btnCol {
+	text-align:center;
+}
+.btnCol button{
+margin-top : 5px;
+}
+.titleSpan{
+cursor:pointer;
+}
+
+#btnReviewModify{
+	font-size:3px; padding:3px 3px;
+}
+#btnReviewDelete{
+	font-size:3px; padding:3px 3px
+}
+
+
+
+
+
+
+

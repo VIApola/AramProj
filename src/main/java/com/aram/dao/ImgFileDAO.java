@@ -50,7 +50,7 @@ public class ImgFileDAO {
 			try(Connection con = bds.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)
 						){
-				ResultSet rs = pstmt.executeQuery();
+				try(ResultSet rs = pstmt.executeQuery()){
 				
 				ArrayList<ItemimgDTO> list = new ArrayList<>();
 				while(rs.next()) {
@@ -65,6 +65,7 @@ public class ImgFileDAO {
 				return list;
 			}
 	}	
+	}
 	
 	//파일 개별 목록 불러오기
 	public ItemimgDTO select_img(int img_no) throws Exception {
@@ -74,7 +75,7 @@ public class ImgFileDAO {
 						){
 					pstmt.setInt(1, img_no);
 					
-					ResultSet rs = pstmt.executeQuery();
+					try(ResultSet rs = pstmt.executeQuery()){
 				if(rs.next()) {
 					int item_no = rs.getInt("item_no");
 					String img_type = rs.getString("img_type");
@@ -86,7 +87,7 @@ public class ImgFileDAO {
 				return null;
 			}
 	}
-
+	}
 	
 	
 	//파일 수정
@@ -136,10 +137,10 @@ public class ImgFileDAO {
 		String sql = "select seq_img_no.nextval from dual";
 		try(Connection con = bds.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)){
-				ResultSet rs = pstmt.executeQuery();
+				try(ResultSet rs = pstmt.executeQuery()){
 				rs.next();
 				return rs.getInt(1);
 		}
 	}
-			
+	}		
 }

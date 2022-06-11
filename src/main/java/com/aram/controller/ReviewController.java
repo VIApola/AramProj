@@ -78,19 +78,24 @@ public class ReviewController extends HttpServlet {
 			//int score = Integer.parseInt(request.getParameter("score"));
 			String content = request.getParameter("content");
 			int item_no = Integer.parseInt(request.getParameter("item_no"));
-			
+			int review_no = Integer.parseInt(request.getParameter("review_no"));
 			System.out.println(title);
 			//System.out.println(score);
 			System.out.println(content);
+			System.out.println("제목 : " + title + " 내용 : " + content);
+			System.out.println("리뷰번호 : " + review_no);
 			
 			ReviewDAO dao = new ReviewDAO();
 			
 			try {
-				int rs = dao.modifyReview(new ReviewDTO(0, null, title, content, null, 5, null, 0, 0));				
-				if (rs > 0) {
+			int rs = dao.modifyReview(new ReviewDTO(review_no, null, title, content, null, 5, null, item_no, 0));				
+				
+				
+			if (rs > 0) {
 					
-					System.out.println("리뷰 수정 완료");
-					
+			System.out.println("리뷰 수정 완료");
+			response.sendRedirect("detail.item?item_no="+item_no);		
+			
 					//ArrayList<ReviewDTO> reviewList = dao.selectAllReviewByItem(item_no);
 					
 					//Gson gson = new Gson();
@@ -104,7 +109,9 @@ public class ReviewController extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-		} else if(uri.equals("/delete.re")) { // 리뷰 삭제 요청
+		}
+		
+		else if(uri.equals("/delete.re")) { // 리뷰 삭제 요청
 			System.out.println("리뷰 등록 실행");
 			int review_no = Integer.parseInt(request.getParameter("review_no"));
 			int item_no = Integer.parseInt(request.getParameter("item_no"));

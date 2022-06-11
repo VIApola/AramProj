@@ -76,7 +76,7 @@ public class UserDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql);){
 			
 			pstmt.setString(1, id);
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			int idCheck = 0;
 			if(rs.next()|| id.equals("")) { //아이디 중복
@@ -85,7 +85,7 @@ public class UserDAO {
 				idCheck = 1; 
 			}
 			return idCheck;
-			
+			}
 		}
 	}
 	// 이메일 중복검사
@@ -95,7 +95,7 @@ public class UserDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql);){
 			
 			pstmt.setString(1, email);
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			int emailCheck = 0;
 			if(rs.next() || email.equals("")) {// 이메일 중복
@@ -104,7 +104,7 @@ public class UserDAO {
 				emailCheck = 1;
 			}
 			return emailCheck;
-			
+			}
 		}
 		
 	}
@@ -116,7 +116,7 @@ public class UserDAO {
 				){
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			if(rs.next()) {
 				return 0;  // 비밀번호 존재
@@ -124,7 +124,7 @@ public class UserDAO {
 			return 1;
 		}
 	}
-	
+	}
 	// 로그인 - 아이디 비밀번호 검사, 유저정보를 담는 dto를 전송
 	public UserDTO isLoginOk(String id, String pw) throws Exception {
 		String sql = "select * from tbl_user where user_id=? and user_pw=?";
@@ -135,7 +135,7 @@ public class UserDAO {
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			if(rs.next()) { //로그인 성공이라면
 				String user_id = rs.getString("user_id");
@@ -155,7 +155,8 @@ public class UserDAO {
 				return new UserDTO(user_id, user_pw, username, nickname, phone, email, post_no, addr, addr_detail, social_login, email_verify, join_date, isAdmin);
 			}
 			return null;
-		}
+			}
+			}
 	}
 	// 블랙리스트라면
 	public int checkBlackList(String id) throws Exception{
@@ -164,13 +165,13 @@ public class UserDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql);){
 			
 			pstmt.setString(1, id);
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			if(rs.next()) {
 				return 0; // 블랙리스트 존재
 			}
 			return 1;
-			
+			}
 		}
 	}
 
@@ -206,7 +207,7 @@ public class UserDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql);){
 			
 			pstmt.setString(1, id);	
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			if(rs.next()) { //로그인 성공이라면
 				String user_id = rs.getString("user_id");
@@ -228,7 +229,7 @@ public class UserDAO {
 			return null;
 		}
 	}
-	
+	}
 	// 아이디찾기
 	public String findId(String name, String email) throws Exception {
 		String sql = "select user_id from tbl_user where username = ? and email= ?";
@@ -239,7 +240,7 @@ public class UserDAO {
 			pstmt.setString(1, name);
 			pstmt.setString(2, email);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			if(rs.next()) {
 				String id = rs.getString(1);
@@ -250,7 +251,7 @@ public class UserDAO {
 			
 		}
 	}
-	
+	}
 	// 비밀번호찾기
 	public String toChangePw(String id, String email) throws Exception {
 		String sql = "select user_id from tbl_user where user_id = ? and email = ?";
@@ -261,7 +262,7 @@ public class UserDAO {
 			pstmt.setString(1, id);
 			pstmt.setString(2, email);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			if(rs.next()) {
 				String rsId = rs.getString(1);
@@ -271,7 +272,7 @@ public class UserDAO {
 			}
 		}
 	}
-	
+	}
 	// 비밀번호찾기 -> 비밀번호변경
 	public int changePw(String id, String pw) throws Exception {
 		String sql = "update tbl_user set user_pw = ? where user_id = ?";
@@ -315,12 +316,12 @@ public class UserDAO {
 				
 			pstmt.setString(1, id);
 				
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			if(rs.next()) {
 				return rs.getString(1);
 			}
 			return null; // 데이터 베이스 오류
-				
+			}
 			}
 	}
 	
@@ -332,14 +333,14 @@ public class UserDAO {
 				
 			pstmt.setString(1, id);
 				
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			if(rs.next()) {
 				return rs.getString(1);
 			}
 		return "";
 		}
 	}
-	
+	}
 	// 이메일 인증 완료 상태로 변경
 	public int setUserEmailChecked(String code) throws Exception {
 		String sql = "update email_verfied set idHashChecked='y' where idHash=?";
@@ -397,7 +398,7 @@ public class UserDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
 			pstmt.setString(1, user_id);
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			ArrayList<MypageReviewDTO> list = new ArrayList<>();
 			while(rs.next()) {
 				
@@ -417,7 +418,7 @@ public class UserDAO {
 			return list;
 		}
 	}
-	
+}
 	/*
 	// 관리자 확인
 	public boolean getIsAdmin(String id) throws Exception {
@@ -427,7 +428,7 @@ public class UserDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql)){
 			pstmt.setString(1, id);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			if (rs.equals("y")) {
 				return true;
@@ -436,6 +437,7 @@ public class UserDAO {
 			}
 			
 		}
+	}
 	}
 	*/
 	

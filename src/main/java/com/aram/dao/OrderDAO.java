@@ -72,7 +72,7 @@ public class OrderDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql)){
 			pstmt.setString(1, order_no);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			ArrayList<OrderItemDTO> orderList = new ArrayList<OrderItemDTO>();
 			
@@ -87,7 +87,7 @@ public class OrderDAO {
 			return orderList;
 		}
 	}
-	
+	}
 	
 	// 전체목록 
 	public ArrayList<OrderDTO> selectAllOrder() throws Exception {
@@ -168,7 +168,7 @@ public class OrderDAO {
 				){
 			pstmt.setString(1, order_no);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			if(rs.next()) {
 				
@@ -192,7 +192,7 @@ public class OrderDAO {
 			return null;
 		}
 	}
-	
+	}
 	// 수정
 //	public int modifyOrder(OrderDTO dto)throws Exception {
 //		String sql = "update tbl_order set quanity=?, order_amount=?, delivery_addr=?, delivery_name=?, order_msg=?, delivery_msg=? where order_no=?";
@@ -229,11 +229,11 @@ public class OrderDAO {
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
 				){
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			rs.next();
 
 			return rs.getInt(1);
 		}
 	}
-	
+	}
 }

@@ -99,7 +99,7 @@ public class NoticeDAO {
 			
 			pstmt.setString(1, searchAuthor);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			ArrayList<NoticeDTO> list = new ArrayList<>();
 			while(rs.next()) {
 				int notice_no = rs.getInt("notice_no");
@@ -116,7 +116,7 @@ public class NoticeDAO {
 			return list;
 		}
 	}
-	
+	}
 	// 제목으로 검색
 	public ArrayList<NoticeDTO> searchByTitle(String searchTitle) throws Exception{
 		String sql = "SELECT * FROM tbl_notice WHERE title = ? order by 1 desc";
@@ -125,7 +125,7 @@ public class NoticeDAO {
 			
 			pstmt.setString(1, searchTitle);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			ArrayList<NoticeDTO> list = new ArrayList<>();
 			while(rs.next()) {
 				int notice_no = rs.getInt("notice_no");
@@ -143,7 +143,7 @@ public class NoticeDAO {
 		}
 	}
 	
-	
+	}
 	// 게시글 전체 조회
 	public ArrayList<NoticeDTO> selectAll(int start, int end) throws Exception{ 
 		String sql =  "SELECT * from (select tbl_notice.*, row_number() over(order by notice_no desc) as num from tbl_notice)"
@@ -154,7 +154,7 @@ public class NoticeDAO {
 			pstmt.setInt(1, start);
 			pstmt.setInt(2, end);
 			
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 			
 			ArrayList<NoticeDTO> list = new ArrayList<>();
 			while(rs.next()) {
@@ -172,7 +172,7 @@ public class NoticeDAO {
 			return list;
 		}
 	}
-
+	}
 	
 	//게시글 부분 조회
 	public NoticeDTO selectBySeq(int notice_no) throws Exception{
@@ -182,7 +182,7 @@ public class NoticeDAO {
 				PreparedStatement pstmt = con.prepareStatement(sql);){
 
 			pstmt.setInt(1, notice_no);
-			ResultSet rs = pstmt.executeQuery();
+			try(ResultSet rs = pstmt.executeQuery()){
 
 			if(rs.next()) {
 				String user_id = rs.getString("user_id");
@@ -197,7 +197,8 @@ public class NoticeDAO {
 			return null;
 		}
 	}
-	
+
+	}
 	
 	//조회수 check
 	public void updateView_count(int notice_no) throws Exception{
