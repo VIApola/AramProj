@@ -71,7 +71,7 @@
                                 <a href="/toReviewManage.admin" class="header-menu">리뷰관리</a>
                             </div>
                             <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
-                                <a href="/toQnAManagePage.admin" class="header-menu">Q&A관리</a>
+                                <a href="/toQnAManagePage.admin?page=1" class="header-menu">Q&A관리</a>
                             </div>
                             <div class="col-xs-3 col-sm-2 col-xl-1 d-flex align-self-center justify-content-center">
                                 <a href="/toUserManage.admin" class="header-menu">고객관리</a>

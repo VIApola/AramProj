@@ -110,11 +110,11 @@
 							<div class="col-3 d-flex justify-content-center">
 								<img style="width: 50%;" src="/resources/images/items/${item.item_name}.png">
 							</div>
-							<div class="col-6">
-								<a href="">${item.item_name}</a>
+							<div class="col-6 align-self-center">
+								<a href="/detail.item?item_no=${item.item_no}" style="text-decoration: none; color: black;">${item.item_name}</a>
 							</div>
-							<div class="col-1 d-flex justify-content-center">${item.quantity}</div>
-							<div class="col-2 d-flex justify-content-center">${item.price}</div>
+							<div class="col-1 align-self-center d-flex justify-content-center">${item.quantity}</div>
+							<div class="col-2 align-self-center d-flex justify-content-center">${item.price}</div>
 						</div>
 					</c:forEach>
 				</div>
@@ -201,7 +201,7 @@
 				</div>
 				<!-- 버튼 -->
 				<div class="btnBox d-flex justify-content-center">
-					<button type="button" class="btn btn-outline-dark">MyPage</button>
+					<button type="button" class="btn btn-outline-dark" id="btnMypage">MyPage</button>
 					<button type="button" class="btn btn-outline-success" id="btnOrder">Main</button>
 				</div>
 			</div>
@@ -209,5 +209,13 @@
 			<jsp:include page="/frame/footer.jsp"></jsp:include>
 		</div>
 	</div>
+	<script>
+	$("#btnMypage").on("click", function(){
+		location.href = "/toMypage.user";
+	});
+	$("#btnOrder").on("click", function(){
+		location.href = "/main";
+	});
+	</script>
 </body>
 </html>

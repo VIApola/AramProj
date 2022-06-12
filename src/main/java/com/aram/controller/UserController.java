@@ -165,11 +165,22 @@ public class UserController extends HttpServlet {
 				UserDTO dto = dao.kakaoLogin(kakaoid);
 
 				if (dto != null) {
-					System.out.println("로그인 성공");
+					
+					// 블랙리스트 인지 아닌지
+					int blackList = dao.checkBlackList(kakaoid);
+					if (blackList == 1) {
+						System.out.println("로그인 성공");
 
-					response.getWriter().append("ok");
-					HttpSession session = request.getSession();
-					session.setAttribute("loginSession", dto);
+						response.getWriter().append("ok");
+						HttpSession session = request.getSession();
+						session.setAttribute("loginSession", dto);						
+
+					} else if(blackList == 0) {
+							System.out.println("블랙리스트 회원");
+							request.setAttribute("blackList", true);
+							request.getRequestDispatcher("/member/login.jsp").forward(request, response);
+						}
+					
 
 				} else {
 					System.out.println("로그인 실패");
