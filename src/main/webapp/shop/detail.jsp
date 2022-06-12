@@ -91,12 +91,12 @@
 						<input type="text" class="form-control" id="title" name="title">
 					</div>
 				</div>
-				<div class="row">
+				<!-- <div class="row">
 					<div class="col-lg-1 col-2 d-flex justify-content-center align-items-center">사진</div>
 					<div class="col-lg-4 col-6">
 						<input type="file">
 					</div>
-				</div>
+				</div>  -->
 				<div class="row">
 					<div class="col-lg-1 col-2 d-flex justify-content-center align-items-center">리뷰</div>
 					<div class="col-7">
@@ -276,6 +276,11 @@
 	
 	// 바로 구매할 때
 	$("#btnBuy").on("click", function() {
+		if(${empty loginSession}) {
+			alert("로그인이 필요합니다.");
+			location.href = "/login.user";
+			return;
+		}
 		let con = confirm("이 상품을 구매하시겠습니까?");
 		if(con){
 			$("#cartForm").attr("action", "/toOrderPage.order");

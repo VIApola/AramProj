@@ -170,10 +170,11 @@
 				</div>
 			</div>
 		</div>
+			<%--풋터영역 --%>
+			<jsp:include page="/frame/footer.jsp"></jsp:include>
+		
 	</div>
 
-	<%--풋터영역 --%>
-	<jsp:include page="/frame/footer.jsp"></jsp:include>
 	<script>
 	
 		// 검색 기능
@@ -219,7 +220,7 @@
     		
     	})
 	
-    	
+    	/*
     	//네비바 검색창 -> 상품검색페이지
       	$("#searchBtn").on("click",function(){
       		let searchKeyword = $("#searchKeyword").val();
@@ -249,6 +250,7 @@
         function closeNav() {
           document.getElementById("mySidenav").style.width = "0";
         }
+        */
 
     </script>
 </body>

@@ -553,7 +553,7 @@ public class AdminController extends HttpServlet {
 				}
 				if(rs > 0 ) {
 					System.out.println("QnA 삭제 성공");
-					response.sendRedirect("/toQnAManagePage.admin");
+					response.sendRedirect("/toQnAManagePage.admin?page=1");
 					
 				}else {
 					System.out.println("QnA 삭제 실패");

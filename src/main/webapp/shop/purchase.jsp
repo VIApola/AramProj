@@ -73,7 +73,7 @@
 						</div>
 						<div
 							class="col-3 col-lg-5 d-flex justify-content-start align-items-center">
-							<div style="letter-spacing: 2px;">${cartItem.item_name}</div>
+							<div id="itemName" style="letter-spacing: 2px;">${cartItem.item_name}</div>
 						</div>
 						<div
 							class="col-2 col-lg-1 d-flex justify-content-center align-items-center">${cartItem.quantity}</div>
