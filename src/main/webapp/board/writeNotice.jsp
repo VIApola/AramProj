@@ -198,7 +198,7 @@ textarea {
         const btnBack = document.getElementById("btnBack");
 
         btnBack.addEventListener("click", function(e){
-            location.href="/notice.bo";
+            location.href="/notice.bo?page=1";
         });
 		
 	</script>

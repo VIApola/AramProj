@@ -14,12 +14,6 @@
 	font-family: 'Roboto Mono', monospace;
 	font-family: 'GowunDodum-Regular';
 }
-
-
-   *{
-     font-family: 'Roboto Mono', monospace;
-     font-family: 'GowunDodum-Regular';
-}
      
 html, body {
 	width: 100%;
@@ -62,9 +56,6 @@ html, body {
 }
 
 /*boardBox*/
-.boardBox {
-	height: 300px;
-}
 
 .boardBox a{
 	text-decoration : none;

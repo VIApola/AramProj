@@ -57,9 +57,9 @@
 		<div class="qnaBox">
 			<div class="row d-flex align-items-center">
 				<div class="col-4 col-md-none d-flex align-items-center">
-					<a href="/qna.bo" style="color: black; text-decoration-line:none;"><Strong>Q&A</Strong></a>
+					<a href="/qna.bo?page=1" style="color: black; text-decoration-line:none;"><Strong>Q&A</Strong></a>
 					<span style="margin-right:10px; margin-left:10px;">|</span>
-					<a href="/notice.bo" style="color: black; text-decoration-line:none;">Notice</a>
+					<a href="/notice.bo?page=1" style="color: black; text-decoration-line:none;">Notice</a>
 				</div>
 				<div class="col-8 d-md-12 mt-2">
 					<div
@@ -105,7 +105,7 @@
 								<c:forEach items="${qnalist}" var="dto">
 									<div class="row">
 										<div class="col-1 d-none d-md-block">${dto.qna_no}</div>
-										<div class="col-3 d-none d-md-block">${dto.title}</div>
+										<div class="col-2 d-none d-md-block">${dto.title}</div>
 										 <div class="col-12 col-md-5">
 											<a href="/detailViewQna.bo?qna_no=${dto.qna_no}">
 											${dto.content}
@@ -149,16 +149,22 @@
 				<div
 					class="paginBox d-flex justify-content-center align-items-center">
 					<nav aria-label="Page navigation example">
-						<ul class="pagination">
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-							</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-							</a></li>
+						<ul class="pagination justify-content-center">
+							<c:if test="${naviMap.needPrev eq true}">
+								<li class="page-item"><a class="page-link"
+									href="/qna.bo?page=${naviMap.startNavi-1}"><<</a></li>
+							</c:if>
+							<%-- 현재  --%>
+							<c:forEach var="pageNum" begin="${naviMap.startNavi}"
+								end="${naviMap.endNavi}" step="1">
+								<li class="page-item"><a class="page-link"
+									href="/qna.bo?page=${pageNum}">${pageNum}</a></li>
+							</c:forEach>
+
+							<c:if test="${naviMap.needNext eq true}">
+								<li class="page-item"><a class="page-link"
+									href="/qna.bo?page=${naviMap.endNavi+1}">>></a></li>
+							</c:if>
 						</ul>
 					</nav>
 				</div>
@@ -213,7 +219,6 @@
     		
     	})
 	
-  
     	
     	//네비바 검색창 -> 상품검색페이지
       	$("#searchBtn").on("click",function(){
@@ -244,10 +249,7 @@
         function closeNav() {
           document.getElementById("mySidenav").style.width = "0";
         }
-    	
 
-    	
- 
     </script>
 </body>
 

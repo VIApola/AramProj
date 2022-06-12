@@ -14,6 +14,7 @@ import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import com.aram.dto.MypageReviewDTO;
 import com.aram.dto.UserDTO;
+import com.aram.utils.StringDateFormatter;
 
 public class UserDAO {
 	
@@ -149,7 +150,7 @@ public class UserDAO {
 				String addr_detail = rs.getString("addr_detail");
 				String social_login = rs.getString("social_login");
 				String email_verify = rs.getString("email_verify");
-				String join_date = getStringDate(rs.getDate("join_date"));
+				String join_date = StringDateFormatter.getStringDate(rs.getDate("join_date"));
 				String isAdmin = rs.getString("isAdmin");
 				
 				return new UserDTO(user_id, user_pw, username, nickname, phone, email, post_no, addr, addr_detail, social_login, email_verify, join_date, isAdmin);
@@ -221,7 +222,7 @@ public class UserDAO {
 				String addr_detail = rs.getString("addr_detail");
 				String social_login = rs.getString("social_login");
 				String email_verify = rs.getString("email_verify");
-				String join_date = getStringDate(rs.getDate("join_date"));
+				String join_date = StringDateFormatter.getStringDate(rs.getDate("join_date"));
 				String isAdmin = rs.getString("isAdmin");
 				
 				return new UserDTO(user_id, user_pw, username, nickname, phone, email, post_no, addr, addr_detail, social_login, email_verify, join_date, isAdmin);
@@ -356,7 +357,8 @@ public class UserDAO {
 	
 	public int setHashedEmail(String id, String hashedEmail) throws Exception {
 		String sql = "insert into email_verfied values(?,?,'n')";
-		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
+		try(Connection con = bds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql)){
 			
 			pst.setString(1, id);
 			pst.setString(2, hashedEmail);
@@ -405,7 +407,7 @@ public class UserDAO {
 				int review_no = rs.getInt("review_no");
 				String title = rs.getString("title");
 				String content = rs.getString("content");
-				String written_date = simpleStringDate(rs.getDate("write_date"));
+				String written_date = StringDateFormatter.getStringDate(rs.getDate("write_date"));
 				int score = rs.getInt("score");
 				
 				int item_no = rs.getInt("item_no");
@@ -445,23 +447,6 @@ public class UserDAO {
 //		public boolean isAdmin(String id, String pw) throws Exception{
 //			String sql = "select "
 //		}
-
-
-	// date 형 -> String 으로 변환
-	public String getStringDate(Date date) { // oracle의 date 타입을 받아야함
-		// oracle date타입의 데이터를 java의 String을 변환 -> SimpleDateFormat
-		// 생성자의 인자값을 String으로 변환할때 어떤 형식으로 변환할 것인기 format
-		// format의 대소문자 구분하기
-		// oracle 월(mm/MM) 분(mi)
-		// java 월(MM) 분(mm)
-		// 1900년 02월 02일 00시 00분 00초
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
-		return sdf.format(date);
-	}
-	public String simpleStringDate(Date date) { 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		return sdf.format(date);
-	}
 
 }
 

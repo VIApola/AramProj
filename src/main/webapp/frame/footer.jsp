@@ -50,8 +50,8 @@
 		<div class="col-2 d-none d-sm-block">
 			<ul class="ft-ul">
 				<li><strong>사이트맵</strong></li>
-				<a href="/notice.bo"><li>공지사항</li></a>
-				<a href="/qna.bo"><li>Q&A</li></a>
+				<a href="/notice.bo?page=1"><li>공지사항</li></a>
+				<a href="/qna.bo?page=1"><li>Q&A</li></a>
 			<c:if test="${loginSession.isAdmin eq 'y'}">
 				<a href="/toItemPage.admin"><li>관리자페이지</li></a>
 			</c:if>

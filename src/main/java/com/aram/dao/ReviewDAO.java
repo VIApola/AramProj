@@ -207,7 +207,8 @@ public class ReviewDAO {
 	public ArrayList<ReviewDTO> rvSrcByIdMng(String input) throws Exception {
 		String sql = "select * from tbl_review where user_id like '%'||?||'%' order by 5 desc";
 		
-		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
 			
 			pstmt.setString(1, input);
 			

@@ -201,7 +201,7 @@ textarea {
         const btnBack = document.getElementById("btnBack");
 
         btnBack.addEventListener("click", function(e){
-            location.href="/qna.bo";
+            location.href="/qna.bo?page=1";
         });
 		
 	</script>

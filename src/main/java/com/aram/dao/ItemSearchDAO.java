@@ -1,10 +1,8 @@
 package com.aram.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.naming.Context;
@@ -14,6 +12,7 @@ import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import com.aram.dto.ItemViewDTO;
 import com.aram.utils.SearchQuery;
+import com.aram.utils.StringDateFormatter;
 
 public class ItemSearchDAO {
 	
@@ -34,8 +33,9 @@ public class ItemSearchDAO {
 	public ArrayList<ItemViewDTO> searchItems(String sortBy, String keyword, int minPrice, int maxPrice) throws Exception {
 		String sql = SearchQuery.findQuery(sortBy, keyword, minPrice, maxPrice);
 		System.out.println(sql);
-		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
-			try(ResultSet rs = pstmt.executeQuery()){
+		try(Connection con = bds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql)){
+			try(ResultSet rs = pst.executeQuery()){
 			
 			ArrayList<ItemViewDTO> itemList = new ArrayList<>();
 	
@@ -45,7 +45,7 @@ public class ItemSearchDAO {
 				String item_name = rs.getString("item_name");
 				int price = rs.getInt("price");
 				String item_comment = rs.getString("item_comment");
-				String item_regdate = getStringDate(rs.getDate("item_regdate"));
+				String item_regdate = StringDateFormatter.getStringDate(rs.getDate("item_regdate"));
 				int item_stock = rs.getInt("item_stock");
 				String category_id = rs.getString("category_id");
 				
@@ -65,8 +65,9 @@ public class ItemSearchDAO {
 	public ArrayList<ItemViewDTO> searchItems(String sortBy, String category_id) throws Exception {
 		String sql = SearchQuery.findQuery(sortBy, category_id);
 		System.out.println(sql);
-		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
-			try(ResultSet rs = pstmt.executeQuery()){
+		try(Connection con = bds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql)){
+			try(ResultSet rs = pst.executeQuery()){
 			
 			ArrayList<ItemViewDTO> itemList = new ArrayList<>();
 	
@@ -76,7 +77,7 @@ public class ItemSearchDAO {
 				String item_name = rs.getString("item_name");
 				int price = rs.getInt("price");
 				String item_comment = rs.getString("item_comment");
-				String item_regdate = getStringDate(rs.getDate("item_regdate"));
+				String item_regdate = StringDateFormatter.getStringDate(rs.getDate("item_regdate"));
 				int item_stock = rs.getInt("item_stock");
 				
 				int img_no = rs.getInt("img_no");
@@ -101,12 +102,10 @@ public class ItemSearchDAO {
 			rs.next();
 			
 			return rs.getInt(1);
+			}
 		}
 	}
-	}
-   // Date형을 String형으로
-	public String getStringDate(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		return sdf.format(date);
-	}
+	
+	
+	
 }

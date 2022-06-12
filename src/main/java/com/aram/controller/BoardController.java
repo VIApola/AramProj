@@ -2,6 +2,7 @@ package com.aram.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +16,7 @@ import com.aram.dao.QnaDAO;
 import com.aram.dto.NoticeDTO;
 import com.aram.dto.QnaDTO;
 import com.aram.dto.UserDTO;
+import com.aram.utils.Pagination;
 import com.google.gson.Gson;
 
 // 세션 가져오기 : 공지사항 같은 경우 후에 관리자세션으로 연결할 것!
@@ -49,26 +51,23 @@ public class BoardController extends HttpServlet {
 		
 		// Notice_ 게시판 메인
 		if(uri.equals("/notice.bo")) { 
-			int curPage = 1;
+			int page = Integer.parseInt(request.getParameter("page"));
 			System.out.println("curPage");
 			
 			// 후에 관리자 세션으로 가져오기
 			HttpSession session = request.getSession();
 			session.getAttribute("loginSession");
 			
-			
 			NoticeDAO dao = new NoticeDAO();
 			
-			
 			try {
+				ArrayList<NoticeDTO> noticeList = dao.selectAll(page * 10 - 9, page * 10);
 				
-//				 HashMap map = dao.getPageNavi(curPage);
+				HashMap naviMap = Pagination.getPageNavi(dao.totalNoticeCnt(), page, 10);
 				
-				ArrayList<NoticeDTO> list = dao.selectAll(curPage*10-9, curPage*10);
-				System.out.println(list);
-				request.setAttribute("list", list);
-
-				request.getSession();
+				System.out.println(noticeList);
+				request.setAttribute("naviMap", naviMap);
+				request.setAttribute("list", noticeList);
 
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -144,7 +143,7 @@ public class BoardController extends HttpServlet {
 				int rs = dao.write(new NoticeDTO(notice_no, user_id, title, author, write_date , content, 0));
 				if(rs > 0) {
 					
-					response.sendRedirect("/notice.bo");
+					response.sendRedirect("/notice.bo?page=1");
 					
 				}
 				
@@ -225,7 +224,7 @@ public class BoardController extends HttpServlet {
 				int rs = dao.delete(notice_no);
 				if(rs > 0) {
 //					System.out.println("삭제 완료");
-					response.sendRedirect("/notice.bo");
+					response.sendRedirect("/notice.bo?page=1");
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -237,13 +236,17 @@ public class BoardController extends HttpServlet {
 		// =========================== QnA 게시판 ===========================
 		// Qna_게시판 메인	
 		}else if(uri.equals("/qna.bo")) {
+			int page = Integer.parseInt(request.getParameter("page"));
 			
 			QnaDAO dao = new QnaDAO();
 			
 			try {
 				
-				ArrayList<QnaDTO> list = dao.qnaSelectAll();
+				ArrayList<QnaDTO> list = dao.qnaSelectAll(page*10-9, page*10);
+				HashMap<String, Object> naviMap = Pagination.getPageNavi(dao.qnaTotalCnt(), page, 10);
 				System.out.println(list);
+				System.out.println(naviMap);
+				request.setAttribute("naviMap", naviMap);
 				request.setAttribute("qnalist", list);
 
 			}catch(Exception e) {
@@ -326,7 +329,7 @@ public class BoardController extends HttpServlet {
 			try{
 				int rs = dao.write(new QnaDTO(0, user_id, title, content, write_date, answer_yn, "", ""));
 				if(rs > 0) {
-					response.sendRedirect("/qna.bo");
+					response.sendRedirect("/qna.bo?page=1");
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -399,7 +402,7 @@ public class BoardController extends HttpServlet {
 				int rs = dao.delete(qna_no);
 				if(rs > 0) {
 					System.out.println("삭제!");
-					response.sendRedirect("/qna.bo");
+					response.sendRedirect("/qna.bo?page=1");
 				}
 			}catch(Exception e) {
 				e.printStackTrace();

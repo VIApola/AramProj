@@ -31,7 +31,7 @@ public class CartDAO {
 	public int QuantityById(String user_id) throws Exception{
 		String sql ="select sum(quantity) from tbl_cart where user_id = ?";
 				try(Connection con = bds.getConnection();
-			 PreparedStatement pstmt = con.prepareStatement(sql)){
+					PreparedStatement pstmt = con.prepareStatement(sql)){
 			
 			pstmt.setString(1, user_id);
 			
@@ -116,7 +116,8 @@ public class CartDAO {
 	// 장바구니에 제품 담기
 	public int addCart(CartDTO dto) throws Exception {
 		String sql = "insert into tbl_cart values (?, ?, ?)";
-		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
+		try(Connection con = bds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql)){
 			pst.setString(1, dto.getUser_id());
 			pst.setInt(2, dto.getItem_no());
 			pst.setInt(3, dto.getQuantity());
@@ -128,7 +129,8 @@ public class CartDAO {
 	// 장바구니 상품 삭제
 	public int deleteItem(String user_id, int item_no) throws Exception {
 		String sql = "delete from tbl_cart where user_id=? and item_no = ?";
-		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
+		try(Connection con = bds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql)){
 			pst.setString(1, user_id);
 			pst.setInt(2, item_no);
 			
@@ -160,7 +162,8 @@ public class CartDAO {
 	// 바로 구매를 하거나 주문완료를 했을 때 회원이 장바구니를 비우는 함수
 	public int emptyCart(String user_id) throws Exception {
 		String sql = "delete from tbl_cart where user_id=?";
-		try(PreparedStatement pst = bds.getConnection().prepareStatement(sql)){
+		try(Connection con = bds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql)){
 			pst.setString(1, user_id);
 			
 			return pst.executeUpdate();
@@ -171,25 +174,27 @@ public class CartDAO {
 	// 장바구니 중복 물품 수량 추가
 	public int plusQuantity(int quantity, String user_id, int item_no) throws Exception {
 		String sql = "update tbl_cart set quantity=quantity+? where user_id=? and item_no=?";
-		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
+		try(Connection con = bds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql)){
 				
-			pstmt.setInt(1, quantity);
-			pstmt.setString(2, user_id);
-			pstmt.setInt(3, item_no);
+			pst.setInt(1, quantity);
+			pst.setString(2, user_id);
+			pst.setInt(3, item_no);
 			
-			return pstmt.executeUpdate();
+			return pst.executeUpdate();
 		}
 	}
 	
 	public int updateQuantity(int quantity, String user_id, int item_no) throws Exception {
 		String sql = "update tbl_cart set quantity=? where user_id=? and item_no=?";
-		try(PreparedStatement pstmt = bds.getConnection().prepareStatement(sql)){
+		try(Connection con = bds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql)){
 				
-			pstmt.setInt(1, quantity);
-			pstmt.setString(2, user_id);
-			pstmt.setInt(3, item_no);
+			pst.setInt(1, quantity);
+			pst.setString(2, user_id);
+			pst.setInt(3, item_no);
 			
-			return pstmt.executeUpdate();
+			return pst.executeUpdate();
 		}
 	}
 	

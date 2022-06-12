@@ -32,8 +32,8 @@
 					<a href="/category.item?category_id=p200&page=1" class="fromLeft"><span>실내식물 (Indoor Plants)</span></a> 
 					<a href="/category.item?category_id=p300&page=1" class="fromLeft"><span>실외식물(Outdoor Plants)</span></a> 
 					<span>Community</span> 
-					<a href="/qna.bo"class="fromLeft"><span>Q & A</span></a> 
-					<a href="/notice.bo"class="fromLeft" id="noticeNav"><span>Notice</span></a>
+					<a href="/qna.bo?page=1"class="fromLeft"><span>Q & A</span></a> 
+					<a href="/notice.bo?page=1"class="fromLeft" id="noticeNav"><span>Notice</span></a>
 					<c:choose>
 						<c:when test="${not empty loginSession}">
 							<a href="/toLogout.user" class="fromLeft bottom" id="logoutNav"><span>로그아웃</span></a>
@@ -103,7 +103,7 @@
 					</c:otherwise>
 				</c:choose>
 				<li class="nav-item">
-				<a class="nav-link" style="color: black;" href="/notice.bo">Community</a>
+				<a class="nav-link" style="color: black;" href="/notice.bo?page=1">Community</a>
 				</li>
 				<li class="nav-item">
 				<c:choose>

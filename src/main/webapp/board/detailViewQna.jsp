@@ -309,7 +309,7 @@ textarea {
 	<jsp:include page="/frame/footer.jsp"></jsp:include>
 	<script>
 	$("#backBtn").on("click", function(){ // 뒤로가기 버튼을 눌렀을때
-		location.href = "/qna.bo";
+		location.href = "/qna.bo?page=1";
 	});
 	
 	

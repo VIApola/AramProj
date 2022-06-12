@@ -156,7 +156,7 @@ textarea {
 	<jsp:include page="/frame/footer.jsp"></jsp:include>
 	<script>
 	$("#btnBack").on("click", function(){ // 뒤로가기 버튼을 눌렀을때
-		location.href = "/notice.bo";
+		location.href = "/notice.bo?page=1";
 	});
 	
 </script>

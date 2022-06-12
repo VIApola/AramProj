@@ -161,59 +161,42 @@ public class OrderDAO {
 		}
 	
 	// 개별목록
-	public OrderDTO selectOrder(String order_no) throws Exception{
+	public OrderDTO selectOrder(String order_no) throws Exception {
 		String sql = "select * from tbl_order where order_no = ?";
 		try(Connection con = bds.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql)	
-				){
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
 			pstmt.setString(1, order_no);
 			
 			try(ResultSet rs = pstmt.executeQuery()){
 			
-			if(rs.next()) {
-				
-				 String user_id	= rs.getString(2);
-				 String order_name = rs.getString(3);
-				 String order_email = rs.getString(4);
-				 String order_phone = rs.getString(5);
-				 String order_date = rs.getString(6);
-				 int order_amount = rs.getInt(7);
-				 String order_state = rs.getString(8);
-				 String delivery_name = rs.getString(9);
-				 String delivery_phone = rs.getString(10);
-				 String delivery_addr = rs.getString(11);
-				 String order_msg = rs.getString(12);
-				 String delivery_msg = rs.getString(13);
-				 
-				 return new OrderDTO(order_no, user_id, order_name, order_email, order_phone,
-			 				order_date, order_amount, order_state, delivery_name, 
-			 				delivery_phone ,delivery_addr, order_msg, delivery_msg);
+				if(rs.next()) {
+					
+					 String user_id	= rs.getString(2);
+					 String order_name = rs.getString(3);
+					 String order_email = rs.getString(4);
+					 String order_phone = rs.getString(5);
+					 String order_date = rs.getString(6);
+					 int order_amount = rs.getInt(7);
+					 String order_state = rs.getString(8);
+					 String delivery_name = rs.getString(9);
+					 String delivery_phone = rs.getString(10);
+					 String delivery_addr = rs.getString(11);
+					 String order_msg = rs.getString(12);
+					 String delivery_msg = rs.getString(13);
+					 
+					 return new OrderDTO(order_no, user_id, order_name, order_email, order_phone,
+				 				order_date, order_amount, order_state, delivery_name, 
+				 				delivery_phone ,delivery_addr, order_msg, delivery_msg);
+				}
+				return null;
 			}
-			return null;
 		}
 	}
-	}
-	// 수정
-//	public int modifyOrder(OrderDTO dto)throws Exception {
-//		String sql = "update tbl_order set quanity=?, order_amount=?, delivery_addr=?, delivery_name=?, order_msg=?, delivery_msg=? where order_no=?";
-//			try(Connection con = bds.getConnection();
-//				PreparedStatement pstmt = con.prepareStatement(sql)	
-//					){
-//				pstmt.setInt(1, dto.getorder);
-//				pstmt.setString(2, dto.getOrder_amount());
-//				pstmt.setString(3, dto.getDelivery_addr());
-//				pstmt.setString(4, dto.getDelivery_name());
-//				pstmt.setString(5, dto.getOrder_msg());
-//				pstmt.setString(6, dto.getDelivery_msg());
-//				pstmt.setInt(7, dto.getOrder_no());
-//				
-//				int rs = pstmt.executeUpdate();
-//				return rs;	
-//			}
-//	}
+
 	
 	// 주문서 삭제 (관리자)
-	public int deleteOrder(String order_no)throws Exception{
+	public int deleteOrder(String order_no)throws Exception {
 		String sql = "delete from tbl_order where order_no = ?";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)	
@@ -233,7 +216,9 @@ public class OrderDAO {
 			rs.next();
 
 			return rs.getInt(1);
+			}
 		}
 	}
-	}
+	
+	
 }

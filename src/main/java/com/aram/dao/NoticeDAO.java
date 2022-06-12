@@ -145,7 +145,7 @@ public class NoticeDAO {
 	
 	}
 	// 게시글 전체 조회
-	public ArrayList<NoticeDTO> selectAll(int start, int end) throws Exception{ 
+	public ArrayList<NoticeDTO> selectAll(int start, int end) throws Exception { 
 		String sql =  "SELECT * from (select tbl_notice.*, row_number() over(order by notice_no desc) as num from tbl_notice)"
 				+ " where num between ? and ?";
 		try(Connection con = bds.getConnection();
@@ -167,15 +167,16 @@ public class NoticeDAO {
 				int board_views = rs.getInt("board_views");
 				
 				list.add(new NoticeDTO(notice_no, user_id, title, author, write_date, content, board_views));
-				System.out.println(list);
+				
 			}
+			System.out.println(list);
 			return list;
 		}
 	}
 	}
 	
 	//게시글 부분 조회
-	public NoticeDTO selectBySeq(int notice_no) throws Exception{
+	public NoticeDTO selectBySeq(int notice_no) throws Exception {
 		String sql = "SELECT * FROM tbl_notice WHERE notice_no = ?";
 
 		try(Connection con = bds.getConnection();
@@ -184,20 +185,32 @@ public class NoticeDAO {
 			pstmt.setInt(1, notice_no);
 			try(ResultSet rs = pstmt.executeQuery()){
 
-			if(rs.next()) {
-				String user_id = rs.getString("user_id");
-				String title = rs.getString("title");
-				String author = rs.getString("author");
-				String write_date = StringDateFormatter.getStringDate(rs.getDate("write_date"));
-				String content = rs.getString("content");
-				int board_views = rs.getInt("board_views");
-				NoticeDTO dto = new NoticeDTO(notice_no, user_id, title, author, write_date, content, board_views);
-				return dto;
+				if(rs.next()) {
+					String user_id = rs.getString("user_id");
+					String title = rs.getString("title");
+					String author = rs.getString("author");
+					String write_date = StringDateFormatter.getStringDate(rs.getDate("write_date"));
+					String content = rs.getString("content");
+					int board_views = rs.getInt("board_views");
+					NoticeDTO dto = new NoticeDTO(notice_no, user_id, title, author, write_date, content, board_views);
+					return dto;
+				}
+				return null;
 			}
-			return null;
 		}
 	}
-
+	
+	public int totalNoticeCnt() throws Exception {
+		String sql = "select count(*) from tbl_notice";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql) ){
+			
+			ResultSet rs = pst.executeQuery();
+			
+			rs.next();
+			return rs.getInt(1);
+			
+		}
 	}
 	
 	//조회수 check

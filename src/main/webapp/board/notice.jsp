@@ -45,9 +45,9 @@
 		<div class="noticeBox">
 			<div class="row d-flex align-items-center">
 				<div class="col-4 col-md-none d-flex align-items-center">
-					<a href="/qna.bo" style="color: black; text-decoration-line:none;">Q&A</a>
+					<a href="/qna.bo?page=1" style="color: black; text-decoration-line:none;">Q&A</a>
 					<span style="margin-right:10px; margin-left:10px;">|</span>
-					<a href="/notice.bo" style="color: black; text-decoration-line:none;"><Strong>Notice</Strong></a>
+					<a href="/notice.bo?page=1" style="color: black; text-decoration-line:none;"><Strong>Notice</Strong></a>
 				</div>
 				<div class="col-8 d-md-12 mt-2">
 					<div
@@ -131,23 +131,21 @@
 					<!-- 페이징 -->
 					<nav aria-label="Page navigation example">
 						<ul class="pagination justify-content-center">
-
 							<c:if test="${naviMap.needPrev eq true}">
 								<li class="page-item"><a class="page-link"
-									href="/noice.bo?curPage=${naviMap.startNavi-1}"></a></li>
+									href="/notice.bo?page=${naviMap.startNavi-1}"></a></li>
 							</c:if>
 							<%-- 현재  --%>
 							<c:forEach var="pageNum" begin="${naviMap.startNavi}"
 								end="${naviMap.endNavi}" step="1">
 								<li class="page-item"><a class="page-link"
-									href="/notice.bo?curPage=${pageNum}">${pageNum}</a></li>
+									href="/notice.bo?page=${pageNum}">${pageNum}</a></li>
 							</c:forEach>
 
 							<c:if test="${naviMap.needNext eq true}">
 								<li class="page-item"><a class="page-link"
-									href="/notice.bo?curPage=${naviMap.endNavi+1}">>></a></li>
+									href="/notice.bo?page=${naviMap.endNavi+1}">>></a></li>
 							</c:if>
-
 						</ul>
 					</nav>
 

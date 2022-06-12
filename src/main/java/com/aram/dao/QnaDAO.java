@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -112,10 +113,14 @@ public class QnaDAO {
 	
 	
 	// qna 게시글 조회 _ 전체
-	public ArrayList<QnaDTO> qnaSelectAll() throws Exception{ 
-		String sql =  "select * from tbl_qna order by 1 desc";
+	public ArrayList<QnaDTO> qnaSelectAll(int start, int end) throws Exception { 
+		String sql =  "SELECT * FROM\n"
+				+ "	(select tbl_qna.*, ROW_NUMBER() OVER(ORDER BY qna_no desc) AS num \n"
+				+ "	FROM tbl_qna) where num between ? and ?";
 		try(Connection con = bds.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)){
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
 			
 			try(ResultSet rs = pstmt.executeQuery()){
 			
@@ -136,6 +141,19 @@ public class QnaDAO {
 			return list;
 		}
 	}
+	}
+	
+	// 전체 게시글 개수 조회
+	public int qnaTotalCnt() throws Exception {
+		String sql = "select count(*) from tbl_qna";
+		try(Connection con = bds.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)){
+			
+			try(ResultSet rs = pstmt.executeQuery()){
+				rs.next();
+				return rs.getInt(1);
+			}
+		}
 	}
 	
 	//qna 게시글 조회 _ 부분 (detailview)

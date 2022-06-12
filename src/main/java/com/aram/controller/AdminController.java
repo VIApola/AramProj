@@ -386,11 +386,12 @@ public class AdminController extends HttpServlet {
 			}
 
 		}else if(uri.equals("/toQnAManagePage.admin")) {//QnA 관리 페이지 요청
+			int page = Integer.parseInt(request.getParameter("page"));
 			QnaDAO dao = new QnaDAO();
 			
 			try {
 				
-				ArrayList<QnaDTO> list = dao.qnaSelectAll();
+				ArrayList<QnaDTO> list = dao.qnaSelectAll(page*10-9,page*10);
 				request.setAttribute("QnaList", list);
 				
 				request.getRequestDispatcher("/admin/qna.jsp").forward(request, response);
@@ -398,7 +399,7 @@ public class AdminController extends HttpServlet {
 				e.printStackTrace();
 			}
 
-		}else if(uri.equals("/toReviewManage.admin")) {//리뷰 관리 페이지 요청
+		}else if(uri.equals("/toReviewManage.admin")) { //리뷰 관리 페이지 요청
 
 			ReviewDAO dao = new ReviewDAO();
 			ItemDAO itemDao = new ItemDAO();
