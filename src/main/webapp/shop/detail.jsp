@@ -44,7 +44,7 @@
 							<tr>
 								<td colspan="2"><span>상품수</span></td>
 								<td><input type='button' onclick='count("minus")' value='-' />
-									<input type="text" id="qty" value="1" name="qty">
+									<input type="text" id="qty" value="1" name="qty" readonly>
 									<input type='button' onclick='count("plus")' value='+' /></td>
 							</tr>
 						</table>
